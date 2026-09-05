@@ -54,13 +54,14 @@ a{ color:inherit; text-decoration:none; }
 .wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
 
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
-.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; }
-.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
-.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; }
+.topnav .wrap{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; height:46px; column-gap:8px; }
+.nav-left{ display:flex; align-items:center; gap:2px; justify-self:start; min-width:0; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; flex:none; }
 body.editing .back-link-edit{ display:inline-block; }
 .back-link-edit:hover{ color:var(--oshi-color); }
-.brand{ font-size:12px; color:var(--sub-ink); }
-.nav-icons{ display:flex; align-items:center; gap:10px; }
+.brand{ font-size:12px; color:var(--sub-ink); justify-self:center; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-icons{ display:flex; align-items:center; gap:10px; justify-self:end; }
 .nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
 .nav-icon-btn:hover{ color:var(--oshi-color); }
 
@@ -158,9 +159,17 @@ section{ padding:20px 0 30px; }
   color:var(--oshi-color); font-size:10px; font-weight:700; padding:4px 10px; border-radius:999px; font-family:inherit; cursor:pointer;
 }
 .video-watch-btn:hover{ background:var(--oshi-color-soft); }
-.video-related{ display:none; flex-wrap:wrap; gap:5px; align-items:center; margin-top:8px; }
-.related-label{ font-size:10px; color:var(--sub-ink); font-weight:700; }
-.related-link-btn{ border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-size:10px; font-weight:700; padding:3px 9px; border-radius:999px; cursor:pointer; font-family:inherit; }
+.video-related{ display:none; margin-top:10px; }
+.video-related-label{ font-size:10.5px; color:var(--sub-ink); font-weight:700; margin-bottom:6px; }
+.video-related-track{ display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; scroll-snap-type:x mandatory; }
+.video-related-track::-webkit-scrollbar{ display:none; }
+.video-related-card{
+  flex:0 0 96px; border:none; background:none; padding:0; cursor:pointer; text-align:left; font-family:inherit;
+  scroll-snap-align:start;
+}
+.video-related-card img{ width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:8px; display:block; background:var(--accent2); border:1px solid var(--line); }
+.video-related-card span{ display:block; margin-top:4px; font-size:10px; color:var(--ink); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.video-related-card:hover img{ opacity:0.85; }
 .related-link-btn:hover{ background:var(--oshi-color-soft); }
 .related-chip-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
 .related-chip{
@@ -340,8 +349,10 @@ body.editing .add-row{ display:flex; }
 
 <nav class="topnav">
   <div class="wrap">
-    <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
-    
+    <div class="nav-left">
+      <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
+      
+    </div>
     <div class="brand editable" id="nav-brand" contenteditable="true">動画まとめ</div>
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
@@ -373,7 +384,7 @@ body.editing .add-row{ display:flex; }
     <div class="sec-head">
       <h2><span class="mark">◆</span>動画一覧</h2>
     </div>
-    <div class="video-list" id="video-list"><div class="editable-item video-item" data-category="Shorts" data-date="2026-06-10" data-url="" data-added="" data-order="1" data-related="" data-tags="" style="">
+    <div class="video-list" id="video-list"><div class="editable-item video-item" data-category="Shorts" data-date="2026-06-10" data-url="" data-added="" data-order="1" data-related="" data-tags="" data-pickup-comment="" style="">
     
     
     <div class="video-thumb-link"><span class="video-play-badge">▶</span></div>
@@ -387,7 +398,7 @@ body.editing .add-row{ display:flex; }
       <div class="video-related" data-role="related" style="display: none;"></div>
     </div>
     
-  </div><div class="editable-item video-item" data-category="本編" data-date="2026-06-01" data-url="" data-added="" data-order="0" data-related="" data-tags="" style="">
+  </div><div class="editable-item video-item" data-category="本編" data-date="2026-06-01" data-url="" data-added="" data-order="0" data-related="" data-tags="" data-pickup-comment="" style="">
     
     
     <div class="video-thumb-link"><span class="video-play-badge">▶</span></div>
@@ -413,7 +424,7 @@ body.editing .add-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -519,7 +530,7 @@ function videoItemHTML(v){
   const tagsArr = Array.isArray(v.tags) ? v.tags : (v.tags ? String(v.tags).split("|||").filter(Boolean) : []);
   const tagsRaw = tagsArr.join("|||");
   const tagsHtml = tagsArr.length ? `<div class="video-tags">${tagsArr.map(t => `<button type="button" class="video-tag" data-tag="${escAttr(t)}">#${esc(t)}</button>`).join("")}</div>` : `<div class="video-tags"></div>`;
-  return `<div class="editable-item video-item" data-category="${escAttr(v.category)}" data-date="${escAttr(v.date)}" data-url="${escAttr(v.url)}" data-added="${escAttr(v.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}" data-tags="${escAttr(tagsRaw)}">
+  return `<div class="editable-item video-item" data-category="${escAttr(v.category)}" data-date="${escAttr(v.date)}" data-url="${escAttr(v.url)}" data-added="${escAttr(v.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}" data-tags="${escAttr(tagsRaw)}" data-pickup-comment="${escAttr(v.pickupComment)}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
     ${thumbHtml}
@@ -626,7 +637,9 @@ function getMatchedVideoItems(){
   const q = currentSearchQuery();
   const allItems = Array.from(document.querySelectorAll("#video-list .video-item"));
   return allItems.filter(item => {
-    const categoryOk = (currentCategoryFilter === "all" || item.dataset.category === currentCategoryFilter);
+    const cat = item.dataset.category || "";
+    const categoryOk = currentCategoryFilter === "all"
+      || (currentCategoryFilter === "__uncategorized__" ? !cat : cat === currentCategoryFilter);
     const searchOk = !q || item.textContent.toLowerCase().includes(q);
     return categoryOk && searchOk;
   });
@@ -654,22 +667,26 @@ document.getElementById("load-more-videos").addEventListener("click", () => { sh
 function renderCategoryFilter(){
   const wrap = document.getElementById("category-filter");
   const cats = [];
+  let hasUncategorized = false;
   document.querySelectorAll("#video-list .video-item").forEach(item => {
     const c = item.dataset.category;
     if(c && !cats.includes(c)) cats.push(c);
+    if(!c) hasUncategorized = true;
   });
-  if(cats.length < 2){
+  if(cats.length + (hasUncategorized ? 1 : 0) < 2){
     wrap.classList.remove("show");
     wrap.innerHTML = "";
     currentCategoryFilter = "all";
     applyVideoFilter();
     return;
   }
-  const current = cats.includes(currentCategoryFilter) ? currentCategoryFilter : "all";
+  const validFilters = ["all", ...cats, ...(hasUncategorized ? ["__uncategorized__"] : [])];
+  const current = validFilters.includes(currentCategoryFilter) ? currentCategoryFilter : "all";
   currentCategoryFilter = current;
   wrap.classList.add("show");
   wrap.innerHTML = [`<button type="button" class="tag-filter-btn${current === "all" ? " active" : ""}" data-cat="all">すべて</button>`]
     .concat(cats.map(c => `<button type="button" class="tag-filter-btn${current === c ? " active" : ""}" data-cat="${escAttr(c)}">${c}</button>`))
+    .concat(hasUncategorized ? [`<button type="button" class="tag-filter-btn${current === "__uncategorized__" ? " active" : ""}" data-cat="__uncategorized__">その他</button>`] : [])
     .join("");
   applyVideoFilter();
 }
@@ -710,17 +727,21 @@ function renderRelatedLinks(){
     const wrap = item.querySelector('[data-role="related"]');
     if(!wrap) return;
     const titles = (item.dataset.related || "").split("|||").map(s => s.trim()).filter(Boolean);
-    const valid = titles.filter(t => titleMap.has(t) && titleMap.get(t) !== item);
-    const newHtml = valid.length
-      ? `<span class="related-label">関連:</span>` + valid.map(t => `<button type="button" class="related-link-btn" data-target="${escAttr(t)}">${esc(t)}</button>`).join("")
+    const validItems = titles.map(t => titleMap.get(t)).filter(el => el && el !== item);
+    const newHtml = validItems.length
+      ? `<div class="video-related-label">🔗 関連動画・シリーズ</div><div class="video-related-track">${validItems.map(el => {
+          const entry = buildUpNextEntry(el);
+          const thumbHtml = entry.thumb ? `<img src="${entry.thumb}" alt="">` : "";
+          return `<button type="button" class="video-related-card" data-target="${escAttr(entry.title)}">${thumbHtml}<span>${esc(entry.title)}</span></button>`;
+        }).join("")}</div>`
       : "";
     if(wrap.innerHTML !== newHtml) wrap.innerHTML = newHtml;
-    const wantDisplay = valid.length ? "flex" : "none";
+    const wantDisplay = validItems.length ? "block" : "none";
     if(wrap.style.display !== wantDisplay) wrap.style.display = wantDisplay;
   });
 }
 document.getElementById("video-list").addEventListener("click", (e) => {
-  const btn = e.target.closest(".related-link-btn");
+  const btn = e.target.closest(".video-related-card");
   if(!btn) return;
   const items = Array.from(document.querySelectorAll("#video-list .video-item"));
   const target = items.find(item => item.querySelector(".video-title")?.textContent.trim() === btn.dataset.target);
@@ -752,7 +773,7 @@ function renderDailyPick(){
   const idx = hashString(todayKey) % items.length;
   const picked = items[idx];
   const title = picked.querySelector(".video-title")?.textContent.trim() || "";
-  const desc = picked.querySelector(".video-desc")?.textContent.trim() || "";
+  const desc = picked.dataset.pickupComment || picked.querySelector(".video-desc")?.textContent.trim() || "";
   const descHtml = desc ? `<div class="daily-pick-desc">${esc(desc)}</div>` : "";
   const thumbSrc = picked.querySelector(".video-thumb-link img")?.getAttribute("src") || "";
   const thumbHtml = thumbSrc ? `<img src="${thumbSrc}" alt="">` : "";

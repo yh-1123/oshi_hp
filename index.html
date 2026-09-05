@@ -99,6 +99,17 @@ a{ color:inherit; text-decoration:none; }
 }
 .profile-nav-link{ font-size:11.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; }
 .profile-nav-link:hover{ opacity:0.8; }
+.nav-link-list{ display:flex; align-items:center; gap:10px; }
+.nav-link-item{ position:relative; display:inline-flex; align-items:center; gap:0; }
+.nav-link-controls{ display:none; align-items:center; }
+body.editing .nav-link-controls{ display:inline-flex; }
+.nav-link-btn{ border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:1px 2px; line-height:1; font-family:inherit; }
+.nav-link-btn:hover{ color:var(--oshi-color); }
+.nav-link-add-btn{
+  display:none; border:1px dashed var(--oshi-color); background:#fff; color:var(--oshi-color); font-size:10.5px; font-weight:700;
+  padding:3px 9px; border-radius:999px; cursor:pointer; font-family:inherit; flex:none; white-space:nowrap;
+}
+body.editing .nav-link-add-btn{ display:inline-flex; align-items:center; }
 .nav-search-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
 .nav-search-btn:hover{ color:var(--oshi-color); }
 .nav-search-row{ display:none; border-top:1px solid var(--line); background:rgba(255,250,249,0.98); padding:10px 0; }
@@ -586,10 +597,20 @@ body.editing .reorder-row{ display:flex; }
   <div class="wrap">
     <div class="brand editable" id="nav-brand" contenteditable="true">応援サイト</div>
     <div class="nav-right">
-      <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
-      <a href="wiki.html" class="profile-nav-link">豆知識</a>
-      <a href="guide.html" class="profile-nav-link">はじめての方へ</a>
-      <a href="member-profile.html" class="profile-nav-link">プロフィール</a>
+      <span class="nav-link-list" id="nav-link-list"><span class="nav-link-item" data-idx="0" data-url="places.html">
+    <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
+    
+  </span><span class="nav-link-item" data-idx="1" data-url="wiki.html">
+    <a href="wiki.html" class="profile-nav-link">豆知識</a>
+    
+  </span><span class="nav-link-item" data-idx="2" data-url="guide.html">
+    <a href="guide.html" class="profile-nav-link">はじめての方へ</a>
+    
+  </span><span class="nav-link-item" data-idx="3" data-url="member-profile.html">
+    <a href="member-profile.html" class="profile-nav-link">プロフィール</a>
+    
+  </span></span>
+      
       <button class="nav-search-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
       <button class="nav-search-btn" id="nav-search-toggle" type="button" aria-label="検索">🔍</button>
     </div>
@@ -1036,6 +1057,12 @@ const OSHI = {
   badge: "推し活はじめませんか",
   catch: "笑うと星が瞬く。見ればわかる、この子はきっと大きくなる。",
   navBrand: "応援サイト",
+  navLinks: [
+    { label: "ゆかりの場所", url: "places.html" },
+    { label: "豆知識", url: "wiki.html" },
+    { label: "はじめての方へ", url: "guide.html" },
+    { label: "プロフィール", url: "member-profile.html" },
+  ],
   stats: [],
   pickups: [
     { badge: "NEW", title: "特典会チケット販売開始!", desc: "9/10(木)12:00〜 先着販売。詳細は公式サイトへ" },
@@ -1359,6 +1386,7 @@ document.getElementById("tl-groups").addEventListener("click", (e) => {
 /* ---------- 初回描画(保存済みファイルを開いた場合はスキップして編集内容を保持) ---------- */
 if(!document.body.dataset.rendered){
   document.getElementById("nav-brand").textContent = OSHI.navBrand;
+  renderNavLinksList(OSHI.navLinks || []);
   document.getElementById("hero-name-main").textContent = OSHI.nameMain;
   document.getElementById("hero-name-accent").textContent = OSHI.nameAccent;
   document.getElementById("hero-kana").textContent = OSHI.kana;
@@ -1668,6 +1696,21 @@ let editMode = false;
 function setEditable(on){
   document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; });
 }
+/* ---------- ヘッダーのナビリンク(表示用テンプレートは常時必要なため編集専用マーカーの外に配置) ---------- */
+function navLinkItemHTML(link, idx){
+  return `<span class="nav-link-item" data-idx="${idx}" data-url="${escAttr(link.url)}">
+    <a href="${escAttr(link.url)}" class="profile-nav-link">${link.label}</a>
+    <span class="nav-link-controls">
+      <button type="button" class="nav-link-btn nav-link-move-left" aria-label="左へ移動">‹</button>
+      <button type="button" class="nav-link-btn nav-link-move-right" aria-label="右へ移動">›</button>
+      <button type="button" class="nav-link-btn nav-link-edit" aria-label="編集">✎</button>
+      <button type="button" class="nav-link-btn nav-link-remove" aria-label="削除">×</button>
+    </span>
+  </span>`;
+}
+function renderNavLinksList(links){
+  document.getElementById("nav-link-list").innerHTML = links.map(navLinkItemHTML).join("");
+}
 
 
 /* ---------- テンプレート機能(出演情報・ピックアップ共通) ---------- */
@@ -1820,6 +1863,7 @@ function rebuildFromData(data){
   if(data.kana !== undefined) document.getElementById("hero-kana").textContent = data.kana;
   if(data.catch !== undefined) document.getElementById("hero-catch").textContent = data.catch;
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
+  if(data.navLinks) renderNavLinksList(data.navLinks);
   if(data.heroPhoto){
     const photoEl = document.getElementById("hero-photo");
     photoEl.style.backgroundImage = `url('${data.heroPhoto}')`;

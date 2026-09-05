@@ -74,6 +74,17 @@ a{ color:inherit; text-decoration:none; }
 }
 .profile-nav-link{ font-size:11.5px; font-weight:700; color:var(--sub-ink); white-space:nowrap; }
 .profile-nav-link.current, .profile-nav-link:hover{ color:var(--oshi-color); }
+.nav-link-list{ display:flex; align-items:center; gap:10px; }
+.nav-link-item{ position:relative; display:inline-flex; align-items:center; gap:0; }
+.nav-link-controls{ display:none; align-items:center; }
+body.editing .nav-link-controls{ display:inline-flex; }
+.nav-link-btn{ border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:1px 2px; line-height:1; font-family:inherit; }
+.nav-link-btn:hover{ color:var(--oshi-color); }
+.nav-link-add-btn{
+  display:none; border:1px dashed var(--oshi-color); background:#fff; color:var(--oshi-color); font-size:10.5px; font-weight:700;
+  padding:3px 9px; border-radius:999px; cursor:pointer; font-family:inherit; flex:none; white-space:nowrap;
+}
+body.editing .nav-link-add-btn{ display:inline-flex; align-items:center; }
 .nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
 .nav-icon-btn:hover{ color:var(--oshi-color); }
 
@@ -334,11 +345,23 @@ body.editing .info-card{ padding-top:50px; position:relative; }
   <div class="wrap">
     <div class="brand editable" id="nav-brand" contenteditable="true">応援サイト</div>
     <div class="nav-right">
-      <a href="index.html" class="profile-nav-link home-nav-link" data-url="index.html">ホーム</a>
-      <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
-      <a href="wiki.html" class="profile-nav-link">豆知識</a>
-      <a href="guide.html" class="profile-nav-link">はじめての方へ</a>
-      <a href="member-profile.html" class="profile-nav-link">プロフィール</a>
+      <span class="nav-link-list" id="nav-link-list"><span class="nav-link-item" data-idx="0" data-url="index.html">
+    <a href="index.html" class="profile-nav-link">ホーム</a>
+    
+  </span><span class="nav-link-item" data-idx="1" data-url="places.html">
+    <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
+    
+  </span><span class="nav-link-item" data-idx="2" data-url="wiki.html">
+    <a href="wiki.html" class="profile-nav-link">豆知識</a>
+    
+  </span><span class="nav-link-item" data-idx="3" data-url="guide.html">
+    <a href="guide.html" class="profile-nav-link">はじめての方へ</a>
+    
+  </span><span class="nav-link-item" data-idx="4" data-url="member-profile.html">
+    <a href="member-profile.html" class="profile-nav-link">プロフィール</a>
+    
+  </span></span>
+      
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
     </div>
@@ -691,6 +714,13 @@ document.getElementById("share-btn-nav").addEventListener("click", async () => {
    ========================================================== */
 const PAGE = {
   navBrand: "応援サイト",
+  navLinks: [
+    { label: "ホーム", url: "index.html" },
+    { label: "ゆかりの場所", url: "places.html" },
+    { label: "豆知識", url: "wiki.html" },
+    { label: "はじめての方へ", url: "guide.html" },
+    { label: "プロフィール", url: "member-profile.html" },
+  ],
   hero: {
     badge: "意外な一面",
     nameMain: "",
@@ -852,6 +882,7 @@ function linkItemHTML(l){
 /* ---------- 初回描画(保存済みファイルを開いた場合はスキップ) ---------- */
 function renderAll(data){
   document.getElementById("nav-brand").textContent = data.navBrand;
+  if(data.navLinks) renderNavLinksList(data.navLinks);
   document.getElementById("hero-badge").textContent = data.hero.badge;
   document.getElementById("hero-name-main").textContent = data.hero.nameMain;
   document.getElementById("hero-name-accent").textContent = data.hero.nameAccent;
@@ -883,11 +914,10 @@ function renderAll(data){
   document.getElementById("episodeList").innerHTML = data.episodes.map(episodeCardHTML).join("");
   document.getElementById("linkList").innerHTML = data.links.map(linkItemHTML).join("");
   if(data.backLinkUrl){
-    const homeLink = document.querySelector(".home-nav-link");
     const crumbLink = document.querySelector(".home-breadcrumb-link");
-    if(homeLink){ homeLink.setAttribute("href", data.backLinkUrl); homeLink.dataset.url = data.backLinkUrl; }
     if(crumbLink){ crumbLink.setAttribute("href", data.backLinkUrl); crumbLink.dataset.url = data.backLinkUrl; }
   }
+  if(data.navLinks) renderNavLinksList(data.navLinks);
 }
 if(!document.body.dataset.rendered){
   renderAll(PAGE);
@@ -964,6 +994,21 @@ window.addEventListener("afterprint", () => {
 /* ---------- 編集モードの切り替え ---------- */
 function refreshEditableStates(){
   document.querySelectorAll(".editable").forEach(el => { el.contentEditable = editMode; });
+}
+/* ---------- ヘッダーのナビリンク(表示用テンプレートは常時必要なため編集専用マーカーの外に配置) ---------- */
+function navLinkItemHTML(link, idx){
+  return `<span class="nav-link-item" data-idx="${idx}" data-url="${esc(link.url)}">
+    <a href="${esc(link.url)}" class="profile-nav-link">${link.label}</a>
+    <span class="nav-link-controls">
+      <button type="button" class="nav-link-btn nav-link-move-left" aria-label="左へ移動">‹</button>
+      <button type="button" class="nav-link-btn nav-link-move-right" aria-label="右へ移動">›</button>
+      <button type="button" class="nav-link-btn nav-link-edit" aria-label="編集">✎</button>
+      <button type="button" class="nav-link-btn nav-link-remove" aria-label="削除">×</button>
+    </span>
+  </span>`;
+}
+function renderNavLinksList(links){
+  document.getElementById("nav-link-list").innerHTML = links.map(navLinkItemHTML).join("");
 }
 
 
