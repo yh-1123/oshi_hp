@@ -1,0 +1,945 @@
+{
+  "navBrand": "活動実績",
+  "eyebrow": "活動記録",
+  "title": "活動実績",
+  "desc": "楽曲・公演・メディア出演などの活動記録をまとめています。",
+  "sections": {
+    "songs": {
+      "heading": "楽曲",
+      "desc": "選抜曲・カップリング曲・ユニット曲などをまとめています"
+    },
+    "performances": {
+      "heading": "公演",
+      "desc": "出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます"
+    },
+    "media": {
+      "heading": "メディア・イベント",
+      "desc": "ラジオ・テレビ・雑誌書籍・イベント出演の記録です"
+    },
+    "criteria": {
+      "heading": "集計・掲載基準",
+      "desc": "このページの情報をまとめる上でのルールや注意点です"
+    }
+  },
+  "songs": [
+    {
+      "title": "好きになっちゃった",
+      "date": "2023-07-05",
+      "desc": "SKE48の31stシングルで初選抜に選出される。",
+      "url": "https://www.youtube.com/watch?v=pqA3FsWDiZs&list=RDpqA3FsWDiZs&start_radio=1&pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB",
+      "addedAt": "",
+      "order": "0",
+      "category": "選抜曲",
+      "linkLabel": "MVを見る",
+      "album": "好きになっちゃった"
+    },
+    {
+      "title": "君だけがターゲット",
+      "date": "2026-03-18",
+      "desc": "SHOWROOM選抜曲でセンターを務める。",
+      "url": "https://www.youtube.com/watch?v=yaDeh_HwZgY&list=RDyaDeh_HwZgY&start_radio=1&pp=ygUJ5Y6f5YSq5a-noAcB0gcJCRsMAYcqIYzv",
+      "addedAt": "",
+      "order": "1",
+      "category": "カップリング曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "New Ager",
+      "date": "2022-10-05",
+      "desc": "初カップリング曲でセンターを務める。",
+      "url": "https://www.youtube.com/watch?v=A4Ugkvba22s&list=RDA4Ugkvba22s&start_radio=1&pp=ygUJ5Y6f5YSq5a-noAcB",
+      "addedAt": "2026-09-04",
+      "order": "5",
+      "category": "カップリング曲",
+      "linkLabel": "MV見る",
+      "album": ""
+    },
+    {
+      "title": "Unlimited",
+      "date": "2025-03-12",
+      "desc": "相川Team S楽曲",
+      "url": "https://www.youtube.com/watch?v=TxmSoVL9EpM&list=RDTxmSoVL9EpM&start_radio=1",
+      "addedAt": "2026-09-04",
+      "order": "6",
+      "category": "カップリング曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "愛のホログラム",
+      "date": "2024-02-28",
+      "desc": "32nd singleで2作連続で選抜に選出される。",
+      "url": "https://www.youtube.com/watch?v=knk_nGwljMU",
+      "addedAt": "2026-09-04",
+      "order": "7",
+      "category": "選抜曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "Beautiful",
+      "date": "2024-02-28",
+      "desc": "",
+      "url": "https://www.youtube.com/watch?v=vEjFilr2lbQ&list=RDvEjFilr2lbQ&start_radio=1",
+      "addedAt": "2026-09-04",
+      "order": "8",
+      "category": "カップリング曲",
+      "linkLabel": "YouTubeを見る",
+      "album": ""
+    },
+    {
+      "title": "放っておけないよユニコーン",
+      "date": "2026-03-18",
+      "desc": "",
+      "url": "https://www.youtube.com/watch?v=jfL12MRdGsY&list=RDjfL12MRdGsY&start_radio=1&pp=ygUV44Om44OL44Kz44O844OzIHNrZTQ4oAcB",
+      "addedAt": "2026-09-04",
+      "order": "9",
+      "category": "カップリング曲",
+      "linkLabel": "YouTubeを見る",
+      "album": ""
+    },
+    {
+      "title": "もう知らん",
+      "date": "2026-03-18",
+      "desc": "",
+      "url": "https://www.youtube.com/watch?v=qIqd4mLCskQ&list=RDqIqd4mLCskQ&start_radio=1&pp=ygUNT25lIGdlbSBza2U0OKAHAQ%3D%3D",
+      "addedAt": "2026-09-04",
+      "order": "10",
+      "category": "カップリング曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "隣の人は？",
+      "date": "2025-09-24",
+      "desc": "",
+      "url": "https://youtu.be/Y1PsOcRG_ps?si=BoqvDM_MQP_djShw",
+      "addedAt": "2026-09-04",
+      "order": "11",
+      "category": "カップリング曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "どこまで嘘を言えたら",
+      "date": "2025-09-24",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "15",
+      "category": "カップリング曲",
+      "linkLabel": "",
+      "album": ""
+    }
+  ],
+  "performances": [
+    {
+      "title": "ずっと君を探している",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "13",
+      "count": ""
+    },
+    {
+      "title": "僕の太陽",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "59",
+      "count": ""
+    },
+    {
+      "title": "制服の芽",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "60",
+      "count": ""
+    },
+    {
+      "title": "愛を君に、愛を僕に",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "61",
+      "count": ""
+    },
+    {
+      "title": "時間がない",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "62",
+      "count": ""
+    },
+    {
+      "title": "声出していこーぜ!!",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "63",
+      "count": ""
+    },
+    {
+      "title": "手をつなぎながら",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "64",
+      "count": ""
+    },
+    {
+      "title": "We're Growing Up",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "65",
+      "count": ""
+    },
+    {
+      "title": "We’re Growing Up～2nd～",
+      "date": "",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "66",
+      "count": ""
+    }
+  ],
+  "media": [
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』東京公演",
+      "date": "2206-02-27",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "25",
+      "category": "舞台"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2026.09.11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "18",
+      "category": "ラジオ"
+    },
+    {
+      "title": "CBCラジオ「SKE48 なるべくしゃべりたい」",
+      "date": "2026-09-03",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "17",
+      "category": "ラジオ"
+    },
+    {
+      "title": "中京テレビ「24時間テレビ49 スペシャルLIVE」",
+      "date": "2026-08-30",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "19",
+      "category": "イベント"
+    },
+    {
+      "title": "CBCラジオ「SKE48 なるべくしゃべりたい」",
+      "date": "2026-08-27",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "20",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「週刊SPA!」",
+      "date": "2026-08-19",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "21",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "SHOWROOM『恋シュンの旬』",
+      "date": "2026-08-12",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "22",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "SHOWROOM『恋シュンの旬』",
+      "date": "2026-07-29",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "32",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "「CBCラジオ夏まつり2026」",
+      "date": "2026-07-26",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "31",
+      "category": "イベント"
+    },
+    {
+      "title": "ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」",
+      "date": "2026-07-24",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "30",
+      "category": "ラジオ"
+    },
+    {
+      "title": "SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」",
+      "date": "2026-07-15",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "29",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」",
+      "date": "2026-07-14",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "27",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO みつ吉と名門大洋フェリーで行く!SKE48 SUMMER Tour 2026 応援ツアー～瀬戸内海クルーズと福岡満喫の旅PartⅡ～",
+      "date": "2026-07-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "26",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」",
+      "date": "2026-07-10",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "28",
+      "category": "イベント"
+    },
+    {
+      "title": "ニコニコチャンネル「SKE48非公式ちゃんねる」",
+      "date": "2026-07-08",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "25",
+      "category": "配信"
+    },
+    {
+      "title": "ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」",
+      "date": "2026-07-03",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "24",
+      "category": "ラジオ"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2026-07-01",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "23",
+      "category": "テレビ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-06-24",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "44",
+      "category": "YouTube"
+    },
+    {
+      "title": "SKE48 初恋の瞬間 SHOWROOM緊急特番",
+      "date": "2026-06-23",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "43",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "SKE48 Team Sオリジナル新公演『ずっと君を探している』CDリリース記念「プレミアムグループトーク会」",
+      "date": "2026-06-21",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "42",
+      "category": "イベント"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』8K 舞台挨拶付き上映会",
+      "date": "2026-06-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "41",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 Team S オリジナル新公演『ずっと君を探している』リミスタ オンライントーク会",
+      "date": "2026-06-14",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "40",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 Team S オリジナル新公演『ずっと君を探している』リミスタ オンラインサイン会",
+      "date": "2026-06-13",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "39",
+      "category": "イベント"
+    },
+    {
+      "title": "SHOWROOM『5月度ステラ★SHOWCASE!!』",
+      "date": "2026-06-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "38",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2026-06-10",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "37",
+      "category": "テレビ"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』8K 舞台挨拶付き上映会",
+      "date": "2026-06-07",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "36",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2026-06-06",
+      "desc": "11期スペシャル",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "34",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「テレビ愛知 ミカンのむき方 / 真夜中のウナギたち イベント」",
+      "date": "2026-06-06",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "35",
+      "category": "イベント"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2026-06-04",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "33",
+      "category": "テレビ"
+    },
+    {
+      "title": "「東スポ競馬」",
+      "date": "2026-05-30",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "58",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-05-27",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "57",
+      "category": "YouTube"
+    },
+    {
+      "title": "岐阜放送「SKE48のひだまりハートカフェ」",
+      "date": "2026-05-23",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "56",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2026-05-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "55",
+      "category": "ラジオ"
+    },
+    {
+      "title": "ミニAlbum 舞台『推しが武道館いってくれたら死ぬ』リリース記念握手会",
+      "date": "2026-05-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "53",
+      "category": "イベント"
+    },
+    {
+      "title": "岐阜放送「SKE48のひだまりハートカフェ」",
+      "date": "2026-05-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "54",
+      "category": "ラジオ"
+    },
+    {
+      "title": "SKE48 ×「ガイア」訪店第3弾",
+      "date": "2026-05-14",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "52",
+      "category": "イベント"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-05-13",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "51",
+      "category": "YouTube"
+    },
+    {
+      "title": "ミニAlbum 舞台『推しが武道館いってくれたら死ぬ』リリース記念握手会",
+      "date": "2026-05-09",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "49",
+      "category": "イベント"
+    },
+    {
+      "title": "岐阜放送「SKE48のひだまりハートカフェ」",
+      "date": "2026-05-09",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "50",
+      "category": "ラジオ"
+    },
+    {
+      "title": "SKE48 Team S オリジナル新公演『ずっと君を探している』現地でロングトーク会&プレミアム・グループサイン会",
+      "date": "2026-05-06",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "47",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 Team S オリジナル新公演『ずっと君を探している』現地でロングトーク会&プレミアム・グループサイン会",
+      "date": "2026-05-05",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "48",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 ×「ガイア」来店第2弾",
+      "date": "2026-05-02",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "45",
+      "category": "イベント"
+    },
+    {
+      "title": "岐阜放送「SKE48のひだまりハートカフェ」",
+      "date": "2026-05-02",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "46",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-04-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "6",
+      "category": "YouTube"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-04-08",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "5",
+      "category": "YouTube"
+    },
+    {
+      "title": "CBCラジオ「ウインクス presents SKE48原優寧の建築ラジオ」",
+      "date": "2026-04-05",
+      "desc": "レギュラー出演",
+      "url": "",
+      "addedAt": "",
+      "order": "4",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-03-25",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "15",
+      "category": "YouTube"
+    },
+    {
+      "title": "ニコニコチャンネル「SKE48非公式ちゃんねる」",
+      "date": "2026-03-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "14",
+      "category": "配信"
+    },
+    {
+      "title": "SKE48 Team S オリジナル新公演「ずっと君を探している」情報解禁生配信",
+      "date": "2026-03-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "13",
+      "category": "配信"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-03-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "12",
+      "category": "YouTube"
+    },
+    {
+      "title": "「Forty-Eight Times」(AKB48新聞電子版)",
+      "date": "2026-03-10",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "11",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "FM AICHI「FUJIMAKI GROUP presents SKE48のF&Cミュージック」",
+      "date": "2026-03-06",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "9",
+      "category": "ラジオ"
+    },
+    {
+      "title": "CBCラジオ「SKE48なるべくしゃべりたいCBC公開録音vol.13」",
+      "date": "2026-03-06",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "10",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「SKE48 初恋の瞬間」 SHOWROOM配信",
+      "date": "2026-03-03",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "8",
+      "category": "配信"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』Streaming+配信",
+      "date": "2026-03-01",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "7",
+      "category": "配信"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』東京公演",
+      "date": "2026-02-28",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "26",
+      "category": "舞台"
+    },
+    {
+      "title": "日本テレビ「バズリズム02」",
+      "date": "2026-02-28",
+      "desc": "君だけがターゲット披露！",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "27",
+      "category": "テレビ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-02-25",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "24",
+      "category": "YouTube"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』愛知公演",
+      "date": "2026-02-23",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "22",
+      "category": "舞台"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』愛知公演",
+      "date": "2026-02-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "23",
+      "category": "舞台"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』愛知公演",
+      "date": "2026-02-21",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "20",
+      "category": "舞台"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』愛知公演",
+      "date": "2026-02-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "21",
+      "category": "舞台"
+    },
+    {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』ビジュアル付きチケットサイン会",
+      "date": "2026-02-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "18",
+      "category": "イベント"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-02-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "19",
+      "category": "YouTube"
+    },
+    {
+      "title": "SKE48 36thシングル対象 オンラインサイン会&チェキ会&抽選会",
+      "date": "2026-02-08",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "17",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2026-02-04",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "16",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「愛知あたりまえ俱楽部」",
+      "date": "2026-01-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "38",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「愛知あたりまえ俱楽部」",
+      "date": "2026-01-23",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "37",
+      "category": "テレビ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-01-21",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "36",
+      "category": "YouTube"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2026-01-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "35",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2026-01-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "32",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「愛知あたりまえ俱楽部」",
+      "date": "2026-01-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "33",
+      "category": "テレビ"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2026-01-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "34",
+      "category": "テレビ"
+    },
+    {
+      "title": "「ブシロード新春大発表会2026」",
+      "date": "2026-01-12",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "31",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO公開収録「みつ吉とSKE48の愉快な仲間たち!みつ吉フェスやっちゃうでちょっ!Part3 ～もうすぐ2じゃないよ放送4000回!めでたすぎるスペシャル!～」",
+      "date": "2026-01-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "30",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「愛知あたりまえ俱楽部」",
+      "date": "2026-01-09",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "29",
+      "category": "テレビ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2026-01-07",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-05",
+      "order": "28",
+      "category": "YouTube"
+    },
+    {
+      "title": "10チャンあたりま縁日 IN 大須",
+      "date": "2025-09-14",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "16",
+      "category": "イベント"
+    },
+    {
+      "title": "ラブストーリー朗読劇【Sweet Love Theater】",
+      "date": "2024-11-02",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "14",
+      "category": "劇"
+    },
+    {
+      "title": "SKE48 ゆうねと千成工業がものづくりやってみた",
+      "date": "2024-09-12",
+      "desc": "初の冠ラジオ",
+      "url": "",
+      "addedAt": "2026-09-04",
+      "order": "12",
+      "category": "ラジオ"
+    }
+  ],
+  "criteria": [
+    "本ページの出演回数・掲載楽曲は、公式に発表された情報をもとに個人でまとめたものです。",
+    "非公式のファンサイトのため、内容に誤りが含まれる可能性があります。正確な情報は必ず公式サイト・公式SNSをご確認ください。"
+  ]
+}

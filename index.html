@@ -1,0 +1,2622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<!-- ==========================================================
+     PWA(ホーム画面に追加)対応
+     manifest.json / icon-192.png / icon-512.png / sw.js を
+     このHTMLファイルと同じフォルダに置いてください。
+     ========================================================== -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="推し布教">
+
+<title>推し布教ツール</title>
+
+<!-- ==========================================================
+     SNSシェア用OGPタグ。公開後、SNSにURLを貼ると下記の情報が
+     カード形式で表示されます。og:image は絶対URL(https://...)で
+     指定する必要があるため、公開後に画像をどこかにアップロードして
+     そのURLを OGP_IMAGE_URL(スクリプト内)に設定してください。
+     ========================================================== -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:title" content="推し布教ページ">
+<meta property="og:description" content="推し活応援ページ">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="推し布教ページ">
+<meta name="twitter:description" content="推し活応援ページ">
+<meta name="twitter:image" content="">
+
+<!-- ==========================================================
+     Googleアナリティクス(GA4)
+     1) https://analytics.google.com/ で無料のプロパティを作成
+     2) 発行される測定ID(G-から始まる文字列)を取得
+     3) 下の2箇所の "G-XXXXXXXXXX" をその測定IDに書き換える
+     4) 実際に公開したURLで開かないと計測されません(ローカルで
+        ファイルを開いただけ、またはこのチャット内のプレビューでは
+        正しく動作しない場合があります)
+     ========================================================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
+}
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans JP', sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  overflow-x:hidden;
+  padding-bottom:72px;
+  font-size:15px;
+}
+h1,h2,h3, .brand{ font-family:'Zen Maru Gothic', sans-serif; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:760px; margin:0 auto; padding:0 18px; }
+
+/* ---------- ヘッダー ナビ ---------- */
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; gap:10px; }
+.brand{ font-weight:700; font-size:13px; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-right{ display:flex; align-items:center; gap:14px; flex:none; }
+@media (max-width:420px){
+  .nav-right{ gap:8px; max-width:56vw; overflow-x:auto; scrollbar-width:none; }
+  .nav-right::-webkit-scrollbar{ display:none; }
+  .profile-nav-link{ font-size:10.5px; flex:none; }
+}
+.profile-nav-link{ font-size:11.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; }
+.profile-nav-link:hover{ opacity:0.8; }
+.nav-search-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-search-btn:hover{ color:var(--oshi-color); }
+.nav-search-row{ display:none; border-top:1px solid var(--line); background:rgba(255,250,249,0.98); padding:10px 0; }
+.nav-search-row.open{ display:block; }
+.search-input{
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:10px 16px; font-size:13px;
+  font-family:inherit; background:#fff; color:var(--ink);
+}
+.search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.search-input::-webkit-search-cancel-button{ cursor:pointer; }
+
+/* ---------- ヒーロー(小型) ---------- */
+.hero{ position:relative; padding:24px 0 18px; text-align:center; overflow:hidden; }
+.hero::before{
+  content:""; position:absolute; top:10px; left:50%; width:170px; height:170px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.hero-photo-wrap{ position:relative; width:104px; height:104px; margin:0 auto 12px; }
+.hero-photo{
+  position:relative; z-index:1; width:100%; height:100%; border-radius:50%; overflow:hidden;
+  background:linear-gradient(135deg, var(--oshi-color-soft), var(--accent2));
+  background-size:cover; background-position:center;
+  border:3px solid #fff; box-shadow:0 6px 16px rgba(43,35,49,0.14), 0 0 0 2px var(--oshi-color);
+  display:flex; align-items:center; justify-content:center;
+}
+.hero-photo.has-photo .hero-photo-placeholder{ display:none; }
+.hero-photo-placeholder{ font-size:10px; color:var(--sub-ink); padding:0 10px; }
+.hero-star{ position:absolute; color:var(--oshi-color); font-size:13px; opacity:0.8; z-index:2; }
+.hero-star-1{ top:-6px; left:-10px; }
+.hero-star-2{ bottom:2px; right:-12px; font-size:10px; opacity:0.6; }
+.hero-photo-edit{
+  display:none; position:absolute; bottom:-2px; right:-2px; z-index:3; width:30px; height:30px; border-radius:50%;
+  background:var(--oshi-color); color:#fff; border:2px solid #fff; font-size:13px; cursor:pointer;
+  align-items:center; justify-content:center;
+}
+body.editing .hero-photo-edit{ display:flex; }
+.eyebrow-badge{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:9px; font-weight:700; }
+.hero h1{ position:relative; font-size:clamp(20px, 7.5vw, 28px); font-weight:900; color:var(--ink); line-height:1.25; }
+.hero h1 .accent{ color:var(--oshi-color); }
+.hero .kana{ position:relative; font-size:10px; color:var(--sub-ink); margin-top:2px; letter-spacing:0.08em; }
+.hero .catch{ position:relative; margin:9px auto 0; max-width:400px; font-size:12.5px; color:var(--ink); font-weight:500; }
+.hero .stats{ position:relative; display:flex; justify-content:center; gap:14px; margin-top:14px; flex-wrap:wrap; }
+.hero .stats .stat-item{ text-align:center; position:relative; }
+.hero .stats .num{ font-family:'Zen Maru Gothic',sans-serif; font-size:14px; font-weight:700; color:var(--oshi-color); }
+.hero .stats .lbl{ font-size:9px; color:var(--sub-ink); margin-top:1px; }
+/* ---------- セクション共通 ---------- */
+section{ padding:34px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:18px; }
+.sec-head h2{ font-size:17px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:5px; }
+.sec-head p:empty{ display:none; margin-top:0; }
+.carousel-block-desc:empty{ display:none; margin-top:0; }
+.pickup-body p:empty, .rec-body p:empty, .tl-item p:empty, .more-page-desc:empty{ display:none; margin:0; }
+.pickup-body h3:empty, .rec-body h3:empty, .tl-item h3:empty{ display:none; }
+
+/* ---------- ピックアップ(お知らせ) ---------- */
+#pickup{ border-top:none; padding:16px 0 6px; }
+.pickup-list{ display:flex; flex-direction:column; gap:10px; }
+.pickup-item{
+  position:relative;
+  background:var(--oshi-color-soft); border:1px solid var(--oshi-color);
+  border-radius:14px; padding:12px 80px 12px 14px; box-shadow:var(--shadow-sm);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.pickup-item:has(a.pickup-link):hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.pickup-link{ display:flex; gap:10px; align-items:flex-start; color:inherit; }
+.pickup-badge{ flex:none; font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:3px 8px; margin-top:1px; }
+.pickup-body h3{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
+.pickup-body p{ font-size:12px; color:var(--ink); }
+
+/* ---------- 複数スライドセクション(おすすめコンテンツ) ---------- */
+.carousel-block{ margin-bottom:30px; }
+.carousel-block:last-child{ margin-bottom:0; }
+.carousel-block-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:12px; }
+.carousel-block-head h3{ font-size:14.5px; font-weight:700; }
+.carousel-block-desc{ font-size:11.5px; color:var(--sub-ink); margin-top:3px; }
+.tag-filter-row{ display:none; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+.tag-filter-row.show{ display:flex; }
+.tag-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 11px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.tag-filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+.sec-remove{ position:static; flex:none; }
+
+.rec-carousel{ position:relative; }
+.rec-scroll{
+  display:flex; gap:12px; overflow-x:auto; padding:2px 2px 10px;
+  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scroll-padding-left:2px;
+  scrollbar-width:none;
+}
+.rec-scroll::-webkit-scrollbar{ display:none; }
+.rec-card{ position:relative; scroll-snap-align:start; flex:0 0 180px; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); transition:transform .15s ease, box-shadow .15s ease; }
+.rec-card:has(a.rec-card-link):hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.rec-card-link{ display:block; color:inherit; }
+.rec-thumb{ position:relative; height:96px; background:linear-gradient(135deg, var(--oshi-color-soft), #fff); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--sub-ink); }
+.play-badge{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.play-badge span{ width:32px; height:32px; border-radius:50%; background:rgba(20,20,20,0.6); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; }
+.rec-body{ padding:10px 12px 14px; }
+.rec-tag{ display:inline-block; font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); padding:2px 8px; border-radius:999px; margin-bottom:7px; }
+.rec-tag:empty{ display:none; margin-bottom:0; padding:0; }
+.rec-body h3{ font-size:13px; font-weight:700; margin-bottom:3px; }
+.rec-body p{ font-size:11.5px; color:var(--sub-ink); }
+
+.rec-nav{
+  position:absolute; top:44%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%;
+  border:1px solid var(--line); background:rgba(255,255,255,0.95); color:var(--oshi-color); font-size:17px;
+  line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:6;
+  box-shadow:0 4px 10px rgba(43,35,49,0.12);
+}
+.rec-nav.prev{ left:-6px; } .rec-nav.next{ right:-6px; }
+.rec-nav:hover{ background:var(--oshi-color); color:#fff; }
+@media (max-width:600px){ .rec-nav{ display:none; } }
+
+.rec-dots{ display:flex; justify-content:center; gap:6px; margin-top:4px; }
+.rec-dot{ width:6px; height:6px; border-radius:50%; background:var(--line); cursor:pointer; transition:all .2s; }
+.rec-dot.active{ background:var(--oshi-color); width:16px; border-radius:999px; }
+
+/* ---------- 出演情報(月ごとグループ・開閉式) ---------- */
+.tl-group{ margin-bottom:12px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--card); }
+.tl-group:last-child{ margin-bottom:0; }
+.tl-month-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:12px 14px; cursor:pointer; }
+.tl-month-label{ font-size:13px; font-weight:700; color:var(--oshi-color); }
+.tl-month-arrow{
+  flex:none; border:none; background:transparent; color:var(--sub-ink); font-size:14px; cursor:pointer;
+  width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  transition:transform .2s ease;
+}
+.tl-month-arrow:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.tl-group.collapsed .tl-month-arrow{ transform:rotate(-90deg); }
+.tl-group.collapsed .timeline{ display:none; }
+.timeline{ position:relative; padding:0 14px 14px 34px; }
+.timeline::before{ content:""; position:absolute; left:19px; top:6px; bottom:6px; width:2px; background:var(--line); }
+.tl-item{ position:relative; padding-bottom:22px; padding-right:80px; }
+.tl-item:last-child{ padding-bottom:0; }
+.tl-item::before{ content:""; position:absolute; left:-20px; top:4px; width:9px; height:9px; border-radius:50%; background:var(--oshi-color); box-shadow:0 0 0 4px var(--oshi-color-soft); }
+.tl-date{ font-size:11px; color:var(--oshi-color); font-weight:700; }
+.tl-item h3{ font-size:13.5px; font-weight:700; margin:2px 0 3px; }
+.tl-item p{ font-size:12px; color:var(--sub-ink); }
+.tl-actions{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.tl-action-btn{
+  border:1px solid var(--line); background:#fff; color:var(--oshi-color);
+  font-size:11px; font-weight:700; padding:5px 12px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.tl-action-btn:hover{ background:var(--oshi-color-soft); }
+.dup-btn{ display:none; }
+body.editing .dup-btn{ display:inline-flex; }
+
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-bottom:-3px; }
+
+.template-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.template-chip{
+  position:relative; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line);
+  background:#fff; color:var(--ink); font-size:11.5px; font-weight:700; padding:6px 8px 6px 12px;
+  border-radius:999px; cursor:pointer; font-family:inherit; max-width:220px;
+}
+.template-chip:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.template-chip-remove{
+  display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%;
+  background:var(--paper); color:var(--sub-ink); font-size:10px;
+}
+.template-chip-remove:hover{ background:var(--oshi-color); color:#fff; }
+.template-save-btn{
+  margin-top:8px; border:1px dashed var(--line); background:#fff; color:var(--sub-ink); font-size:11px;
+  font-weight:700; padding:6px 12px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.template-save-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+
+.repeat-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12px; color:var(--sub-ink); }
+.repeat-check{ display:flex; align-items:center; gap:6px; font-weight:700; color:var(--ink); }
+.repeat-count{ width:64px; padding:6px 8px; }
+.repeat-suffix{ white-space:nowrap; }
+
+/* ---------- サムネイル トリミングUI ---------- */
+.crop-wrap{ margin-top:8px; display:none; }
+.crop-viewport{
+  position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:10px;
+  background:#111; touch-action:none; cursor:grab; border:1px solid var(--line);
+}
+.crop-viewport.square{ aspect-ratio:1/1; max-width:240px; margin:0 auto; border-radius:50%; }
+.crop-viewport:active{ cursor:grabbing; }
+.crop-viewport img{ position:absolute; top:0; left:0; max-width:none; user-select:none; pointer-events:none; }
+.crop-wrap input[type="range"]{ width:100%; margin-top:8px; accent-color:var(--oshi-color); }
+.crop-hint{ font-size:10.5px; color:var(--sub-ink); margin-top:4px; }
+.qa-divider{ font-size:10.5px; color:var(--sub-ink); text-align:center; margin:10px 0 2px; }
+
+/* ---------- SNSタイムライン ---------- */
+.sns-filter{ display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+.filter-btn{ border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11.5px; font-weight:700; padding:6px 13px; border-radius:999px; cursor:pointer; }
+.filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+.load-more-btn{
+  display:flex; align-items:center; justify-content:center; width:100%; margin-top:12px;
+  border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-weight:700; font-size:12.5px;
+  padding:10px 16px; border-radius:12px; cursor:pointer; font-family:inherit;
+}
+.load-more-btn:hover{ background:var(--oshi-color-soft); }
+.no-results{ display:none; text-align:center; color:var(--sub-ink); font-size:12.5px; padding:16px 0; }
+.no-results.show{ display:block; }
+.sec-head-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.view-toggle-btn{
+  flex:none; border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit; margin-bottom:2px;
+}
+.view-toggle-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+
+/* ---------- 他ページへの導線 ---------- */
+.more-pages-grid{ display:flex; flex-direction:column; gap:10px; }
+.more-page-card{ position:relative; display:flex; gap:12px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 84px 14px 14px; box-shadow:var(--shadow-sm); }
+.more-page-icon{ flex:none; font-size:24px; line-height:1.2; }
+.more-page-body{ flex:1; min-width:0; }
+.more-page-title{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
+.more-page-desc{ font-size:11.5px; color:var(--sub-ink); margin-bottom:8px; }
+.more-page-link{
+  display:inline-flex; align-items:center; gap:3px; border:1px solid var(--oshi-color); background:#fff;
+  color:var(--oshi-color); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
+}
+.more-page-link:hover{ background:var(--oshi-color-soft); }
+.more-page-card[data-visible="0"]{ display:none; }
+body.editing .more-page-card[data-visible="0"]{ display:flex; opacity:0.55; }
+.more-page-hidden-badge{ display:none; }
+body.editing .more-page-card[data-visible="0"] .more-page-hidden-badge{
+  display:inline-block; position:absolute; top:14px; right:84px; font-size:9.5px; font-weight:700;
+  color:#fff; background:var(--sub-ink); border-radius:999px; padding:2px 9px;
+}
+
+/* ---------- 公式リンク(プラットフォームごとのブランドカラー) ---------- */
+.official-links-row{ display:flex; flex-wrap:wrap; gap:10px; }
+.official-link-item{
+  position:relative; display:inline-flex; align-items:center; gap:8px; border:none; background:var(--oshi-color);
+  border-radius:999px; padding:10px 18px 10px 14px; box-shadow:var(--shadow-sm); color:#fff; transition:transform .15s ease, box-shadow .15s ease;
+}
+.official-link-item:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+body.editing .official-link-item{ padding-right:84px; flex-wrap:wrap; }
+.official-link-item .reorder-row{ flex-basis:100%; margin-top:10px; }
+.official-link-item.plat-x{ background:#000; }
+.official-link-item.plat-instagram{ background:linear-gradient(45deg, #f9ce34, #ee2a7b 45%, #6228d7); }
+.official-link-item.plat-tiktok{ background:#000; }
+.official-link-item.plat-youtube{ background:#ff0000; }
+.official-link-item.plat-threads{ background:#000; }
+.official-link-item.plat-line{ background:#06c755; }
+.official-link-item.plat-facebook{ background:#1877f2; }
+.official-link-item.plat-default{ background:var(--oshi-color); }
+.official-link-icon{ font-size:18px; line-height:1; flex:none; }
+.official-link-icon-img{ width:24px; height:24px; border-radius:50%; object-fit:cover; display:block; border:1.5px solid rgba(255,255,255,0.85); }
+.official-link-label{ font-size:13px; font-weight:700; color:#fff; }
+
+.sns-feed{ display:flex; flex-direction:column; gap:10px; }
+.sns-post{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); transition:transform .15s ease, border-color .15s, box-shadow .15s; }
+.sns-post:has(a.sns-link):hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.sns-link{ display:block; color:inherit; padding:13px 15px; }
+.sns-link[href]:hover{ border-color:var(--oshi-color); }
+.sns-link[href]:active{ opacity:0.85; }
+.sns-head{ display:flex; align-items:flex-start; gap:9px; margin-bottom:8px; }
+.sns-avatar{ width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, var(--oshi-color), var(--accent2)); flex:none; }
+.sns-id{ flex:1; min-width:0; }
+.sns-name{ font-size:13px; font-weight:700; }
+.sns-handle{ font-size:11px; color:var(--sub-ink); }
+.sns-meta{ display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex:none; }
+.sns-time{ font-size:10px; color:var(--sub-ink); white-space:nowrap; }
+.sns-text{ font-size:13.5px; line-height:1.7; }
+.sns-open-hint{ margin-top:9px; font-size:11px; font-weight:700; color:var(--oshi-color); }
+.platform-badge{ font-size:9px; font-weight:700; padding:2px 7px; border-radius:6px; color:#fff; white-space:nowrap; }
+.platform-badge.x{ background:#141414; }
+.platform-badge.instagram{ background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4); }
+.platform-badge.tiktok{ background:#141414; }
+.platform-badge.other{ background:var(--sub-ink); }
+
+.platform-select{ display:flex; gap:8px; margin-top:4px; flex-wrap:wrap; }
+.plat-btn{ flex:1 1 70px; border:1.5px solid var(--line); background:#fff; color:var(--sub-ink); font-size:12px; font-weight:700; padding:8px 0; border-radius:10px; cursor:pointer; font-family:inherit; }
+.plat-btn.active{ border-color:var(--oshi-color); color:var(--oshi-color); background:var(--oshi-color-soft); }
+
+footer{ text-align:center; padding:32px 0 16px; color:var(--sub-ink); font-size:11px; }
+footer .heart{ color:var(--oshi-color); }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* ---------- 初回訪問ハイライト ---------- */
+@keyframes firstVisitPulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(224,35,58,0); }
+  20%,50%{ box-shadow:0 0 0 7px rgba(224,35,58,0.16); }
+  35%{ box-shadow:0 0 0 11px rgba(224,35,58,0.05); }
+}
+.first-visit-highlight{ animation: firstVisitPulse 1.7s ease-in-out 2; border-radius:16px; }
+.first-visit-badge{
+  display:inline-flex; align-items:center; gap:6px; background:var(--oshi-color); color:#fff;
+  font-size:11px; font-weight:700; padding:5px 13px; border-radius:999px; margin-bottom:10px;
+  animation: firstVisitBadge 4.6s ease forwards;
+}
+@keyframes firstVisitBadge{
+  0%{ opacity:0; transform:translateY(4px); }
+  10%{ opacity:1; transform:translateY(0); }
+  85%{ opacity:1; }
+  100%{ opacity:0; transform:translateY(-4px); }
+}
+
+/* ---------- 編集モード ---------- */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:rgba(255,255,255,0.6); }
+
+.edit-remove{
+  display:none; position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-remove{ display:flex; }
+body.editing .edit-remove:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+
+.edit-edit{
+  display:none; position:absolute; top:8px; right:44px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:14px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-edit{ display:flex; }
+body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+
+/* SNS投稿はヘッダー部分(アバター・バッジ)と重ならないよう、編集ボタンは右下に配置 */
+.sns-post .edit-edit{ top:auto; bottom:8px; right:44px; }
+.sns-post .edit-remove{ top:auto; bottom:8px; right:8px; }
+
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  transition:background .15s ease, border-color .15s ease;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+.add-row#add-section-row{ margin-top:6px; }
+.add-row#add-pickup-row{ margin-top:10px; }
+
+.stat-item .edit-remove{ width:18px; height:18px; top:-8px; right:-8px; font-size:11px; }
+
+.reorder-row{ display:none; align-items:center; gap:6px; margin-top:8px; padding:0 2px; }
+body.editing .reorder-row{ display:flex; }
+.reorder-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 10px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.reorder-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.rec-card .reorder-row{ padding:0 10px 10px; }
+.carousel-block .reorder-row{ margin-top:10px; }
+
+.drag-handle{
+  flex:none; width:30px; height:26px; border:1px solid var(--line); border-radius:8px; background:#fff;
+  color:var(--sub-ink); font-size:14px; cursor:grab; touch-action:none; display:flex;
+  align-items:center; justify-content:center; line-height:1;
+}
+.drag-handle:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.drag-handle:active{ cursor:grabbing; }
+.dragging{ opacity:0.45; }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.tb-hint{ flex:none; font-size:10.5px; color:var(--sub-ink); display:none; padding-left:2px; max-width:160px; }
+@media (max-width:480px){ .tb-hint{ display:none !important; } }
+
+/* ---------- フォトギャラリー ---------- */
+.gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.gallery-item{ position:relative; aspect-ratio:1/1; border-radius:10px; overflow:hidden; background:var(--oshi-color-soft); cursor:pointer; box-shadow:var(--shadow-sm); }
+.gallery-item img{ transition:transform .2s ease; }
+.gallery-item:hover img{ transform:scale(1.05); }
+.gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+.gallery-caption-dot{
+  position:absolute; left:7px; bottom:7px; width:7px; height:7px; border-radius:50%;
+  background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,0.15);
+}
+
+.lightbox{
+  display:none; position:fixed; inset:0; z-index:300; align-items:center; justify-content:center;
+  flex-direction:column; padding:24px; overflow:hidden; background:#0a0508;
+}
+.lightbox.open{ display:flex; }
+.lightbox-bg{
+  position:absolute; inset:-30px; background-size:cover; background-position:center;
+  filter:blur(32px) brightness(0.38); transform:scale(1.15); transition:opacity .2s ease;
+}
+.lightbox-counter{
+  position:absolute; top:18px; left:50%; transform:translateX(-50%); z-index:2;
+  color:rgba(255,255,255,0.9); font-size:11.5px; font-weight:700;
+  background:rgba(255,255,255,0.14); padding:4px 13px; border-radius:999px;
+}
+.lightbox-close{
+  position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.15); color:#fff; border:none;
+  border-radius:50%; width:34px; height:34px; font-size:16px; cursor:pointer; z-index:2;
+}
+.lightbox-stage{
+  position:relative; z-index:1; max-width:92vw; max-height:70vh; display:flex;
+  align-items:center; justify-content:center; touch-action:pan-y;
+}
+.lightbox-stage img{
+  max-width:92vw; max-height:70vh; border-radius:12px; box-shadow:0 14px 44px rgba(0,0,0,0.45);
+  opacity:0; transform:scale(0.97); transition:opacity .16s ease, transform .16s ease; display:block;
+}
+.lightbox-stage img.show{ opacity:1; transform:scale(1); }
+.lightbox-caption{ position:relative; z-index:2; color:#fff; font-size:13px; margin-top:14px; text-align:center; max-width:480px; padding:0 12px; }
+.lightbox-source-link{
+  position:relative; z-index:2; display:none; align-items:center; gap:5px; margin-top:12px;
+  background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.4); font-size:12px; font-weight:700;
+  padding:7px 16px; border-radius:999px; text-decoration:none;
+}
+.lightbox-source-link.show{ display:inline-flex; }
+.lightbox-source-link:hover{ background:rgba(255,255,255,0.28); }
+.lightbox-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:2; background:rgba(255,255,255,0.15);
+  color:#fff; border:none; border-radius:50%; width:42px; height:42px; font-size:22px; cursor:pointer;
+}
+.lightbox-arrow:hover{ background:rgba(255,255,255,0.28); }
+.lightbox-arrow.prev{ left:10px; } .lightbox-arrow.next{ right:10px; }
+@media (max-width:480px){ .lightbox-arrow{ width:36px; height:36px; font-size:18px; } }
+
+.photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); }
+.avatar-preview{ width:40px; height:40px; border-radius:50%; background:var(--oshi-color-soft) center/cover; margin-top:6px; }
+
+/* ---------- 登録用モーダル ---------- */
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:86vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; font-family:'Zen Maru Gothic',sans-serif; }
+.modal .qa-label{ margin-top:12px; margin-bottom:2px; }
+.modal .qa-label:first-child{ margin-top:0; }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+/* ---------- モバイル追加調整 ---------- */
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .hero{ padding:18px 0 14px; }
+  .hero h1{ font-size:clamp(18px,8vw,24px); }
+  section{ padding:26px 0; }
+  .sec-head h2{ font-size:16px; }
+  .rec-card{ flex-basis:160px; }
+  .rec-thumb{ height:86px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <div class="brand editable" id="nav-brand">推し布教ツール</div>
+    <div class="nav-right">
+      <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
+      <a href="wiki.html" class="profile-nav-link">豆知識</a>
+      <a href="guide.html" class="profile-nav-link">はじめての方へ</a>
+      <a href="member-profile.html" class="profile-nav-link">プロフィール</a>
+      <button class="nav-search-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+      <button class="nav-search-btn" id="nav-search-toggle" type="button" aria-label="検索">🔍</button>
+    </div>
+  </div>
+  <div class="nav-search-row" id="nav-search-row">
+    <div class="wrap">
+      <input type="search" id="site-search" class="search-input" placeholder="🔍 コンテンツ・出演情報・投稿を検索">
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-photo-wrap">
+      <span class="hero-star hero-star-1" aria-hidden="true">✦</span>
+      <div class="hero-photo" id="hero-photo">
+        <span class="hero-photo-placeholder">写真を追加</span>
+      </div>
+      <span class="hero-star hero-star-2" aria-hidden="true">✦</span>
+      <button class="hero-photo-edit" id="hero-photo-edit" type="button" aria-label="写真を変更">📷</button>
+    </div>
+    <h1 id="hero-name-wrap"><span class="editable" id="hero-name-main">星乃</span> <span class="accent editable" id="hero-name-accent">ひなた</span></h1>
+    <div class="kana editable" id="hero-kana">HOSHINO HINATA</div>
+    <p class="catch editable" id="hero-catch">笑うと星が瞬く。見ればわかる、この子はきっと大きくなる。</p>
+    <div class="stats" id="hero-stats"></div>
+    <div class="add-row"><button class="add-btn" id="add-stat">＋ プロフィール項目を追加</button></div>
+  </div>
+</header>
+
+<section id="pickup">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="pickup-heading" contenteditable="false">ピックアップ</span></h2>
+      <p class="editable" id="pickup-desc" contenteditable="false">見逃せない最新情報をお届け</p>
+    </div>
+    <div class="pickup-list" id="pickup-list"></div>
+    <div class="add-row" id="add-pickup-row"><button class="add-btn" id="add-pickup">＋ お知らせを追加</button></div>
+  </div>
+</section>
+
+<section id="recommend">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="recommend-heading" contenteditable="false">コンテンツ</span></h2>
+      <p class="editable" id="recommend-desc" contenteditable="false"></p>
+    </div>
+    <div id="carousel-sections"></div>
+    <div class="add-row" id="add-section-row"><button class="add-btn" id="add-section">＋ 新しいスライドセクションを追加</button></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="gallery-heading" contenteditable="false">フォトギャラリー</span></h2>
+      <p class="editable" id="gallery-desc" contenteditable="false">オフショットや素敵な瞬間を集めました</p>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+    <div class="add-row"><button class="add-btn" id="add-photo">＋ 写真を追加</button></div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="sec-head sec-head-row">
+      <div>
+        <h2><span class="mark">◆</span><span class="editable" id="schedule-heading" contenteditable="false">出演情報</span></h2>
+        <p class="editable" id="schedule-desc" contenteditable="false">配信・イベントなどの出演予定をまとめています</p>
+      </div>
+      <button class="view-toggle-btn active" id="schedule-view-toggle" data-mode="upcoming" type="button">📅 過去の記録を見る</button>
+    </div>
+    <div id="tl-groups"></div>
+    <p class="no-results" id="schedule-no-results">該当する予定が見つかりませんでした。</p>
+    <button class="load-more-btn" id="load-more-schedule" type="button" style="display:none;">＋ もっと見る</button>
+    <div class="add-row"><button class="add-btn" id="add-schedule">＋ 予定を追加</button></div>
+  </div>
+</section>
+
+<section id="sns">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="sns-heading" contenteditable="false">SNSタイムライン</span></h2>
+      <p class="editable" id="sns-desc" contenteditable="false">各SNSでの最新の投稿をまとめてチェック</p>
+    </div>
+    <div class="sns-filter" id="sns-filter">
+      <button class="filter-btn active" data-filter="all">すべて</button>
+      <button class="filter-btn" data-filter="x">X</button>
+      <button class="filter-btn" data-filter="instagram">Instagram</button>
+      <button class="filter-btn" data-filter="tiktok">TikTok</button>
+      <button class="filter-btn" data-filter="other">その他</button>
+    </div>
+    <div class="sns-feed" id="sns-list"></div>
+    <button class="load-more-btn" id="load-more-sns" type="button" style="display:none;">＋ もっと見る</button>
+    <div class="add-row"><button class="add-btn" id="add-sns">＋ 投稿を追加</button></div>
+  </div>
+</section>
+
+<section id="more-pages">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="more-pages-heading" contenteditable="false">もっと知る</span></h2>
+      <p class="editable" id="more-pages-desc" contenteditable="false">ほかのページもあわせてチェックしてみてください</p>
+    </div>
+    <div class="more-pages-grid" id="more-pages-grid"></div>
+    <div class="add-row"><button class="add-btn" id="add-more-page">＋ ページを追加</button></div>
+  </div>
+</section>
+
+<section id="official-links">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="official-links-heading" contenteditable="false">公式リンク</span></h2>
+      <p class="editable" id="official-links-desc" contenteditable="false">グループの公式サイト・公式SNSはこちら</p>
+    </div>
+    <div class="official-links-row" id="official-links-row"></div>
+    <div class="add-row"><button class="add-btn" id="add-official-link">＋ リンクを追加</button></div>
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく<span class="heart">♡</span></span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+<div class="edit-toolbar">
+  <button class="tb-btn primary" id="toggle-edit">編集する</button>
+  <button class="tb-btn" id="generate-public-html" style="display:none">🌐 公開用HTMLを書き出す</button>
+  <button class="tb-btn-icon" id="export-data" style="display:none" type="button" aria-label="データを書き出し" title="データを書き出し(JSON)">📤</button>
+  <button class="tb-btn-icon" id="import-data" style="display:none" type="button" aria-label="データを読み込み" title="データを読み込み(JSON)">📥</button>
+  <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;">
+  <span class="tb-hint" id="tb-hint">タップして書き換え・＋－で増減</span>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="写真を拡大表示">
+  <div class="lightbox-bg" id="lightbox-bg"></div>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+  <button class="lightbox-close" id="lightbox-close" type="button" aria-label="閉じる">×</button>
+  <button class="lightbox-arrow prev" id="lightbox-prev" type="button" aria-label="前へ">‹</button>
+  <div class="lightbox-stage" id="lightbox-stage">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+  <button class="lightbox-arrow next" id="lightbox-next" type="button" aria-label="次へ">›</button>
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+  <a class="lightbox-source-link" id="lightbox-source-link" href="#" target="_blank" rel="noopener">🔗 元の投稿を見る</a>
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <h3 id="modal-title">追加</h3>
+    <div id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="tb-btn" id="modal-cancel" type="button">キャンセル</button>
+      <button class="add-btn" id="modal-submit" type="button">追加する</button>
+    </div>
+  </div>
+</div>
+
+<!-- テンプレート保存用データ(保存時にファイル内へそのまま保持されます) -->
+<script type="application/json" id="templates-data-schedule">[]</script>
+<script type="application/json" id="templates-data-pickup">[]</script>
+
+<script>
+/* @EDIT_ONLY_START */
+/* ==========================================================
+   編集用パスワード。
+   ソースコードを見ても平文が読めないよう、パスワードそのものではなく
+   SHA-256ハッシュ値だけを保存する方式にしています。
+
+   ※重要な注意:これでも「本物の暗号化」ではありません。ハッシュ化は
+   view-source等でパスワードが一目で読まれるのを防ぐだけで、開発者
+   ツールを使える人であれば「authenticated = true」を直接実行する等で
+   チェック自体を回避できてしまいます。本気で第三者の閲覧・編集を
+   防ぎたい場合は、パスワード保護のできるホスティングサービスに置く、
+   信頼できる人にだけファイルを共有する、といった運用面の対策と
+   組み合わせてください。
+
+   [パスワードの変更方法]
+   1. ブラウザで適当なページを開き、開発者ツールのConsoleタブを開く
+   2. 次の1行の「新しいパスワード」の部分を書き換えてから貼り付けて実行する
+      crypto.subtle.digest("SHA-256", new TextEncoder().encode("新しいパスワード")).then(b=>console.log(Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("")))
+   3. 表示された64文字の文字列を、下の EDIT_PASSWORD_HASH に丸ごと置き換える
+   (初期パスワードは "oshikatsu2026" です)
+   ========================================================== */
+const EDIT_PASSWORD_HASH = "ce9d9c91a8374c694448bdb6f6591003c96353d8eaf6ee9e32c7e47d47c1ac14";
+async function sha256Hex(text){
+  if(!window.crypto || !window.crypto.subtle){
+    return Promise.reject(new Error("subtlecrypto-unavailable"));
+  }
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+let authenticated = false;
+/* @EDIT_ONLY_END */
+
+/* ==========================================================
+   SNSシェア用の画像URL。公開後、シェアされた時にプレビュー画像として
+   使いたい画像を何かにアップロードし、その絶対URL(https://...)を
+   ここに入れてください(og:image は外部からアクセスできる実在の
+   URLである必要があるため、このファイル内の画像は使えません)。
+   ========================================================== */
+const OGP_IMAGE_URL = "";
+function syncOgpTags(){
+  const name = (document.getElementById("hero-name-main").textContent + document.getElementById("hero-name-accent").textContent).trim();
+  const catchText = document.getElementById("hero-catch").textContent.trim();
+  const title = name ? `${name} 布教ページ` : "推し布教ページ";
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', title);
+  setMeta('meta[property="og:site_name"]', title);
+  setMeta('meta[property="og:description"]', catchText);
+  setMeta('meta[name="twitter:title"]', title);
+  setMeta('meta[name="twitter:description"]', catchText);
+  if(OGP_IMAGE_URL){
+    setMeta('meta[property="og:image"]', OGP_IMAGE_URL);
+    setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL);
+  }
+  if(location.href && location.href.indexOf("file://") !== 0){
+    setMeta('meta[property="og:url"]', location.href);
+  }
+}
+
+/* ==========================================================
+   初期サンプルデータ。開いた後は右下の「編集する」から書き換え可能。
+   schedule の date は "YYYY-MM-DD" 形式(月ごとに自動グループ化)
+   sns の platform は "x" / "instagram" / "tiktok"
+   ========================================================== */
+const OSHI = {
+  nameMain: "星乃",
+  nameAccent: "ひなた",
+  kana: "HOSHINO HINATA",
+  badge: "推し活はじめませんか",
+  catch: "笑うと星が瞬く。見ればわかる、この子はきっと大きくなる。",
+  navBrand: "星乃ひなた 布教ツール",
+  stats: [],
+  pickups: [
+    { badge: "NEW", title: "特典会チケット販売開始!", desc: "9/10(木)12:00〜 先着販売。詳細は公式サイトへ" },
+  ],
+  carouselSections: [
+    {
+      id: "sec-default",
+      title: "まずはこれから見て",
+      desc: "初めての方向けに厳選したコンテンツです",
+      items: [
+        { tag: "まず1曲", title: "「Sparkle Line」MV", desc: "初表題センター曲。サビの表情が反則級。" },
+        { tag: "素の魅力", title: "冠番組 第1回", desc: "天然な喋りとギャップが分かる神回。" },
+        { tag: "沼落ち注意", title: "自己紹介コーナー切り抜き", desc: "3分で沼落ちした人多数の伝説回。" },
+      ],
+    },
+  ],
+  gallery: [],
+  schedule: [
+    { date: "2026-09-06", title: "定期配信「ひなたぼっこ」", desc: "20:00〜 リクエストコーナーあり" },
+    { date: "2026-09-13", title: "握手会イベント", desc: "都内某所 / 詳細は公式サイトにて後日発表" },
+    { date: "2026-09-20", title: "ラジオゲスト出演", desc: "深夜番組にゲスト出演予定" },
+    { date: "2026-10-04", title: "単独ライブ", desc: "初の単独公演。詳細は近日発表" },
+  ],
+  sns: [
+    { platform: "x", name: "星乃ひなた", handle: "@hinata_official", time: "3時間前", text: "今日の配信見てくれた人ありがとう🌟また土曜日ね!" },
+    { platform: "instagram", name: "星乃ひなた", handle: "@hinata_official", time: "1日前", text: "新しい衣装が可愛すぎて自分でも撮っちゃった📸" },
+    { platform: "tiktok", name: "星乃ひなた", handle: "@hinata_official", time: "3日前", text: "楽屋でのダンス練習、こっそり撮ってもらいました" },
+  ],
+  morePages: [
+    { icon: "👤", title: "メンバープロフィール", desc: "経歴・基本情報・SNSリンクなど", url: "member-profile.html" },
+    { icon: "🔰", title: "推し活はじめての方へ", desc: "申込方法・用語集・FAQ", url: "guide.html" },
+    { icon: "📚", title: "豆知識・エピソード集", desc: "知って楽しい豆知識をまとめました", url: "wiki.html" },
+    { icon: "📍", title: "ゆかりの場所まとめ", desc: "聖地巡礼・お店・旅行先など", url: "places.html" },
+    { icon: "🏛️", title: "建築との関わり", desc: "大学時代や建築にまつわる活動", url: "architecture.html" },
+    { icon: "🏆", title: "活動実績", desc: "楽曲・公演・メディア出演の記録", url: "achievements.html" },
+    { icon: "🎬", title: "動画まとめ", desc: "公式チャンネルなどの動画一覧", url: "videos.html" },
+    { icon: "🛍️", title: "グッズまとめ", desc: "公式グッズの情報と販売期間をまとめました", url: "goods.html" },
+  ],
+  officialLinks: [
+    { label: "グループ公式サイト", url: "https://example.com/" },
+  ],
+  officialLinksHeading: "公式リンク",
+  officialLinksDesc: "グループの公式サイト・公式SNSはこちら",
+  sectionText: {
+    pickup: { heading: "ピックアップ", desc: "見逃せない最新情報をお届け" },
+    recommend: { heading: "コンテンツ", desc: "" },
+    gallery: { heading: "フォトギャラリー", desc: "オフショットや素敵な瞬間を集めました" },
+    schedule: { heading: "出演情報", desc: "配信・イベントなどの出演予定をまとめています" },
+    sns: { heading: "SNSタイムライン", desc: "各SNSでの最新の投稿をまとめてチェック" },
+    "more-pages": { heading: "もっと知る", desc: "ほかのページもあわせてチェックしてみてください" },
+  },
+};
+
+/* ---------- 生成テンプレート ---------- */
+function statHTML(s){
+  return `<div class="stat-item">
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="num editable" contenteditable="false">${s.num}</div>
+    <div class="lbl editable" contenteditable="false">${s.lbl}</div>
+  </div>`;
+}
+const REORDER_ROW = '<div class="reorder-row"><button class="drag-handle" type="button" aria-label="ドラッグで並び替え">⠿</button><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
+
+function morePageCardHTML(p){
+  const visible = p.visible !== false;
+  const hiddenBadge = visible ? "" : `<span class="more-page-hidden-badge">非表示中</span>`;
+  return `<div class="more-page-card" data-url="${escAttr(p.url)}" data-visible="${visible ? "1" : "0"}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <span class="more-page-icon editable" contenteditable="false">${p.icon || "📄"}</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="false">${p.title}</h3>
+      <p class="more-page-desc editable" contenteditable="false">${p.desc}</p>
+      <a class="more-page-link" href="${p.url}">見る ›</a>
+    </div>
+    ${hiddenBadge}
+    ${REORDER_ROW}
+  </div>`;
+}
+
+function detectSnsPlatform(url){
+  if(!url) return null;
+  try{
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    if(host === "x.com" || host === "twitter.com") return { label: "X", icon: "🐦", key: "x" };
+    if(host.endsWith("instagram.com")) return { label: "Instagram", icon: "📷", key: "instagram" };
+    if(host.endsWith("tiktok.com")) return { label: "TikTok", icon: "🎵", key: "tiktok" };
+    if(host.endsWith("youtube.com") || host === "youtu.be") return { label: "YouTube", icon: "▶️", key: "youtube" };
+    if(host.endsWith("threads.net")) return { label: "Threads", icon: "🧵", key: "threads" };
+    if(host.endsWith("line.me")) return { label: "LINE", icon: "💬", key: "line" };
+    if(host.endsWith("facebook.com")) return { label: "Facebook", icon: "📘", key: "facebook" };
+  }catch(e){ /* 不正なURLは無視 */ }
+  return null;
+}
+function officialLinkHTML(l){
+  const detected = detectSnsPlatform(l.url);
+  const label = l.label || (detected ? detected.label : "公式サイト");
+  const platformKey = detected ? detected.key : "default";
+  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="">` : (detected ? detected.icon : "🔗");
+  return `<a class="official-link-item plat-${platformKey}" href="${l.url || '#'}" target="_blank" rel="noopener" data-url="${escAttr(l.url)}" data-icon="${escAttr(l.icon)}" data-label="${escAttr(l.label)}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <span class="official-link-icon">${iconContent}</span>
+    <span class="official-link-label">${label}</span>
+    ${REORDER_ROW}
+  </a>`;
+}
+
+function pickupHTML(p){
+  const body = `<span class="pickup-badge editable" contenteditable="false">${p.badge}</span>
+    <div class="pickup-body">
+      <h3 class="editable" contenteditable="false">${p.title}</h3>
+      <p class="editable" contenteditable="false">${p.desc}</p>
+    </div>`;
+  const inner = p.url
+    ? `<a class="pickup-link" href="${p.url}" target="_blank" rel="noopener">${body}</a>`
+    : `<div class="pickup-link">${body}</div>`;
+  return `<div class="pickup-item" data-url="${p.url || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${inner}
+    ${REORDER_ROW}
+  </div>`;
+}
+function getYouTubeId(url){
+  if(!url) return null;
+  try{
+    const u = new URL(url);
+    if(u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+    if(u.hostname.includes("youtube.com")){
+      if(u.pathname === "/watch") return u.searchParams.get("v");
+      const m = u.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
+      if(m) return m[2];
+    }
+  }catch(e){ /* 不正なURLは無視 */ }
+  return null;
+}
+function recCardHTML(r){
+  const ytId = r.thumb ? null : getYouTubeId(r.url);
+  const bg = r.thumb || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "");
+  const playIcon = r.url ? '<span class="play-badge"><span>▶</span></span>' : "";
+  const thumbHtml = bg
+    ? `<div class="rec-thumb" style="background-image:url('${bg}');background-size:cover;background-position:center;">${playIcon}</div>`
+    : `<div class="rec-thumb">サムネイル画像${playIcon}</div>`;
+  const body = `${thumbHtml}
+    <div class="rec-body">
+      <span class="rec-tag editable" contenteditable="false">${r.tag}</span>
+      <h3 class="editable" contenteditable="false">${r.title}</h3>
+      <p class="editable" contenteditable="false">${r.desc}</p>
+    </div>`;
+  const inner = r.url
+    ? `<a class="rec-card-link" href="${r.url}" target="_blank" rel="noopener">${body}</a>`
+    : `<div class="rec-card-link">${body}</div>`;
+  return `<div class="rec-card" data-url="${r.url || ''}" data-thumb="${r.thumb || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${inner}
+    ${REORDER_ROW}
+  </div>`;
+}
+function carouselBlockHTML(sec){
+  return `<div class="carousel-block" data-sec-id="${sec.id}">
+    <div class="carousel-block-head">
+      <div>
+        <h3 class="editable" contenteditable="false">${sec.title}</h3>
+        <p class="editable carousel-block-desc" contenteditable="false">${sec.desc}</p>
+      </div>
+      <button class="edit-remove sec-remove" aria-label="このセクションを削除">×</button>
+    </div>
+    <div class="tag-filter-row" data-role="tag-filter"></div>
+    <div class="rec-carousel">
+      <button class="rec-nav prev" aria-label="前へ">‹</button>
+      <div class="rec-scroll" data-role="track"></div>
+      <button class="rec-nav next" aria-label="次へ">›</button>
+    </div>
+    <div class="rec-dots" data-role="dots"></div>
+    <div class="add-row"><button class="add-btn" data-role="add-card">＋ コンテンツを追加</button></div>
+    <div class="reorder-row"><button class="drag-handle" type="button" aria-label="ドラッグで並び替え">⠿</button><button class="reorder-btn move-up" type="button">↑ このセクションを上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>
+  </div>`;
+}
+function snsPostHTML(p){
+  const builtinLabels = { x: "X", instagram: "Instagram", tiktok: "TikTok" };
+  const label = p.platform === "other" ? (p.platformLabel || "その他") : (builtinLabels[p.platform] || "X");
+  const avatarStyle = p.avatar ? ` style="background-image:url('${p.avatar}');background-size:cover;background-position:center;"` : "";
+  const body = `<div class="sns-head">
+      <div class="sns-avatar"${avatarStyle}></div>
+      <div class="sns-id">
+        <div class="sns-name editable" contenteditable="false">${p.name}</div>
+        <div class="sns-handle editable" contenteditable="false">${p.handle}</div>
+      </div>
+      <div class="sns-meta">
+        <span class="platform-badge ${p.platform}">${label}</span>
+        <span class="sns-time editable" contenteditable="false">${p.time}</span>
+      </div>
+    </div>
+    <div class="sns-text editable" contenteditable="false">${p.text}</div>${p.url ? '<div class="sns-open-hint">投稿を見る →</div>' : ''}`;
+  const inner = p.url
+    ? `<a class="sns-link" href="${p.url}" target="_blank" rel="noopener">${body}</a>`
+    : `<div class="sns-link">${body}</div>`;
+  const platformLabelAttr = (p.platformLabel || "").replace(/"/g, "&quot;");
+  return `<div class="sns-post" data-platform="${p.platform}" data-platform-label="${platformLabelAttr}" data-url="${p.url || ''}" data-avatar="${p.avatar || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${inner}
+    ${REORDER_ROW}
+  </div>`;
+}
+
+function galleryItemHTML(g){
+  const caption = (g.caption || "").replace(/"/g, "&quot;");
+  const altText = (g.caption || "推しの写真").replace(/"/g, "&quot;");
+  const sourceUrl = (g.sourceUrl || "").replace(/"/g, "&quot;");
+  return `<div class="gallery-item" data-caption="${caption}" data-source="${sourceUrl}" role="button" tabindex="0" aria-label="写真を拡大表示${g.caption ? ":" + caption : ""}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <img src="${g.src}" alt="${altText}">
+    ${g.caption ? '<span class="gallery-caption-dot" aria-hidden="true"></span>' : ''}
+    ${REORDER_ROW}
+  </div>`;
+}
+
+/* ---------- 出演情報:月ごとグループ化のヘルパー ---------- */
+function monthKey(iso){ return iso.slice(0,7); }
+function monthLabel(iso){
+  const d = new Date(iso + "T00:00:00");
+  return `${d.getFullYear()}年${d.getMonth()+1}月`;
+}
+function formatDate(iso){
+  const d = new Date(iso + "T00:00:00");
+  const w = ["日","月","火","水","木","金","土"][d.getDay()];
+  return `${String(d.getMonth()+1).padStart(2,"0")}/${String(d.getDate()).padStart(2,"0")}(${w})`;
+}
+function icsEscape(s){
+  return String(s || "").replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n");
+}
+function downloadIcs(title, desc, dateISO, linkUrl){
+  const dStart = dateISO.replace(/-/g, "");
+  const nextDay = new Date(dateISO + "T00:00:00");
+  nextDay.setDate(nextDay.getDate() + 1);
+  const dEnd = `${nextDay.getFullYear()}${String(nextDay.getMonth()+1).padStart(2,"0")}${String(nextDay.getDate()).padStart(2,"0")}`;
+  const stamp = new Date().toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+  const fullDesc = linkUrl ? [desc, linkUrl].filter(Boolean).join("\n\n") : desc;
+  const ics = [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//oshi-tool//JP","CALSCALE:GREGORIAN",
+    "BEGIN:VEVENT",
+    `UID:evt-${Date.now()}@oshi-tool`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART;VALUE=DATE:${dStart}`,
+    `DTEND;VALUE=DATE:${dEnd}`,
+    `SUMMARY:${icsEscape(title)}`,
+    `DESCRIPTION:${icsEscape(fullDesc)}`,
+    ...(linkUrl ? [`URL:${icsEscape(linkUrl)}`] : []),
+    "END:VEVENT","END:VCALENDAR",
+  ].join("\r\n");
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (title || "schedule").replace(/[\\/:*?"<>|]/g, "") + ".ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+function tlItemHTML(t){
+  const linkBtn = t.url ? `<a class="tl-action-btn tl-open-btn" href="${t.url}" target="_blank" rel="noopener">🔗 リンクを開く</a>` : "";
+  return `<div class="tl-item" data-date="${t.date}" data-url="${t.url || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="tl-date editable" contenteditable="false">${formatDate(t.date)}</div>
+    <h3 class="editable" contenteditable="false">${t.title}</h3>
+    <p class="editable" contenteditable="false">${t.desc || ""}</p>
+    <div class="tl-actions">
+      ${linkBtn}
+      <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
+      <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
+    </div>
+  </div>`;
+}
+function tlGroupHTML(key, label){
+  const isCurrentMonth = (key === monthKey(new Date().toISOString()));
+  return `<div class="tl-group${isCurrentMonth ? "" : " collapsed"}" data-month="${key}">
+    <div class="tl-month-head">
+      <h3 class="tl-month-label editable" contenteditable="false">${label}</h3>
+      <button type="button" class="tl-month-arrow" aria-label="開閉する" aria-expanded="${isCurrentMonth ? "true" : "false"}">▾</button>
+    </div>
+    <div class="timeline"></div>
+  </div>`;
+}
+function sortGroupsInDOM(){
+  const wrap = document.getElementById("tl-groups");
+  const groups = Array.from(wrap.querySelectorAll(".tl-group"));
+  groups.sort((a,b) => a.dataset.month.localeCompare(b.dataset.month));
+  groups.forEach(g => wrap.appendChild(g));
+}
+function sortItemsInGroup(track){
+  const items = Array.from(track.querySelectorAll(".tl-item"));
+  items.sort((a,b) => a.dataset.date.localeCompare(b.dataset.date));
+  items.forEach(it => track.appendChild(it));
+}
+function insertScheduleItem(item){
+  const key = monthKey(item.date);
+  let group = document.querySelector(`.tl-group[data-month="${key}"]`);
+  if(!group){
+    document.getElementById("tl-groups").insertAdjacentHTML("beforeend", tlGroupHTML(key, monthLabel(item.date)));
+    group = document.querySelector(`.tl-group[data-month="${key}"]`);
+    sortGroupsInDOM();
+  }
+  const track = group.querySelector(".timeline");
+  track.insertAdjacentHTML("beforeend", tlItemHTML(item));
+  sortItemsInGroup(track);
+}
+document.getElementById("tl-groups").addEventListener("click", (e) => {
+  const head = e.target.closest(".tl-month-head");
+  if(!head) return;
+  if(document.body.classList.contains("editing") && e.target.closest(".tl-month-label")) return;
+  const group = head.closest(".tl-group");
+  const nowCollapsed = group.classList.toggle("collapsed");
+  const arrow = head.querySelector(".tl-month-arrow");
+  if(arrow) arrow.setAttribute("aria-expanded", nowCollapsed ? "false" : "true");
+});
+
+/* ---------- 初回描画(保存済みファイルを開いた場合はスキップして編集内容を保持) ---------- */
+if(!document.body.dataset.rendered){
+  document.getElementById("nav-brand").textContent = OSHI.navBrand;
+  document.getElementById("hero-name-main").textContent = OSHI.nameMain;
+  document.getElementById("hero-name-accent").textContent = OSHI.nameAccent;
+  document.getElementById("hero-kana").textContent = OSHI.kana;
+  document.getElementById("hero-catch").textContent = OSHI.catch;
+  document.getElementById("hero-stats").innerHTML = OSHI.stats.map(statHTML).join("");
+
+  document.getElementById("pickup-list").innerHTML = OSHI.pickups.map(pickupHTML).join("");
+
+  document.getElementById("carousel-sections").innerHTML = OSHI.carouselSections.map(carouselBlockHTML).join("");
+  OSHI.carouselSections.forEach(sec => {
+    const block = document.querySelector(`.carousel-block[data-sec-id="${sec.id}"]`);
+    block.querySelector('[data-role="track"]').innerHTML = sec.items.map(recCardHTML).join("");
+  });
+
+  OSHI.schedule.forEach(insertScheduleItem);
+
+  document.getElementById("gallery-grid").innerHTML = (OSHI.gallery || []).map(galleryItemHTML).join("");
+
+  document.getElementById("sns-list").innerHTML = OSHI.sns.map(snsPostHTML).join("");
+  document.getElementById("more-pages-grid").innerHTML = (OSHI.morePages || []).map(morePageCardHTML).join("");
+  document.getElementById("official-links-row").innerHTML = (OSHI.officialLinks || []).map(officialLinkHTML).join("");
+  document.getElementById("official-links-heading").textContent = OSHI.officialLinksHeading || "公式リンク";
+  document.getElementById("official-links-desc").textContent = OSHI.officialLinksDesc || "";
+  Object.keys(OSHI.sectionText || {}).forEach(key => {
+    const h = document.getElementById(key + "-heading");
+    const d = document.getElementById(key + "-desc");
+    if(h) h.textContent = OSHI.sectionText[key].heading;
+    if(d) d.textContent = OSHI.sectionText[key].desc;
+  });
+  document.body.dataset.rendered = "true";
+}
+syncOgpTags();
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+/* @EDIT_ONLY_START */
+function watchDirty(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  new MutationObserver((mutations) => {
+    const relevant = mutations.some(m => !(m.type === "attributes" && m.attributeName === "style"));
+    if(relevant) hasUnsavedChanges = true;
+  }).observe(el, { childList: true, subtree: true, characterData: true, attributes: true });
+}
+["nav-brand","hero-name-main","hero-name-accent","hero-kana","hero-catch","hero-stats",
+ "pickup-list","carousel-sections","tl-groups","sns-list","gallery-grid","more-pages-grid","official-links-row","official-links-heading","official-links-desc",
+ "pickup-heading","pickup-desc","recommend-heading","recommend-desc","gallery-heading","gallery-desc",
+ "schedule-heading","schedule-desc","sns-heading","sns-desc","more-pages-heading","more-pages-desc"].forEach(watchDirty);
+window.addEventListener("beforeunload", (e) => {
+  if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = ""; }
+});
+/* @EDIT_ONLY_END */
+
+/* ---------- PWA:Service Worker登録(ホーム画面に追加対応) ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => { /* 未対応環境では無視 */ });
+  });
+}
+
+/* ---------- 初回訪問者向けのハイライト演出 ---------- */
+function hasVisitedBefore(){
+  try{ return localStorage.getItem("oshiToolVisited") === "1"; }catch(e){ return true; /* 判定できない環境では出さない */ }
+}
+function markVisited(){
+  try{ localStorage.setItem("oshiToolVisited", "1"); }catch(e){ /* 無視 */ }
+}
+function triggerFirstVisitHighlight(){
+  if(document.body.classList.contains("editing")) return;
+  const target = document.querySelector("#carousel-sections .carousel-block") || document.getElementById("pickup");
+  if(!target || !target.parentElement) return;
+  const badge = document.createElement("div");
+  badge.className = "first-visit-badge";
+  badge.textContent = "👋 はじめての方はここから見てね";
+  target.parentElement.insertBefore(badge, target);
+  target.classList.add("first-visit-highlight");
+  setTimeout(() => {
+    badge.remove();
+    target.classList.remove("first-visit-highlight");
+  }, 4600);
+}
+if(!hasVisitedBefore()){
+  window.addEventListener("load", () => {
+    triggerFirstVisitHighlight();
+    markVisited();
+  });
+}
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => {
+    btn.classList.toggle("show", window.scrollY > 400);
+  });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
+/* @EDIT_ONLY_START */
+(function initSecretUnlock(){
+  const target = document.getElementById("footer-tap-target");
+  const toolbar = document.querySelector(".edit-toolbar");
+  if(!target || !toolbar) return;
+  let tapCount = 0;
+  let resetTimer = null;
+  target.addEventListener("click", () => {
+    tapCount++;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { tapCount = 0; }, 2000);
+    if(tapCount >= 5){
+      tapCount = 0;
+      toolbar.classList.add("unlocked");
+    }
+  });
+})();
+/* @EDIT_ONLY_END */
+
+/* ---------- コンテンツのタグ絞り込み ---------- */
+function getSectionTags(root){
+  const tags = [];
+  root.querySelectorAll('[data-role="track"] .rec-card .rec-tag').forEach(el => {
+    const t = el.textContent.trim();
+    if(t && !tags.includes(t)) tags.push(t);
+  });
+  return tags;
+}
+function applyTagFilter(root, tag){
+  const wrap = root.querySelector('[data-role="tag-filter"]');
+  if(wrap) wrap.dataset.active = tag;
+  root.querySelectorAll('[data-role="track"] .rec-card').forEach(card => {
+    const cardTag = card.querySelector(".rec-tag")?.textContent.trim() || "";
+    card.style.display = (tag === "all" || cardTag === tag) ? "" : "none";
+  });
+}
+function renderTagFilter(root){
+  const wrap = root.querySelector('[data-role="tag-filter"]');
+  if(!wrap) return;
+  const tags = getSectionTags(root);
+  if(tags.length < 2){
+    wrap.classList.remove("show");
+    wrap.innerHTML = "";
+    applyTagFilter(root, "all");
+    return;
+  }
+  const current = tags.includes(wrap.dataset.active) ? wrap.dataset.active : "all";
+  wrap.classList.add("show");
+  wrap.innerHTML = [`<button type="button" class="tag-filter-btn${current === "all" ? " active" : ""}" data-tag="all">すべて</button>`]
+    .concat(tags.map(t => `<button type="button" class="tag-filter-btn${current === t ? " active" : ""}" data-tag="${escAttr(t)}">${t}</button>`))
+    .join("");
+  applyTagFilter(root, current);
+}
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".tag-filter-btn");
+  if(!btn) return;
+  const root = btn.closest(".carousel-block");
+  if(!root) return;
+  applyTagFilter(root, btn.dataset.tag);
+  root.querySelectorAll(".tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+});
+
+/* ---------- スライダー制御(セクションごとに独立) ---------- */
+function initCarouselFor(root){
+  const track = root.querySelector('[data-role="track"]');
+  const prev = root.querySelector(".rec-nav.prev");
+  const next = root.querySelector(".rec-nav.next");
+  const dotsWrap = root.querySelector('[data-role="dots"]');
+  function step(){
+    const cards = Array.from(track.querySelectorAll(".rec-card"));
+    const card = cards.find(c => c.style.display !== "none");
+    if(!card) return 0;
+    const gap = parseFloat(getComputedStyle(track).gap) || 12;
+    return card.getBoundingClientRect().width + gap;
+  }
+  prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+  next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+  function renderDots(){
+    const count = Array.from(track.querySelectorAll(".rec-card")).filter(c => c.style.display !== "none").length;
+    dotsWrap.innerHTML = Array.from({ length: count }).map((_, i) => `<span class="rec-dot" data-i="${i}"></span>`).join("");
+    updateActiveDot();
+  }
+  function updateActiveDot(){
+    const s = step();
+    const idx = s ? Math.round(track.scrollLeft / s) : 0;
+    dotsWrap.querySelectorAll(".rec-dot").forEach((d, i) => d.classList.toggle("active", i === idx));
+  }
+  track.addEventListener("scroll", () => window.requestAnimationFrame(updateActiveDot));
+  dotsWrap.addEventListener("click", (e) => {
+    if(e.target.classList.contains("rec-dot")){
+      track.scrollTo({ left: (+e.target.dataset.i) * step(), behavior: "smooth" });
+    }
+  });
+  renderTagFilter(root);
+  renderDots();
+  new MutationObserver(() => { renderTagFilter(root); renderDots(); }).observe(track, { childList: true, subtree: true, characterData: true });
+}
+document.querySelectorAll(".carousel-block").forEach(initCarouselFor);
+
+/* ---------- 情報がないセクションの見出しを隠す ---------- */
+function refreshEmptyStates(){
+  const isEditing = document.body.classList.contains("editing");
+  const rules = [
+    { el: document.getElementById("pickup"), empty: document.querySelectorAll("#pickup-list .pickup-item").length === 0 },
+    { el: document.getElementById("recommend"), empty: document.querySelectorAll("#carousel-sections .carousel-block").length === 0 },
+    { el: document.getElementById("schedule"), empty: document.querySelectorAll("#tl-groups .tl-item").length === 0 },
+    { el: document.getElementById("sns"), empty: document.querySelectorAll("#sns-list .sns-post").length === 0 },
+    { el: document.getElementById("gallery"), empty: document.querySelectorAll("#gallery-grid .gallery-item").length === 0 },
+    { el: document.getElementById("more-pages"), empty: document.querySelectorAll("#more-pages-grid .more-page-card").length === 0 },
+    { el: document.getElementById("official-links"), empty: document.querySelectorAll("#official-links-row .official-link-item").length === 0 },
+  ];
+  rules.forEach(r => { r.el.style.display = (r.empty && !isEditing) ? "none" : ""; });
+}
+refreshEmptyStates();
+
+/* ---------- SNSフィルター・出演情報の表示切替・全体検索・もっと見る ---------- */
+let currentSnsFilter = "all";
+let snsShowAll = false;
+let scheduleViewMode = "upcoming";
+let scheduleShowAll = false;
+const SNS_INITIAL_VISIBLE = 6;
+const SCHEDULE_INITIAL_VISIBLE = 6;
+function currentSearchQuery(){
+  const el = document.getElementById("site-search");
+  return el ? el.value.trim().toLowerCase() : "";
+}
+function applySnsVisibility(){
+  const q = currentSearchQuery();
+  const allPosts = Array.from(document.querySelectorAll("#sns-list .sns-post"));
+  const matched = allPosts.filter(post => {
+    const platformOk = (currentSnsFilter === "all" || post.dataset.platform === currentSnsFilter);
+    const searchOk = (!q || post.textContent.toLowerCase().includes(q));
+    return platformOk && searchOk;
+  });
+  const isNarrowed = currentSnsFilter !== "all" || !!q;
+  const limitActive = !snsShowAll && !isNarrowed && matched.length > SNS_INITIAL_VISIBLE;
+  allPosts.forEach(post => { post.style.display = "none"; });
+  matched.forEach((post, i) => {
+    if(limitActive && i >= SNS_INITIAL_VISIBLE) return;
+    post.style.display = "";
+  });
+  const loadMoreBtn = document.getElementById("load-more-sns");
+  if(loadMoreBtn){
+    if(limitActive){
+      loadMoreBtn.style.display = "flex";
+      loadMoreBtn.textContent = `＋ もっと見る(残り${matched.length - SNS_INITIAL_VISIBLE}件)`;
+    } else {
+      loadMoreBtn.style.display = "none";
+    }
+  }
+}
+document.querySelectorAll("#sns-filter .filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#sns-filter .filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentSnsFilter = btn.dataset.filter;
+    snsShowAll = false;
+    applySnsVisibility();
+  });
+});
+document.getElementById("load-more-sns").addEventListener("click", () => { snsShowAll = true; applySnsVisibility(); });
+
+function applyScheduleVisibility(){
+  const q = currentSearchQuery();
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const allItems = Array.from(document.querySelectorAll("#tl-groups .tl-item"));
+  const matched = allItems.filter(item => {
+    const dateOk = scheduleViewMode === "upcoming" ? item.dataset.date >= todayStr : item.dataset.date < todayStr;
+    const searchOk = !q || item.textContent.toLowerCase().includes(q);
+    return dateOk && searchOk;
+  });
+  const isNarrowed = !!q;
+  const limitActive = !scheduleShowAll && !isNarrowed && matched.length > SCHEDULE_INITIAL_VISIBLE;
+  allItems.forEach(item => { item.style.display = "none"; });
+  matched.forEach((item, i) => {
+    if(limitActive && i >= SCHEDULE_INITIAL_VISIBLE) return;
+    item.style.display = "";
+  });
+  document.querySelectorAll(".tl-group").forEach(group => {
+    const anyVisible = Array.from(group.querySelectorAll(".tl-item")).some(it => it.style.display !== "none");
+    group.style.display = anyVisible ? "" : "none";
+  });
+  const noResultsEl = document.getElementById("schedule-no-results");
+  if(noResultsEl) noResultsEl.classList.toggle("show", matched.length === 0 && allItems.length > 0);
+  const loadMoreBtn = document.getElementById("load-more-schedule");
+  if(loadMoreBtn){
+    if(limitActive){
+      loadMoreBtn.style.display = "flex";
+      loadMoreBtn.textContent = `＋ もっと見る(残り${matched.length - SCHEDULE_INITIAL_VISIBLE}件)`;
+    } else {
+      loadMoreBtn.style.display = "none";
+    }
+  }
+}
+document.getElementById("load-more-schedule").addEventListener("click", () => { scheduleShowAll = true; applyScheduleVisibility(); });
+document.getElementById("schedule-view-toggle").addEventListener("click", () => {
+  scheduleViewMode = scheduleViewMode === "upcoming" ? "past" : "upcoming";
+  scheduleShowAll = false;
+  const btn = document.getElementById("schedule-view-toggle");
+  btn.classList.toggle("active", scheduleViewMode === "upcoming");
+  btn.textContent = scheduleViewMode === "upcoming" ? "📅 過去の記録を見る" : "📅 近日の予定に戻す";
+  applyScheduleVisibility();
+});
+
+function applySearch(){
+  const q = currentSearchQuery();
+  const matches = (el) => !q || el.textContent.toLowerCase().includes(q);
+
+  document.querySelectorAll("#carousel-sections .rec-card").forEach(el => {
+    el.style.display = matches(el) ? "" : "none";
+  });
+  document.querySelectorAll("#pickup-list .pickup-item").forEach(el => {
+    el.style.display = matches(el) ? "" : "none";
+  });
+  document.querySelectorAll("#gallery-grid .gallery-item").forEach(el => {
+    const caption = (el.dataset.caption || "").toLowerCase();
+    el.style.display = (!q || caption.includes(q)) ? "" : "none";
+  });
+  scheduleShowAll = false;
+  applyScheduleVisibility();
+  snsShowAll = false;
+  applySnsVisibility();
+}
+document.getElementById("site-search").addEventListener("input", applySearch);
+
+new MutationObserver(applyScheduleVisibility).observe(document.getElementById("tl-groups"), { childList: true, subtree: true, characterData: true });
+new MutationObserver(applySnsVisibility).observe(document.getElementById("sns-list"), { childList: true, subtree: true, characterData: true });
+applyScheduleVisibility();
+applySnsVisibility();
+
+/* 検索バーの開閉(トップナビに集約) */
+document.getElementById("nav-search-toggle").addEventListener("click", () => {
+  const row = document.getElementById("nav-search-row");
+  const opening = !row.classList.contains("open");
+  row.classList.toggle("open", opening);
+  if(opening){ document.getElementById("site-search").focus(); }
+});
+
+
+/* ---------- 編集モード(パスワードで保護) ---------- */
+let editMode = false;
+function setEditable(on){
+  document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; });
+}
+/* @EDIT_ONLY_START */
+const toggleBtn = document.getElementById("toggle-edit");
+const publicHtmlBtn = document.getElementById("generate-public-html");
+const hint = document.getElementById("tb-hint");
+
+function enterEditMode(){
+  editMode = true;
+  setEditable(true);
+  document.body.classList.add("editing");
+  toggleBtn.textContent = "編集を終える";
+  publicHtmlBtn.style.display = "inline-flex";
+  hint.style.display = "inline";
+  document.getElementById("export-data").style.display = "inline-flex";
+  document.getElementById("import-data").style.display = "inline-flex";
+  refreshEmptyStates();
+}
+function exitEditMode(){
+  editMode = false;
+  setEditable(false);
+  document.body.classList.remove("editing");
+  toggleBtn.textContent = "編集する";
+  publicHtmlBtn.style.display = "none";
+  hint.style.display = "none";
+  document.getElementById("export-data").style.display = "none";
+  document.getElementById("import-data").style.display = "none";
+  refreshEmptyStates();
+}
+function requestEditAccess(){
+  if(authenticated){ enterEditMode(); return; }
+  openModal("password");
+}
+toggleBtn.addEventListener("click", () => {
+  if(editMode){ exitEditMode(); } else { requestEditAccess(); }
+});
+
+/* ---------- サムネイル トリミング ---------- */
+let cropState = null;
+function initCropUI(){
+  const fileInput = document.getElementById("f-thumb-file");
+  if(!fileInput) return;
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.getElementById("crop-img");
+      img.onload = () => setupCrop(img);
+      img.src = e.target.result;
+      document.getElementById("crop-wrap").style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function setupCrop(img){
+  const viewport = document.getElementById("crop-viewport");
+  const vw = viewport.clientWidth, vh = viewport.clientHeight;
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  const coverScale = Math.max(vw / iw, vh / ih);
+  cropState = { vw, vh, iw, ih, coverScale, zoom: 1, x: (vw - iw * coverScale) / 2, y: (vh - ih * coverScale) / 2, hasImage: true };
+  document.getElementById("crop-zoom").value = "1";
+  applyCropTransform();
+  bindCropDrag();
+}
+function applyCropTransform(){
+  const img = document.getElementById("crop-img");
+  const s = cropState.coverScale * cropState.zoom;
+  img.style.width = (cropState.iw * s) + "px";
+  img.style.height = (cropState.ih * s) + "px";
+  img.style.transform = `translate(${cropState.x}px, ${cropState.y}px)`;
+}
+function clampCropPosition(){
+  const s = cropState.coverScale * cropState.zoom;
+  const dispW = cropState.iw * s, dispH = cropState.ih * s;
+  const minX = cropState.vw - dispW, minY = cropState.vh - dispH;
+  cropState.x = Math.min(0, Math.max(minX, cropState.x));
+  cropState.y = Math.min(0, Math.max(minY, cropState.y));
+}
+function bindCropDrag(){
+  const viewport = document.getElementById("crop-viewport");
+  let dragging = false, startX = 0, startY = 0, origX = 0, origY = 0;
+  viewport.onpointerdown = (e) => {
+    dragging = true; startX = e.clientX; startY = e.clientY; origX = cropState.x; origY = cropState.y;
+    viewport.setPointerCapture(e.pointerId);
+  };
+  viewport.onpointermove = (e) => {
+    if(!dragging) return;
+    cropState.x = origX + (e.clientX - startX);
+    cropState.y = origY + (e.clientY - startY);
+    clampCropPosition();
+    applyCropTransform();
+  };
+  viewport.onpointerup = () => { dragging = false; };
+  viewport.onpointercancel = () => { dragging = false; };
+  document.getElementById("crop-zoom").oninput = (e) => {
+    cropState.zoom = parseFloat(e.target.value);
+    clampCropPosition();
+    applyCropTransform();
+  };
+}
+function getCroppedDataUrl(outW, outH){
+  outW = outW || 480; outH = outH || 270;
+  if(!cropState || !cropState.hasImage) return "";
+  const img = document.getElementById("crop-img");
+  const canvas = document.createElement("canvas");
+  canvas.width = outW; canvas.height = outH;
+  const ctx = canvas.getContext("2d");
+  const s = cropState.coverScale * cropState.zoom;
+  const ratio = outW / cropState.vw;
+  ctx.drawImage(img, cropState.x * ratio, cropState.y * ratio, cropState.iw * s * ratio, cropState.ih * s * ratio);
+  return canvas.toDataURL("image/jpeg", 0.85);
+}
+
+/* ---------- SNS投稿:前回値の記憶(プラットフォームごと・1人のアイドル専用ページ想定) ---------- */
+let lastSnsByPlatform = {};
+(function initLastSnsDefaults(){
+  document.querySelectorAll("#sns-list .sns-post").forEach(post => {
+    const platform = post.dataset.platform || "x";
+    lastSnsByPlatform[platform] = {
+      name: post.querySelector(".sns-name")?.textContent || "",
+      handle: post.querySelector(".sns-handle")?.textContent || "",
+      avatar: post.dataset.avatar || "",
+    };
+  });
+})();
+function applyLastSnsForPlatform(platform){
+  const last = lastSnsByPlatform[platform];
+  const nameInput = document.getElementById("f-name");
+  const handleInput = document.getElementById("f-handle");
+  const fileInput = document.getElementById("f-avatar-file");
+  if(nameInput) nameInput.value = (last && last.name) || `${OSHI.nameMain}${OSHI.nameAccent}`;
+  if(handleInput) handleInput.value = (last && last.handle) || "";
+  if(fileInput) fileInput.value = "";
+  pendingSnsAvatar = "";
+  modalOriginalAvatar = (last && last.avatar) || "";
+  const preview = document.getElementById("avatar-preview");
+  if(preview) preview.style.backgroundImage = modalOriginalAvatar ? `url('${modalOriginalAvatar}')` : "none";
+}
+
+/* ---------- SNSアイコン画像(自動で正方形にトリミング) ---------- */
+let pendingSnsAvatar = "";
+function initAvatarUpload(){
+  const input = document.getElementById("f-avatar-file");
+  if(!input) return;
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const size = Math.min(img.naturalWidth, img.naturalHeight);
+        const sx = (img.naturalWidth - size) / 2;
+        const sy = (img.naturalHeight - size) / 2;
+        const canvas = document.createElement("canvas");
+        canvas.width = 120; canvas.height = 120;
+        canvas.getContext("2d").drawImage(img, sx, sy, size, size, 0, 0, 120, 120);
+        pendingSnsAvatar = canvas.toDataURL("image/jpeg", 0.85);
+        const preview = document.getElementById("avatar-preview");
+        if(preview) preview.style.backgroundImage = `url('${pendingSnsAvatar}')`;
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+let pendingOfficialLinkIcon = "";
+function initOfficialLinkIconUpload(){
+  const input = document.getElementById("f-icon-file");
+  if(!input) return;
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const size = Math.min(img.naturalWidth, img.naturalHeight);
+        const sx = (img.naturalWidth - size) / 2;
+        const sy = (img.naturalHeight - size) / 2;
+        const canvas = document.createElement("canvas");
+        canvas.width = 120; canvas.height = 120;
+        canvas.getContext("2d").drawImage(img, sx, sy, size, size, 0, 0, 120, 120);
+        pendingOfficialLinkIcon = canvas.toDataURL("image/jpeg", 0.85);
+        const preview = document.getElementById("official-link-icon-preview");
+        if(preview) preview.style.backgroundImage = `url('${pendingOfficialLinkIcon}')`;
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ---------- SNSプラットフォーム選択(ピルボタン) ---------- */
+let pendingSnsPlatform = "x";
+function initPlatformSelect(initial){
+  pendingSnsPlatform = initial || "x";
+  const wrap = document.getElementById("platform-select");
+  if(!wrap) return;
+  const buttons = wrap.querySelectorAll(".plat-btn");
+  const otherLabel = document.getElementById("other-platform-label");
+  const otherInput = document.getElementById("f-platform-other");
+  function refresh(){
+    buttons.forEach(b => b.classList.toggle("active", b.dataset.platform === pendingSnsPlatform));
+    const showOther = pendingSnsPlatform === "other";
+    if(otherLabel) otherLabel.style.display = showOther ? "" : "none";
+    if(otherInput) otherInput.style.display = showOther ? "" : "none";
+  }
+  buttons.forEach(b => b.addEventListener("click", () => {
+    pendingSnsPlatform = b.dataset.platform;
+    refresh();
+    applyLastSnsForPlatform(pendingSnsPlatform);
+  }));
+  refresh();
+}
+
+/* ---------- フォトギャラリー用アップロード(自動リサイズ・圧縮) ---------- */
+let pendingGalleryPhoto = "";
+const GALLERY_MAX_DIMENSION = 1280; // 長辺をこのサイズ以内に自動リサイズ
+const GALLERY_JPEG_QUALITY = 0.82;
+function initGalleryUpload(){
+  const input = document.getElementById("f-photo-file");
+  if(!input) return;
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, GALLERY_MAX_DIMENSION / Math.max(img.naturalWidth, img.naturalHeight));
+        const w = Math.round(img.naturalWidth * scale);
+        const h = Math.round(img.naturalHeight * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        pendingGalleryPhoto = canvas.toDataURL("image/jpeg", GALLERY_JPEG_QUALITY);
+        const preview = document.getElementById("photo-preview");
+        if(preview){ preview.style.backgroundImage = `url('${pendingGalleryPhoto}')`; preview.style.display = "block"; }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* @EDIT_ONLY_END */
+
+/* ---------- テンプレート機能(出演情報・ピックアップ共通) ---------- */
+function escAttr(s){ return String(s || "").replace(/"/g, "&quot;"); }
+/* @EDIT_ONLY_START */
+function loadTemplateStore(key){
+  const el = document.getElementById("templates-data-" + key);
+  if(!el) return [];
+  try{ return JSON.parse(el.textContent || "[]"); }catch(e){ return []; }
+}
+function persistTemplateStore(key){
+  const el = document.getElementById("templates-data-" + key);
+  if(el) el.textContent = JSON.stringify(templateStores[key]);
+  hasUnsavedChanges = true;
+}
+const templateStores = {
+  schedule: loadTemplateStore("schedule"),
+  pickup: loadTemplateStore("pickup"),
+};
+function templateChipHTML(t, idx){
+  return `<span class="template-chip" data-idx="${idx}">${escAttr(t.name)}<span class="template-chip-remove" aria-label="削除">×</span></span>`;
+}
+function renderTemplateChips(key){
+  const wrap = document.getElementById("template-chips");
+  if(!wrap) return;
+  wrap.innerHTML = (templateStores[key] || []).map((t, i) => templateChipHTML(t, i)).join("");
+}
+function initTemplateUI(key, fieldKeys){
+  renderTemplateChips(key);
+  const saveBtn = document.getElementById("save-template");
+  if(saveBtn){
+    saveBtn.addEventListener("click", () => {
+      const primaryEl = document.getElementById("f-" + fieldKeys[0]);
+      const primaryVal = primaryEl ? primaryEl.value.trim() : "";
+      if(!primaryVal){ alert("テンプレートにする内容を入力してから保存してください"); return; }
+      const name = prompt("テンプレート名を入力してください", primaryVal);
+      if(!name) return;
+      const fields = {};
+      fieldKeys.forEach(k => { const el = document.getElementById("f-" + k); fields[k] = el ? el.value.trim() : ""; });
+      templateStores[key].push({ name, fields });
+      persistTemplateStore(key);
+      renderTemplateChips(key);
+    });
+  }
+  const chipsWrap = document.getElementById("template-chips");
+  if(chipsWrap){
+    chipsWrap.addEventListener("click", (e) => {
+      if(e.target.classList.contains("template-chip-remove")){
+        const chip = e.target.closest(".template-chip");
+        const idx = parseInt(chip.dataset.idx, 10);
+        templateStores[key].splice(idx, 1);
+        persistTemplateStore(key);
+        renderTemplateChips(key);
+        return;
+      }
+      const chip = e.target.closest(".template-chip");
+      if(!chip) return;
+      const idx = parseInt(chip.dataset.idx, 10);
+      const t = templateStores[key][idx];
+      if(!t) return;
+      fieldKeys.forEach(k => { const el = document.getElementById("f-" + k); if(el) el.value = (t.fields && t.fields[k]) || ""; });
+    });
+  }
+  if(key === "schedule"){
+    const repeatCheck = document.getElementById("f-repeat");
+    if(repeatCheck){
+      repeatCheck.addEventListener("change", () => {
+        const countInput = document.getElementById("f-repeat-count");
+        if(countInput) countInput.disabled = !repeatCheck.checked;
+      });
+    }
+  }
+}
+function addWeeksToDate(dateISO, weeks){
+  const d = new Date(dateISO + "T00:00:00");
+  d.setDate(d.getDate() + weeks * 7);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/* ---------- 登録用モーダル(コンテンツ追加フォーム) ---------- */
+let modalType = null;
+let modalContext = null;
+let modalEditTarget = null;
+let modalOriginalThumb = "";
+let modalOriginalAvatar = "";
+let modalOriginalPhotoSrc = "";
+let modalOriginalOfficialIcon = "";
+
+function openModal(type, context, prefill){
+  modalType = type;
+  modalContext = context;
+  modalEditTarget = (prefill && prefill.editTarget) || null;
+  modalOriginalThumb = (prefill && prefill.thumb) || "";
+  modalOriginalAvatar = (prefill && prefill.avatar) || "";
+  modalOriginalPhotoSrc = (prefill && prefill.src) || "";
+  modalOriginalOfficialIcon = (prefill && prefill.icon) || "";
+  const titles = { stat:"プロフィール項目を追加", pickup:"お知らせを追加", section:"新しいセクションを追加", card:"コンテンツを追加", sns:"投稿を追加", password:"編集用パスワード", photo:"写真を追加", schedule:"予定を追加", heroPhoto:"プロフィール写真を変更", morePage:"ページを追加", officialLink:"リンクを追加" };
+  document.getElementById("modal-title").textContent = modalEditTarget ? "編集する" : (titles[type] || "追加");
+  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(type);
+  document.getElementById("modal-submit").textContent = type === "password" ? "確認する" : (type === "heroPhoto" ? "設定する" : (modalEditTarget ? "更新する" : "追加する"));
+  document.getElementById("modal-backdrop").classList.add("open");
+  if(type === "card"){ cropState = null; initCropUI(); }
+  if(type === "heroPhoto"){ cropState = null; initCropUI(); }
+  if(type === "sns"){ pendingSnsAvatar = ""; initAvatarUpload(); initPlatformSelect((prefill && prefill.platform) || "x"); }
+  if(type === "photo"){ pendingGalleryPhoto = ""; initGalleryUpload(); }
+  if(type === "pickup"){ initTemplateUI("pickup", ["badge", "title", "desc", "url"]); }
+  if(type === "schedule"){
+    initTemplateUI("schedule", ["title", "desc", "url"]);
+    const repeatRow = document.getElementById("repeat-row");
+    if(repeatRow) repeatRow.style.display = modalEditTarget ? "none" : "";
+  }
+  if(type === "officialLink"){ pendingOfficialLinkIcon = ""; initOfficialLinkIconUpload(); }
+  if(prefill){
+    Object.keys(prefill).forEach(k => {
+      if(k === "editTarget" || k === "thumb" || k === "avatar" || k === "src" || k === "platform" || k === "visible") return;
+      const el = document.getElementById("f-" + k);
+      if(el) el.value = prefill[k];
+    });
+    if(type === "morePage"){
+      const cb = document.getElementById("f-visible");
+      if(cb) cb.checked = prefill.visible !== false;
+    }
+  }
+  if(modalEditTarget && type === "card" && modalOriginalThumb){
+    document.getElementById("modal-fields").insertAdjacentHTML("beforeend", '<div class="qa-label">※現在の画像を保持中です(変更する場合のみアップロードかURLを入力してください)</div>');
+  }
+  if(type === "sns" && modalOriginalAvatar){
+    const preview = document.getElementById("avatar-preview");
+    if(preview) preview.style.backgroundImage = `url('${modalOriginalAvatar}')`;
+  }
+  if(modalEditTarget && type === "photo" && modalOriginalPhotoSrc){
+    const preview = document.getElementById("photo-preview");
+    if(preview){ preview.style.backgroundImage = `url('${modalOriginalPhotoSrc}')`; preview.style.display = "block"; }
+  }
+  if(type === "officialLink" && prefill && prefill.icon){
+    const preview = document.getElementById("official-link-icon-preview");
+    if(preview) preview.style.backgroundImage = `url('${prefill.icon}')`;
+  }
+  const firstInput = document.querySelector("#modal-fields .qa-input");
+  if(firstInput) firstInput.focus();
+}
+function closeModal(){
+  document.getElementById("modal-backdrop").classList.remove("open");
+  modalType = null;
+  modalContext = null;
+  modalEditTarget = null;
+}
+function modalFieldsHTML(type){
+  if(type === "password") return `
+    <div class="qa-label">編集用パスワード</div><input class="qa-input" type="password" id="f-password" placeholder="パスワードを入力">`;
+  if(type === "stat") return `
+    <div class="qa-label">数値・見出し</div><input class="qa-input" id="f-num" placeholder="例:3期生">
+    <div class="qa-label">項目名</div><input class="qa-input" id="f-lbl" placeholder="例:所属">`;
+  if(type === "pickup") return `
+    <div class="qa-label">よく使うテンプレート(タップで下欄に反映)</div>
+    <div class="template-row" id="template-chips"></div>
+    <button class="template-save-btn" id="save-template" type="button">＋ 今の内容をテンプレートに保存</button>
+    <div class="qa-label">バッジ文言</div><input class="qa-input" id="f-badge" value="NEW">
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-title" placeholder="例:特典会チケット販売開始!">
+    <div class="qa-label">詳細</div><input class="qa-input" id="f-desc" placeholder="例:9/10(木)12:00〜先着販売">
+    <div class="qa-label">リンクURL(任意・タップで遷移)</div><input class="qa-input" id="f-url" placeholder="https://...">`;
+  if(type === "schedule") return `
+    <div class="qa-label">よく使うテンプレート(タップで下欄に反映)</div>
+    <div class="template-row" id="template-chips"></div>
+    <button class="template-save-btn" id="save-template" type="button">＋ 今の内容をテンプレートに保存</button>
+    <div class="qa-label">日付</div><input type="date" class="qa-input" id="f-date">
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-title" placeholder="例:定期配信「ひなたぼっこ」">
+    <div class="qa-label">詳細(任意)</div><input class="qa-input" id="f-desc" placeholder="例:20:00〜 リクエストコーナーあり">
+    <div class="qa-label">リンクURL(任意・タップで遷移)</div><input class="qa-input" id="f-url" placeholder="例:申し込みページのURL">
+    <div class="repeat-row" id="repeat-row">
+      <label class="repeat-check"><input type="checkbox" id="f-repeat"> 毎週繰り返す</label>
+      <input type="number" id="f-repeat-count" class="qa-input repeat-count" min="2" max="52" value="8" disabled>
+      <span class="repeat-suffix">回ぶん追加</span>
+    </div>`;
+  if(type === "section") return `
+    <div class="qa-label">セクションタイトル</div><input class="qa-input" id="f-title" placeholder="例:ライブ映像まとめ">
+    <div class="qa-label">説明文</div><input class="qa-input" id="f-desc" placeholder="例:過去のライブ映像を集めました">`;
+  if(type === "card") return `
+    <div class="qa-label">タグ</div><input class="qa-input" id="f-tag" placeholder="例:まず1曲">
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-title" placeholder="例:「Sparkle Line」MV">
+    <div class="qa-label">説明文</div><input class="qa-input" id="f-desc" placeholder="例:初表題センター曲">
+    <div class="qa-label">リンクURL(任意・YouTubeなど。タップで開けます)</div><input class="qa-input" id="f-url" placeholder="https://youtube.com/watch?v=...">
+    <div class="qa-label">サムネイル画像をアップロード(任意)</div>
+    <input type="file" accept="image/*" class="qa-input" id="f-thumb-file">
+    <div class="crop-wrap" id="crop-wrap">
+      <div class="crop-viewport" id="crop-viewport"><img id="crop-img" draggable="false"></div>
+      <input type="range" id="crop-zoom" min="1" max="3" step="0.01" value="1">
+      <div class="crop-hint">ドラッグで位置調整、スライダーで拡大縮小してトリミングできます</div>
+    </div>
+    <div class="qa-divider">または</div>
+    <div class="qa-label">サムネイル画像URL(任意・空欄ならYouTubeサムネを自動取得)</div><input class="qa-input" id="f-thumb" placeholder="https://...">`;
+  if(type === "heroPhoto") return `
+    <div class="qa-label">プロフィール写真をアップロード</div>
+    <input type="file" accept="image/*" class="qa-input" id="f-thumb-file">
+    <div class="crop-wrap" id="crop-wrap">
+      <div class="crop-viewport square" id="crop-viewport"><img id="crop-img" draggable="false"></div>
+      <input type="range" id="crop-zoom" min="1" max="3" step="0.01" value="1">
+      <div class="crop-hint">ドラッグで位置調整、スライダーで拡大縮小してトリミングできます</div>
+    </div>`;
+  if(type === "sns") return `
+    <div class="qa-label">プラットフォーム</div>
+    <div class="platform-select" id="platform-select">
+      <button type="button" class="plat-btn" data-platform="x">X</button>
+      <button type="button" class="plat-btn" data-platform="instagram">Instagram</button>
+      <button type="button" class="plat-btn" data-platform="tiktok">TikTok</button>
+      <button type="button" class="plat-btn" data-platform="other">その他</button>
+    </div>
+    <div class="qa-label" id="other-platform-label" style="display:none;">プラットフォーム名(自由入力)</div>
+    <input class="qa-input" id="f-platform-other" style="display:none;" placeholder="例:ブログ、公式サイトなど">
+    <div class="qa-label">名前</div><input class="qa-input" id="f-name" placeholder="例:${OSHI.nameMain}${OSHI.nameAccent}">
+    <div class="qa-label">ハンドル名</div><input class="qa-input" id="f-handle" placeholder="例:@hinata_official">
+    <div class="qa-label">投稿時間</div><input class="qa-input" id="f-time" placeholder="例:3時間前">
+    <div class="qa-label">投稿内容</div><input class="qa-input" id="f-text" placeholder="投稿本文を入力">
+    <div class="qa-label">リンクURL(任意・タップでその投稿を開く)</div><input class="qa-input" id="f-url" placeholder="https://...">
+    <div class="qa-label">アイコン画像(任意・前回設定した画像を引き継ぎます)</div>
+    <input type="file" accept="image/*" class="qa-input" id="f-avatar-file">
+    <div class="avatar-preview" id="avatar-preview"></div>`;
+  if(type === "photo") return `
+    <div class="qa-label">写真をアップロード</div>
+    <input type="file" accept="image/*" class="qa-input" id="f-photo-file">
+    <div class="photo-preview" id="photo-preview" style="display:none;"></div>
+    <div class="qa-label">キャプション(任意)</div><input class="qa-input" id="f-caption" placeholder="例:リハーサル中の一枚">
+    <div class="qa-label">出典URL(任意・SNS投稿など元の投稿へのリンク)</div><input class="qa-input" id="f-sourceUrl" placeholder="https://...">`;
+  if(type === "morePage") return `
+    <div class="qa-label">アイコン(絵文字)</div><input class="qa-input" id="f-icon" placeholder="例:📄">
+    <div class="qa-label">ページ名</div><input class="qa-input" id="f-title" placeholder="例:豆知識・エピソード集">
+    <div class="qa-label">説明文</div><input class="qa-input" id="f-desc" placeholder="例:知って楽しい豆知識をまとめました">
+    <div class="qa-label">リンク先URL</div><input class="qa-input" id="f-url" placeholder="例:wiki.html">
+    <div class="qa-label">表示設定</div>
+    <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);"><input type="checkbox" id="f-visible" style="width:18px; height:18px;" checked> このカードを表示する</label>`;
+  if(type === "officialLink") return `
+    <div class="qa-label">リンクURL</div><input class="qa-input" id="f-url" placeholder="https://...">
+    <div class="qa-label">表示名(任意・空欄ならURLから主要SNSを自動判定)</div><input class="qa-input" id="f-label" placeholder="例:グループ公式サイト">
+    <div class="qa-label">アイコン画像(任意・設定すると絵文字の代わりに表示)</div>
+    <input type="file" accept="image/*" class="qa-input" id="f-icon-file">
+    <div class="avatar-preview" id="official-link-icon-preview"></div>`;
+  return "";
+}
+function val(id, fallback){
+  const el = document.getElementById(id);
+  const v = el ? el.value.trim() : "";
+  return v || fallback;
+}
+
+document.getElementById("modal-cancel").addEventListener("click", closeModal);
+document.getElementById("modal-backdrop").addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closeModal(); });
+
+document.getElementById("modal-submit").addEventListener("click", () => {
+  if(modalType === "password"){
+    const pw = val("f-password", "");
+    sha256Hex(pw).then(hash => {
+      if(hash !== EDIT_PASSWORD_HASH){ alert("パスワードが違います"); return; }
+      authenticated = true;
+      closeModal();
+      enterEditMode();
+    }).catch(() => {
+      alert("この環境ではパスワード確認に必要な機能が使えません。実際に公開したURL(https)で開いてお試しください。");
+    });
+    return;
+  }
+  if(modalType === "stat"){
+    document.getElementById("hero-stats").insertAdjacentHTML("beforeend", statHTML({ num: val("f-num","数値"), lbl: val("f-lbl","項目名") }));
+  } else if(modalType === "pickup"){
+    const html = pickupHTML({ badge: val("f-badge","NEW"), title: val("f-title","お知らせタイトル"), desc: val("f-desc",""), url: val("f-url","") });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { document.getElementById("pickup-list").insertAdjacentHTML("beforeend", html); }
+  } else if(modalType === "section"){
+    const sec = { id: "sec" + Date.now(), title: val("f-title","新しいセクション"), desc: val("f-desc",""), items: [{ tag:"タグ", title:"タイトルを入力", desc:"説明文を入力" }] };
+    document.getElementById("carousel-sections").insertAdjacentHTML("beforeend", carouselBlockHTML(sec));
+    const block = document.querySelector(`.carousel-block[data-sec-id="${sec.id}"]`);
+    block.querySelector('[data-role="track"]').innerHTML = sec.items.map(recCardHTML).join("");
+    initCarouselFor(block);
+  } else if(modalType === "card" && (modalContext || modalEditTarget)){
+    const thumb = (cropState && cropState.hasImage) ? getCroppedDataUrl() : (val("f-thumb","") || (modalEditTarget ? modalOriginalThumb : ""));
+    const html = recCardHTML({ tag: val("f-tag","タグ"), title: val("f-title","タイトル"), desc: val("f-desc",""), url: val("f-url",""), thumb });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { modalContext.insertAdjacentHTML("beforeend", html); }
+  } else if(modalType === "sns"){
+    const avatar = pendingSnsAvatar || modalOriginalAvatar || "";
+    const platformLabel = pendingSnsPlatform === "other" ? val("f-platform-other","その他") : "";
+    const p = { platform: pendingSnsPlatform, platformLabel, name: val("f-name","名前"), handle: val("f-handle","@handle"), time: val("f-time","たった今"), text: val("f-text","投稿内容を入力"), url: val("f-url",""), avatar };
+    const html = snsPostHTML(p);
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { document.getElementById("sns-list").insertAdjacentHTML("beforeend", html); }
+    applySnsVisibility();
+    lastSnsByPlatform[p.platform] = { name: p.name, handle: p.handle, avatar: p.avatar };
+  } else if(modalType === "photo"){
+    const src = pendingGalleryPhoto || (modalEditTarget ? modalOriginalPhotoSrc : "");
+    if(!src){ alert("写真を選択してください"); return; }
+    const html = galleryItemHTML({ src, caption: val("f-caption",""), sourceUrl: val("f-sourceUrl","") });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { document.getElementById("gallery-grid").insertAdjacentHTML("beforeend", html); }
+  } else if(modalType === "schedule"){
+    const dateVal = val("f-date", "");
+    if(!dateVal){ document.getElementById("f-date").focus(); return; }
+    const item = { date: dateVal, title: val("f-title","予定タイトル"), desc: val("f-desc",""), url: val("f-url","") };
+    if(modalEditTarget){
+      const parentGroup = modalEditTarget.closest(".tl-group");
+      modalEditTarget.remove();
+      if(parentGroup && !parentGroup.querySelector(".tl-item")) parentGroup.remove();
+      insertScheduleItem(item);
+    } else {
+      const repeatCheck = document.getElementById("f-repeat");
+      if(repeatCheck && repeatCheck.checked){
+        const count = Math.max(2, Math.min(52, parseInt(document.getElementById("f-repeat-count").value, 10) || 2));
+        for(let i = 0; i < count; i++){ insertScheduleItem({ ...item, date: addWeeksToDate(item.date, i) }); }
+      } else {
+        insertScheduleItem(item);
+      }
+    }
+  } else if(modalType === "heroPhoto"){
+    if(!(cropState && cropState.hasImage)){ alert("写真を選択してください"); return; }
+    const dataUrl = getCroppedDataUrl(480, 480);
+    const photoEl = document.getElementById("hero-photo");
+    photoEl.style.backgroundImage = `url('${dataUrl}')`;
+    photoEl.classList.add("has-photo");
+    hasUnsavedChanges = true;
+  } else if(modalType === "morePage"){
+    const visible = document.getElementById("f-visible")?.checked !== false;
+    const html = morePageCardHTML({ icon: val("f-icon","📄"), title: val("f-title","ページ名"), desc: val("f-desc",""), url: val("f-url","#"), visible });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { document.getElementById("more-pages-grid").insertAdjacentHTML("beforeend", html); }
+  } else if(modalType === "officialLink"){
+    const url = val("f-url","");
+    if(!url){ document.getElementById("f-url").focus(); return; }
+    const icon = pendingOfficialLinkIcon || modalOriginalOfficialIcon || "";
+    const html = officialLinkHTML({ url, label: val("f-label",""), icon });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { document.getElementById("official-links-row").insertAdjacentHTML("beforeend", html); }
+  }
+  setEditable(editMode);
+  refreshEmptyStates();
+  closeModal();
+});
+
+/* 各セクションの「＋追加」ボタン → モーダルを開く */
+document.getElementById("add-stat").addEventListener("click", () => openModal("stat"));
+document.getElementById("add-pickup").addEventListener("click", () => openModal("pickup"));
+document.getElementById("add-section").addEventListener("click", () => openModal("section"));
+document.getElementById("add-sns").addEventListener("click", () => {
+  const last = lastSnsByPlatform["x"];
+  openModal("sns", null, {
+    name: (last && last.name) || `${OSHI.nameMain}${OSHI.nameAccent}`,
+    handle: (last && last.handle) || "",
+    avatar: (last && last.avatar) || "",
+  });
+});
+document.getElementById("add-photo").addEventListener("click", () => openModal("photo"));
+document.getElementById("add-official-link").addEventListener("click", () => openModal("officialLink"));
+document.getElementById("add-more-page").addEventListener("click", () => openModal("morePage"));
+/* @EDIT_ONLY_END */
+
+/* ---------- フォトギャラリー:ライトボックス ---------- */
+let lightboxIndex = 0;
+function openLightbox(idx){
+  const items = document.querySelectorAll("#gallery-grid .gallery-item");
+  if(!items.length) return;
+  lightboxIndex = ((idx % items.length) + items.length) % items.length;
+  const item = items[lightboxIndex];
+  const srcImg = item.querySelector("img");
+  const src = srcImg.src;
+  const altText = srcImg.alt || "推しの写真";
+  const img = document.getElementById("lightbox-img");
+  img.classList.remove("show");
+  const wasOpen = document.getElementById("lightbox").classList.contains("open");
+  const swap = () => {
+    img.src = src;
+    img.alt = altText;
+    document.getElementById("lightbox-bg").style.backgroundImage = `url('${src}')`;
+    document.getElementById("lightbox-caption").textContent = item.dataset.caption || "";
+    document.getElementById("lightbox-counter").textContent = `${lightboxIndex + 1} / ${items.length}`;
+    const sourceLink = document.getElementById("lightbox-source-link");
+    const sourceUrl = item.dataset.source || "";
+    sourceLink.href = sourceUrl || "#";
+    sourceLink.classList.toggle("show", !!sourceUrl);
+    requestAnimationFrame(() => img.classList.add("show"));
+  };
+  swap();
+  if(!wasOpen){
+    document.getElementById("lightbox").classList.add("open");
+    document.getElementById("lightbox-close").focus();
+  }
+}
+function closeLightbox(){ document.getElementById("lightbox").classList.remove("open"); }
+
+document.getElementById("gallery-grid").addEventListener("click", (e) => {
+  if(e.target.closest(".edit-remove, .edit-edit, .reorder-btn, .drag-handle")) return;
+  const item = e.target.closest(".gallery-item");
+  if(!item) return;
+  const items = Array.from(document.querySelectorAll("#gallery-grid .gallery-item"));
+  openLightbox(items.indexOf(item));
+});
+document.getElementById("gallery-grid").addEventListener("keydown", (e) => {
+  if(e.key !== "Enter" && e.key !== " ") return;
+  if(e.target.closest(".edit-remove, .edit-edit, .reorder-btn, .drag-handle")) return;
+  const item = e.target.closest(".gallery-item");
+  if(!item) return;
+  e.preventDefault();
+  const items = Array.from(document.querySelectorAll("#gallery-grid .gallery-item"));
+  openLightbox(items.indexOf(item));
+});
+document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+document.getElementById("lightbox-prev").addEventListener("click", () => openLightbox(lightboxIndex - 1));
+document.getElementById("lightbox-next").addEventListener("click", () => openLightbox(lightboxIndex + 1));
+document.getElementById("lightbox").addEventListener("click", (e) => { if(e.target.id === "lightbox") closeLightbox(); });
+
+/* キーボード操作(← → Esc) */
+document.addEventListener("keydown", (e) => {
+  if(document.getElementById("lightbox").classList.contains("open")){
+    if(e.key === "Escape") closeLightbox();
+    if(e.key === "ArrowLeft") openLightbox(lightboxIndex - 1);
+    if(e.key === "ArrowRight") openLightbox(lightboxIndex + 1);
+    return;
+  }
+  if(e.key === "Escape" && document.getElementById("modal-backdrop").classList.contains("open")){
+    closeModal();
+  }
+});
+
+/* スワイプ操作(タッチ) */
+(function enableLightboxSwipe(){
+  const stage = document.getElementById("lightbox-stage");
+  let startX = 0, startY = 0, tracking = false;
+  stage.addEventListener("pointerdown", (e) => { tracking = true; startX = e.clientX; startY = e.clientY; });
+  stage.addEventListener("pointerup", (e) => {
+    if(!tracking) return;
+    tracking = false;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+      openLightbox(dx < 0 ? lightboxIndex + 1 : lightboxIndex - 1);
+    }
+  });
+  stage.addEventListener("pointercancel", () => { tracking = false; });
+})();
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const name = (document.getElementById("hero-name-main").textContent + document.getElementById("hero-name-accent").textContent).trim();
+  const catchText = document.getElementById("hero-catch").textContent.trim();
+  const shareText = catchText ? `${name}｜${catchText}` : `${name}を応援しよう!`;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{
+      await navigator.share({ title: name, text: shareText, url: shareUrl });
+      return;
+    }catch(e){
+      if(e && e.name === "AbortError") return; // ユーザーがキャンセルした場合は何もしない
+    }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* 編集モード中は、リンク化されたカードをタップしても遷移させず編集を優先 */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.rec-card-link, a.pickup-link, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
+  if(link) e.preventDefault();
+});
+
+/* カレンダーに追加ボタン(閲覧者も使う機能) */
+document.addEventListener("click", (e) => {
+  const calBtn = e.target.closest(".cal-btn");
+  if(!calBtn) return;
+  const item = calBtn.closest(".tl-item");
+  if(!item) return;
+  const title = item.querySelector("h3")?.textContent || "予定";
+  const descEl = item.querySelector("p");
+  const desc = descEl ? descEl.textContent : "";
+  downloadIcs(title, desc, item.dataset.date, item.dataset.url || "");
+});
+
+/* 複製ボタン(編集専用) */
+/* @EDIT_ONLY_START */
+document.addEventListener("click", (e) => {
+  const dupBtn = e.target.closest(".dup-btn");
+  if(!dupBtn) return;
+  const item = dupBtn.closest(".tl-item");
+  if(item){
+    const descEl = item.querySelector("p");
+    openModal("schedule", null, {
+      title: item.querySelector("h3")?.textContent || "",
+      desc: descEl ? descEl.textContent : "",
+      url: item.dataset.url || "",
+    });
+  }
+});
+/* @EDIT_ONLY_END */
+
+/* コンテンツの並び替え(↑↓ボタン) */
+/* @EDIT_ONLY_START */
+document.addEventListener("click", (e) => {
+  const upBtn = e.target.closest(".move-up");
+  const downBtn = e.target.closest(".move-down");
+  if(!upBtn && !downBtn) return;
+  const card = e.target.closest(".rec-card, .pickup-item, .sns-post, .gallery-item, .carousel-block, .more-page-card, .official-link-item");
+  if(!card || !card.parentElement) return;
+  if(upBtn && card.previousElementSibling){
+    card.parentElement.insertBefore(card, card.previousElementSibling);
+  }
+  if(downBtn && card.nextElementSibling){
+    card.parentElement.insertBefore(card.nextElementSibling, card);
+  }
+  hasUnsavedChanges = true;
+});
+
+/* コンテンツの並び替え(ドラッグ操作・マウス/タッチ両対応) */
+(function enableDragReorder(){
+  let dragEl = null;
+  let dragParent = null;
+  let axis = "y"; // "y":縦並び / "x":横スクロールのカルーセル / "grid":ギャラリーの格子
+
+  document.addEventListener("pointerdown", (e) => {
+    const handle = e.target.closest(".drag-handle");
+    if(!handle || !document.body.classList.contains("editing")) return;
+    dragEl = handle.closest(".rec-card, .pickup-item, .sns-post, .gallery-item, .carousel-block, .more-page-card, .official-link-item");
+    if(!dragEl) return;
+    dragParent = dragEl.parentElement;
+    axis = dragParent.classList.contains("rec-scroll") ? "x" : (dragParent.id === "gallery-grid" ? "grid" : "y");
+    dragEl.classList.add("dragging");
+    try{ handle.setPointerCapture(e.pointerId); }catch(err){ /* 一部環境では未対応 */ }
+    e.preventDefault();
+  });
+
+  document.addEventListener("pointermove", (e) => {
+    if(!dragEl || !dragParent) return;
+    const siblings = Array.from(dragParent.children).filter(c => c !== dragEl);
+    let target = null;
+    for(const sib of siblings){
+      const rect = sib.getBoundingClientRect();
+      const inX = e.clientX > rect.left && e.clientX < rect.right;
+      const inY = e.clientY > rect.top && e.clientY < rect.bottom;
+      if(axis === "x" && inX){ target = sib; break; }
+      if(axis === "grid" && inX && inY){ target = sib; break; }
+      if(axis === "y" && inY){ target = sib; break; }
+    }
+    if(target){
+      const dragRect = dragEl.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const dragIsBefore = axis === "x" ? (dragRect.left < targetRect.left) : (dragRect.top < targetRect.top);
+      if(dragIsBefore){ dragParent.insertBefore(dragEl, target.nextSibling); }
+      else{ dragParent.insertBefore(dragEl, target); }
+    }
+  });
+
+  function endDrag(){
+    if(!dragEl) return;
+    dragEl.classList.remove("dragging");
+    hasUnsavedChanges = true;
+    dragEl = null;
+    dragParent = null;
+  }
+  document.addEventListener("pointerup", endDrag);
+  document.addEventListener("pointercancel", endDrag);
+})();
+
+/* 出演情報:追加ボタン(モーダルを使用) */
+document.getElementById("add-schedule").addEventListener("click", () => openModal("schedule", null));
+document.getElementById("hero-photo-edit").addEventListener("click", () => openModal("heroPhoto"));
+
+/* カード・セクションの削除、コンテンツ追加ボタン(イベント委譲) */
+function openEditModal(card){
+  if(card.classList.contains("rec-card")){
+    openModal("card", null, {
+      editTarget: card,
+      tag: card.querySelector(".rec-tag")?.textContent || "",
+      title: card.querySelector(".rec-body h3")?.textContent || "",
+      desc: card.querySelector(".rec-body p")?.textContent || "",
+      url: card.dataset.url || "",
+      thumb: card.dataset.thumb || "",
+    });
+  } else if(card.classList.contains("pickup-item")){
+    openModal("pickup", null, {
+      editTarget: card,
+      badge: card.querySelector(".pickup-badge")?.textContent || "",
+      title: card.querySelector(".pickup-body h3")?.textContent || "",
+      desc: card.querySelector(".pickup-body p")?.textContent || "",
+      url: card.dataset.url || "",
+    });
+  } else if(card.classList.contains("sns-post")){
+    openModal("sns", null, {
+      editTarget: card,
+      platform: card.dataset.platform || "x",
+      "platform-other": card.dataset.platformLabel || "",
+      url: card.dataset.url || "",
+      name: card.querySelector(".sns-name")?.textContent || "",
+      handle: card.querySelector(".sns-handle")?.textContent || "",
+      time: card.querySelector(".sns-time")?.textContent || "",
+      text: card.querySelector(".sns-text")?.textContent || "",
+      avatar: card.dataset.avatar || "",
+    });
+  } else if(card.classList.contains("gallery-item")){
+    openModal("photo", null, {
+      editTarget: card,
+      caption: card.dataset.caption || "",
+      sourceUrl: card.dataset.source || "",
+      src: card.querySelector("img")?.src || "",
+    });
+  } else if(card.classList.contains("tl-item")){
+    const descEl = card.querySelector("p");
+    openModal("schedule", null, {
+      editTarget: card,
+      date: card.dataset.date || "",
+      title: card.querySelector("h3")?.textContent || "",
+      desc: descEl ? descEl.textContent : "",
+      url: card.dataset.url || "",
+    });
+  } else if(card.classList.contains("more-page-card")){
+    openModal("morePage", null, {
+      editTarget: card,
+      icon: card.querySelector(".more-page-icon")?.textContent || "",
+      title: card.querySelector(".more-page-title")?.textContent || "",
+      desc: card.querySelector(".more-page-desc")?.textContent || "",
+      url: card.dataset.url || "",
+      visible: card.dataset.visible !== "0",
+    });
+  } else if(card.classList.contains("official-link-item")){
+    openModal("officialLink", null, {
+      editTarget: card,
+      url: card.dataset.url || "",
+      label: card.dataset.label || "",
+      icon: card.dataset.icon || "",
+    });
+  }
+}
+document.addEventListener("click", (e) => {
+  if(e.target.closest(".edit-edit")){
+    const btn = e.target.closest(".edit-edit");
+    const card = btn.closest(".rec-card, .pickup-item, .sns-post, .gallery-item, .tl-item, .more-page-card, .official-link-item");
+    if(card) openEditModal(card);
+    return;
+  }
+  if(e.target.classList.contains("sec-remove")){
+    e.target.closest(".carousel-block").remove();
+    refreshEmptyStates();
+    return;
+  }
+  if(e.target.matches('[data-role="add-card"]')){
+    const block = e.target.closest(".carousel-block");
+    openModal("card", block.querySelector('[data-role="track"]'));
+    return;
+  }
+  if(e.target.classList.contains("edit-remove")){
+    const card = e.target.closest(".rec-card, .tl-item, .sns-post, .stat-item, .pickup-item, .gallery-item, .more-page-card, .official-link-item");
+    if(card){
+      const parentGroup = card.closest(".tl-group");
+      card.remove();
+      if(parentGroup && !parentGroup.querySelector(".tl-item")) parentGroup.remove();
+      refreshEmptyStates();
+    }
+  }
+});
+/* @EDIT_ONLY_END */
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+/* @EDIT_ONLY_START */
+function extractSiteData(){
+  const cleanDesc = (text) => text || "";
+  const heroPhotoEl = document.getElementById("hero-photo");
+  const heroPhotoMatch = (heroPhotoEl.style.backgroundImage || "").match(/url\(["']?(.+?)["']?\)$/);
+  return {
+    nameMain: document.getElementById("hero-name-main").textContent,
+    nameAccent: document.getElementById("hero-name-accent").textContent,
+    kana: document.getElementById("hero-kana").textContent,
+    badge: document.getElementById("hero-badge")?.textContent || "",
+    catch: document.getElementById("hero-catch").textContent,
+    navBrand: document.getElementById("nav-brand").textContent,
+    heroPhoto: heroPhotoMatch ? heroPhotoMatch[1] : "",
+    stats: Array.from(document.querySelectorAll("#hero-stats .stat-item")).map(el => ({
+      num: el.querySelector(".num")?.textContent || "",
+      lbl: el.querySelector(".lbl")?.textContent || "",
+    })),
+    pickups: Array.from(document.querySelectorAll("#pickup-list .pickup-item")).map(el => ({
+      badge: el.querySelector(".pickup-badge")?.textContent || "",
+      title: el.querySelector(".pickup-body h3")?.textContent || "",
+      desc: el.querySelector(".pickup-body p")?.textContent || "",
+      url: el.dataset.url || "",
+    })),
+    carouselSections: Array.from(document.querySelectorAll("#carousel-sections .carousel-block")).map(block => ({
+      id: block.dataset.secId || ("sec" + Date.now() + Math.random().toString(16).slice(2)),
+      title: block.querySelector(".carousel-block-head h3")?.textContent || "",
+      desc: block.querySelector(".carousel-block-desc")?.textContent || "",
+      items: Array.from(block.querySelectorAll('[data-role="track"] .rec-card')).map(card => ({
+        tag: card.querySelector(".rec-tag")?.textContent || "",
+        title: card.querySelector(".rec-body h3")?.textContent || "",
+        desc: card.querySelector(".rec-body p")?.textContent || "",
+        url: card.dataset.url || "",
+        thumb: card.dataset.thumb || "",
+      })),
+    })),
+    schedule: Array.from(document.querySelectorAll("#tl-groups .tl-item")).map(item => ({
+      date: item.dataset.date || "",
+      title: item.querySelector("h3")?.textContent || "",
+      desc: cleanDesc(item.querySelector("p")?.textContent),
+      url: item.dataset.url || "",
+    })),
+    sns: Array.from(document.querySelectorAll("#sns-list .sns-post")).map(post => ({
+      platform: post.dataset.platform || "x",
+      platformLabel: post.dataset.platformLabel || "",
+      name: post.querySelector(".sns-name")?.textContent || "",
+      handle: post.querySelector(".sns-handle")?.textContent || "",
+      time: post.querySelector(".sns-time")?.textContent || "",
+      text: post.querySelector(".sns-text")?.textContent || "",
+      url: post.dataset.url || "",
+      avatar: post.dataset.avatar || "",
+    })),
+    gallery: Array.from(document.querySelectorAll("#gallery-grid .gallery-item")).map(el => ({
+      src: el.querySelector("img")?.src || "",
+      caption: el.dataset.caption || "",
+      sourceUrl: el.dataset.source || "",
+    })),
+    morePages: Array.from(document.querySelectorAll("#more-pages-grid .more-page-card")).map(el => ({
+      icon: el.querySelector(".more-page-icon")?.textContent || "",
+      title: el.querySelector(".more-page-title")?.textContent || "",
+      desc: el.querySelector(".more-page-desc")?.textContent || "",
+      url: el.dataset.url || "",
+      visible: el.dataset.visible !== "0",
+    })),
+    officialLinks: Array.from(document.querySelectorAll("#official-links-row .official-link-item")).map(el => ({
+      url: el.dataset.url || "",
+      label: el.dataset.label || "",
+      icon: el.dataset.icon || "",
+    })),
+    officialLinksHeading: document.getElementById("official-links-heading").textContent,
+    officialLinksDesc: document.getElementById("official-links-desc").textContent,
+    sectionText: Object.fromEntries(["pickup","recommend","gallery","schedule","sns","more-pages"].map(key => [
+      key,
+      {
+        heading: document.getElementById(key + "-heading")?.textContent || "",
+        desc: document.getElementById(key + "-desc")?.textContent || "",
+      },
+    ])),
+  };
+}
+/* @EDIT_ONLY_END */
+
+function rebuildFromData(data){
+  if(data.nameMain !== undefined) document.getElementById("hero-name-main").textContent = data.nameMain;
+  if(data.nameAccent !== undefined) document.getElementById("hero-name-accent").textContent = data.nameAccent;
+  if(data.kana !== undefined) document.getElementById("hero-kana").textContent = data.kana;
+  if(data.catch !== undefined) document.getElementById("hero-catch").textContent = data.catch;
+  if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
+  if(data.heroPhoto){
+    const photoEl = document.getElementById("hero-photo");
+    photoEl.style.backgroundImage = `url('${data.heroPhoto}')`;
+    photoEl.classList.add("has-photo");
+  }
+
+  if(data.stats) document.getElementById("hero-stats").innerHTML = data.stats.map(statHTML).join("");
+  if(data.pickups) document.getElementById("pickup-list").innerHTML = data.pickups.map(pickupHTML).join("");
+
+  if(data.carouselSections){
+    document.getElementById("carousel-sections").innerHTML = data.carouselSections.map(carouselBlockHTML).join("");
+    data.carouselSections.forEach(sec => {
+      const block = document.querySelector(`.carousel-block[data-sec-id="${sec.id}"]`);
+      if(block) block.querySelector('[data-role="track"]').innerHTML = (sec.items || []).map(recCardHTML).join("");
+    });
+    document.querySelectorAll(".carousel-block").forEach(initCarouselFor);
+  }
+
+  if(data.schedule){
+    document.getElementById("tl-groups").innerHTML = "";
+    data.schedule.forEach(insertScheduleItem);
+  }
+  scheduleShowAll = false;
+
+  if(data.sns) document.getElementById("sns-list").innerHTML = data.sns.map(snsPostHTML).join("");
+  snsShowAll = false;
+  if(data.gallery) document.getElementById("gallery-grid").innerHTML = data.gallery.map(galleryItemHTML).join("");
+  if(data.morePages) document.getElementById("more-pages-grid").innerHTML = data.morePages.map(morePageCardHTML).join("");
+  if(data.officialLinks) document.getElementById("official-links-row").innerHTML = data.officialLinks.map(officialLinkHTML).join("");
+  if(data.officialLinksHeading !== undefined) document.getElementById("official-links-heading").textContent = data.officialLinksHeading;
+  if(data.officialLinksDesc !== undefined) document.getElementById("official-links-desc").textContent = data.officialLinksDesc;
+  if(data.sectionText){
+    Object.keys(data.sectionText).forEach(key => {
+      const h = document.getElementById(key + "-heading");
+      const d = document.getElementById(key + "-desc");
+      if(h) h.textContent = data.sectionText[key].heading;
+      if(d) d.textContent = data.sectionText[key].desc;
+    });
+  }
+
+  setEditable(editMode);
+  applySnsVisibility();
+  refreshEmptyStates();
+  syncOgpTags();
+  hasUnsavedChanges = true;
+}
+
+/* @EDIT_ONLY_START */
+document.getElementById("export-data").addEventListener("click", () => {
+  const json = JSON.stringify(extractSiteData(), null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "oshi-tool-data.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  hasUnsavedChanges = false;
+});
+
+document.getElementById("import-data").addEventListener("click", () => {
+  document.getElementById("import-file-input").click();
+});
+document.getElementById("import-file-input").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if(!file) return;
+  if(!confirm("現在の内容を、選んだファイルの内容で上書きします。よろしいですか?")) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try{
+      const data = JSON.parse(ev.target.result);
+      rebuildFromData(data);
+      alert("データを読み込みました。内容を確認して「🌐 公開用HTMLを書き出す」または「📤 データを書き出し」をご利用ください。");
+    }catch(err){
+      alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
+    }
+  };
+  reader.readAsText(file);
+});
+/* @EDIT_ONLY_END */
+
+/* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
+/* @EDIT_ONLY_START */
+function generatePublicHtml(){
+  document.querySelectorAll(".carousel-block").forEach(block => applyTagFilter(block, "all"));
+  document.querySelectorAll('[data-role="tag-filter"]').forEach(w => {
+    w.querySelectorAll(".tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.tag === "all"));
+  });
+  const clone = document.documentElement.cloneNode(true);
+  clone.querySelectorAll(".edit-toolbar, #modal-backdrop, .edit-edit, .edit-remove, .add-row, .reorder-row").forEach(el => el.remove());
+  const cloneBody = clone.querySelector("body");
+  if(cloneBody) cloneBody.classList.remove("editing");
+  const scripts = clone.querySelectorAll("script");
+  const mainScript = scripts[scripts.length - 1];
+  if(mainScript){
+    mainScript.textContent = mainScript.textContent.replace(/\/\* @EDIT_ONLY_START \*\/[\s\S]*?\/\* @EDIT_ONLY_END \*\//g, "");
+  }
+  const htmlOut = "<!DOCTYPE html>\n" + clone.outerHTML;
+  const blob = new Blob([htmlOut], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "oshi-tool-public.html";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+publicHtmlBtn.addEventListener("click", generatePublicHtml);
+/* @EDIT_ONLY_END */
+
+/* ---------- タップ数の計測(GA4イベント) ---------- */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(link.closest(".edit-toolbar, .modal")) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* ---------- 同じ場所にある oshi-tool-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  try{
+    const res = await fetch("oshi-tool-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildFromData(data);
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }
+})();
+
+</script>
+
+</body>
+</html>

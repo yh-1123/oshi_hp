@@ -1,0 +1,108 @@
+{
+  "navBrand": "ゆかりの場所まとめ",
+  "eyebrow": "聖地巡礼・お店・旅行先",
+  "title": "推しゆかりの場所まとめ",
+  "desc": "配信やSNSで紹介していたお店や、旅行・撮影で訪れた場所をまとめています。巡礼の参考にどうぞ。",
+  "items": [
+    {
+      "name": "パン工房KOKO",
+      "categories": [
+        "ご飯屋"
+      ],
+      "area": "三重県桑名市",
+      "visitPeriod": "",
+      "source": "",
+      "body": "",
+      "recommend": "",
+      "url": "",
+      "snsUrl": "",
+      "snsLabel": "",
+      "snsIcon": "",
+      "status": "",
+      "photos": [],
+      "addedAt": "",
+      "order": "0",
+      "related": ""
+    },
+    {
+      "name": "氷匠よこ田 栄店",
+      "categories": [
+        "ご飯屋"
+      ],
+      "area": "愛知県名古屋市栄区",
+      "visitPeriod": "",
+      "source": "",
+      "body": "",
+      "recommend": "",
+      "url": "",
+      "snsUrl": "https://www.instagram.com/p/DbiMm3ej0oZ/?igsi=MXd6Z25scXEycGxzag==",
+      "snsLabel": "",
+      "snsIcon": "",
+      "status": "",
+      "photos": [],
+      "addedAt": "",
+      "order": "1",
+      "related": ""
+    },
+    {
+      "name": "東尋坊",
+      "categories": [
+        "聖地巡礼"
+      ],
+      "area": "福井県坂井市",
+      "visitPeriod": "",
+      "source": "SNSにて",
+      "body": "同期の杉本りいなちゃんとの旅行で訪れる。",
+      "recommend": "",
+      "url": "",
+      "snsUrl": "https://www.instagram.com/p/DcQy4JEj5u5/?img_index=1&igsi=MTl4aGZ2NnFuNGxjOA==",
+      "snsLabel": "",
+      "snsIcon": "",
+      "status": "",
+      "photos": [],
+      "addedAt": "2026-09-04",
+      "order": "2",
+      "related": ""
+    },
+    {
+      "name": "博物館 明治村",
+      "categories": [
+        "聖地巡礼"
+      ],
+      "area": "愛知県犬山市",
+      "visitPeriod": "",
+      "source": "",
+      "body": "TeamS新公演のタイトルにもなっている「ずっと君を探している」MV撮影で訪れる。",
+      "recommend": "挽肉コロッケを食べたとのこと",
+      "url": "なし",
+      "snsUrl": "https://www.instagram.com/p/DXgx1UWjzp9/?img_index=2&igsi=Mm91OXR2Y2lhd2Fz",
+      "snsLabel": "",
+      "snsIcon": "",
+      "status": "",
+      "photos": [],
+      "addedAt": "2026-09-04",
+      "order": "3",
+      "related": ""
+    },
+    {
+      "name": "上州家",
+      "categories": [
+        "その他"
+      ],
+      "area": "愛知県春日井市",
+      "visitPeriod": "",
+      "source": "",
+      "body": "",
+      "recommend": "",
+      "url": "",
+      "snsUrl": "https://youtube.com/shorts/3sBnZg8P93o?si=LBFhkVTDuAOjmmnd",
+      "snsLabel": "",
+      "snsIcon": "",
+      "status": "",
+      "photos": [],
+      "addedAt": "2026-09-04",
+      "order": "4",
+      "related": ""
+    }
+  ]
+}

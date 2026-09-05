@@ -1,0 +1,67 @@
+{
+  "eyebrow": "はじめての方へ",
+  "title": "推し活はじめてガイド",
+  "desc": "よく使う用語や、はじめての現場で気になることをまとめました。分からない言葉があったらここをチェックしてみてね。",
+  "howto": [
+    {
+      "title": "劇場公演の申込方法",
+      "steps": [
+        {
+          "text": "公式サイトの公演スケジュールを確認する。",
+          "photo": "",
+          "linkText": "公式サイト",
+          "linkUrl": "https://ske48.co.jp/"
+        },
+        {
+          "text": "申込サイトから応募する公演を選択する。",
+          "photo": "",
+          "linkText": "申込サイト",
+          "linkUrl": "https://tixplus.jp/feature/ske48_theater_ticket/"
+        },
+        {
+          "text": "アカウントを作成して、申込を完了させる。",
+          "photo": "",
+          "linkText": "",
+          "linkUrl": ""
+        },
+        {
+          "text": "当落確認後、案内に従って決済をする。",
+          "photo": "",
+          "linkText": "",
+          "linkUrl": ""
+        },
+        {
+          "text": "「チケプラ」アプリをインストールしてログインをする。",
+          "photo": "",
+          "linkText": "チケプラ",
+          "linkUrl": "https://ticketplus.co.jp/feature/eticketapp"
+        },
+        {
+          "text": "本人確認、顔写真登録を済ませる。",
+          "photo": "",
+          "linkText": "",
+          "linkUrl": ""
+        },
+        {
+          "text": "チケット表示開始されたら「チケプラ」アプリで受け取る。",
+          "photo": "",
+          "linkText": "",
+          "linkUrl": ""
+        },
+        {
+          "text": "公演当日にSKE48劇場へ行く。",
+          "photo": "",
+          "linkText": "SKE48劇場",
+          "linkUrl": "https://maps.app.goo.gl/aSKQWGguVChnoHie8"
+        }
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "はらへりすぎ",
+      "desc": "同期の杉本りいなちゃんとのコンビ名。二人とも食べることが大好きで、まさに「はらへりすぎ」な仲良しコンビ。"
+    }
+  ],
+  "faq": []
+}
