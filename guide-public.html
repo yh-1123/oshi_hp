@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<!-- SNSシェア用OGPタグ(公開後、og:image に実在の画像URLを設定してください) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:title" content="推し活はじめてガイド">
+<meta property="og:description" content="よく使う用語や、はじめての現場で気になることをまとめました。分からない言葉があったらここをチェックしてみてね。">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="推し活はじめてガイド">
+<meta name="twitter:description" content="よく使う用語や、はじめての現場で気になることをまとめました。分からない言葉があったらここをチェックしてみてね。">
+
+<!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<title>推し活はじめてガイド</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
+}
+html{ scroll-behavior:smooth; }
+body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
+h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; }
+body.editing .back-link-edit{ display:inline-block; }
+.back-link-edit:hover{ color:var(--oshi-color); }
+.brand{ font-size:12px; color:var(--sub-ink); }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn:hover{ color:var(--oshi-color); }
+
+.g-hero{ position:relative; padding:28px 0 20px; text-align:center; overflow:hidden; }
+.g-hero::before{
+  content:""; position:absolute; top:4px; left:50%; width:170px; height:120px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.g-hero .eyebrow{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:9px; font-weight:700; }
+.g-hero h1{ position:relative; font-size:clamp(20px,7vw,26px); font-weight:900; }
+.g-hero p{ position:relative; margin:9px auto 0; max-width:400px; font-size:12.5px; color:var(--sub-ink); }
+
+section{ padding:30px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:16px; }
+.sec-head h2{ font-size:16.5px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:4px; }
+
+/* 申込方法 */
+.howto-list{ display:flex; flex-direction:column; gap:14px; }
+.howto-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.howto-title{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:8px; }
+.howto-steps{ padding-left:20px; font-size:13px; }
+.howto-steps li{ margin-bottom:12px; }
+.howto-steps li:last-child{ margin-bottom:0; }
+.step-photo{ width:100%; max-width:260px; border-radius:8px; margin:6px 0; display:block; box-shadow:var(--shadow-sm); }
+.photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
+
+/* 手順の編集(モーダル内) */
+.step-row{ border:1px solid var(--line); border-radius:10px; padding:10px; margin-bottom:10px; }
+.step-row-top{ display:flex; gap:8px; align-items:center; }
+.step-row-top .step-text{ flex:1; }
+.step-row-remove{ flex:none; width:26px; height:26px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--sub-ink); cursor:pointer; font-size:13px; }
+.step-row-remove:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.step-link-fields{ display:flex; gap:6px; margin-top:8px; }
+.step-link-fields input{ font-size:12px; }
+.step-inline-link{ color:var(--oshi-color); text-decoration:underline; text-underline-offset:2px; }
+.step-inline-link:hover{ color:var(--oshi-color-deep); }
+.step-row .step-photo-file{ margin-top:8px; }
+.step-photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:8px; margin-top:6px; border:1px solid var(--line); display:none; }
+
+/* 用語集 */
+.glossary-list{ display:flex; flex-direction:column; gap:14px; }
+.glossary-item{ position:relative; padding:14px 84px 14px 14px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.glossary-term{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:4px; }
+.glossary-desc{ font-size:13px; }
+
+/* よくある質問(アコーディオン) */
+.faq-list{ display:flex; flex-direction:column; gap:10px; }
+.faq-item{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); }
+.faq-question{
+  width:100%; text-align:left; background:none; border:none; padding:14px 84px 14px 16px; font-size:13.5px;
+  font-weight:700; color:var(--ink); cursor:pointer; font-family:inherit; display:flex; gap:10px; align-items:flex-start;
+}
+.faq-question .faq-q-mark{ color:var(--oshi-color); flex:none; }
+.faq-arrow{ position:absolute; top:14px; right:34px; color:var(--sub-ink); font-size:12px; transition:transform .2s ease; }
+.faq-item.open .faq-arrow{ transform:rotate(180deg); }
+.faq-answer{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+.faq-item.open .faq-answer{ max-height:600px; }
+.faq-answer-inner{ padding:0 16px 16px 16px; font-size:13px; color:var(--sub-ink); }
+
+.bio-text{ font-size:13.5px; white-space:pre-line; }
+
+footer{ text-align:center; padding:30px 0 16px; color:var(--sub-ink); font-size:11px; }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* 編集モード */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:var(--oshi-color-soft); }
+.edit-remove{
+  display:none; position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+.edit-edit{
+  display:none; position:absolute; top:8px; right:44px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:14px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
+body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+
+.reorder-row{ display:none; gap:6px; margin-top:10px; padding:0 14px 12px; }
+.faq-item .reorder-row{ padding:0 16px 14px; }
+body.editing .reorder-row{ display:flex; }
+.reorder-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 10px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.reorder-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  transition:background .15s ease;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:84vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:2px; }
+.qa-label:first-child{ margin-top:0; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:80px; resize:vertical; }
+.qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .g-hero{ padding:22px 0 16px; }
+  section{ padding:24px 0; }
+}
+</style>
+</head>
+<body data-rendered="true" class="">
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
+    
+    <div class="brand">推し活はじめてガイド</div>
+    <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+  </div>
+</nav>
+
+<header class="g-hero">
+  <div class="wrap">
+    <span class="eyebrow editable" id="g-eyebrow" contenteditable="true">はじめての方へ</span>
+    <h1 class="editable" id="g-title" contenteditable="true">推し活はじめてガイド</h1>
+    <p class="editable" id="g-desc" contenteditable="true">よく使う用語や、はじめての現場で気になることをまとめました。分からない言葉があったらここをチェックしてみてね。</p>
+  </div>
+</header>
+
+<section id="howto">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span>申込方法</h2>
+      <p>劇場公演・特典会などの申し込みの流れをまとめています</p>
+    </div>
+    <div class="howto-list" id="howto-list"><div class="howto-item">
+    
+    
+    <h3 class="howto-title editable" contenteditable="true">劇場公演の申込方法</h3>
+    <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">公式サイトの公演スケジュールを確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">申込フォームから希望の公演日を選択する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">座席種別・枚数を選んで申し込む</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">当落確認後、案内に従って支払い・受け取りを行う</span></li></ol>
+
+    
+  </div><div class="howto-item">
+    
+    
+    <h3 class="howto-title editable" contenteditable="true">特典会の申込方法</h3>
+    <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象イベントの参加方法(店舗・オンライン抽選など)を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象商品を購入して参加券を受け取る</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">指定された時間・会場に参加券を持って向かう</span></li></ol>
+
+    
+  </div></div>
+    
+  </div>
+</section>
+
+<section id="glossary">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span>用語集</h2>
+      <p>推し活でよく見かける言葉をまとめています</p>
+    </div>
+    <div class="glossary-list" id="glossary-list"><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">サイリウム</div>
+    <div class="glossary-desc editable" contenteditable="true">ライブなどで振る、光る棒状の応援グッズ。推しのイメージカラーに合わせて色を選ぶのが定番です。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">現場・参戦</div>
+    <div class="glossary-desc editable" contenteditable="true">ライブや握手会など、実際に足を運んで参加するイベントのこと。「参戦する」のように使います。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">特典会</div>
+    <div class="glossary-desc editable" contenteditable="true">CDなどを購入すると参加できる交流イベント。少し会話できたり、握手できたりします。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">古参・新規</div>
+    <div class="glossary-desc editable" contenteditable="true">応援を始めた時期による呼び方。「古参」は昔から応援している人、「新規」は最近応援を始めた人のことです。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">沼落ち</div>
+    <div class="glossary-desc editable" contenteditable="true">すっかりハマってしまうこと。「沼」は抜け出せないほど夢中になっている状態を指します。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">箱推し</div>
+    <div class="glossary-desc editable" contenteditable="true">特定の一人ではなく、グループ全体を応援すること。</div>
+    
+  </div></div>
+    
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span>よくある質問</h2>
+      <p>タップすると回答が開きます</p>
+    </div>
+    <div class="faq-list" id="faq-list"><div class="faq-item">
+    
+    
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">初めて現場に行くのですが、何を持っていけばいいですか?</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。</span></div>
+    </div>
+    
+  </div><div class="faq-item">
+    
+    
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">サイリウムの色は自由に選んでいいの?</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。</span></div>
+    </div>
+    
+  </div><div class="faq-item">
+    
+    
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">SNSで布教する時に気をつけることはありますか?</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。</span></div>
+    </div>
+    
+  </div></div>
+    
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+
+
+
+
+<script>
+
+
+const GUIDE = {
+  eyebrow: "はじめての方へ",
+  title: "推し活はじめてガイド",
+  desc: "よく使う用語や、はじめての現場で気になることをまとめました。分からない言葉があったらここをチェックしてみてね。",
+  howto: [
+    { title: "劇場公演の申込方法", steps: [
+      "公式サイトの公演スケジュールを確認する",
+      "申込フォームから希望の公演日を選択する",
+      "座席種別・枚数を選んで申し込む",
+      "当落確認後、案内に従って支払い・受け取りを行う",
+    ]},
+    { title: "特典会の申込方法", steps: [
+      "対象イベントの参加方法(店舗・オンライン抽選など)を確認する",
+      "対象商品を購入して参加券を受け取る",
+      "指定された時間・会場に参加券を持って向かう",
+    ]},
+  ],
+  glossary: [
+    { term: "サイリウム", desc: "ライブなどで振る、光る棒状の応援グッズ。推しのイメージカラーに合わせて色を選ぶのが定番です。" },
+    { term: "現場・参戦", desc: "ライブや握手会など、実際に足を運んで参加するイベントのこと。「参戦する」のように使います。" },
+    { term: "特典会", desc: "CDなどを購入すると参加できる交流イベント。少し会話できたり、握手できたりします。" },
+    { term: "古参・新規", desc: "応援を始めた時期による呼び方。「古参」は昔から応援している人、「新規」は最近応援を始めた人のことです。" },
+    { term: "沼落ち", desc: "すっかりハマってしまうこと。「沼」は抜け出せないほど夢中になっている状態を指します。" },
+    { term: "箱推し", desc: "特定の一人ではなく、グループ全体を応援すること。" },
+  ],
+  faq: [
+    { q: "初めて現場に行くのですが、何を持っていけばいいですか?", a: "基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。" },
+    { q: "サイリウムの色は自由に選んでいいの?", a: "基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。" },
+    { q: "SNSで布教する時に気をつけることはありますか?", a: "ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。" },
+  ],
+};
+
+const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
+function escHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function applyInlineLink(text, linkText, linkUrl){
+  if(!linkText || !linkUrl){ return escHtml(text); }
+  const idx = text.indexOf(linkText);
+  if(idx === -1){ return escHtml(text); }
+  const before = escHtml(text.slice(0, idx));
+  const after = escHtml(text.slice(idx + linkText.length));
+  const mid = `<a href="${linkUrl}" target="_blank" rel="noopener" class="step-inline-link">${escHtml(linkText)}</a>`;
+  return before + mid + after;
+}
+function howtoItemHTML(h){
+  const stepsHtml = (h.steps || []).map(s => {
+    const text = typeof s === "string" ? s : (s.text || "");
+    const photo = typeof s === "string" ? "" : (s.photo || "");
+    const linkText = typeof s === "string" ? "" : (s.linkText || "");
+    const linkUrl = typeof s === "string" ? "" : (s.linkUrl || "");
+    const photoHtml = photo ? `<img class="step-photo" src="${photo}" alt="">` : "";
+    const textHtml = applyInlineLink(text, linkText, linkUrl);
+    return `<li data-photo="${escAttr(photo)}" data-link-text="${escAttr(linkText)}" data-link-url="${escAttr(linkUrl)}"><span class="step-text-display">${textHtml}</span>${photoHtml}</li>`;
+  }).join("");
+  return `<div class="howto-item">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <h3 class="howto-title editable" contenteditable="false">${h.title}</h3>
+    <ol class="howto-steps">${stepsHtml}</ol>
+
+    ${REORDER_ROW}
+  </div>`;
+}
+function glossaryItemHTML(g){
+  return `<div class="glossary-item">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="glossary-term editable" contenteditable="false">${g.term}</div>
+    <div class="glossary-desc editable" contenteditable="false">${g.desc}</div>
+    ${REORDER_ROW}
+  </div>`;
+}
+function faqItemHTML(f){
+  return `<div class="faq-item">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="false">${f.q}</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="false">${f.a}</span></div>
+    </div>
+    ${REORDER_ROW}
+  </div>`;
+}
+
+if(!document.body.dataset.rendered){
+  document.getElementById("g-eyebrow").textContent = GUIDE.eyebrow;
+  document.getElementById("g-title").textContent = GUIDE.title;
+  document.getElementById("g-desc").textContent = GUIDE.desc;
+  document.getElementById("howto-list").innerHTML = GUIDE.howto.map(howtoItemHTML).join("");
+  document.getElementById("glossary-list").innerHTML = GUIDE.glossary.map(glossaryItemHTML).join("");
+  document.getElementById("faq-list").innerHTML = GUIDE.faq.map(faqItemHTML).join("");
+  document.body.dataset.rendered = "true";
+}
+
+/* ---------- SNSシェア用OGPタグの同期 ---------- */
+const OGP_IMAGE_URL = "";
+function syncOgpTags(){
+  const title = document.getElementById("g-title").textContent.trim();
+  const desc = document.getElementById("g-desc").textContent.trim();
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', title || "推し活はじめてガイド");
+  setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="twitter:title"]', title || "推し活はじめてガイド");
+  setMeta('meta[name="twitter:description"]', desc);
+  if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
+  if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+}
+syncOgpTags();
+
+/* ---------- PWA:Service Worker登録 ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+/* ---------- 申込方法:手順を1つずつ編集(手順ごとに画像添付) ---------- */
+function escAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const title = document.getElementById("g-title").textContent.trim();
+  const desc = document.getElementById("g-desc").textContent.trim();
+  const shareText = desc ? `${title}｜${desc}` : title;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{ await navigator.share({ title, text: shareText, url: shareUrl }); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
+
+
+/* ---------- FAQアコーディオン ---------- */
+document.getElementById("faq-list").addEventListener("click", (e) => {
+  const q = e.target.closest(".faq-question");
+  if(!q) return;
+  if(document.body.classList.contains("editing")) return; /* 編集モード中は文章編集を優先 */
+  const item = q.closest(".faq-item");
+  const opening = !item.classList.contains("open");
+  item.classList.toggle("open", opening);
+  q.setAttribute("aria-expanded", String(opening));
+});
+
+/* ---------- 編集モード(パスワードで保護) ---------- */
+let editMode = false;
+function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+
+function rebuildGuideFromData(data){
+  if(data.eyebrow !== undefined) document.getElementById("g-eyebrow").textContent = data.eyebrow;
+  if(data.title !== undefined) document.getElementById("g-title").textContent = data.title;
+  if(data.desc !== undefined) document.getElementById("g-desc").textContent = data.desc;
+  if(data.backLinkUrl){
+    const link = document.querySelector(".back-link");
+    if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
+  }
+  if(data.howto) document.getElementById("howto-list").innerHTML = data.howto.map(howtoItemHTML).join("");
+  if(data.glossary) document.getElementById("glossary-list").innerHTML = data.glossary.map(glossaryItemHTML).join("");
+  if(data.faq) document.getElementById("faq-list").innerHTML = data.faq.map(faqItemHTML).join("");
+  setEditable(editMode);
+  syncOgpTags();
+  hasUnsavedChanges = true;
+}
+
+
+/* 編集モード中は、手順内のリンクをタップしても遷移させない */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.step-inline-link");
+  if(link) e.preventDefault();
+});
+
+/* タップ数の計測(GA4イベント) */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
+
+
+/* ---------- 同じ場所にある guide-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  try{
+    const res = await fetch("guide-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildGuideFromData(data);
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }
+})();
+
+</script>
+
+
+
+</body></html>

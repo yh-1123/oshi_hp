@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<!-- SNSシェア用OGPタグ(公開後、og:image に実在の画像URLを設定してください) -->
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:title" content="メンバープロフィール">
+<meta property="og:description" content="笑顔で場を明るくする、努力家アイドル。">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="メンバープロフィール">
+<meta name="twitter:description" content="笑顔で場を明るくする、努力家アイドル。">
+
+<!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<title>メンバープロフィール</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
+}
+html{ scroll-behavior:smooth; }
+body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
+h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; }
+body.editing .back-link-edit{ display:inline-block; }
+.back-link-edit:hover{ color:var(--oshi-color); }
+.brand{ font-size:12px; color:var(--sub-ink); }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn:hover{ color:var(--oshi-color); }
+.arch-nav-link{ font-size:11.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; }
+.arch-nav-link:hover{ opacity:0.8; }
+
+/* SNSリンク */
+.sns-links-row{ display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.sns-icon-item{ position:relative; }
+.sns-icon-item .edit-edit{ top:-6px; left:-6px; right:auto; width:20px; height:20px; font-size:10px; }
+.sns-icon-item .edit-remove{ top:-6px; right:-6px; width:20px; height:20px; font-size:11px; }
+.sns-icon-link{
+  display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  color:#fff; font-size:17px; box-shadow:0 4px 10px rgba(43,35,49,0.18); border:2px solid #fff;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.sns-icon-link:hover{ transform:translateY(-2px) scale(1.06); box-shadow:0 6px 14px rgba(43,35,49,0.24); }
+.sns-icon-link:active{ transform:translateY(0) scale(0.96); }
+.sns-icon-link.x{ background:#000; font-size:15px; font-weight:900; }
+.sns-icon-link.instagram{ background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4); }
+.sns-icon-link.tiktok{ background:#000; }
+.sns-icon-link.other{ background:var(--oshi-color); }
+.sns-icon-link.has-icon{ background-size:cover; background-position:center; color:transparent; font-size:0; }
+.sns-icon-preview{ width:60px; height:60px; border-radius:50%; background:var(--oshi-color-soft) center/cover; margin:0 auto; display:none; }
+.platform-select{ display:flex; gap:8px; margin-top:4px; flex-wrap:wrap; }
+.plat-btn{ flex:1 1 70px; border:1.5px solid var(--line); background:#fff; color:var(--sub-ink); font-size:12px; font-weight:700; padding:8px 0; border-radius:10px; cursor:pointer; font-family:inherit; }
+.plat-btn.active{ border-color:var(--oshi-color); color:var(--oshi-color); background:var(--oshi-color-soft); }
+
+/* 経歴:年ごとのグループ */
+.year-group{ margin-bottom:22px; }
+.year-group:last-child{ margin-bottom:0; }
+.year-label{ font-size:12.5px; font-weight:700; color:var(--oshi-color); margin-bottom:10px; }
+.tl-photo{ width:100%; max-width:220px; border-radius:10px; margin:6px 0; display:block; box-shadow:var(--shadow-sm); }
+
+.p-hero{ position:relative; padding:28px 0 20px; text-align:center; overflow:hidden; }
+.p-hero::before{
+  content:""; position:absolute; top:8px; left:50%; width:150px; height:150px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.p-photo-wrap{ position:relative; width:104px; height:104px; margin:0 auto 12px; }
+.p-photo{
+  position:relative; z-index:1; width:100%; height:100%; border-radius:50%; overflow:hidden;
+  background:linear-gradient(135deg, var(--oshi-color-soft), var(--accent2));
+  background-size:cover; background-position:center;
+  display:flex; align-items:center; justify-content:center; font-size:10.5px; color:var(--sub-ink);
+  border:3px solid #fff; box-shadow:0 6px 16px rgba(43,35,49,0.14), 0 0 0 2px var(--oshi-color);
+}
+.p-photo.has-photo .p-photo-placeholder{ display:none; }
+.p-photo-edit{
+  display:none; position:absolute; bottom:-2px; right:-2px; z-index:2; width:30px; height:30px; border-radius:50%;
+  background:var(--oshi-color); color:#fff; border:2px solid #fff; font-size:13px; cursor:pointer;
+  align-items:center; justify-content:center;
+}
+body.editing .p-photo-edit{ display:flex; }
+.p-hero h1{ position:relative; font-size:clamp(22px,7vw,30px); font-weight:900; }
+.p-kana{ position:relative; font-size:12px; color:var(--sub-ink); margin-top:3px; }
+.p-catch{ position:relative; margin:10px auto 0; max-width:380px; font-size:13px; }
+
+section{ padding:30px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:16px; }
+.sec-head h2{ font-size:16.5px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:4px; }
+.sec-head p:empty{ display:none; margin-top:0; }
+
+/* 基本情報 */
+.info-list{ display:flex; flex-direction:column; }
+.info-row{ position:relative; padding:11px 80px 11px 2px; border-bottom:1px solid var(--line); transition:background .15s ease; }
+.info-row:last-child{ border-bottom:none; }
+.info-link{ display:flex; gap:12px; color:inherit; }
+.info-link[href]:hover{ color:var(--oshi-color); }
+.info-label{ flex:0 0 104px; font-size:12px; font-weight:700; color:var(--oshi-color); white-space:nowrap; }
+.info-value{ flex:1; min-width:0; font-size:13px; }
+
+/* 経歴 */
+.timeline{ position:relative; padding-left:20px; }
+.timeline::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line); }
+.tl-item{ position:relative; padding-bottom:24px; padding-right:80px; }
+.tl-item:last-child{ padding-bottom:0; }
+.tl-link{ display:block; color:inherit; }
+.tl-link[href]:hover{ color:var(--oshi-color); }
+.tl-item::before{ content:""; position:absolute; left:-20px; top:4px; width:9px; height:9px; border-radius:50%; background:var(--oshi-color); box-shadow:0 0 0 4px var(--oshi-color-soft); }
+.tl-date{ font-size:11.5px; color:var(--oshi-color); font-weight:700; }
+.tl-item p{ font-size:13px; margin-top:2px; }
+
+.bio-text{ font-size:13.5px; white-space:pre-line; }
+.bio-text:empty{ display:none; }
+
+footer{ text-align:center; padding:30px 0 16px; color:var(--sub-ink); font-size:11px; }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* 編集モード */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:var(--oshi-color-soft); }
+.edit-remove{
+  display:none; position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+.edit-edit{
+  display:none; position:absolute; top:8px; right:44px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:14px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
+body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+
+.reorder-row{ display:none; gap:6px; margin-top:8px; }
+body.editing .reorder-row{ display:flex; }
+.reorder-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 10px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.reorder-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.info-row .reorder-row{ margin-top:4px; margin-left:auto; margin-right:26px; }
+
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  transition:background .15s ease;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:84vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:2px; }
+.qa-label:first-child{ margin-top:0; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+/* トリミングUI */
+.crop-wrap{ margin-top:8px; display:none; }
+.crop-viewport{
+  position:relative; width:100%; aspect-ratio:1/1; max-width:240px; margin:0 auto; overflow:hidden; border-radius:50%;
+  background:#111; touch-action:none; cursor:grab; border:1px solid var(--line);
+}
+.crop-viewport:active{ cursor:grabbing; }
+.crop-viewport img{ position:absolute; top:0; left:0; max-width:none; user-select:none; pointer-events:none; }
+.crop-wrap input[type="range"]{ width:100%; margin-top:8px; accent-color:var(--oshi-color); }
+.crop-hint{ font-size:10.5px; color:var(--sub-ink); margin-top:4px; text-align:center; }
+.photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
+
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .p-hero{ padding:22px 0 16px; }
+  section{ padding:24px 0; }
+}
+</style>
+</head>
+<body data-rendered="true" class="">
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
+    <button class="back-link-edit" type="button" aria-label="リンク先を編集">✎</button>
+    <div class="brand">メンバープロフィール</div>
+    <a href="architecture.html" class="arch-nav-link">建築との関わり</a>
+    <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+  </div>
+</nav>
+
+<header class="p-hero">
+  <div class="wrap">
+    <div class="p-photo-wrap">
+      <div class="p-photo" id="p-photo">
+        <span class="p-photo-placeholder">写真を追加</span>
+      </div>
+      <button class="p-photo-edit" id="p-photo-edit" type="button" aria-label="写真を変更">📷</button>
+    </div>
+    <h1 class="editable" id="p-name" contenteditable="true"></h1>
+    <div class="p-kana editable" id="p-kana" contenteditable="true"></div>
+    <p class="p-catch editable" id="p-catch" contenteditable="true">笑顔で場を明るくする、努力家アイドル。</p>
+    <div class="sns-links-row" id="sns-links-row"></div>
+    
+  </div>
+</header>
+
+<section id="basic-info">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="basic-info-heading" contenteditable="true">基本情報</span></h2>
+      <p class="editable" id="basic-info-desc" contenteditable="true">プロフィール項目は自由に追加・削除できます</p>
+    </div>
+    <div class="info-list" id="info-list"><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">生年月日</div>
+    <div class="info-value editable" contenteditable="true">20XX年X月X日</div></div>
+    
+  </div><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">血液型</div>
+    <div class="info-value editable" contenteditable="true">A型</div></div>
+    
+  </div><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">出身地</div>
+    <div class="info-value editable" contenteditable="true">東京都</div></div>
+    
+  </div><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">身長</div>
+    <div class="info-value editable" contenteditable="true">158cm</div></div>
+    
+  </div><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">趣味</div>
+    <div class="info-value editable" contenteditable="true">お菓子作り、映画鑑賞</div></div>
+    
+  </div><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">特技</div>
+    <div class="info-value editable" contenteditable="true">ダンス、絵を描くこと</div></div>
+    
+  </div><div class="info-row" data-url="">
+    
+    
+    <div class="info-link"><div class="info-label editable" contenteditable="true">サイリウムカラー</div>
+    <div class="info-value editable" contenteditable="true">赤×白</div></div>
+    
+  </div></div>
+    
+  </div>
+</section>
+
+<section id="career">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="career-heading" contenteditable="true">経歴・活動歴</span></h2>
+      <p class="editable" id="career-desc" contenteditable="true">デビューまでの流れや、これまでの活動をまとめています</p>
+    </div>
+    <div class="timeline" id="career-list"><div class="year-group" data-year="unknown">
+    <h3 class="year-label">時期不明</h3>
+    <div class="timeline"><div class="tl-item" data-url="" data-photo="">
+    
+    
+    <div class="tl-link"><div class="tl-date editable" contenteditable="true">20XX年X月</div>
+    
+    <p class="editable" contenteditable="true">オーディションに合格し、加入</p></div>
+  </div><div class="tl-item" data-url="" data-photo="">
+    
+    
+    <div class="tl-link"><div class="tl-date editable" contenteditable="true">20XX年X月</div>
+    
+    <p class="editable" contenteditable="true">デビューシングルでセンターに抜擢</p></div>
+  </div><div class="tl-item" data-url="" data-photo="">
+    
+    
+    <div class="tl-link"><div class="tl-date editable" contenteditable="true">20XX年X月</div>
+    
+    <p class="editable" contenteditable="true">初のソロイベントを開催</p></div>
+  </div></div>
+  </div></div>
+    
+  </div>
+</section>
+
+<section id="bio">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="bio-heading" contenteditable="true">推し紹介</span></h2>
+      <p class="editable" id="bio-desc" contenteditable="true"></p>
+    </div>
+    <p class="bio-text editable" id="bio-text" contenteditable="true">小さい頃から歌うことが大好きだったそうで、地元のステージに立ったことがきっかけでこの世界を目指すようになったそうです。人を笑顔にできるアイドルを目指して、日々レッスンに励んでいます。ファンと過ごす時間をとても大切にしてくれているのが伝わってくる、そんな一面が好きです。</p>
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+
+
+
+
+<script>
+
+
+const PROFILE = {
+  name: "",
+  kana: "",
+  catch: "笑顔で場を明るくする、努力家アイドル。",
+  basicInfo: [
+    { label: "生年月日", value: "20XX年X月X日" },
+    { label: "血液型", value: "A型" },
+    { label: "出身地", value: "東京都" },
+    { label: "身長", value: "158cm" },
+    { label: "趣味", value: "お菓子作り、映画鑑賞" },
+    { label: "特技", value: "ダンス、絵を描くこと" },
+    { label: "サイリウムカラー", value: "赤×白" },
+  ],
+  career: [
+    { date: "20XX年X月", event: "オーディションに合格し、加入" },
+    { date: "20XX年X月", event: "デビューシングルでセンターに抜擢" },
+    { date: "20XX年X月", event: "初のソロイベントを開催" },
+  ],
+  bio: "小さい頃から歌うことが大好きだったそうで、地元のステージに立ったことがきっかけでこの世界を目指すようになったそうです。人を笑顔にできるアイドルを目指して、日々レッスンに励んでいます。ファンと過ごす時間をとても大切にしてくれているのが伝わってくる、そんな一面が好きです。",
+  sns: [],
+  sectionText: {
+    "basic-info": { heading: "基本情報", desc: "プロフィール項目は自由に追加・削除できます" },
+    career: { heading: "経歴・活動歴", desc: "デビューまでの流れや、これまでの活動をまとめています" },
+    bio: { heading: "推し紹介", desc: "" },
+  },
+};
+
+const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
+function infoRowHTML(i){
+  const body = `<div class="info-label editable" contenteditable="false">${i.label}</div>
+    <div class="info-value editable" contenteditable="false">${i.value}</div>`;
+  const inner = i.url
+    ? `<a class="info-link" href="${i.url}" target="_blank" rel="noopener">${body}</a>`
+    : `<div class="info-link">${body}</div>`;
+  return `<div class="info-row" data-url="${i.url || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${inner}
+    ${REORDER_ROW}
+  </div>`;
+}
+function snsIconHTML(s){
+  const emojis = { x: "X", instagram: "📷", tiktok: "🎵" };
+  const labels = { x: "X", instagram: "Instagram", tiktok: "TikTok" };
+  const label = s.platform === "other" ? (s.label || "Web") : (labels[s.platform] || "X");
+  const iconContent = s.icon ? "" : (emojis[s.platform] || "🔗");
+  const iconStyle = s.icon ? ` style="background-image:url('${s.icon}')"` : "";
+  const iconClass = s.icon ? " has-icon" : "";
+  return `<div class="sns-icon-item" data-platform="${s.platform}" data-label="${(s.label || "").replace(/"/g,"&quot;")}" data-icon="${s.icon || ""}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <a class="sns-icon-link ${s.platform}${iconClass}" href="${s.url}" target="_blank" rel="noopener" aria-label="${label}"${iconStyle}>${iconContent}</a>
+  </div>`;
+}
+function careerHTML(c){
+  const photoHtml = c.photo ? `<img class="tl-photo" src="${c.photo}" alt="">` : "";
+  const body = `<div class="tl-date editable" contenteditable="false">${c.date}</div>
+    ${photoHtml}
+    <p class="editable" contenteditable="false">${c.event}</p>`;
+  const inner = c.url
+    ? `<a class="tl-link" href="${c.url}" target="_blank" rel="noopener">${body}</a>`
+    : `<div class="tl-link">${body}</div>`;
+  return `<div class="tl-item" data-url="${c.url || ''}" data-photo="${c.photo || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${inner}
+  </div>`;
+}
+function yearKey(dateStr){
+  const m = String(dateStr || "").match(/(\d{4})/);
+  return m ? m[1] : "unknown";
+}
+function yearLabel(key){ return key === "unknown" ? "時期不明" : `${key}年`; }
+function yearGroupHTML(key, label){
+  return `<div class="year-group" data-year="${key}">
+    <h3 class="year-label">${label}</h3>
+    <div class="timeline"></div>
+  </div>`;
+}
+function sortYearGroups(){
+  const wrap = document.getElementById("career-list");
+  const groups = Array.from(wrap.querySelectorAll(".year-group"));
+  groups.sort((a, b) => a.dataset.year.localeCompare(b.dataset.year));
+  groups.forEach(g => wrap.appendChild(g));
+}
+function insertCareerItem(item){
+  const key = yearKey(item.date);
+  let group = document.querySelector(`.year-group[data-year="${key}"]`);
+  if(!group){
+    document.getElementById("career-list").insertAdjacentHTML("beforeend", yearGroupHTML(key, yearLabel(key)));
+    group = document.querySelector(`.year-group[data-year="${key}"]`);
+    sortYearGroups();
+  }
+  group.querySelector(".timeline").insertAdjacentHTML("beforeend", careerHTML(item));
+}
+
+/* 経歴の「時期」を直接書き換えた場合も、年グループを自動で振り直す */
+
+
+if(!document.body.dataset.rendered){
+  document.getElementById("p-name").textContent = PROFILE.name;
+  document.getElementById("p-kana").textContent = PROFILE.kana;
+  document.getElementById("p-catch").textContent = PROFILE.catch;
+  document.getElementById("info-list").innerHTML = PROFILE.basicInfo.map(infoRowHTML).join("");
+  document.getElementById("sns-links-row").innerHTML = (PROFILE.sns || []).map(snsIconHTML).join("");
+  PROFILE.career.forEach(insertCareerItem);
+  document.getElementById("bio-text").textContent = PROFILE.bio;
+  Object.keys(PROFILE.sectionText || {}).forEach(key => {
+    const h = document.getElementById(key + "-heading");
+    const d = document.getElementById(key + "-desc");
+    if(h) h.textContent = PROFILE.sectionText[key].heading;
+    if(d) d.textContent = PROFILE.sectionText[key].desc;
+  });
+  document.body.dataset.rendered = "true";
+}
+
+/* ---------- SNSシェア用OGPタグの同期 ---------- */
+const OGP_IMAGE_URL = "";
+function syncOgpTags(){
+  const name = document.getElementById("p-name").textContent.trim();
+  const catchText = document.getElementById("p-catch").textContent.trim();
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', name || "メンバープロフィール");
+  setMeta('meta[property="og:description"]', catchText);
+  setMeta('meta[name="twitter:title"]', name || "メンバープロフィール");
+  setMeta('meta[name="twitter:description"]', catchText);
+  if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
+  if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+}
+syncOgpTags();
+
+/* ---------- PWA:Service Worker登録 ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+/* ---------- 写真アップロード・トリミング ---------- */
+
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const name = document.getElementById("p-name").textContent.trim();
+  const catchText = document.getElementById("p-catch").textContent.trim();
+  const shareText = catchText ? `${name}｜${catchText}` : `${name}のプロフィール`;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{ await navigator.share({ title: name, text: shareText, url: shareUrl }); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
+
+
+/* ---------- 編集モード(パスワードで保護) ---------- */
+let editMode = false;
+function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+
+function rebuildProfileFromData(data){
+  if(data.name !== undefined) document.getElementById("p-name").textContent = data.name;
+  if(data.kana !== undefined) document.getElementById("p-kana").textContent = data.kana;
+  if(data.catch !== undefined) document.getElementById("p-catch").textContent = data.catch;
+  if(data.backLinkUrl){
+    const link = document.querySelector(".back-link");
+    if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
+  }
+  if(data.photo){
+    const photoEl = document.getElementById("p-photo");
+    photoEl.style.backgroundImage = `url('${data.photo}')`;
+    photoEl.classList.add("has-photo");
+  }
+  if(data.basicInfo) document.getElementById("info-list").innerHTML = data.basicInfo.map(infoRowHTML).join("");
+  if(data.sns) document.getElementById("sns-links-row").innerHTML = data.sns.map(snsIconHTML).join("");
+  if(data.career){
+    document.getElementById("career-list").innerHTML = "";
+    data.career.forEach(insertCareerItem);
+  }
+  if(data.bio !== undefined) document.getElementById("bio-text").textContent = data.bio;
+  if(data.sectionText){
+    Object.keys(data.sectionText).forEach(key => {
+      const h = document.getElementById(key + "-heading");
+      const d = document.getElementById(key + "-desc");
+      if(h) h.textContent = data.sectionText[key].heading;
+      if(d) d.textContent = data.sectionText[key].desc;
+    });
+  }
+  setEditable(editMode);
+  syncOgpTags();
+  hasUnsavedChanges = true;
+}
+
+
+/* 編集モード中は、リンク化された項目をタップしても遷移させず編集を優先 */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.info-link, a.tl-link, a.sns-icon-link");
+  if(link) e.preventDefault();
+});
+
+/* タップ数の計測(GA4イベント) */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
+
+
+/* ---------- 同じ場所にある member-profile-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  try{
+    const res = await fetch("member-profile-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildProfileFromData(data);
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }
+})();
+
+</script>
+
+
+
+</body></html>

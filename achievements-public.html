@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:title" content="活動実績">
+<meta property="og:description" content="楽曲・公演・メディア出演などの活動記録をまとめています。">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="活動実績">
+<meta name="twitter:description" content="楽曲・公演・メディア出演などの活動記録をまとめています。">
+
+<!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<title>活動実績</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
+}
+html{ scroll-behavior:smooth; }
+body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
+h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; }
+body.editing .back-link-edit{ display:inline-block; }
+.back-link-edit:hover{ color:var(--oshi-color); }
+.brand{ font-size:12px; color:var(--sub-ink); }
+.nav-icons{ display:flex; align-items:center; gap:10px; }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn:hover{ color:var(--oshi-color); }
+
+.p-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
+.p-hero::before{
+  content:""; position:absolute; top:4px; left:50%; width:170px; height:120px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.p-hero .eyebrow{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:9px; font-weight:700; }
+.p-hero h1{ position:relative; font-size:clamp(19px,6.6vw,25px); font-weight:900; }
+.p-hero p{ position:relative; margin:9px auto 0; max-width:420px; font-size:12.5px; color:var(--sub-ink); }
+
+/* 目次 */
+.toc-row{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:16px; }
+.toc-link{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:999px;
+}
+.toc-link:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+
+section{ padding:26px 0 30px; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:16px; }
+.sec-head-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.sec-head h2{ font-size:16.5px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:4px; }
+.no-results{ display:none; text-align:center; color:var(--sub-ink); font-size:12.5px; padding:16px 0; }
+.no-results.show{ display:block; }
+
+/* 検索・カテゴリ絞り込み(共通) */
+.search-wrap{ position:relative; margin-bottom:12px; }
+.search-input{
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:10px 15px; font-size:13px;
+  font-family:inherit; background:#fff; color:var(--ink); box-shadow:var(--shadow-sm);
+}
+.search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.tag-filter-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.tag-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:5px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.tag-filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+
+/* 汎用カード(楽曲・メディア・公演) */
+.record-list{ display:flex; flex-direction:column; gap:12px; }
+.record-item{ position:relative; padding:14px 84px 14px 14px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.record-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+.record-category{ font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:2px 9px; }
+.record-album{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
+.record-date{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
+.record-new-badge{ font-size:10px; font-weight:700; color:#7a5c00; background:#ffd447; border-radius:6px; padding:2px 9px; }
+.record-title{ font-size:14px; font-weight:700; margin-bottom:2px; }
+.record-desc{ font-size:12.5px; color:var(--sub-ink); white-space:pre-line; }
+.record-thumb{ width:100%; max-width:280px; border-radius:10px; margin-top:8px; display:block; box-shadow:var(--shadow-sm); }
+.record-link{
+  display:inline-flex; align-items:center; gap:4px; margin-top:8px; border:1px solid var(--oshi-color); background:#fff;
+  color:var(--oshi-color); font-size:11px; font-weight:700; padding:5px 12px; border-radius:999px;
+}
+.record-link:hover{ background:var(--oshi-color-soft); }
+
+.load-more-btn{
+  display:flex; align-items:center; justify-content:center; width:100%; margin-top:12px;
+  border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-weight:700; font-size:12.5px;
+  padding:10px 16px; border-radius:12px; cursor:pointer; font-family:inherit;
+}
+.load-more-btn:hover{ background:var(--oshi-color-soft); }
+
+/* 出演回数スタット */
+.stat-callout{
+  display:flex; flex-direction:row; align-items:center; gap:10px; justify-content:center;
+  background:linear-gradient(135deg, var(--oshi-color-soft), #fff);
+  border:1px solid var(--oshi-color); border-radius:14px; padding:12px 16px; margin-bottom:16px;
+}
+.stat-callout .stat-icon{ font-size:16px; }
+.stat-callout .stat-num-row{ display:flex; align-items:baseline; gap:2px; }
+.stat-callout .stat-num{ font-size:22px; font-weight:900; color:var(--oshi-color); font-family:'Zen Maru Gothic', sans-serif; line-height:1; }
+.stat-callout .stat-unit{ font-size:12px; font-weight:700; color:var(--oshi-color); }
+.stat-callout .stat-label{ font-size:11px; font-weight:700; color:var(--sub-ink); }
+.record-count-corner{
+  position:absolute; top:50%; right:14px; transform:translateY(-50%); text-align:center; line-height:1.1;
+}
+.record-count-corner .count-num{ font-size:22px; font-weight:900; color:var(--oshi-color); font-family:'Zen Maru Gothic', sans-serif; display:block; }
+.record-count-corner .count-suffix{ font-size:9px; font-weight:700; color:var(--sub-ink); display:block; margin-top:1px; }
+
+/* 集計・掲載基準(段落リスト) */
+.criteria-list{ display:flex; flex-direction:column; gap:10px; }
+.criteria-item{ position:relative; padding:12px 84px 12px 14px; background:var(--card); border:1px dashed var(--line); border-radius:12px; }
+.criteria-item p{ font-size:12.5px; color:var(--sub-ink); white-space:pre-line; }
+
+footer{ text-align:center; padding:30px 0 16px; color:var(--sub-ink); font-size:11px; }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* 編集用の共通パーツ */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:var(--oshi-color-soft); }
+.edit-remove{
+  display:none; position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+.edit-edit{
+  display:none; position:absolute; top:8px; right:44px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:14px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
+body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+
+.reorder-row{ display:none; gap:6px; margin-top:8px; }
+body.editing .reorder-row{ display:flex; }
+.reorder-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 10px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.reorder-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  transition:background .15s ease;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:84vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:6px; }
+.qa-label:first-child{ margin-top:0; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:80px; resize:vertical; }
+.qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.qa-select-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.qa-select-btn{
+  flex:1 1 40%; border:1.5px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11.5px; font-weight:700;
+  padding:8px 4px; border-radius:10px; cursor:pointer; font-family:inherit;
+}
+.qa-select-btn.active{ border-color:var(--oshi-color); color:var(--oshi-color); background:var(--oshi-color-soft); }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .p-hero{ padding:20px 0 14px; }
+  section{ padding:22px 0 26px; }
+}
+
+/* ---------- 印刷用レイアウト ---------- */
+@media print{
+  .topnav, .edit-toolbar, .back-to-top, .search-wrap, .tag-filter-row, .toc-row,
+  .load-more-btn, .add-row, .edit-edit, .edit-remove, .reorder-row{ display:none !important; }
+  body{ padding-bottom:0; background:#fff; }
+  .record-item, .criteria-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
+  a{ text-decoration:underline; }
+}
+</style>
+</head>
+<body data-rendered="true" class="">
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
+    
+    <div class="brand editable" id="nav-brand" contenteditable="true">活動実績</div>
+    <div class="nav-icons">
+      <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
+      <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+    </div>
+  </div>
+</nav>
+
+<header class="p-hero">
+  <div class="wrap">
+    <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">活動記録</span>
+    <h1 class="editable" id="p-title" contenteditable="true">活動実績</h1>
+    <p class="editable" id="p-desc" contenteditable="true">楽曲・公演・メディア出演などの活動記録をまとめています。</p>
+    <div class="toc-row">
+      <a class="toc-link" href="#songs">楽曲</a>
+      <a class="toc-link" href="#performances">公演</a>
+      <a class="toc-link" href="#media">メディア・イベント</a>
+    </div>
+  </div>
+</header>
+
+<section id="songs">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="songs-heading" contenteditable="true">楽曲</span></h2>
+      <p class="editable" id="songs-desc" contenteditable="true">選抜曲・カップリング曲・ユニット曲などをまとめています</p>
+    </div>
+    <div class="search-wrap">
+      <input type="search" id="song-search" class="search-input" placeholder="🔍 曲名で検索">
+    </div>
+    <div class="tag-filter-row" id="song-category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="選抜曲">選抜曲</button><button type="button" class="tag-filter-btn" data-cat="カップリング曲">カップリング曲</button></div>
+    <div class="tag-filter-row" id="song-album-filter"></div>
+    <div class="record-list" id="song-list"><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-03-18" data-url="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB0gcJCRsMAYcqIYzv" data-link-label="MVを見る" data-added="" data-order="1" style="">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.03.18</span></div>
+    <h3 class="record-title editable" contenteditable="true">君だけがターゲット</h3>
+    <p class="record-desc editable" contenteditable="true">SHOWROOM選抜曲でセンターを務める。</p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/yaDeh_HwZgY/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB0gcJCRsMAYcqIYzv" target="_blank" rel="noopener">MVを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-03-18" data-url="https://www.youtube.com/watch?v=jfL12MRdGsY&amp;list=RDjfL12MRdGsY&amp;start_radio=1&amp;pp=ygUV44Om44OL44Kz44O844OzIHNrZTQ4oAcB" data-link-label="YouTubeを見る" data-added="" data-order="9" style="">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.03.18</span></div>
+    <h3 class="record-title editable" contenteditable="true">放っておけないよユニコーン</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/jfL12MRdGsY/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=jfL12MRdGsY&amp;list=RDjfL12MRdGsY&amp;start_radio=1&amp;pp=ygUV44Om44OL44Kz44O844OzIHNrZTQ4oAcB" target="_blank" rel="noopener">YouTubeを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-03-18" data-url="https://www.youtube.com/watch?v=qIqd4mLCskQ&amp;list=RDqIqd4mLCskQ&amp;start_radio=1&amp;pp=ygUNT25lIGdlbSBza2U0OKAHAQ%3D%3D" data-link-label="MVを見る" data-added="" data-order="10" style="">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.03.18</span></div>
+    <h3 class="record-title editable" contenteditable="true">もう知らん</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/qIqd4mLCskQ/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=qIqd4mLCskQ&amp;list=RDqIqd4mLCskQ&amp;start_radio=1&amp;pp=ygUNT25lIGdlbSBza2U0OKAHAQ%3D%3D" target="_blank" rel="noopener">MVを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2025-09-24" data-url="https://youtu.be/Y1PsOcRG_ps?si=BoqvDM_MQP_djShw" data-link-label="MVを見る" data-added="" data-order="11" style="">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2025.09.24</span></div>
+    <h3 class="record-title editable" contenteditable="true">隣の人は？</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/Y1PsOcRG_ps/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://youtu.be/Y1PsOcRG_ps?si=BoqvDM_MQP_djShw" target="_blank" rel="noopener">MVを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2025-09-24" data-url="" data-link-label="" data-added="" data-order="15" style="">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2025.09.24</span></div>
+    <h3 class="record-title editable" contenteditable="true">どこまで嘘を言えたら</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2025-03-12" data-url="https://www.youtube.com/watch?v=TxmSoVL9EpM&amp;list=RDTxmSoVL9EpM&amp;start_radio=1" data-link-label="MVを見る" data-added="" data-order="6" style="">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2025.03.12</span></div>
+    <h3 class="record-title editable" contenteditable="true">Unlimited</h3>
+    <p class="record-desc editable" contenteditable="true">相川Team S楽曲</p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/TxmSoVL9EpM/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=TxmSoVL9EpM&amp;list=RDTxmSoVL9EpM&amp;start_radio=1" target="_blank" rel="noopener">MVを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="選抜曲" data-album="" data-date="2024-02-28" data-url="https://www.youtube.com/watch?v=knk_nGwljMU" data-link-label="MVを見る" data-added="" data-order="7" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">選抜曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2024.02.28</span></div>
+    <h3 class="record-title editable" contenteditable="true">愛のホログラム</h3>
+    <p class="record-desc editable" contenteditable="true">32nd singleで2作連続で選抜に選出される。</p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/knk_nGwljMU/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=knk_nGwljMU" target="_blank" rel="noopener">MVを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2024-02-28" data-url="https://www.youtube.com/watch?v=vEjFilr2lbQ&amp;list=RDvEjFilr2lbQ&amp;start_radio=1" data-link-label="YouTubeを見る" data-added="" data-order="8" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2024.02.28</span></div>
+    <h3 class="record-title editable" contenteditable="true">Beautiful</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/vEjFilr2lbQ/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=vEjFilr2lbQ&amp;list=RDvEjFilr2lbQ&amp;start_radio=1" target="_blank" rel="noopener">YouTubeを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="選抜曲" data-album="好きになっちゃった" data-date="2023-07-05" data-url="https://www.youtube.com/watch?v=pqA3FsWDiZs&amp;list=RDpqA3FsWDiZs&amp;start_radio=1&amp;pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB" data-link-label="MVを見る" data-added="" data-order="0" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">選抜曲</span><span class="record-album editable" contenteditable="true">💿 好きになっちゃった</span><span class="record-date">2023.07.05</span></div>
+    <h3 class="record-title editable" contenteditable="true">好きになっちゃった</h3>
+    <p class="record-desc editable" contenteditable="true">SKE48の31stシングルで初選抜に選出される。</p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/pqA3FsWDiZs/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=pqA3FsWDiZs&amp;list=RDpqA3FsWDiZs&amp;start_radio=1&amp;pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB" target="_blank" rel="noopener">MVを見る</a>
+    
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2022-10-05" data-url="https://www.youtube.com/watch?v=A4Ugkvba22s&amp;list=RDA4Ugkvba22s&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" data-link-label="MV見る" data-added="" data-order="5" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2022.10.05</span></div>
+    <h3 class="record-title editable" contenteditable="true">New Ager</h3>
+    <p class="record-desc editable" contenteditable="true">初カップリング曲でセンターを務める。</p>
+    <img class="record-thumb" src="https://img.youtube.com/vi/A4Ugkvba22s/hqdefault.jpg" alt="">
+    <a class="record-link" href="https://www.youtube.com/watch?v=A4Ugkvba22s&amp;list=RDA4Ugkvba22s&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" target="_blank" rel="noopener">MV見る</a>
+    
+  </div></div>
+    <p class="no-results" id="song-no-results">条件に合う楽曲が見つかりませんでした。</p>
+    <button class="load-more-btn" id="load-more-songs" type="button" style="display: flex;">＋ もっと見る(残り4件)</button>
+    
+  </div>
+</section>
+
+<section id="performances">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="performances-heading" contenteditable="true">公演</span></h2>
+      <p class="editable" id="performances-desc" contenteditable="true">出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます</p>
+    </div>
+    <div class="stat-callout" id="performance-stat-callout" style="display: none;">
+      <div class="stat-label">劇場公演出演回数</div>
+      <span class="stat-icon">🎭</span>
+      <div class="stat-num-row"><span class="stat-num" id="performance-count">0</span><span class="stat-unit">回</span></div>
+    </div>
+    <div class="record-list" id="performance-list"><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="13" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">ずっと君を探している</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="59" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">僕の太陽</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="60" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">制服の芽</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="61" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">愛を君に、愛を僕に</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="62" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">時間がない</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="63" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">声出していこーぜ!!</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="64" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">手をつなぎながら</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="65" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">We're Growing Up</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="66" style="">
+    
+    
+    
+    <div class="record-meta"></div>
+    <h3 class="record-title editable" contenteditable="true">We’re Growing Up～2nd～</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div></div>
+    <p class="no-results" id="performance-no-results">まだ公演が登録されていません。</p>
+    <button class="load-more-btn" id="load-more-performances" type="button" style="display: none;">＋ もっと見る(残り3件)</button>
+    
+  </div>
+</section>
+
+<section id="media">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="media-heading" contenteditable="true">メディア・イベント</span></h2>
+      <p class="editable" id="media-desc" contenteditable="true">ラジオ・テレビ・雑誌書籍・イベント出演の記録です</p>
+    </div>
+    <div class="search-wrap">
+      <input type="search" id="media-search" class="search-input" placeholder="🔍 番組名・企画名で検索">
+    </div>
+    <div class="tag-filter-row" id="media-category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="ラジオ">ラジオ</button><button type="button" class="tag-filter-btn" data-cat="テレビ">テレビ</button><button type="button" class="tag-filter-btn" data-cat="雑誌・書籍">雑誌・書籍</button><button type="button" class="tag-filter-btn" data-cat="イベント">イベント</button><button type="button" class="tag-filter-btn" data-cat="SHOWROOM">SHOWROOM</button><button type="button" class="tag-filter-btn" data-cat="配信">配信</button><button type="button" class="tag-filter-btn" data-cat="YouTube">YouTube</button><button type="button" class="tag-filter-btn" data-cat="舞台">舞台</button><button type="button" class="tag-filter-btn" data-cat="劇">劇</button></div>
+    <div class="record-list" id="media-list"><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026.09.11" data-url="" data-added="2026-09-04" data-order="18" style="">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.09.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-09-03" data-url="" data-added="2026-09-04" data-order="17" style="">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.09.03</span></div>
+    <h3 class="record-title editable" contenteditable="true">CBCラジオ「SKE48 なるべくしゃべりたい」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-08-30" data-url="" data-added="2026-09-04" data-order="19" style="">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.08.30</span></div>
+    <h3 class="record-title editable" contenteditable="true">中京テレビ「24時間テレビ49 スペシャルLIVE」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-08-27" data-url="" data-added="2026-09-04" data-order="20" style="">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.08.27</span></div>
+    <h3 class="record-title editable" contenteditable="true">CBCラジオ「SKE48 なるべくしゃべりたい」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="雑誌・書籍" data-date="2026-08-19" data-url="" data-added="2026-09-04" data-order="21" style="">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">雑誌・書籍</span><span class="record-date">2026.08.19</span></div>
+    <h3 class="record-title editable" contenteditable="true">「週刊SPA!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-08-12" data-url="" data-added="2026-09-04" data-order="22" style="">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.08.12</span></div>
+    <h3 class="record-title editable" contenteditable="true">SHOWROOM『恋シュンの旬』</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-07-29" data-url="" data-added="2026-09-04" data-order="32" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.07.29</span></div>
+    <h3 class="record-title editable" contenteditable="true">SHOWROOM『恋シュンの旬』</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-26" data-url="" data-added="2026-09-04" data-order="31" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.26</span></div>
+    <h3 class="record-title editable" contenteditable="true">「CBCラジオ夏まつり2026」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-07-24" data-url="" data-added="2026-09-04" data-order="30" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.07.24</span></div>
+    <h3 class="record-title editable" contenteditable="true">ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-15" data-url="" data-added="2026-09-04" data-order="29" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.15</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-14" data-url="" data-added="2026-09-04" data-order="27" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.14</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-11" data-url="" data-added="2026-09-04" data-order="26" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO みつ吉と名門大洋フェリーで行く!SKE48 SUMMER Tour 2026 応援ツアー～瀬戸内海クルーズと福岡満喫の旅PartⅡ～</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-10" data-url="" data-added="2026-09-04" data-order="28" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.10</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-07-08" data-url="" data-added="2026-09-04" data-order="25" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.07.08</span></div>
+    <h3 class="record-title editable" contenteditable="true">ニコニコチャンネル「SKE48非公式ちゃんねる」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-07-03" data-url="" data-added="2026-09-04" data-order="24" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.07.03</span></div>
+    <h3 class="record-title editable" contenteditable="true">ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-07-01" data-url="" data-added="2026-09-04" data-order="23" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.07.01</span></div>
+    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-06-24" data-url="" data-added="2026-09-04" data-order="44" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.06.24</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-06-23" data-url="" data-added="2026-09-04" data-order="43" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.06.23</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 初恋の瞬間 SHOWROOM緊急特番</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-21" data-url="" data-added="2026-09-04" data-order="42" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.21</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CDリリース記念「プレミアムグループトーク会」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-20" data-url="" data-added="2026-09-04" data-order="41" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.20</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』8K 舞台挨拶付き上映会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-14" data-url="" data-added="2026-09-04" data-order="40" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.14</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』リミスタ オンライントーク会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-13" data-url="" data-added="2026-09-04" data-order="39" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.13</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』リミスタ オンラインサイン会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-06-11" data-url="" data-added="2026-09-04" data-order="38" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.06.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">SHOWROOM『5月度ステラ★SHOWCASE!!』</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-06-10" data-url="" data-added="2026-09-04" data-order="37" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.06.10</span></div>
+    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-07" data-url="" data-added="2026-09-04" data-order="36" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.07</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』8K 舞台挨拶付き上映会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-06-06" data-url="" data-added="2026-09-04" data-order="34" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.06.06</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」</h3>
+    <p class="record-desc editable" contenteditable="true">11期スペシャル</p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-06" data-url="" data-added="2026-09-04" data-order="35" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.06</span></div>
+    <h3 class="record-title editable" contenteditable="true">「テレビ愛知 ミカンのむき方 / 真夜中のウナギたち イベント」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-06-04" data-url="" data-added="2026-09-04" data-order="33" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.06.04</span></div>
+    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="雑誌・書籍" data-date="2026-05-30" data-url="" data-added="2026-09-04" data-order="58" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">雑誌・書籍</span><span class="record-date">2026.05.30</span></div>
+    <h3 class="record-title editable" contenteditable="true">「東スポ競馬」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-05-27" data-url="" data-added="2026-09-04" data-order="57" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.05.27</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-23" data-url="" data-added="2026-09-04" data-order="56" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.23</span></div>
+    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-20" data-url="" data-added="2026-09-04" data-order="55" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.20</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-16" data-url="" data-added="2026-09-04" data-order="53" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.16</span></div>
+    <h3 class="record-title editable" contenteditable="true">ミニAlbum 舞台『推しが武道館いってくれたら死ぬ』リリース記念握手会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-16" data-url="" data-added="2026-09-04" data-order="54" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.16</span></div>
+    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-14" data-url="" data-added="2026-09-04" data-order="52" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.14</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 ×「ガイア」訪店第3弾</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-05-13" data-url="" data-added="2026-09-04" data-order="51" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.05.13</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-09" data-url="" data-added="2026-09-04" data-order="49" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.09</span></div>
+    <h3 class="record-title editable" contenteditable="true">ミニAlbum 舞台『推しが武道館いってくれたら死ぬ』リリース記念握手会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-09" data-url="" data-added="2026-09-04" data-order="50" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.09</span></div>
+    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-06" data-url="" data-added="2026-09-04" data-order="47" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.06</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』現地でロングトーク会&amp;プレミアム・グループサイン会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-05" data-url="" data-added="2026-09-04" data-order="48" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.05</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』現地でロングトーク会&amp;プレミアム・グループサイン会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-02" data-url="" data-added="2026-09-04" data-order="45" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.02</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 ×「ガイア」来店第2弾</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-02" data-url="" data-added="2026-09-04" data-order="46" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.02</span></div>
+    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-04-22" data-url="" data-added="2026-09-05" data-order="6" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.04.22</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-04-08" data-url="" data-added="2026-09-05" data-order="5" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.04.08</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-04-05" data-url="" data-added="" data-order="4" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.04.05</span></div>
+    <h3 class="record-title editable" contenteditable="true">CBCラジオ「ウインクス presents SKE48原優寧の建築ラジオ」</h3>
+    <p class="record-desc editable" contenteditable="true">レギュラー出演</p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-03-25" data-url="" data-added="2026-09-05" data-order="15" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.03.25</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-20" data-url="" data-added="2026-09-05" data-order="14" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.20</span></div>
+    <h3 class="record-title editable" contenteditable="true">ニコニコチャンネル「SKE48非公式ちゃんねる」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-16" data-url="" data-added="2026-09-05" data-order="13" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.16</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演「ずっと君を探している」情報解禁生配信</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-03-11" data-url="" data-added="2026-09-05" data-order="12" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.03.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="雑誌・書籍" data-date="2026-03-10" data-url="" data-added="2026-09-05" data-order="11" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">雑誌・書籍</span><span class="record-date">2026.03.10</span></div>
+    <h3 class="record-title editable" contenteditable="true">「Forty-Eight Times」(AKB48新聞電子版)</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-03-06" data-url="" data-added="2026-09-05" data-order="9" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.06</span></div>
+    <h3 class="record-title editable" contenteditable="true">FM AICHI「FUJIMAKI GROUP presents SKE48のF&amp;Cミュージック」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-03-06" data-url="" data-added="2026-09-05" data-order="10" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.06</span></div>
+    <h3 class="record-title editable" contenteditable="true">CBCラジオ「SKE48なるべくしゃべりたいCBC公開録音vol.13」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-03" data-url="" data-added="2026-09-05" data-order="8" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.03</span></div>
+    <h3 class="record-title editable" contenteditable="true">「SKE48 初恋の瞬間」 SHOWROOM配信</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-01" data-url="" data-added="2026-09-05" data-order="7" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.01</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』Streaming+配信</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-28" data-url="" data-added="2026-09-05" data-order="26" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.28</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』東京公演</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-02-28" data-url="" data-added="2026-09-05" data-order="27" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.02.28</span></div>
+    <h3 class="record-title editable" contenteditable="true">日本テレビ「バズリズム02」</h3>
+    <p class="record-desc editable" contenteditable="true">君だけがターゲット披露！</p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-27" data-url="" data-added="" data-order="25" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.27</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』東京公演</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-02-25" data-url="" data-added="2026-09-05" data-order="24" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.02.25</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-23" data-url="" data-added="2026-09-05" data-order="22" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.23</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-22" data-url="" data-added="2026-09-05" data-order="23" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.22</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-21" data-url="" data-added="2026-09-05" data-order="20" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.21</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-20" data-url="" data-added="2026-09-05" data-order="21" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.20</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-02-11" data-url="" data-added="2026-09-05" data-order="18" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.02.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』ビジュアル付きチケットサイン会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-02-11" data-url="" data-added="2026-09-05" data-order="19" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.02.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-02-08" data-url="" data-added="2026-09-05" data-order="17" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.02.08</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 36thシングル対象 オンラインサイン会&amp;チェキ会&amp;抽選会</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-02-04" data-url="" data-added="2026-09-05" data-order="16" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.02.04</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-31" data-url="" data-added="2026-09-05" data-order="38" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.31</span></div>
+    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-23" data-url="" data-added="2026-09-05" data-order="37" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.23</span></div>
+    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-01-21" data-url="" data-added="2026-09-05" data-order="36" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.01.21</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-20" data-url="" data-added="2026-09-05" data-order="35" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.20</span></div>
+    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-01-16" data-url="" data-added="2026-09-05" data-order="32" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.01.16</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-16" data-url="" data-added="2026-09-05" data-order="33" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.16</span></div>
+    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-16" data-url="" data-added="2026-09-05" data-order="34" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.16</span></div>
+    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-01-12" data-url="" data-added="2026-09-05" data-order="31" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.01.12</span></div>
+    <h3 class="record-title editable" contenteditable="true">「ブシロード新春大発表会2026」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-01-11" data-url="" data-added="2026-09-05" data-order="30" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.01.11</span></div>
+    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO公開収録「みつ吉とSKE48の愉快な仲間たち!みつ吉フェスやっちゃうでちょっ!Part3 ～もうすぐ2じゃないよ放送4000回!めでたすぎるスペシャル!～」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-09" data-url="" data-added="2026-09-05" data-order="29" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.09</span></div>
+    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-01-07" data-url="" data-added="2026-09-05" data-order="28" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.01.07</span></div>
+    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2025-09-14" data-url="" data-added="2026-09-04" data-order="16" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2025.09.14</span></div>
+    <h3 class="record-title editable" contenteditable="true">10チャンあたりま縁日 IN 大須</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="劇" data-date="2024-11-02" data-url="" data-added="2026-09-04" data-order="14" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">劇</span><span class="record-date">2024.11.02</span></div>
+    <h3 class="record-title editable" contenteditable="true">ラブストーリー朗読劇【Sweet Love Theater】</h3>
+    <p class="record-desc editable" contenteditable="true"></p>
+    
+    
+  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2024-09-12" data-url="" data-added="2026-09-04" data-order="12" style="display: none;">
+    
+    
+    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2024.09.12</span></div>
+    <h3 class="record-title editable" contenteditable="true">SKE48 ゆうねと千成工業がものづくりやってみた</h3>
+    <p class="record-desc editable" contenteditable="true">初の冠ラジオ</p>
+    
+    
+  </div></div>
+    <p class="no-results" id="media-no-results">条件に合う記録が見つかりませんでした。</p>
+    <button class="load-more-btn" id="load-more-medias" type="button" style="display: flex;">＋ もっと見る(残り74件)</button>
+    
+  </div>
+</section>
+
+<section id="criteria">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="criteria-heading" contenteditable="true">集計・掲載基準</span></h2>
+      <p class="editable" id="criteria-desc" contenteditable="true">このページの情報をまとめる上でのルールや注意点です</p>
+    </div>
+    <div class="criteria-list" id="criteria-list"><div class="editable-item criteria-item">
+    
+    
+    <p class="editable" contenteditable="true">本ページの出演回数・掲載楽曲は、公式に発表された情報をもとに個人でまとめたものです。</p>
+    
+  </div><div class="editable-item criteria-item">
+    
+    
+    <p class="editable" contenteditable="true">非公式のファンサイトのため、内容に誤りが含まれる可能性があります。正確な情報は必ず公式サイト・公式SNSをご確認ください。</p>
+    
+  </div></div>
+    
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+
+
+
+
+<script>
+
+let editMode = false;
+
+const SONG_CATEGORIES = ["選抜曲", "カップリング曲", "ユニット曲", "ソロ・その他"];
+const MEDIA_CATEGORIES = ["ラジオ", "テレビ", "雑誌・書籍", "イベント"];
+const MEDIA_CATEGORIES_ALL = MEDIA_CATEGORIES.concat(["その他"]);
+
+const ACHIEVEMENTS = {
+  navBrand: "活動実績",
+  eyebrow: "活動記録",
+  title: "活動実績",
+  desc: "楽曲・公演・メディア出演などの活動記録をまとめています。",
+  sections: {
+    songs: { heading: "楽曲", desc: "選抜曲・カップリング曲・ユニット曲・ソロ楽曲などをまとめています" },
+    performances: { heading: "公演", desc: "出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます" },
+    media: { heading: "メディア・イベント", desc: "ラジオ・テレビ・雑誌書籍・イベント出演の記録です" },
+    criteria: { heading: "集計・掲載基準", desc: "このページの情報をまとめる上でのルールや注意点です" },
+  },
+  songs: [
+    { title: "サンプル選抜曲タイトル", category: "選抜曲", date: "2026-04-01", desc: "◯枚目シングル表題曲。センターを務めた。", url: "", addedAt: "" },
+    { title: "サンプルカップリング曲", category: "カップリング曲", date: "2026-04-01", desc: "同シングル収録曲。", url: "", addedAt: "" },
+  ],
+  performances: [
+    { title: "サンプル劇場公演A", count: "15", date: "2026-05-10", desc: "定期公演。この公演での通算出演回数です。", url: "", addedAt: "" },
+    { title: "サンプル劇場公演B", count: "8", date: "2026-06-01", desc: "別演目での公演回数です。", url: "", addedAt: "" },
+  ],
+  media: [
+    { title: "サンプルラジオ番組", category: "ラジオ", date: "2026-03-15", desc: "レギュラー出演回。", url: "", addedAt: "" },
+  ],
+  criteria: [
+    "本ページの出演回数・掲載楽曲は、公式に発表された情報をもとに個人でまとめたものです。",
+    "非公式のファンサイトのため、内容に誤りが含まれる可能性があります。正確な情報は必ず公式サイト・公式SNSをご確認ください。",
+  ],
+};
+
+function esc(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function isRecentlyAdded(addedAt){
+  if(!addedAt) return false;
+  const added = new Date(addedAt + "T00:00:00");
+  if(isNaN(added.getTime())) return false;
+  const diffDays = (new Date() - added) / (1000 * 60 * 60 * 24);
+  return diffDays >= 0 && diffDays <= 7;
+}
+function formatDate(iso){
+  if(!iso) return "";
+  const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m) return iso;
+  return `${m[1]}.${m[2]}.${m[3]}`;
+}
+function parseFlexibleDate(input){
+  const raw = String(input || "").trim();
+  if(!raw) return "";
+  /* 全角数字・全角の区切り記号を半角に変換 */
+  const s = raw
+    .replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .replace(/[．]/g, ".")
+    .replace(/[／]/g, "/")
+    .replace(/[－ー―]/g, "-");
+  /* 前後に余分な文字が残っていても、日付らしき並びを拾えるよう、完全一致ではなく部分一致で探す */
+  let m = s.match(/(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日?/);
+  if(!m) m = s.match(/(\d{4})[\-\/\.](\d{1,2})[\-\/\.](\d{1,2})/);
+  if(!m) m = s.match(/^(\d{4})(\d{2})(\d{2})$/);
+  if(!m) return raw; /* 解釈できない場合は入力をそのまま返す(データを消さない) */
+  const y = m[1];
+  const mo = String(parseInt(m[2], 10)).padStart(2, "0");
+  const d = String(parseInt(m[3], 10)).padStart(2, "0");
+  const check = new Date(`${y}-${mo}-${d}T00:00:00`);
+  if(isNaN(check.getTime())) return raw;
+  return `${y}-${mo}-${d}`;
+}
+function getYouTubeId(url){
+  if(!url) return null;
+  try{
+    const u = new URL(url);
+    if(u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+    if(u.hostname.includes("youtube.com")){
+      if(u.pathname === "/watch") return u.searchParams.get("v");
+      const m = u.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
+      if(m) return m[2];
+    }
+  }catch(e){ /* 不正なURLは無視 */ }
+  return null;
+}
+const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
+
+let recordOrderCounter = 0;
+function songItemHTML(s){
+  const newBadge = isRecentlyAdded(s.addedAt) ? `<span class="record-new-badge">NEW</span>` : "";
+  const dateHtml = s.date ? `<span class="record-date">${formatDate(s.date)}</span>` : "";
+  const ytId = getYouTubeId(s.url);
+  const thumbHtml = ytId ? `<img class="record-thumb" src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt="">` : "";
+  const linkLabel = s.linkLabel || "▶ 見る・聴く";
+  const linkHtml = s.url ? `<a class="record-link" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(linkLabel)}</a>` : "";
+  const albumHtml = s.album ? `<span class="record-album editable" contenteditable="false">💿 ${esc(s.album)}</span>` : `<span class="record-album editable" contenteditable="false" style="display:none;"></span>`;
+  const order = (s.order !== undefined && s.order !== "") ? s.order : recordOrderCounter++;
+  return `<div class="editable-item record-item" data-type="song" data-category="${escAttr(s.category)}" data-album="${escAttr(s.album)}" data-date="${escAttr(s.date)}" data-url="${escAttr(s.url)}" data-link-label="${escAttr(s.linkLabel)}" data-added="${escAttr(s.addedAt)}" data-order="${order}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="record-meta">${newBadge}<span class="record-category editable" contenteditable="false">${esc(s.category)}</span>${albumHtml}${dateHtml}</div>
+    <h3 class="record-title editable" contenteditable="false">${esc(s.title)}</h3>
+    <p class="record-desc editable" contenteditable="false">${esc(s.desc)}</p>
+    ${thumbHtml}
+    ${linkHtml}
+    ${REORDER_ROW}
+  </div>`;
+}
+function performanceItemHTML(p){
+  const newBadge = isRecentlyAdded(p.addedAt) ? `<span class="record-new-badge">NEW</span>` : "";
+  const dateHtml = p.date ? `<span class="record-date">${formatDate(p.date)}</span>` : "";
+  const hasCount = p.count !== undefined && p.count !== null && String(p.count).trim() !== "";
+  const count = hasCount ? Math.max(0, parseInt(p.count, 10) || 0) : "";
+  const countCornerHtml = hasCount ? `<div class="record-count-corner"><span class="count-num">${count}</span><span class="count-suffix">回</span></div>` : "";
+  const linkHtml = p.url ? `<a class="record-link" href="${esc(p.url)}" target="_blank" rel="noopener">▶ 詳しく見る</a>` : "";
+  const order = (p.order !== undefined && p.order !== "") ? p.order : recordOrderCounter++;
+  return `<div class="editable-item record-item" data-type="performance" data-date="${escAttr(p.date)}" data-url="${escAttr(p.url)}" data-count="${count}" data-added="${escAttr(p.addedAt)}" data-order="${order}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${countCornerHtml}
+    <div class="record-meta">${newBadge}${dateHtml}</div>
+    <h3 class="record-title editable" contenteditable="false">${esc(p.title)}</h3>
+    <p class="record-desc editable" contenteditable="false">${esc(p.desc)}</p>
+    ${linkHtml}
+    ${REORDER_ROW}
+  </div>`;
+}
+function mediaItemHTML(m){
+  const newBadge = isRecentlyAdded(m.addedAt) ? `<span class="record-new-badge">NEW</span>` : "";
+  const dateHtml = m.date ? `<span class="record-date">${formatDate(m.date)}</span>` : "";
+  const linkHtml = m.url ? `<a class="record-link" href="${esc(m.url)}" target="_blank" rel="noopener">▶ 詳しく見る</a>` : "";
+  const order = (m.order !== undefined && m.order !== "") ? m.order : recordOrderCounter++;
+  return `<div class="editable-item record-item" data-type="media" data-category="${escAttr(m.category)}" data-date="${escAttr(m.date)}" data-url="${escAttr(m.url)}" data-added="${escAttr(m.addedAt)}" data-order="${order}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="record-meta">${newBadge}<span class="record-category editable" contenteditable="false">${esc(m.category)}</span>${dateHtml}</div>
+    <h3 class="record-title editable" contenteditable="false">${esc(m.title)}</h3>
+    <p class="record-desc editable" contenteditable="false">${esc(m.desc)}</p>
+    ${linkHtml}
+    ${REORDER_ROW}
+  </div>`;
+}
+function criteriaItemHTML(text){
+  return `<div class="editable-item criteria-item">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <p class="editable" contenteditable="false">${esc(text)}</p>
+    ${REORDER_ROW}
+  </div>`;
+}
+
+function sortRecordListByDateDesc(listId){
+  const list = document.getElementById(listId);
+  const items = Array.from(list.querySelectorAll(".record-item"));
+  items.sort((a, b) => {
+    const da = a.dataset.date || "";
+    const db = b.dataset.date || "";
+    if(!da && !db) return 0;
+    if(!da) return 1;
+    if(!db) return -1;
+    return db.localeCompare(da);
+  });
+  items.forEach(item => list.appendChild(item));
+}
+function renderAll(data){
+  document.getElementById("nav-brand").textContent = data.navBrand;
+  document.getElementById("p-eyebrow").textContent = data.eyebrow;
+  document.getElementById("p-title").textContent = data.title;
+  document.getElementById("p-desc").textContent = data.desc;
+  if(data.sections){
+    Object.keys(data.sections).forEach(key => {
+      const h = document.getElementById(key + "-heading");
+      if(h) h.textContent = data.sections[key].heading;
+      const d = document.getElementById(key + "-desc");
+      if(d) d.textContent = data.sections[key].desc;
+    });
+  }
+  document.getElementById("song-list").innerHTML = data.songs.map(songItemHTML).join("");
+  sortRecordListByDateDesc("song-list");
+  document.getElementById("performance-list").innerHTML = data.performances.map(performanceItemHTML).join("");
+  document.getElementById("media-list").innerHTML = data.media.map(mediaItemHTML).join("");
+  sortRecordListByDateDesc("media-list");
+  document.getElementById("criteria-list").innerHTML = data.criteria.map(criteriaItemHTML).join("");
+}
+if(!document.body.dataset.rendered){
+  renderAll(ACHIEVEMENTS);
+  document.body.dataset.rendered = "true";
+}
+
+/* ---------- SNSシェア用OGPタグの同期 ---------- */
+const OGP_IMAGE_URL = "";
+function syncOgpTags(){
+  const title = document.getElementById("p-title").textContent.trim();
+  const desc = document.getElementById("p-desc").textContent.trim();
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', title || "活動実績");
+  setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="twitter:title"]', title || "活動実績");
+  setMeta('meta[name="twitter:description"]', desc);
+  if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
+  if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+}
+syncOgpTags();
+
+/* ---------- PWA:Service Worker登録 ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const title = document.getElementById("p-title").textContent.trim();
+  const desc = document.getElementById("p-desc").textContent.trim();
+  const shareText = desc ? `${title}｜${desc}` : title;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{ await navigator.share({ title, text: shareText, url: shareUrl }); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* ---------- 印刷 ---------- */
+document.getElementById("print-btn").addEventListener("click", () => window.print());
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
+
+
+/* ---------- 汎用:検索・カテゴリ絞り込み・もっと見る ---------- */
+const INITIAL_VISIBLE = 6;
+const listState = {
+  song: { category: "all", album: "all", showAll: false },
+  media: { category: "all", showAll: false },
+  performance: { showAll: false },
+};
+function applyRecordFilter(type){
+  const listEl = document.getElementById(type + "-list");
+  const searchEl = document.getElementById(type + "-search");
+  const q = searchEl ? searchEl.value.trim().toLowerCase() : "";
+  const state = listState[type];
+  const allItems = Array.from(listEl.querySelectorAll(".record-item"));
+  const matched = allItems.filter(item => {
+    const categoryOk = !state.category || state.category === "all" || item.dataset.category === state.category;
+    const albumOk = !state.album || state.album === "all" || item.dataset.album === state.album;
+    const searchOk = !q || item.textContent.toLowerCase().includes(q);
+    return categoryOk && albumOk && searchOk;
+  });
+  const isNarrowed = (state.category && state.category !== "all") || (state.album && state.album !== "all") || !!q;
+  const limitActive = !state.showAll && !isNarrowed && matched.length > INITIAL_VISIBLE;
+  allItems.forEach(item => { item.style.display = "none"; });
+  matched.forEach((item, i) => {
+    if(limitActive && i >= INITIAL_VISIBLE) return;
+    item.style.display = "";
+  });
+  const noResults = document.getElementById(type + "-no-results");
+  if(noResults) noResults.classList.toggle("show", matched.length === 0 && allItems.length > 0);
+  const loadMoreBtn = document.getElementById("load-more-" + type + "s");
+  if(loadMoreBtn){
+    if(limitActive){
+      loadMoreBtn.style.display = "flex";
+      loadMoreBtn.textContent = `＋ もっと見る(残り${matched.length - INITIAL_VISIBLE}件)`;
+    } else {
+      loadMoreBtn.style.display = "none";
+    }
+  }
+  updatePerformanceCount();
+}
+function renderCategoryTabs(type, categories, filterElId){
+  const wrap = document.getElementById(filterElId);
+  if(!wrap) return;
+  const state = listState[type];
+  const used = [];
+  document.querySelectorAll(`#${type}-list .record-item`).forEach(item => {
+    const c = item.dataset.category;
+    if(c && !used.includes(c)) used.push(c);
+  });
+  if(used.length < 2){
+    wrap.innerHTML = "";
+    state.category = "all";
+    applyRecordFilter(type);
+    return;
+  }
+  wrap.innerHTML = [`<button type="button" class="tag-filter-btn${state.category === "all" ? " active" : ""}" data-cat="all">すべて</button>`]
+    .concat(categories.filter(c => used.includes(c)).concat(used.filter(c => !categories.includes(c))).map(c => `<button type="button" class="tag-filter-btn${state.category === c ? " active" : ""}" data-cat="${escAttr(c)}">${c}</button>`))
+    .join("");
+  applyRecordFilter(type);
+}
+document.getElementById("song-category-filter").addEventListener("click", (e) => {
+  const btn = e.target.closest(".tag-filter-btn");
+  if(!btn) return;
+  listState.song.category = btn.dataset.cat;
+  listState.song.showAll = false;
+  document.querySelectorAll("#song-category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+  applyRecordFilter("song");
+});
+document.getElementById("media-category-filter").addEventListener("click", (e) => {
+  const btn = e.target.closest(".tag-filter-btn");
+  if(!btn) return;
+  listState.media.category = btn.dataset.cat;
+  listState.media.showAll = false;
+  document.querySelectorAll("#media-category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+  applyRecordFilter("media");
+});
+function renderAlbumFilter(){
+  const wrap = document.getElementById("song-album-filter");
+  if(!wrap) return;
+  const used = [];
+  document.querySelectorAll("#song-list .record-item").forEach(item => {
+    const a = item.dataset.album;
+    if(a && !used.includes(a)) used.push(a);
+  });
+  if(used.length < 2){
+    wrap.innerHTML = "";
+    listState.song.album = "all";
+    applyRecordFilter("song");
+    return;
+  }
+  const current = used.includes(listState.song.album) ? listState.song.album : "all";
+  listState.song.album = current;
+  wrap.innerHTML = [`<button type="button" class="tag-filter-btn${current === "all" ? " active" : ""}" data-album="all">収録作品:すべて</button>`]
+    .concat(used.map(a => `<button type="button" class="tag-filter-btn${current === a ? " active" : ""}" data-album="${escAttr(a)}">${a}</button>`))
+    .join("");
+  applyRecordFilter("song");
+}
+document.getElementById("song-album-filter").addEventListener("click", (e) => {
+  const btn = e.target.closest(".tag-filter-btn");
+  if(!btn) return;
+  listState.song.album = btn.dataset.album;
+  listState.song.showAll = false;
+  document.querySelectorAll("#song-album-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+  applyRecordFilter("song");
+});
+document.getElementById("song-search").addEventListener("input", () => { listState.song.showAll = false; applyRecordFilter("song"); });
+document.getElementById("media-search").addEventListener("input", () => { listState.media.showAll = false; applyRecordFilter("media"); });
+document.getElementById("load-more-songs").addEventListener("click", () => { listState.song.showAll = true; applyRecordFilter("song"); });
+document.getElementById("load-more-medias").addEventListener("click", () => { listState.media.showAll = true; applyRecordFilter("media"); });
+document.getElementById("load-more-performances").addEventListener("click", () => { listState.performance.showAll = true; applyRecordFilter("performance"); });
+
+function updatePerformanceCount(){
+  const items = Array.from(document.querySelectorAll("#performance-list .record-item"));
+  const counted = items.filter(el => el.dataset.count !== "" && !isNaN(parseInt(el.dataset.count, 10)));
+  const total = counted.reduce((sum, el) => sum + parseInt(el.dataset.count, 10), 0);
+  const el = document.getElementById("performance-count");
+  if(el) el.textContent = total;
+  const callout = document.getElementById("performance-stat-callout");
+  if(callout) callout.style.display = counted.length ? "" : "none";
+  const noRes = document.getElementById("performance-no-results");
+  if(noRes) noRes.classList.toggle("show", items.length === 0);
+}
+
+new MutationObserver(() => { renderCategoryTabs("song", SONG_CATEGORIES, "song-category-filter"); renderAlbumFilter(); }).observe(document.getElementById("song-list"), { childList: true, subtree: true, characterData: true });
+new MutationObserver(() => { renderCategoryTabs("media", MEDIA_CATEGORIES, "media-category-filter"); }).observe(document.getElementById("media-list"), { childList: true, subtree: true, characterData: true });
+new MutationObserver(() => { applyRecordFilter("performance"); }).observe(document.getElementById("performance-list"), { childList: true, subtree: true, characterData: true });
+renderCategoryTabs("song", SONG_CATEGORIES, "song-category-filter");
+renderAlbumFilter();
+renderCategoryTabs("media", MEDIA_CATEGORIES, "media-category-filter");
+applyRecordFilter("performance");
+
+/* ---------- 空のセクション処理は行わない(常時表示。集計基準など常設セクションのため) ---------- */
+
+/* ---------- 編集モード(パスワードで保護) ---------- */
+function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+
+
+/* 編集モード中は、記録内のリンクをタップしても遷移させない */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.record-link");
+  if(link) e.preventDefault();
+});
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+
+function rebuildFromData(data){
+  if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
+  if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
+  if(data.title !== undefined) document.getElementById("p-title").textContent = data.title;
+  if(data.desc !== undefined) document.getElementById("p-desc").textContent = data.desc;
+  if(data.backLinkUrl){
+    const link = document.querySelector(".back-link");
+    if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
+  }
+  if(data.sections){
+    Object.keys(data.sections).forEach(key => {
+      const h = document.getElementById(key + "-heading");
+      if(h) h.textContent = data.sections[key].heading;
+      const d = document.getElementById(key + "-desc");
+      if(d) d.textContent = data.sections[key].desc;
+    });
+  }
+  if(data.songs){
+    document.getElementById("song-list").innerHTML = data.songs.map(songItemHTML).join("");
+    sortRecordListByDateDesc("song-list");
+  }
+  if(data.performances) document.getElementById("performance-list").innerHTML = data.performances.map(performanceItemHTML).join("");
+  if(data.media){
+    document.getElementById("media-list").innerHTML = data.media.map(mediaItemHTML).join("");
+    sortRecordListByDateDesc("media-list");
+  }
+  if(data.criteria) document.getElementById("criteria-list").innerHTML = data.criteria.map(criteriaItemHTML).join("");
+  setEditable(editMode);
+  syncOgpTags();
+  renderCategoryTabs("song", SONG_CATEGORIES, "song-category-filter");
+  renderCategoryTabs("media", MEDIA_CATEGORIES, "media-category-filter");
+  applyRecordFilter("performance");
+  hasUnsavedChanges = true;
+}
+
+
+/* タップ数の計測(GA4イベント) */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
+
+
+/* ---------- 同じ場所にある achievements-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  try{
+    const res = await fetch("achievements-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildFromData(data);
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }
+})();
+
+</script>
+
+
+
+</body></html>

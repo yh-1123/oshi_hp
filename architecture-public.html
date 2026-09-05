@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<title>建築 | 布教ツール</title>
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="布教ページ">
+<meta property="og:title" content="建築">
+<meta property="og:description" content="学び、語り、現在へ。アイドルとしてだけじゃない、もうひとつの顔。">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="建築">
+<meta name="twitter:description" content="学び、語り、現在へ。アイドルとしてだけじゃない、もうひとつの顔。">
+
+<!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans JP', sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  overflow-x:hidden;
+  padding-bottom:80px;
+  font-size:15px;
+}
+h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:760px; margin:0 auto; padding:0 18px; }
+.editable[contenteditable="true"]{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:6px; cursor:text; }
+
+/* ---------- ヘッダー ナビ ---------- */
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; gap:10px; }
+.brand{ font-weight:700; font-size:13px; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-right{ display:flex; align-items:center; gap:14px; flex:none; }
+@media (max-width:420px){
+  .nav-right{ gap:8px; max-width:56vw; overflow-x:auto; scrollbar-width:none; }
+  .nav-right::-webkit-scrollbar{ display:none; }
+  .profile-nav-link{ font-size:10.5px; flex:none; }
+}
+.profile-nav-link{ font-size:11.5px; font-weight:700; color:var(--sub-ink); white-space:nowrap; }
+.profile-nav-link.current, .profile-nav-link:hover{ color:var(--oshi-color); }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn:hover{ color:var(--oshi-color); }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* ---------- ページヒーロー ---------- */
+.page-hero{ position:relative; padding:30px 0 22px; text-align:center; overflow:hidden; border-bottom:1px solid var(--line); }
+.page-hero::before{
+  content:""; position:absolute; top:-10px; left:50%; width:220px; height:170px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.eyebrow-badge{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:10px; font-weight:700; letter-spacing:0.04em; }
+.page-hero h1{ position:relative; font-size:clamp(22px, 7.5vw, 30px); font-weight:900; color:var(--ink); line-height:1.3; }
+.page-hero h1 .accent{ color:var(--oshi-color); }
+.page-hero .catch{ position:relative; margin:10px auto 0; max-width:440px; font-size:12.5px; color:var(--sub-ink); font-weight:500; }
+.breadcrumb{ position:relative; margin-top:14px; font-size:11px; color:var(--sub-ink); }
+.breadcrumb a{ color:var(--oshi-color); font-weight:700; }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; }
+body.editing .back-link-edit{ display:inline-block; }
+.back-link-edit:hover{ color:var(--oshi-color); }
+
+/* ---------- セクション共通 ---------- */
+section{ padding:34px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:18px; }
+.sec-head h2{ font-size:17px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:5px; }
+
+/* ---------- 編集用の共通パーツ ---------- */
+.editable-item{ position:relative; }
+.edit-remove, .edit-edit{
+  display:none; position:absolute; top:8px; width:32px; height:32px; border-radius:50%;
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:14px; cursor:pointer;
+  align-items:center; justify-content:center; z-index:3; font-family:inherit; padding:0;
+}
+.edit-remove{ right:8px; font-size:16px; }
+.edit-edit{ right:44px; }
+body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
+.edit-remove:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.edit-edit:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.reorder-row{ display:none; align-items:center; gap:6px; margin-top:8px; }
+body.editing .reorder-row{ display:flex; }
+.drag-handle{
+  flex:none; width:28px; height:24px; border:1px solid var(--line); border-radius:8px; background:#fff;
+  color:var(--sub-ink); font-size:13px; cursor:grab; touch-action:none; display:flex;
+  align-items:center; justify-content:center; line-height:1;
+}
+.drag-handle:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.reorder-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 10px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.reorder-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.dragging{ opacity:0.4; }
+
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  font-family:inherit;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+.load-more-btn{
+  display:flex; align-items:center; justify-content:center; width:100%; margin-top:10px;
+  border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-weight:700; font-size:12.5px;
+  padding:10px 16px; border-radius:12px; cursor:pointer; font-family:inherit;
+}
+.load-more-btn:hover{ background:var(--oshi-color-soft); }
+
+/* ---------- イントロカード ---------- */
+.intro-card{
+  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px;
+  box-shadow:var(--shadow-sm); display:flex; gap:14px; align-items:flex-start;
+}
+.intro-icon{ flex:none; width:40px; height:40px; border-radius:12px; background:var(--oshi-color-soft); color:var(--oshi-color); display:flex; align-items:center; justify-content:center; font-size:19px; }
+.intro-list{ flex:1; display:flex; flex-direction:column; gap:8px; }
+.intro-p{ padding-right:0; }
+body.editing .intro-p{ padding-right:84px; }
+.intro-p p{ font-size:13.5px; color:var(--ink); }
+
+/* ---------- 2カラムカード(大学時代) ---------- */
+.split-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:560px){ .split-grid{ grid-template-columns:1fr; } }
+.info-card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow-sm); }
+.info-card h3{ font-size:13.5px; font-weight:700; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.info-card h3 .dot{ width:6px; height:6px; border-radius:50%; background:var(--oshi-color); flex:none; }
+.fact-list, .quote-list{ display:flex; flex-direction:column; gap:8px; }
+.fact-item{ display:flex; align-items:flex-start; gap:6px; }
+body.editing .fact-item, body.editing .quote-p{ padding-right:84px; }
+.fact-item .bullet{ color:var(--oshi-color); flex:none; }
+.fact-item .editable{ flex:1; font-size:12.5px; color:var(--ink); }
+.quote-p p{ font-size:12.5px; color:var(--ink); }
+
+/* ---------- 活動紹介(ラジオ・フィーチャーカード) ---------- */
+.feature-card{
+  position:relative; background:linear-gradient(135deg, var(--oshi-color-soft), #fff);
+  border:1px solid var(--oshi-color); border-radius:16px; padding:18px; margin-bottom:14px; box-shadow:var(--shadow-sm);
+}
+body.editing .feature-card{ padding-top:56px; }
+.feature-card .edit-edit{ right:8px; }
+.feature-badge{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:999px; padding:3px 11px; margin-bottom:8px; }
+.feature-card h3{ font-size:14.5px; font-weight:700; margin-bottom:4px; }
+.feature-card p.editable{ font-size:12.5px; color:var(--ink); margin-bottom:10px; }
+.feature-tags{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.feature-tag{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; color:var(--oshi-color); background:#fff; border:1px solid var(--oshi-color); border-radius:999px; padding:3px 6px 3px 10px; }
+.chip-remove{ display:none; border:none; background:transparent; color:var(--oshi-color); cursor:pointer; font-size:12px; line-height:1; padding:0 2px; }
+body.editing .chip-remove{ display:inline-flex; }
+.add-tag-btn{
+  display:none; border:1.5px dashed var(--oshi-color); background:#fff; color:var(--oshi-color); font-size:10.5px;
+  font-weight:700; border-radius:999px; padding:3px 12px; cursor:pointer; font-family:inherit;
+}
+body.editing .add-tag-btn{ display:inline-flex; }
+.feature-link-row{ display:flex; align-items:center; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.feature-link-label{ font-size:11.5px; font-weight:700; color:var(--ink); flex:1; }
+.feature-link-label:empty{ display:none; }
+.feature-link-go{
+  flex:none; display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:700;
+  color:var(--oshi-color); border:1px solid var(--oshi-color); border-radius:999px; padding:5px 12px;
+}
+.feature-link-go:hover{ background:var(--oshi-color-soft); }
+
+.activity-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:560px){ .activity-grid{ grid-template-columns:1fr; } }
+.activity-card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px; box-shadow:var(--shadow-sm); }
+body.editing .activity-card{ padding-top:44px; }
+.activity-card .tag{ display:inline-block; font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); padding:2px 8px; border-radius:999px; margin-bottom:8px; }
+.activity-card h3{ font-size:13px; font-weight:700; margin-bottom:5px; }
+.activity-card p{ font-size:11.5px; color:var(--sub-ink); }
+.activity-photo{ width:100%; border-radius:10px; margin-top:10px; display:block; box-shadow:var(--shadow-sm); }
+.activity-go-btn{
+  display:inline-flex; align-items:center; gap:3px; margin-top:10px; font-size:11px; font-weight:700;
+  color:var(--oshi-color); border:1px solid var(--oshi-color); border-radius:999px; padding:5px 12px;
+}
+.activity-go-btn:hover{ background:var(--oshi-color-soft); }
+
+/* ---------- 記録一覧(区切り線のみのシンプルなリスト) ---------- */
+.timeline{ display:flex; flex-direction:column; }
+.tl-item{ position:relative; padding:14px 0; border-bottom:1px solid var(--line); }
+.tl-item:first-child{ padding-top:0; }
+.tl-item:last-child{ padding-bottom:0; border-bottom:none; }
+body.editing .tl-item{ padding-right:84px; }
+.tl-head{ display:flex; align-items:center; gap:8px; margin-bottom:3px; flex-wrap:wrap; }
+.tl-date{ font-size:11px; color:var(--oshi-color); font-weight:700; }
+.tl-type{ font-size:10px; font-weight:700; color:var(--sub-ink); background:var(--accent2); padding:1px 8px; border-radius:999px; }
+.tl-item h3{ font-size:13.5px; font-weight:700; margin-bottom:3px; }
+.tl-item p{ font-size:12px; color:var(--sub-ink); }
+
+/* ---------- エピソード ---------- */
+.episode-card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:var(--shadow-sm); margin-bottom:14px; }
+.episode-card:last-child{ margin-bottom:0; }
+body.editing .episode-card{ padding-right:84px; }
+.episode-card h3{ font-size:13.5px; font-weight:700; color:var(--oshi-color); margin-bottom:10px; padding-bottom:10px; border-bottom:1px dashed var(--line); }
+.episode-card p{ font-size:13px; color:var(--ink); }
+
+/* ---------- 関連リンク ---------- */
+.link-list{ display:flex; flex-direction:column; gap:10px; }
+.link-item-wrap{ position:relative; }
+body.editing .link-item-wrap{ padding-right:84px; }
+.link-item{
+  display:flex; align-items:center; gap:10px; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; padding:12px 14px; box-shadow:var(--shadow-sm);
+  font-size:12.5px; font-weight:700;
+}
+.link-icon{ flex:none; width:28px; height:28px; border-radius:8px; background:var(--oshi-color-soft); color:var(--oshi-color); display:flex; align-items:center; justify-content:center; font-size:13px; }
+.link-label{ flex:1; }
+.link-go-btn{
+  flex:none; margin-left:auto; display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:700;
+  color:var(--oshi-color); border:1px solid var(--oshi-color); border-radius:999px; padding:5px 12px;
+}
+.link-go-btn:hover{ background:var(--oshi-color-soft); }
+
+footer{ text-align:center; padding:32px 0 16px; color:var(--sub-ink); font-size:11px; }
+footer .heart{ color:var(--oshi-color); }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+/* ---------- 編集ツールバー ---------- */
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; font-family:inherit; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.tb-hint{ flex:none; font-size:10.5px; color:var(--sub-ink); display:none; padding-left:2px; max-width:150px; }
+@media (max-width:480px){ .tb-hint{ display:none !important; } }
+
+/* ---------- 追加・パスワード用モーダル ---------- */
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:84vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; font-family:'Zen Maru Gothic',sans-serif; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:6px; }
+.qa-label:first-child{ margin-top:0; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:90px; resize:vertical; }
+.photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
+.qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+body.editing .info-card{ padding-top:50px; position:relative; }
+
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .page-hero{ padding:24px 0 18px; }
+  section{ padding:26px 0; }
+  .sec-head h2{ font-size:16px; }
+}
+
+/* ---------- 印刷用レイアウト ---------- */
+@media print{
+  .topnav, .edit-toolbar, .back-to-top, .add-row, .edit-remove, .edit-edit, .reorder-row, .chip-remove, .add-tag-btn, .load-more-btn{ display:none !important; }
+  body{ padding-bottom:0; background:#fff; }
+  .info-card, .activity-card, .episode-card, .feature-card, .link-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
+  a{ text-decoration:underline; }
+}
+</style>
+</head>
+<body data-rendered="true" class="">
+
+<nav class="topnav">
+  <div class="wrap">
+    <div class="brand editable" id="nav-brand" contenteditable="true"></div>
+    <div class="nav-right">
+      <a href="index.html" class="profile-nav-link home-nav-link" data-url="index.html">ホーム</a>
+      <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
+      <a href="wiki.html" class="profile-nav-link">豆知識</a>
+      <a href="guide.html" class="profile-nav-link">はじめての方へ</a>
+      <a href="member-profile.html" class="profile-nav-link">プロフィール</a>
+      <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
+      <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow-badge editable" id="hero-badge" contenteditable="true">意外な一面</span>
+    <h1 id="hero-title-wrap"><span class="editable" id="hero-name-main" contenteditable="true">原優寧と</span><span class="accent editable" id="hero-name-accent" contenteditable="true">建築</span></h1>
+    <p class="catch editable" id="hero-catch" contenteditable="true">学び、語り、現在へ。アイドルとしてだけじゃない、もうひとつの顔。</p>
+    <p class="breadcrumb"><a href="index.html" class="home-breadcrumb-link" data-url="index.html">トップ</a> ＞ 建築との関わり</p>
+  </div>
+</header>
+
+<section id="intro">
+  <div class="wrap">
+    <div class="intro-card">
+      <div class="intro-icon">🏛️</div>
+      <div class="intro-list" id="introList"><div class="editable-item intro-p">
+    <p class="editable" contenteditable="true">建築系の大学で建築を学んだ星乃ひなた。現在もラジオや企業のSNS、広告媒体など、さまざまな場を通じて建築と関わり続けています。アイドル活動と並行して、建築への関心を大切にしています。</p>
+    
+    
+    
+  </div><div class="editable-item intro-p">
+    <p class="editable" contenteditable="true">その背景をまとめて紹介します。</p>
+    
+    
+    
+  </div></div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="university" style="">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="university-heading" contenteditable="true"><br></span></h2>
+      <p class="editable" id="university-desc" contenteditable="true"><br></p>
+    </div>
+    <div class="split-grid" id="universityGrid"></div>
+    
+  </div>
+</section>
+
+<section id="activities">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="activities-heading" contenteditable="true">建築に関する活動</span></h2>
+      <p class="editable" id="activities-desc" contenteditable="true">現在も続く、建築とのつながり</p>
+    </div>
+
+    <div class="feature-card">
+      
+      <span class="feature-badge editable" id="radioBadge" contenteditable="true">🎙 冠ラジオ</span>
+      <h3 class="editable" id="radioTitle" contenteditable="true">ウインクス presents SKE48原優寧の建築ラジオ</h3>
+      <p class="editable" id="radioDesc" contenteditable="true">建築について学びながら、もっと身近に、もっと楽しく「建築」を知るラジオ番組。SKE48の原優寧がパーソナリティを務め、建築の基礎知識や知られざる魅力、建物にまつわるさまざまな話題を楽しくお届けします。建築のことをよく知らない方も楽しめる、原優寧と一緒に学ぶ“建築入門ラジオ”。番組を聴けば、いつもの街並みや建物が、ちょっと違って見えてくるかもしれません。</p>
+      <div class="feature-tags" id="featureTags"></div>
+      
+      <div class="feature-link-row">
+        <span class="feature-link-label editable" id="radioLinkLabel" contenteditable="true">▶ 番組をチェックする</span>
+        <a class="feature-link-go" id="radioLink" href="https://hicbc.com/radio/kenchiku/" target="_blank" rel="noopener" data-url="https://hicbc.com/radio/kenchiku/" aria-label="番組を開く">開く ›</a>
+      </div>
+    </div>
+
+    <div class="activity-grid" id="activityList"><div class="editable-item activity-card" data-url="https://x.com/yune_hara/status/1949077408973484107" data-photo="">
+    
+    
+    <span class="tag editable" contenteditable="true">お仕事①</span>
+    <h3 class="editable" contenteditable="true">大成工務株式会社の公式SNSに登場</h3>
+    <p class="editable" contenteditable="true">建築ガールとして出演して魅力を伝える。</p>
+    
+    <a class="activity-go-btn" href="https://x.com/yune_hara/status/1949077408973484107" target="_blank" rel="noopener" aria-label="開く">開く ›</a>
+    
+  </div><div class="editable-item activity-card" data-url="https://ske48.co.jp/news/detail/53992" data-photo="">
+    
+    
+    <span class="tag editable" contenteditable="true">お仕事②</span>
+    <h3 class="editable" contenteditable="true">髙松建設株式会社のインタラクティブ動画へ出演</h3>
+    <p class="editable" contenteditable="true">会社の魅力や社内の雰囲気、そして仕事のやりがいについて、実際に社員の皆さんへインタビュー</p>
+    
+    <a class="activity-go-btn" href="https://ske48.co.jp/news/detail/53992" target="_blank" rel="noopener" aria-label="開く">開く ›</a>
+    
+  </div><div class="editable-item activity-card" data-url="" data-photo="">
+    
+    
+    <span class="tag editable" contenteditable="true">お仕事③</span>
+    <h3 class="editable" contenteditable="true">「日刊建設工業新聞」掲載</h3>
+    <p class="editable" contenteditable="true">説明文を入力</p>
+    
+    
+    
+  </div></div>
+    <button class="load-more-btn" id="load-more-activities" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<section id="episodes" style="">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="episodes-heading" contenteditable="true">建築にまつわるエピソード</span></h2>
+      <p class="editable" id="episodes-desc" contenteditable="true">本人の発言から見えるエピソード集</p>
+    </div>
+    <div id="episodeList"></div>
+    <button class="load-more-btn" id="load-more-episodes" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<section id="records" style="">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="records-heading" contenteditable="true"><br></span></h2>
+      <p class="editable" id="records-desc" contenteditable="true"><br></p>
+    </div>
+    <div class="timeline" id="recordList"></div>
+    <button class="load-more-btn" id="load-more-records" type="button" style="display:none;">＋ もっと見る</button>
+    
+
+  </div>
+</section>
+
+<section id="links">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="links-heading" contenteditable="true">関連リンク・参考資料</span></h2>
+    </div>
+    <div class="link-list" id="linkList"><div class="editable-item link-item-wrap" data-url="https://hicbc.com/radio/kenchiku/">
+    
+    
+    <div class="link-item">
+      <span class="link-icon editable" contenteditable="true">🎙</span>
+      <span class="link-label editable" contenteditable="true">公式ラジオ</span>
+      <a class="link-go-btn" href="https://hicbc.com/radio/kenchiku/" target="_blank" rel="noopener" aria-label="このリンクを開く">開く ›</a>
+    </div>
+    
+  </div></div>
+    
+
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく<span class="heart">♡</span></span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+
+
+
+
+<script>
+
+let editMode = false;
+
+/* ---------- 活動カードの画像アップロード(自動リサイズ) ---------- */
+let pendingActivityPhoto = "";
+let modalOriginalActivityPhoto = "";
+const ACTIVITY_PHOTO_MAX_DIMENSION = 900;
+function initActivityPhotoUpload(){
+  const input = document.getElementById("f-photo-file");
+  if(!input) return;
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, ACTIVITY_PHOTO_MAX_DIMENSION / Math.max(img.naturalWidth, img.naturalHeight));
+        const w = Math.round(img.naturalWidth * scale), h = Math.round(img.naturalHeight * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        pendingActivityPhoto = canvas.toDataURL("image/jpeg", 0.82);
+        const preview = document.getElementById("activity-photo-preview");
+        if(preview){ preview.style.backgroundImage = `url('${pendingActivityPhoto}')`; preview.style.display = "block"; }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ---------- SNSシェア用OGPタグの同期 ---------- */
+const OGP_IMAGE_URL = "";
+function syncOgpTags(){
+  const title = document.getElementById("hero-name-main").textContent.trim() + document.getElementById("hero-name-accent").textContent.trim();
+  const desc = document.getElementById("hero-catch").textContent.trim();
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', title);
+  setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="twitter:title"]', title);
+  setMeta('meta[name="twitter:description"]', desc);
+  if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
+  if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+}
+
+/* ---------- PWA:Service Worker登録 ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 印刷 ---------- */
+document.getElementById("print-btn").addEventListener("click", () => window.print());
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const title = document.getElementById("hero-name-main").textContent.trim() + document.getElementById("hero-name-accent").textContent.trim();
+  const catchText = document.getElementById("hero-catch").textContent.trim();
+  const shareText = catchText ? `${title}｜${catchText}` : title;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{ await navigator.share({ title, text: shareText, url: shareUrl }); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* ==========================================================
+   初期サンプルデータ。「編集する」から書き換え可能。
+   ========================================================== */
+const PAGE = {
+  navBrand: "布教ツール",
+  hero: {
+    badge: "意外な一面",
+    nameMain: "",
+    nameAccent: "建築",
+    catch: "学び、語り、現在へ。アイドルとしてだけじゃない、もうひとつの顔。",
+  },
+  intro: [
+    "",
+    "「なぜ建築なのか」を知ると、普段のトークやふとした発言の解像度がぐっと上がるはず。ここでは、その背景をまとめて紹介します。",
+  ],
+  sections: {
+    university: { heading: "建築を学んだ大学時代", desc: "専攻や学んでいた内容について" },
+    activities: { heading: "建築に関する活動", desc: "現在も続く、建築とのつながり" },
+    records: { heading: "建築について語った記録", desc: "番組やインタビューで語った内容のまとめ" },
+    episodes: { heading: "建築にまつわるエピソード", desc: "本人の発言から見えるエピソード集" },
+    links: { heading: "関連リンク・参考資料", desc: "" },
+  },
+  university: {
+    cards: [
+      { title: "分かっている事実", style: "bullet", items: [
+        "建築学系の学部・学科に在籍していたことを公表",
+        "設計課題や模型製作に取り組んでいた時期があると発言",
+        "デビュー・活動開始のタイミングで学業と両立",
+      ]},
+      { title: "本人が語った大学時代", style: "plain", items: [
+        "ラジオやインタビューで、当時の課題提出や設計演習について触れたことがある。徹夜で模型を作った話や、印象に残っている建物・建築家について語る場面も。",
+      ]},
+    ],
+  },
+  radio: {
+    badge: "🎙 レギュラーコーナー",
+    title: "建築について語るラジオ",
+    desc: "自身の番組内で不定期に設けている、建築をテーマに語るコーナー。訪れた建築物の感想や、学生時代に好きだった建築家の話などを紹介している。",
+    tags: ["建築巡り", "好きな建築家", "リスナーの質問コーナー"],
+    linkText: "",
+    linkUrl: "#",
+  },
+  activities: [
+    { tag: "活動①", title: "建築イベントへの来場", desc: "建築展や住宅展示会などのイベントに私的に足を運んだことをSNSで報告。" },
+    { tag: "活動②", title: "雑誌・記事での言及", desc: "インタビュー記事の中で趣味・特技として建築好きを紹介されるケースがある。" },
+  ],
+  records: [
+    { date: "202X.XX", type: "ラジオ", title: "「好きな建築様式」について語る", desc: "番組内コーナーで、学生時代に興味を持っていた建築様式を紹介。" },
+    { date: "202X.XX", type: "インタビュー", title: "大学時代の専攻について言及", desc: "雑誌インタビューで建築を学んでいたエピソードに触れる。" },
+    { date: "202X.XX", type: "その他", title: "SNSで建築イベント来場を報告", desc: "私的に訪れた建築関連イベントの様子を投稿。" },
+  ],
+  episodes: [
+    { title: "「徹夜で模型を作った思い出」", desc: "締め切り前に友人と徹夜で建築模型を作り上げたエピソード。当時の苦労を笑いながら振り返っている。" },
+    { title: "「印象に残っている建物」", desc: "旅行や課題で訪れた建物の中で、特に印象に残っているものについて語る場面があった。" },
+  ],
+  links: [
+    { icon: "🎙", label: "公式ラジオ", url: "#" },
+    { icon: "📰", label: "公式インタビュー", url: "#" },
+    { icon: "🔗", label: "関連する公式記事", url: "#" },
+  ],
+};
+
+/* ---------- 生成テンプレート ---------- */
+const REORDER_ROW = '<div class="reorder-row"><button class="drag-handle" type="button" aria-label="ドラッグで並び替え">⠿</button><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function introParaHTML(text){
+  return `<div class="editable-item intro-p">
+    <p class="editable" contenteditable="false">${esc(text)}</p>
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${REORDER_ROW}
+  </div>`;
+}
+function factItemHTML(text){
+  return `<div class="editable-item fact-item">
+    <span class="bullet">・</span>
+    <span class="editable" contenteditable="false">${esc(text)}</span>
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${REORDER_ROW}
+  </div>`;
+}
+function quoteParaHTML(text){
+  return `<div class="editable-item quote-p">
+    <p class="editable" contenteditable="false">${esc(text)}</p>
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    ${REORDER_ROW}
+  </div>`;
+}
+function universityItemHTML(text, style){
+  return style === "bullet" ? factItemHTML(text) : quoteParaHTML(text);
+}
+function universityCardHTML(card){
+  const style = card.style === "bullet" ? "bullet" : "plain";
+  const listClass = style === "bullet" ? "fact-list" : "quote-list";
+  const itemsHtml = (card.items || []).map(t => universityItemHTML(t, style)).join("");
+  return `<div class="editable-item info-card" data-style="${style}">
+    <button class="edit-edit" aria-label="タイトルを編集">✎</button>
+    <button class="edit-remove" aria-label="このカードを削除">×</button>
+    <h3><span class="dot"></span><span class="editable" contenteditable="false">${esc(card.title)}</span></h3>
+    <div class="${listClass}" data-role="items">${itemsHtml}</div>
+    <div class="add-row"><button class="add-btn" data-role="add-item" type="button">＋ 段落を追加</button></div>
+    ${REORDER_ROW}
+  </div>`;
+}
+function featureTagHTML(text){
+  return `<span class="feature-tag editable-item">
+    <span class="editable" contenteditable="false">${esc(text)}</span>
+    <button class="chip-remove" aria-label="削除">×</button>
+  </span>`;
+}
+function activityCardHTML(a){
+  const photoHtml = a.photo ? `<img class="activity-photo" src="${esc(a.photo)}" alt="">` : "";
+  const linkHtml = a.url ? `<a class="activity-go-btn" href="${esc(a.url)}" target="_blank" rel="noopener" aria-label="開く">開く ›</a>` : "";
+  return `<div class="editable-item activity-card" data-url="${esc(a.url || '')}" data-photo="${esc(a.photo || '')}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <span class="tag editable" contenteditable="false">${esc(a.tag)}</span>
+    <h3 class="editable" contenteditable="false">${esc(a.title)}</h3>
+    <p class="editable" contenteditable="false">${esc(a.desc)}</p>
+    ${photoHtml}
+    ${linkHtml}
+    ${REORDER_ROW}
+  </div>`;
+}
+function recordItemHTML(r){
+  return `<div class="editable-item tl-item">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="tl-head">
+      <span class="tl-date editable" contenteditable="false">${esc(r.date)}</span>
+      <span class="tl-type editable" contenteditable="false">${esc(r.type)}</span>
+    </div>
+    <h3 class="editable" contenteditable="false">${esc(r.title)}</h3>
+    <p class="editable" contenteditable="false">${esc(r.desc)}</p>
+    ${REORDER_ROW}
+  </div>`;
+}
+function episodeCardHTML(ep){
+  return `<div class="editable-item episode-card">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <h3 class="editable" contenteditable="false">${esc(ep.title)}</h3>
+    <p class="editable" contenteditable="false">${esc(ep.desc)}</p>
+    ${REORDER_ROW}
+  </div>`;
+}
+function linkItemHTML(l){
+  const url = esc(l.url || "#");
+  return `<div class="editable-item link-item-wrap" data-url="${url}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="link-item">
+      <span class="link-icon editable" contenteditable="false">${esc(l.icon)}</span>
+      <span class="link-label editable" contenteditable="false">${esc(l.label)}</span>
+      <a class="link-go-btn" href="${url}" target="_blank" rel="noopener" aria-label="このリンクを開く">開く ›</a>
+    </div>
+    ${REORDER_ROW}
+  </div>`;
+}
+
+/* ---------- 初回描画(保存済みファイルを開いた場合はスキップ) ---------- */
+function renderAll(data){
+  document.getElementById("nav-brand").textContent = data.navBrand;
+  document.getElementById("hero-badge").textContent = data.hero.badge;
+  document.getElementById("hero-name-main").textContent = data.hero.nameMain;
+  document.getElementById("hero-name-accent").textContent = data.hero.nameAccent;
+  document.getElementById("hero-catch").textContent = data.hero.catch;
+
+  if(data.sections){
+    Object.keys(data.sections).forEach(key => {
+      const h = document.getElementById(key + "-heading");
+      if(h) h.textContent = data.sections[key].heading;
+      const d = document.getElementById(key + "-desc");
+      if(d && data.sections[key].desc !== undefined) d.textContent = data.sections[key].desc;
+    });
+  }
+
+  document.getElementById("introList").innerHTML = data.intro.map(introParaHTML).join("");
+  document.getElementById("universityGrid").innerHTML = data.university.cards.map(universityCardHTML).join("");
+
+  document.getElementById("radioBadge").textContent = data.radio.badge;
+  document.getElementById("radioTitle").textContent = data.radio.title;
+  document.getElementById("radioDesc").textContent = data.radio.desc;
+  document.getElementById("featureTags").innerHTML = data.radio.tags.map(featureTagHTML).join("");
+  document.getElementById("radioLinkLabel").textContent = data.radio.linkText;
+  const radioLink = document.getElementById("radioLink");
+  radioLink.href = data.radio.linkUrl || "#";
+  radioLink.dataset.url = data.radio.linkUrl || "#";
+
+  document.getElementById("activityList").innerHTML = data.activities.map(activityCardHTML).join("");
+  document.getElementById("recordList").innerHTML = data.records.map(recordItemHTML).join("");
+  document.getElementById("episodeList").innerHTML = data.episodes.map(episodeCardHTML).join("");
+  document.getElementById("linkList").innerHTML = data.links.map(linkItemHTML).join("");
+  if(data.backLinkUrl){
+    const homeLink = document.querySelector(".home-nav-link");
+    const crumbLink = document.querySelector(".home-breadcrumb-link");
+    if(homeLink){ homeLink.setAttribute("href", data.backLinkUrl); homeLink.dataset.url = data.backLinkUrl; }
+    if(crumbLink){ crumbLink.setAttribute("href", data.backLinkUrl); crumbLink.dataset.url = data.backLinkUrl; }
+  }
+}
+if(!document.body.dataset.rendered){
+  renderAll(PAGE);
+  document.body.dataset.rendered = "true";
+}
+syncOgpTags();
+
+
+/* ---------- 項目が0件になったセクションを非表示に ---------- */
+const EMPTY_STATE_RULES = [
+  ["intro", "introList"],
+  ["university", "universityGrid"],
+  ["records", "recordList"],
+  ["episodes", "episodeList"],
+  ["links", "linkList"],
+];
+function refreshEmptyStates(){
+  const editing = document.body.classList.contains("editing");
+  EMPTY_STATE_RULES.forEach(([sectionId, listId]) => {
+    const listEl = document.getElementById(listId);
+    const sectionEl = document.getElementById(sectionId);
+    if(!listEl || !sectionEl) return;
+    sectionEl.style.display = (listEl.children.length > 0 || editing) ? "" : "none";
+  });
+}
+EMPTY_STATE_RULES.forEach(([, listId]) => {
+  const el = document.getElementById(listId);
+  if(el) new MutationObserver(refreshEmptyStates).observe(el, { childList: true });
+});
+refreshEmptyStates();
+
+/* ---------- もっと見る(記録・エピソード・活動) ---------- */
+const LOAD_MORE_RULES = [
+  { listId: "recordList", btnId: "load-more-records" },
+  { listId: "episodeList", btnId: "load-more-episodes" },
+  { listId: "activityList", btnId: "load-more-activities" },
+];
+const LOAD_MORE_INITIAL = 6;
+const loadMoreState = {};
+function applyLoadMore(rule){
+  const list = document.getElementById(rule.listId);
+  const btn = document.getElementById(rule.btnId);
+  if(!list || !btn) return;
+  const items = Array.from(list.children).filter(el => el.classList.contains("editable-item"));
+  const showAll = !!loadMoreState[rule.listId];
+  items.forEach((item, i) => { item.style.display = (showAll || i < LOAD_MORE_INITIAL) ? "" : "none"; });
+  if(!showAll && items.length > LOAD_MORE_INITIAL){
+    btn.style.display = "flex";
+    btn.textContent = `＋ もっと見る(残り${items.length - LOAD_MORE_INITIAL}件)`;
+  } else {
+    btn.style.display = "none";
+  }
+}
+function applyAllLoadMore(){ LOAD_MORE_RULES.forEach(applyLoadMore); }
+LOAD_MORE_RULES.forEach(rule => {
+  const list = document.getElementById(rule.listId);
+  if(list) new MutationObserver(() => applyLoadMore(rule)).observe(list, { childList: true });
+  const btn = document.getElementById(rule.btnId);
+  if(btn) btn.addEventListener("click", () => { loadMoreState[rule.listId] = true; applyLoadMore(rule); });
+});
+applyAllLoadMore();
+let priorLoadMoreState = {};
+window.addEventListener("beforeprint", () => {
+  priorLoadMoreState = { ...loadMoreState };
+  LOAD_MORE_RULES.forEach(rule => { loadMoreState[rule.listId] = true; });
+  applyAllLoadMore();
+});
+window.addEventListener("afterprint", () => {
+  Object.keys(loadMoreState).forEach(k => delete loadMoreState[k]);
+  Object.assign(loadMoreState, priorLoadMoreState);
+  applyAllLoadMore();
+});
+
+/* ---------- 編集モードの切り替え ---------- */
+function refreshEditableStates(){
+  document.querySelectorAll(".editable").forEach(el => { el.contentEditable = editMode; });
+}
+
+
+/* 編集モード中はリンクをタップしても遷移させず編集を優先 */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.link-go-btn, a#radioLink, a.activity-go-btn");
+  if(link) e.preventDefault();
+});
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+
+
+/* タップ数の計測(GA4イベント) */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
+
+
+/* ---------- 同じ場所にある architecture-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  try{
+    const res = await fetch("architecture-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderAll(data);
+    refreshEditableStates();
+    refreshEmptyStates();
+    applyAllLoadMore();
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }
+})();
+
+</script>
+
+
+
+</body></html>
