@@ -5,15 +5,16 @@
   "desc": "公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。",
   "items": [
     {
-      "title": "「君だけがターゲット」Music Video／2026.3.18 on sale SKE48 36th.Single c/w",
-      "url": "https://www.youtube.com/watch?v=yaDeh_HwZgY&list=RDyaDeh_HwZgY&start_radio=1&pp=ygUJ5Y6f5YSq5a-noAcB",
-      "category": "MV",
-      "date": "2026-06-01",
+      "title": "SKE48 Team S オリジナル新公演「ずっと君を探している」／「ずっと君を探している」15名ver.",
+      "url": "https://www.youtube.com/watch?v=2dmk15NHzGc&list=RD2dmk15NHzGc&start_radio=1",
+      "category": "",
+      "date": "2026-06-27",
       "desc": "",
       "recommend": "",
       "related": "",
-      "addedAt": "",
-      "order": "0"
+      "tags": "ずっと君を探している",
+      "addedAt": "2026-09-05",
+      "order": "29"
     },
     {
       "title": "【アイドルのリアル休日密着】11期生 杉本りいな、原優寧編",
@@ -23,8 +24,189 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "",
       "order": "1"
+    },
+    {
+      "title": "２０２６年６月６日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏vs森本くるみ",
+      "url": "https://youtu.be/o9iLy1uBWVM?si=W3yD3MVRh7DK0ORf",
+      "category": "",
+      "date": "2026-06-06",
+      "desc": "",
+      "recommend": "",
+      "related": "２０２５年１２月１３日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏",
+      "tags": "1+1+1は3じゃなよ",
+      "addedAt": "2026-09-04",
+      "order": "21"
+    },
+    {
+      "title": "「君だけがターゲット」Music Video／2026.3.18 on sale SKE48 36th.Single c/w",
+      "url": "https://www.youtube.com/watch?v=yaDeh_HwZgY&list=RDyaDeh_HwZgY&start_radio=1&pp=ygUJ5Y6f5YSq5a-noAcB",
+      "category": "MV",
+      "date": "2026-06-01",
+      "desc": "",
+      "recommend": "",
+      "related": "「君だけがターゲット」Music Video Making Movie / SKE48 36th.Single c/w",
+      "tags": "初恋の瞬間",
+      "addedAt": "",
+      "order": "0"
+    },
+    {
+      "title": "２０２６年５月２０日（水）２じゃないよ！原優寧vs森本くるみ",
+      "url": "https://youtu.be/ukK3S8ROOqA?si=BD0uXmz_OsBtBfi_",
+      "category": "その他",
+      "date": "2026-05-25",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "1+1は2じゃないよ",
+      "addedAt": "2026-09-05",
+      "order": "24"
+    },
+    {
+      "title": "「君だけがターゲット」Music Video Making Movie / SKE48 36th.Single c/w",
+      "url": "https://www.youtube.com/watch?v=pjTjN2L9VHA&list=RDpjTjN2L9VHA&start_radio=1&pp=ygUe5ZCb44Gg44GR44GM44K_44O844Ky44OD44OI44CNoAcB",
+      "category": "メイキング",
+      "date": "2026-05-19",
+      "desc": "",
+      "recommend": "",
+      "related": "「君だけがターゲット」Music Video／2026.3.18 on sale SKE48 36th.Single c/w",
+      "tags": "初恋の瞬間",
+      "addedAt": "2026-09-05",
+      "order": "22"
+    },
+    {
+      "title": "SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部",
+      "url": "https://youtu.be/ZDXgYdcHUrE?si=GpOsQB8zOs9KXPA2",
+      "category": "ロケ",
+      "date": "2026-01-31",
+      "desc": "",
+      "recommend": "熱々なたこ焼きを頬張る姿が愛おしい",
+      "related": "SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部|||SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部",
+      "tags": "愛知あたりまえ倶楽部",
+      "addedAt": "2026-09-05",
+      "order": "25"
+    },
+    {
+      "title": "SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部",
+      "url": "https://www.youtube.com/watch?v=v6kEuPk46hE",
+      "category": "ロケ",
+      "date": "2026-01-24",
+      "desc": "",
+      "recommend": "",
+      "related": "SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部|||SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部",
+      "tags": "愛知あたりまえ倶楽部",
+      "addedAt": "2026-09-05",
+      "order": "27"
+    },
+    {
+      "title": "SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部",
+      "url": "https://www.youtube.com/watch?v=OIfys3fHpa0",
+      "category": "",
+      "date": "2026-01-17",
+      "desc": "",
+      "recommend": "ターキーを頬張る姿が愛おしい",
+      "related": "SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部|||SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部",
+      "tags": "愛知あたりまえ倶楽部",
+      "addedAt": "2026-09-05",
+      "order": "26"
+    },
+    {
+      "title": "２０２５年１２月２２日（月）２じゃないよ！大村杏vs原優寧",
+      "url": "https://youtu.be/xqmMyIsOcCo?si=cL7qNEnwUbAL578n",
+      "category": "その他",
+      "date": "2025-12-29",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "1+1は2じゃないよ",
+      "addedAt": "2026-09-05",
+      "order": "23"
+    },
+    {
+      "title": "２０２５年１２月１３日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏",
+      "url": "https://youtu.be/G3CSGrGATXY?si=pyePN1OtOeOt5RFZ",
+      "category": "その他",
+      "date": "2025-12-13",
+      "desc": "",
+      "recommend": "",
+      "related": "２０２６年６月６日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏vs森本くるみ",
+      "tags": "1+1+1は3じゃなよ",
+      "addedAt": "2026-09-05",
+      "order": "30"
+    },
+    {
+      "title": "２０２５年１０月６日（月）２じゃないよ！杉本りいなvs原優寧",
+      "url": "https://www.youtube.com/watch?v=vn64sHNSZww&t=330s",
+      "category": "その他",
+      "date": "2025-10-13",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "1+1は2じゃないよ|||はらへりすぎ",
+      "addedAt": "2026-09-05",
+      "order": "31"
+    },
+    {
+      "title": "２０２５年２月２４日（月）２じゃないよ！原優寧vs倉本羽菜",
+      "url": "https://youtu.be/Jmqxvaf-O0Y?si=p0TjyixoEJ9thpRl",
+      "category": "その他",
+      "date": "2025-03-03",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "1+1は2じゃないよ",
+      "addedAt": "2026-09-05",
+      "order": "28"
+    },
+    {
+      "title": "【未公開】大食いYouTuberになりたい原優寧「とにかく〇〇が好き」【SKE48】",
+      "url": "https://www.youtube.com/watch?v=EfRdCxu0iy4",
+      "category": "その他",
+      "date": "2023-06-03",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "未完全TV",
+      "addedAt": "2026-09-05",
+      "order": "34"
+    },
+    {
+      "title": "【私服】カワイイはワイプから♡愛されサイズの黒ワンピ！超世代チームの上級コーデ🔥アイドル私服チェック【SKE48】",
+      "url": "https://www.youtube.com/watch?v=5PHEYuEOZxM",
+      "category": "",
+      "date": "2023-05-29",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "未完全TV",
+      "addedAt": "2026-09-05",
+      "order": "35"
+    },
+    {
+      "title": "【SKE48も登場！】AKB48グループのルーキーたちが「超十代」でフレッシュなランウェイ披露！＜超十代 －ULTRA TEENS FES－ 2023＠TOKYO＞",
+      "url": "https://www.youtube.com/watch?v=xYY3493OZ6g",
+      "category": "",
+      "date": "2023-03-30",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "",
+      "addedAt": "2026-09-05",
+      "order": "33"
+    },
+    {
+      "title": "【SKE48】九州出身三人娘スペシャルインタビュー",
+      "url": "https://www.youtube.com/watch?v=zLksLVWq1-o",
+      "category": "その他",
+      "date": "2022-12-16",
+      "desc": "",
+      "recommend": "",
+      "related": "",
+      "tags": "",
+      "addedAt": "2026-09-05",
+      "order": "32"
     },
     {
       "title": "【プロフィール警察/第三の容疑者】福岡県出身 職業アイドル 自称ピエロナリタイ 原優寧",
@@ -34,6 +216,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "2"
     },
@@ -45,6 +228,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "3"
     },
@@ -56,6 +240,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "4"
     },
@@ -67,6 +252,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "5"
     },
@@ -78,6 +264,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "6"
     },
@@ -89,6 +276,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "7"
     },
@@ -100,6 +288,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "8"
     },
@@ -111,6 +300,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "9"
     },
@@ -122,6 +312,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "10"
     },
@@ -133,6 +324,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "11"
     },
@@ -144,6 +336,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "12"
     },
@@ -155,6 +348,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "ずっと君を探している",
       "addedAt": "2026-09-04",
       "order": "13"
     },
@@ -166,6 +360,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "14"
     },
@@ -177,6 +372,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "15"
     },
@@ -188,6 +384,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "16"
     },
@@ -199,6 +396,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "17"
     },
@@ -210,6 +408,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "18"
     },
@@ -221,6 +420,7 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "19"
     },
@@ -232,19 +432,9 @@
       "desc": "",
       "recommend": "",
       "related": "",
+      "tags": "",
       "addedAt": "2026-09-04",
       "order": "20"
-    },
-    {
-      "title": "２０２６年６月６日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏vs森本くるみ",
-      "url": "https://youtu.be/o9iLy1uBWVM?si=W3yD3MVRh7DK0ORf",
-      "category": "",
-      "date": "",
-      "desc": "",
-      "recommend": "",
-      "related": "",
-      "addedAt": "2026-09-04",
-      "order": "21"
     }
   ]
 }
