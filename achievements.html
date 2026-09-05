@@ -54,13 +54,14 @@ a{ color:inherit; text-decoration:none; }
 .wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
 
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
-.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; }
-.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
-.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; }
+.topnav .wrap{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; height:46px; column-gap:8px; }
+.nav-left{ display:flex; align-items:center; gap:2px; justify-self:start; min-width:0; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; flex:none; }
 body.editing .back-link-edit{ display:inline-block; }
 .back-link-edit:hover{ color:var(--oshi-color); }
-.brand{ font-size:12px; color:var(--sub-ink); }
-.nav-icons{ display:flex; align-items:center; gap:10px; }
+.brand{ font-size:12px; color:var(--sub-ink); justify-self:center; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-icons{ display:flex; align-items:center; gap:10px; justify-self:end; }
 .nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
 .nav-icon-btn:hover{ color:var(--oshi-color); }
 
@@ -121,6 +122,13 @@ section{ padding:26px 0 30px; border-top:1px solid var(--line); }
   color:var(--oshi-color); font-size:11px; font-weight:700; padding:5px 12px; border-radius:999px;
 }
 .record-link:hover{ background:var(--oshi-color-soft); }
+.media-action-row{ display:none; gap:8px; margin-top:8px; flex-wrap:wrap; }
+body.editing .media-action-row{ display:flex; }
+.media-action-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:5px 11px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.media-action-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); border-color:var(--oshi-color); }
 
 .load-more-btn{
   display:flex; align-items:center; justify-content:center; width:100%; margin-top:12px;
@@ -268,8 +276,10 @@ body.editing .add-row{ display:flex; }
 
 <nav class="topnav">
   <div class="wrap">
-    <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
-    
+    <div class="nav-left">
+      <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
+      
+    </div>
     <div class="brand editable" id="nav-brand" contenteditable="true">活動実績</div>
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
@@ -379,6 +389,7 @@ body.editing .add-row{ display:flex; }
     <div class="record-meta"><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.15</span></div>
     <h3 class="record-title editable" contenteditable="true">サンプルラジオ番組</h3>
     <p class="record-desc editable" contenteditable="true">レギュラー出演回。</p>
+    
     
     
   </div></div>
@@ -559,6 +570,10 @@ function mediaItemHTML(m){
     <h3 class="record-title editable" contenteditable="false">${esc(m.title)}</h3>
     <p class="record-desc editable" contenteditable="false">${esc(m.desc)}</p>
     ${linkHtml}
+    <div class="media-action-row">
+      <button type="button" class="media-action-btn media-dup-btn">⧉ この内容で複製</button>
+      <button type="button" class="media-action-btn media-weekly-btn">🔁 来週分を追加</button>
+    </div>
     ${REORDER_ROW}
   </div>`;
 }
@@ -881,7 +896,7 @@ document.addEventListener("click", (e) => {
     overlay.classList.add("hide");
     setTimeout(() => overlay.remove(), 300);
   };
-  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
+  const safetyTimer = setTimeout(hideOverlay, 1500); /* 通信が遅い・失敗している場合の保険。1.5秒経ったら諦めて今の内容を表示する */
   try{
     const res = await fetch("achievements-data.json", { cache: "no-store" });
     if(!res.ok) return;
