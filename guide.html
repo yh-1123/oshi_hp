@@ -469,6 +469,17 @@ if(!document.body.dataset.rendered){
   document.body.dataset.rendered = "true";
 }
 
+/* ---------- FAQが0件になったら非表示に ---------- */
+function refreshFaqEmptyState(){
+  const editing = document.body.classList.contains("editing");
+  const listEl = document.getElementById("faq-list");
+  const sectionEl = document.getElementById("faq");
+  if(!listEl || !sectionEl) return;
+  sectionEl.style.display = (listEl.children.length > 0 || editing) ? "" : "none";
+}
+new MutationObserver(refreshFaqEmptyState).observe(document.getElementById("faq-list"), { childList: true });
+refreshFaqEmptyState();
+
 /* ---------- SNSシェア用OGPタグの同期 ---------- */
 const OGP_IMAGE_URL = "";
 function syncOgpTags(){
@@ -603,7 +614,7 @@ document.addEventListener("click", (e) => {
     overlay.classList.add("hide");
     setTimeout(() => overlay.remove(), 300);
   };
-  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
+  const safetyTimer = setTimeout(hideOverlay, 1500); /* 通信が遅い・失敗している場合の保険。1.5秒経ったら諦めて今の内容を表示する */
   try{
     const res = await fetch("guide-data.json", { cache: "no-store" });
     if(!res.ok) return;

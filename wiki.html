@@ -321,8 +321,8 @@ body.editing .add-row{ display:flex; }
     <p class="editable" id="w-desc" contenteditable="true">配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。</p>
     <div class="daily-pick show" id="daily-pick"><button type="button" class="pickup-shuffle-btn" aria-label="別の話に切り替える" title="別の話に切り替える">🔀</button>
     <div class="daily-pick-label">✦ こんな話も</div>
-    <div class="daily-pick-title">デビュー前は人見知りだった</div>
-    <div class="daily-pick-body">加入初期は人見知りで、自己紹介の時に噛んでしまったというエピソードが古参の間では有名です。</div></div>
+    <div class="daily-pick-title">好きな食べ物はいちご</div>
+    <div class="daily-pick-body">インタビューやプロフィールで度々語っている好物。差し入れでいちご系のお菓子をもらうととても喜ぶそうです。</div></div>
     <div class="search-wrap">
       <input type="search" id="wiki-search" class="search-input" placeholder="🔍 気になるキーワードで検索">
     </div>
@@ -401,7 +401,7 @@ body.editing .add-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -645,6 +645,13 @@ function renderPickupContent(picked){
       shuffleBtn.classList.add("spinning");
       triggerPickupShuffle();
       return;
+    }
+    if(picked.style.display === "none"){
+      document.getElementById("wiki-search").value = "";
+      currentCategoryFilter = "all";
+      showAllItems = true;
+      document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+      applyWikiFilter();
     }
     picked.scrollIntoView({ behavior: "smooth", block: "center" });
     picked.classList.add("wiki-flash");
@@ -1130,7 +1137,7 @@ document.addEventListener("click", (e) => {
     overlay.classList.add("hide");
     setTimeout(() => overlay.remove(), 300);
   };
-  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
+  const safetyTimer = setTimeout(hideOverlay, 1500); /* 通信が遅い・失敗している場合の保険。1.5秒経ったら諦めて今の内容を表示する */
   try{
     const res = await fetch("wiki-data.json", { cache: "no-store" });
     if(!res.ok) return;

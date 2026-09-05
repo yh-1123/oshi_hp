@@ -111,7 +111,7 @@ a{ color:inherit; text-decoration:none; }
 .search-input::-webkit-search-cancel-button{ cursor:pointer; }
 
 /* ---------- ヒーロー(小型) ---------- */
-.hero{ position:relative; padding:24px 0 18px; text-align:center; overflow:hidden; }
+.hero{ position:relative; padding:24px 0 10px; text-align:center; overflow:hidden; }
 .hero::before{
   content:""; position:absolute; top:10px; left:50%; width:170px; height:170px; transform:translateX(-50%);
   background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
@@ -157,19 +157,22 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 .pickup-body h3:empty, .rec-body h3:empty, .tl-item h3:empty{ display:none; }
 
 /* ---------- ピックアップ(お知らせ) ---------- */
-#pickup{ border-top:none; padding:16px 0 6px; }
+#pickup{ border-top:none; padding:8px 0 6px; }
 .pickup-list{ display:flex; flex-direction:column; gap:10px; }
 .pickup-item{
   position:relative;
   background:var(--oshi-color-soft); border:1px solid var(--oshi-color);
   border-radius:14px; padding:12px 80px 12px 14px; box-shadow:var(--shadow-sm);
-  transition:transform .15s ease, box-shadow .15s ease;
+  display:flex; gap:10px; align-items:flex-start;
 }
-.pickup-item:has(a.pickup-link):hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
-.pickup-link{ display:flex; gap:10px; align-items:flex-start; color:inherit; }
 .pickup-badge{ flex:none; font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:3px 8px; margin-top:1px; }
 .pickup-body h3{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
 .pickup-body p{ font-size:12px; color:var(--ink); }
+.pickup-go-btn{
+  display:inline-flex; align-items:center; gap:3px; margin-top:8px; border:1px solid var(--oshi-color); background:#fff;
+  color:var(--oshi-color); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
+}
+.pickup-go-btn:hover{ background:var(--oshi-color-soft); }
 
 /* ---------- 複数スライドセクション(おすすめコンテンツ) ---------- */
 .carousel-block{ margin-bottom:30px; }
@@ -557,7 +560,7 @@ body.editing .reorder-row{ display:flex; }
 /* ---------- モバイル追加調整 ---------- */
 @media (max-width:480px){
   .wrap{ padding:0 14px; }
-  .hero{ padding:18px 0 14px; }
+  .hero{ padding:18px 0 8px; }
   .hero h1{ font-size:clamp(18px,8vw,24px); }
   section{ padding:26px 0; }
   .sec-head h2{ font-size:16px; }
@@ -625,11 +628,12 @@ body.editing .reorder-row{ display:flex; }
     <div class="pickup-list" id="pickup-list"><div class="pickup-item" data-url="">
     
     
-    <div class="pickup-link"><span class="pickup-badge editable" contenteditable="true">NEW</span>
+    <span class="pickup-badge editable" contenteditable="true">NEW</span>
     <div class="pickup-body">
       <h3 class="editable" contenteditable="true">特典会チケット販売開始!</h3>
       <p class="editable" contenteditable="true">9/10(木)12:00〜 先着販売。詳細は公式サイトへ</p>
-    </div></div>
+      
+    </div>
     
   </div></div>
     
@@ -1141,18 +1145,16 @@ function officialLinkHTML(l){
 }
 
 function pickupHTML(p){
-  const body = `<span class="pickup-badge editable" contenteditable="false">${p.badge}</span>
-    <div class="pickup-body">
-      <h3 class="editable" contenteditable="false">${p.title}</h3>
-      <p class="editable" contenteditable="false">${p.desc}</p>
-    </div>`;
-  const inner = p.url
-    ? `<a class="pickup-link" href="${p.url}" target="_blank" rel="noopener">${body}</a>`
-    : `<div class="pickup-link">${body}</div>`;
+  const linkBtn = p.url ? `<a class="pickup-go-btn" href="${p.url}" target="_blank" rel="noopener">見る ›</a>` : "";
   return `<div class="pickup-item" data-url="${p.url || ''}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
-    ${inner}
+    <span class="pickup-badge editable" contenteditable="false">${p.badge}</span>
+    <div class="pickup-body">
+      <h3 class="editable" contenteditable="false">${p.title}</h3>
+      <p class="editable" contenteditable="false">${p.desc}</p>
+      ${linkBtn}
+    </div>
     ${REORDER_ROW}
   </div>`;
 }
@@ -1787,7 +1789,7 @@ document.getElementById("share-btn-nav").addEventListener("click", async () => {
 /* 編集モード中は、リンク化されたカードをタップしても遷移させず編集を優先 */
 document.addEventListener("click", (e) => {
   if(!document.body.classList.contains("editing")) return;
-  const link = e.target.closest("a.rec-card-link, a.pickup-link, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
+  const link = e.target.closest("a.rec-card-link, a.pickup-go-btn, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
   if(link) e.preventDefault();
 });
 
