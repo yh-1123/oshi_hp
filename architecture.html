@@ -7,10 +7,10 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 
-<title>建築 | 布教ツール</title>
+<title>建築 | 応援サイト</title>
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="布教ページ">
+<meta property="og:site_name" content="応援サイト">
 <meta property="og:title" content="建築">
 <meta property="og:description" content="学び、語り、現在へ。アイドルとしてだけじゃない、もうひとつの顔。">
 <meta property="og:image" content="">
@@ -331,7 +331,7 @@ body.editing .info-card{ padding-top:50px; position:relative; }
 
 <nav class="topnav">
   <div class="wrap">
-    <div class="brand editable" id="nav-brand" contenteditable="true">布教ツール</div>
+    <div class="brand editable" id="nav-brand" contenteditable="true">応援サイト</div>
     <div class="nav-right">
       <a href="index.html" class="profile-nav-link home-nav-link" data-url="index.html">ホーム</a>
       <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
@@ -689,7 +689,7 @@ document.getElementById("share-btn-nav").addEventListener("click", async () => {
    初期サンプルデータ。「編集する」から書き換え可能。
    ========================================================== */
 const PAGE = {
-  navBrand: "布教ツール",
+  navBrand: "応援サイト",
   hero: {
     badge: "意外な一面",
     nameMain: "",
@@ -1001,7 +1001,7 @@ document.addEventListener("click", (e) => {
     overlay.classList.add("hide");
     setTimeout(() => overlay.remove(), 300);
   };
-  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
+  const safetyTimer = setTimeout(hideOverlay, 1500); /* 通信が遅い・失敗している場合の保険。1.5秒経ったら諦めて今の内容を表示する */
   try{
     const res = await fetch("architecture-data.json", { cache: "no-store" });
     if(!res.ok) return;
