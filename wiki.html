@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<!-- SNSシェア用OGPタグ(公開後、og:image に実在の画像URLを設定してください) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:title" content="推しの豆知識・エピソード集">
+<meta property="og:description" content="新規ファンと古参ファンの情報差を埋める、配信での発言や小ネタのまとめです">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="推しの豆知識・エピソード集">
+<meta name="twitter:description" content="新規ファンと古参ファンの情報差を埋める、配信での発言や小ネタのまとめです">
+
+<!-- Google tag (gtag.js) : oshi-tool.html と同じ測定IDに書き換えてください -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<title>推しの豆知識・エピソード集</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
+}
+html{ scroll-behavior:smooth; overflow-x:hidden; width:100%; }
+body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
+h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.brand{ font-size:12px; color:var(--sub-ink); }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icons{ display:flex; align-items:center; gap:10px; }
+.nav-icon-btn:hover{ color:var(--oshi-color); }
+
+.w-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
+.w-hero::before{
+  content:""; position:absolute; top:4px; left:50%; width:170px; height:120px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.w-hero .eyebrow{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:9px; font-weight:700; }
+.w-hero h1{ position:relative; font-size:clamp(19px,6.6vw,25px); font-weight:900; }
+.w-hero p{ position:relative; margin:9px auto 0; max-width:420px; font-size:12.5px; color:var(--sub-ink); }
+
+/* 検索・カテゴリ絞り込み */
+.search-wrap{ position:relative; margin-top:16px; }
+.search-input{
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:11px 16px; font-size:13px;
+  font-family:inherit; background:#fff; color:var(--ink); box-shadow:var(--shadow-sm);
+}
+.search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.category-filter{ display:none; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:12px; }
+.category-filter.show{ display:flex; }
+.tag-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:5px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.tag-filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+
+section{ padding:26px 0 30px; }
+.sec-head{ margin-bottom:16px; }
+.sec-head h2{ font-size:16.5px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.sec-head-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.sec-head-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.view-toggle-btn{
+  flex:none; border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit; margin-bottom:2px;
+}
+.view-toggle-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:4px; }
+
+/* 今日のピックアップ */
+.daily-pick{ position:relative; display:none; margin-top:16px; text-align:left; background:linear-gradient(135deg, var(--oshi-color-soft), #fff); border:1px solid var(--oshi-color); border-radius:14px; padding:14px 50px 14px 16px; cursor:pointer; opacity:1; transition:opacity .25s ease; }
+.pickup-shuffle-btn{
+  position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:50%;
+  border:1px solid var(--oshi-color); background:#fff; color:var(--oshi-color); font-size:13px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:inherit;
+}
+.pickup-shuffle-btn:hover{ background:var(--oshi-color-soft); }
+.pickup-shuffle-btn:active{ transform:scale(0.92); }
+.pickup-shuffle-btn.spinning{ animation:shuffleSpin .5s ease; }
+@keyframes shuffleSpin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+.daily-pick.fading{ opacity:0; }
+.daily-pick.show{ display:block; }
+.daily-pick-label{ font-size:10px; font-weight:700; color:var(--oshi-color); }
+.daily-pick-title{ font-size:14px; font-weight:700; margin-top:4px; }
+.daily-pick-body{ font-size:12.5px; color:var(--sub-ink); margin-top:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.no-results{ display:none; text-align:center; color:var(--sub-ink); font-size:12.5px; padding:20px 0; }
+.no-results.show{ display:block; }
+
+/* 豆知識カード */
+.wiki-list{ display:flex; flex-direction:column; gap:14px; }
+.wiki-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.wiki-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.wiki-category{ font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:2px 9px; }
+.wiki-source{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
+.wiki-new-badge{ font-size:10px; font-weight:700; color:#7a5c00; background:#ffd447; border-radius:6px; padding:2px 9px; }
+.wiki-tags{ display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.wiki-tags:empty{ display:none; margin-top:0; }
+.wiki-tag{ font-size:11.5px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 11px; border:none; cursor:pointer; font-family:inherit; }
+.wiki-tag:hover{ background:var(--oshi-color); color:#fff; }
+.tag-chip-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.tag-chip{
+  display:inline-flex; align-items:center; gap:5px; background:var(--oshi-color); color:#fff; font-size:11.5px;
+  font-weight:700; padding:5px 8px 5px 12px; border-radius:999px;
+}
+.tag-chip-remove{ border:none; background:rgba(255,255,255,0.3); color:#fff; width:16px; height:16px; border-radius:50%; font-size:10px; cursor:pointer; line-height:1; }
+.tag-input-row{ display:flex; gap:6px; margin-top:6px; }
+.tag-input-row .qa-input{ flex:1; }
+.tag-add-btn{
+  flex:none; border:1px solid var(--oshi-color); background:#fff; color:var(--oshi-color); font-size:12px; font-weight:700;
+  padding:0 14px; border-radius:10px; cursor:pointer; font-family:inherit;
+}
+.tag-add-btn:hover{ background:var(--oshi-color-soft); }
+.tag-suggest-row{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:8px; }
+.tag-suggest-label{ font-size:10.5px; color:var(--sub-ink); }
+.tag-suggest-btn{
+  border:1px dashed var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.tag-suggest-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.wiki-title{ font-size:16px; font-weight:900; color:var(--ink); margin-bottom:8px; line-height:1.5; }
+.wiki-body{ font-size:13.5px; color:var(--sub-ink); white-space:pre-line; }
+.wiki-photo{ width:100%; max-width:280px; border-radius:10px; margin-top:10px; display:block; box-shadow:var(--shadow-sm); }
+.wiki-link-btn{
+  display:inline-flex; align-items:center; gap:4px; margin-top:10px; border:1px solid var(--oshi-color); background:#fff;
+  color:var(--oshi-color); font-size:11px; font-weight:700; padding:5px 12px; border-radius:999px;
+}
+.wiki-link-btn:hover{ background:var(--oshi-color-soft); }
+
+.load-more-btn{
+  display:flex; align-items:center; justify-content:center; width:100%; margin-top:14px;
+  border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-weight:700; font-size:12.5px;
+  padding:10px 16px; border-radius:12px; cursor:pointer; font-family:inherit; transition:background .15s ease;
+}
+.load-more-btn:hover{ background:var(--oshi-color-soft); }
+
+/* 関連項目リンク */
+.wiki-related{ display:none; flex-wrap:wrap; gap:6px; align-items:center; margin-top:10px; }
+.related-label{ font-size:11px; color:var(--sub-ink); font-weight:700; }
+.related-link-btn{ border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; cursor:pointer; font-family:inherit; }
+.related-link-btn:hover{ background:var(--oshi-color-soft); }
+@keyframes wikiFlash{ 0%,100%{ box-shadow:var(--shadow-sm); } 30%{ box-shadow:0 0 0 4px var(--oshi-color-soft), var(--shadow-md); } }
+.wiki-flash{ animation: wikiFlash 1.4s ease; }
+
+/* 画像でシェア */
+.share-image-btn{
+  margin-top:10px; border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-size:11px; font-weight:700;
+  padding:5px 12px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.share-image-btn:hover{ background:var(--oshi-color-soft); }
+
+footer{ text-align:center; padding:30px 0 16px; color:var(--sub-ink); font-size:11px; }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* 編集モード */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:var(--oshi-color-soft); }
+.edit-remove{
+  display:none; position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+.edit-edit{
+  display:none; position:absolute; top:8px; right:44px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:14px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
+body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+
+.reorder-row{ display:none; gap:6px; margin-top:10px; }
+body.editing .reorder-row{ display:flex; }
+.reorder-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:4px 10px; border-radius:8px; cursor:pointer; font-family:inherit;
+}
+.reorder-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  transition:background .15s ease;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:84vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:2px; }
+.qa-label:first-child{ margin-top:0; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:90px; resize:vertical; }
+.qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
+.related-select-row{ display:flex; flex-wrap:wrap; gap:6px; }
+.related-select-empty{ font-size:11px; color:var(--sub-ink); }
+.related-select-btn{
+  border:1.5px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.related-select-btn.active{ border-color:var(--oshi-color); color:var(--oshi-color); background:var(--oshi-color-soft); }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .w-hero{ padding:20px 0 14px; }
+  section{ padding:20px 0 24px; }
+}
+
+/* ---------- 印刷用レイアウト ---------- */
+@media print{
+  .topnav, .edit-toolbar, .back-to-top, .search-wrap, .category-filter,
+  .load-more-btn, .add-row, .view-toggle-btn, .share-image-btn,
+  .edit-edit, .edit-remove, .reorder-row{ display:none !important; }
+  body{ padding-bottom:0; background:#fff; }
+  .wiki-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
+  a{ text-decoration:underline; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="back-link" href="oshi-tool.html">← トップに戻る</a>
+    <div class="brand">豆知識・エピソード集</div>
+    <div class="nav-icons">
+      <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
+      <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+    </div>
+  </div>
+</nav>
+
+<header class="w-hero">
+  <div class="wrap">
+    <span class="eyebrow editable" id="w-eyebrow" contenteditable="false">新規さんも古参さんも</span>
+    <h1 class="editable" id="w-title" contenteditable="false">推しの豆知識・エピソード集</h1>
+    <p class="editable" id="w-desc" contenteditable="false">配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。</p>
+    <div class="daily-pick" id="daily-pick"></div>
+    <div class="search-wrap">
+      <input type="search" id="wiki-search" class="search-input" placeholder="🔍 気になるキーワードで検索">
+    </div>
+    <div class="category-filter" id="category-filter"></div>
+  </div>
+</header>
+
+<section id="wiki">
+  <div class="wrap">
+    <div class="sec-head sec-head-row">
+      <div>
+        <h2><span class="mark">◆</span>まとめ一覧</h2>
+      </div>
+      <div class="sec-head-actions">
+        <button class="view-toggle-btn" id="view-toggle" type="button">🕒 時系列で見る</button>
+        <button class="view-toggle-btn" id="random-intro-btn" type="button">🎲 ランダムで表示する</button>
+      </div>
+    </div>
+    <div class="wiki-list" id="wiki-list"></div>
+    <p class="no-results" id="no-results">条件に合う項目が見つかりませんでした。</p>
+    <button class="load-more-btn" id="load-more-wiki" type="button" style="display:none;">＋ もっと見る</button>
+    <div class="add-row"><button class="add-btn" id="add-wiki">＋ 項目を追加</button></div>
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+<div class="edit-toolbar">
+  <button class="tb-btn primary" id="toggle-edit">編集する</button>
+  <button class="tb-btn" id="save-html" style="display:none">保存(ダウンロード)</button>
+  <button class="tb-btn-icon" id="export-data" style="display:none" type="button" aria-label="データを書き出し" title="データを書き出し(JSON)">📤</button>
+  <button class="tb-btn-icon" id="import-data" style="display:none" type="button" aria-label="データを読み込み" title="データを読み込み(JSON)">📥</button>
+  <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;">
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <h3 id="modal-title">追加</h3>
+    <div id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="tb-btn" id="modal-cancel" type="button">キャンセル</button>
+      <button class="add-btn" id="modal-submit" type="button">追加する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================
+   編集用パスワード。他のページと同じ仕組み(SHA-256ハッシュ)。
+   初期パスワードは "oshikatsu2026" です。
+   ========================================================== */
+const EDIT_PASSWORD_HASH = "ce9d9c91a8374c694448bdb6f6591003c96353d8eaf6ee9e32c7e47d47c1ac14";
+async function sha256Hex(text){
+  if(!window.crypto || !window.crypto.subtle){ return Promise.reject(new Error("subtlecrypto-unavailable")); }
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+let authenticated = false;
+
+const WIKI = {
+  eyebrow: "新規さんも古参さんも",
+  title: "推しの豆知識・エピソード集",
+  desc: "配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。",
+  items: [
+    { title: "実は虫が苦手", category: "性格・素顔", source: "8/15 配信にて", body: "配信中に虫の写った映像が流れた瞬間に悲鳴を上げていて、実は虫が苦手だということが判明しました。普段のクールなイメージとのギャップが話題に。", photo: "" },
+    { title: "好きな食べ物はいちご", category: "好きなもの", source: "", body: "インタビューやプロフィールで度々語っている好物。差し入れでいちご系のお菓子をもらうととても喜ぶそうです。", photo: "" },
+    { title: "デビュー前は人見知りだった", category: "エピソード", source: "", body: "加入初期は人見知りで、自己紹介の時に噛んでしまったというエピソードが古参の間では有名です。", photo: "" },
+  ],
+};
+
+const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
+function escHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function getYouTubeId(url){
+  if(!url) return null;
+  try{
+    const u = new URL(url);
+    if(u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+    if(u.hostname.includes("youtube.com")){
+      if(u.pathname === "/watch") return u.searchParams.get("v");
+      const m = u.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
+      if(m) return m[2];
+    }
+  }catch(e){ /* 不正なURLは無視 */ }
+  return null;
+}
+function isRecentlyAdded(addedAt){
+  if(!addedAt) return false;
+  const added = new Date(addedAt + "T00:00:00");
+  if(isNaN(added.getTime())) return false;
+  const diffDays = (new Date() - added) / (1000 * 60 * 60 * 24);
+  return diffDays >= 0 && diffDays <= 7;
+}
+let wikiOrderCounter = 0;
+function wikiItemHTML(w){
+  const ytId = w.photo ? null : getYouTubeId(w.url);
+  const thumbSrc = w.photo || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "");
+  const photoHtml = thumbSrc ? `<img class="wiki-photo" src="${thumbSrc}" alt="">` : "";
+  const linkLabel = ytId ? "▶ 動画を見る" : "🔗 詳しく見る";
+  const linkHtml = w.url ? `<a class="wiki-link-btn" href="${w.url}" target="_blank" rel="noopener">${linkLabel}</a>` : "";
+  const sourceHtml = w.source ? `<span class="wiki-source editable" contenteditable="false">${w.source}</span>` : `<span class="wiki-source editable" contenteditable="false" style="display:none;"></span>`;
+  const newBadgeHtml = isRecentlyAdded(w.addedAt) ? `<span class="wiki-new-badge">NEW</span>` : "";
+  const order = (w.order !== undefined && w.order !== "") ? w.order : wikiOrderCounter++;
+  const relatedRaw = Array.isArray(w.related) ? w.related.join("|||") : (w.related || "");
+  const tagsArr = Array.isArray(w.tags) ? w.tags : (w.tags ? String(w.tags).split("|||").filter(Boolean) : []);
+  const tagsRaw = tagsArr.join("|||");
+  const tagsHtml = tagsArr.length ? `<div class="wiki-tags">${tagsArr.map(t => `<button type="button" class="wiki-tag" data-tag="${escAttr(t)}">#${escHtml(t)}</button>`).join("")}</div>` : `<div class="wiki-tags"></div>`;
+  return `<div class="wiki-item" data-category="${escAttr(w.category)}" data-photo="${escAttr(w.photo)}" data-url="${escAttr(w.url)}" data-added="${escAttr(w.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}" data-tags="${escAttr(tagsRaw)}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="wiki-meta">
+      ${newBadgeHtml}
+      <span class="wiki-category editable" contenteditable="false">${w.category || "その他"}</span>
+      ${sourceHtml}
+    </div>
+    <h3 class="wiki-title editable" contenteditable="false">${w.title}</h3>
+    <p class="wiki-body editable" contenteditable="false">${w.body}</p>
+    ${tagsHtml}
+    ${photoHtml}
+    ${linkHtml}
+    <div class="wiki-related" data-role="related"></div>
+    <button class="share-image-btn" type="button">🖼️ 画像でシェア</button>
+    ${REORDER_ROW}
+  </div>`;
+}
+
+if(!document.body.dataset.rendered){
+  document.getElementById("w-eyebrow").textContent = WIKI.eyebrow;
+  document.getElementById("w-title").textContent = WIKI.title;
+  document.getElementById("w-desc").textContent = WIKI.desc;
+  document.getElementById("wiki-list").innerHTML = WIKI.items.map(wikiItemHTML).join("");
+  document.body.dataset.rendered = "true";
+}
+
+/* ---------- SNSシェア用OGPタグの同期 ---------- */
+const OGP_IMAGE_URL = "";
+function syncOgpTags(){
+  const title = document.getElementById("w-title").textContent.trim();
+  const desc = document.getElementById("w-desc").textContent.trim();
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', title || "推しの豆知識・エピソード集");
+  setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="twitter:title"]', title || "推しの豆知識・エピソード集");
+  setMeta('meta[name="twitter:description"]', desc);
+  if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
+  if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+}
+syncOgpTags();
+
+/* ---------- PWA:Service Worker登録 ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+/* ---------- 画像アップロード(自動リサイズ・トリミングなし) ---------- */
+let pendingWikiPhoto = "";
+let modalOriginalWikiPhoto = "";
+let modalOriginalAddedAt = "";
+let modalOriginalOrder = "";
+const WIKI_PHOTO_MAX_DIMENSION = 900;
+function initWikiPhotoUpload(){
+  const input = document.getElementById("f-photo-file");
+  if(!input) return;
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, WIKI_PHOTO_MAX_DIMENSION / Math.max(img.naturalWidth, img.naturalHeight));
+        const w = Math.round(img.naturalWidth * scale), h = Math.round(img.naturalHeight * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        pendingWikiPhoto = canvas.toDataURL("image/jpeg", 0.82);
+        const preview = document.getElementById("wiki-photo-preview");
+        if(preview){ preview.style.backgroundImage = `url('${pendingWikiPhoto}')`; preview.style.display = "block"; }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+function watchDirty(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  new MutationObserver((mutations) => {
+    const relevant = mutations.some(m => !(m.type === "attributes" && m.attributeName === "style"));
+    if(relevant) hasUnsavedChanges = true;
+  }).observe(el, { childList: true, subtree: true, characterData: true, attributes: true });
+}
+["w-eyebrow","w-title","w-desc","wiki-list"].forEach(watchDirty);
+window.addEventListener("beforeunload", (e) => {
+  if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = ""; }
+});
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const title = document.getElementById("w-title").textContent.trim();
+  const desc = document.getElementById("w-desc").textContent.trim();
+  const shareText = desc ? `${title}｜${desc}` : title;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{ await navigator.share({ title, text: shareText, url: shareUrl }); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
+(function initSecretUnlock(){
+  const target = document.getElementById("footer-tap-target");
+  const toolbar = document.querySelector(".edit-toolbar");
+  if(!target || !toolbar) return;
+  let tapCount = 0, resetTimer = null;
+  target.addEventListener("click", () => {
+    tapCount++;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { tapCount = 0; }, 2000);
+    if(tapCount >= 5){ tapCount = 0; toolbar.classList.add("unlocked"); }
+  });
+})();
+
+/* ---------- カテゴリ絞り込み・検索・もっと見る ---------- */
+let currentCategoryFilter = "all";
+let showAllItems = false;
+const WIKI_INITIAL_VISIBLE = 6;
+function currentSearchQuery(){
+  const el = document.getElementById("wiki-search");
+  return el ? el.value.trim().toLowerCase() : "";
+}
+function applyWikiFilter(){
+  const q = currentSearchQuery();
+  const allItems = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  const matched = allItems.filter(item => {
+    const categoryOk = (currentCategoryFilter === "all" || item.dataset.category === currentCategoryFilter);
+    const searchOk = !q || item.textContent.toLowerCase().includes(q);
+    return categoryOk && searchOk;
+  });
+  const isNarrowed = currentCategoryFilter !== "all" || !!q;
+  const limitActive = !showAllItems && !isNarrowed && matched.length > WIKI_INITIAL_VISIBLE;
+  allItems.forEach(item => { item.style.display = "none"; });
+  matched.forEach((item, i) => {
+    if(limitActive && i >= WIKI_INITIAL_VISIBLE) return;
+    item.style.display = "";
+  });
+  document.getElementById("no-results").classList.toggle("show", matched.length === 0 && allItems.length > 0);
+  const loadMoreBtn = document.getElementById("load-more-wiki");
+  if(limitActive){
+    loadMoreBtn.style.display = "flex";
+    loadMoreBtn.textContent = `＋ もっと見る(残り${matched.length - WIKI_INITIAL_VISIBLE}件)`;
+  } else {
+    loadMoreBtn.style.display = "none";
+  }
+}
+document.getElementById("load-more-wiki").addEventListener("click", () => {
+  showAllItems = true;
+  applyWikiFilter();
+});
+function renderCategoryFilter(){
+  const wrap = document.getElementById("category-filter");
+  const cats = [];
+  document.querySelectorAll("#wiki-list .wiki-item").forEach(item => {
+    const c = item.dataset.category;
+    if(c && !cats.includes(c)) cats.push(c);
+  });
+  if(cats.length < 2){
+    wrap.classList.remove("show");
+    wrap.innerHTML = "";
+    currentCategoryFilter = "all";
+    applyWikiFilter();
+    return;
+  }
+  const current = cats.includes(currentCategoryFilter) ? currentCategoryFilter : "all";
+  currentCategoryFilter = current;
+  wrap.classList.add("show");
+  wrap.innerHTML = [`<button type="button" class="tag-filter-btn${current === "all" ? " active" : ""}" data-cat="all">すべて</button>`]
+    .concat(cats.map(c => `<button type="button" class="tag-filter-btn${current === c ? " active" : ""}" data-cat="${escAttr(c)}">${c}</button>`))
+    .join("");
+  applyWikiFilter();
+}
+document.getElementById("category-filter").addEventListener("click", (e) => {
+  const btn = e.target.closest(".tag-filter-btn");
+  if(!btn) return;
+  currentCategoryFilter = btn.dataset.cat;
+  showAllItems = false;
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+  applyWikiFilter();
+});
+document.getElementById("wiki-search").addEventListener("input", () => { showAllItems = false; applyWikiFilter(); });
+new MutationObserver(() => { renderCategoryFilter(); renderRelatedLinks(); renderDailyPick(); }).observe(document.getElementById("wiki-list"), { childList: true, subtree: true, characterData: true });
+renderCategoryFilter();
+renderRelatedLinks();
+
+/* ---------- ピックアップカード(数秒ごとに自動で入れ替え) ---------- */
+function hashString(s){
+  let h = 0;
+  for(let i = 0; i < s.length; i++){ h = (h * 31 + s.charCodeAt(i)) | 0; }
+  return Math.abs(h);
+}
+let pickupRotateTimer = null;
+let pickupShownItem = null;
+function renderPickupContent(picked){
+  const wrap = document.getElementById("daily-pick");
+  const title = picked.querySelector(".wiki-title")?.textContent || "";
+  const body = picked.querySelector(".wiki-body")?.textContent || "";
+  wrap.classList.add("show");
+  wrap.innerHTML = `<button type="button" class="pickup-shuffle-btn" aria-label="別の話に切り替える" title="別の話に切り替える">🔀</button>
+    <div class="daily-pick-label">✦ こんな話も</div>
+    <div class="daily-pick-title">${escHtml(title)}</div>
+    <div class="daily-pick-body">${escHtml(body)}</div>`;
+  wrap.onclick = (e) => {
+    const shuffleBtn = e.target.closest(".pickup-shuffle-btn");
+    if(shuffleBtn){
+      shuffleBtn.classList.add("spinning");
+      triggerPickupShuffle();
+      return;
+    }
+    picked.scrollIntoView({ behavior: "smooth", block: "center" });
+    picked.classList.add("wiki-flash");
+    setTimeout(() => picked.classList.remove("wiki-flash"), 1400);
+  };
+  pickupShownItem = picked;
+}
+function pickupNextRandom(){
+  const items = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  if(!items.length) return null;
+  let candidates = items;
+  if(items.length > 1 && pickupShownItem) candidates = items.filter(it => it !== pickupShownItem);
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+function triggerPickupShuffle(){
+  const wrap = document.getElementById("daily-pick");
+  const next = pickupNextRandom();
+  if(!next) return;
+  wrap.classList.add("fading");
+  setTimeout(() => {
+    renderPickupContent(next);
+    wrap.classList.remove("fading");
+  }, 260);
+  startPickupRotation();
+}
+function startPickupRotation(){
+  clearInterval(pickupRotateTimer);
+  if(document.querySelectorAll("#wiki-list .wiki-item").length < 2) return;
+  pickupRotateTimer = setInterval(() => {
+    const wrap = document.getElementById("daily-pick");
+    const next = pickupNextRandom();
+    if(!next) return;
+    wrap.classList.add("fading");
+    setTimeout(() => {
+      renderPickupContent(next);
+      wrap.classList.remove("fading");
+    }, 260);
+  }, 6000);
+}
+function renderDailyPick(){
+  const wrap = document.getElementById("daily-pick");
+  const items = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  if(!items.length){ wrap.classList.remove("show"); wrap.innerHTML = ""; clearInterval(pickupRotateTimer); return; }
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const idx = hashString(todayKey) % items.length;
+  renderPickupContent(items[idx]);
+  startPickupRotation();
+}
+renderDailyPick();
+
+/* ---------- タイムライン表示への切り替え ---------- */
+let currentViewMode = "normal";
+function applyViewMode(){
+  const list = document.getElementById("wiki-list");
+  const items = Array.from(list.querySelectorAll(".wiki-item"));
+  if(currentViewMode === "timeline"){
+    items.sort((a, b) => {
+      const da = a.dataset.added || "0000-00-00";
+      const db = b.dataset.added || "0000-00-00";
+      if(da !== db) return db.localeCompare(da);
+      return (parseInt(a.dataset.order || "0", 10) - parseInt(b.dataset.order || "0", 10));
+    });
+  } else {
+    items.sort((a, b) => (parseInt(a.dataset.order || "0", 10) - parseInt(b.dataset.order || "0", 10)));
+  }
+  items.forEach(item => list.appendChild(item));
+  applyWikiFilter();
+}
+document.getElementById("view-toggle").addEventListener("click", () => {
+  currentViewMode = currentViewMode === "normal" ? "timeline" : "normal";
+  const btn = document.getElementById("view-toggle");
+  btn.classList.toggle("active", currentViewMode === "timeline");
+  btn.textContent = currentViewMode === "timeline" ? "📋 通常表示に戻す" : "🕒 時系列で見る";
+  applyViewMode();
+});
+
+/* ---------- ランダムに1つ紹介(一覧内の項目へ移動) ---------- */
+document.getElementById("random-intro-btn").addEventListener("click", () => {
+  const allItems = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  if(!allItems.length) return;
+  document.getElementById("wiki-search").value = "";
+  currentCategoryFilter = "all";
+  showAllItems = false;
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+
+  const visibleCount = Math.min(WIKI_INITIAL_VISIBLE, allItems.length);
+  const currentlyVisible = allItems.filter(item => item.style.display !== "none");
+  let pool = allItems.filter(item => !currentlyVisible.includes(item));
+  if(pool.length < visibleCount) pool = allItems.slice();
+
+  const shuffled = pool.slice();
+  for(let i = shuffled.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const picked = shuffled.slice(0, visibleCount);
+  const rest = allItems.filter(item => !picked.includes(item));
+
+  const list = document.getElementById("wiki-list");
+  picked.forEach(item => list.appendChild(item));
+  rest.forEach(item => list.appendChild(item));
+
+  applyWikiFilter();
+  document.getElementById("wiki").scrollIntoView({ behavior: "smooth", block: "start" });
+  picked.forEach(item => {
+    item.classList.add("wiki-flash");
+    setTimeout(() => item.classList.remove("wiki-flash"), 1400);
+  });
+});
+
+/* ---------- 関連項目リンク ---------- */
+function syncRelatedBidirectional(currentTitle, oldRelatedList, newRelatedList){
+  const items = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  const findByTitle = (t) => items.find(item => item.querySelector(".wiki-title")?.textContent.trim() === t);
+  const added = newRelatedList.filter(t => !oldRelatedList.includes(t));
+  const removed = oldRelatedList.filter(t => !newRelatedList.includes(t));
+  added.forEach(targetTitle => {
+    const target = findByTitle(targetTitle);
+    if(!target) return;
+    const targetRelated = (target.dataset.related || "").split("|||").map(s => s.trim()).filter(Boolean);
+    if(!targetRelated.includes(currentTitle)){
+      targetRelated.push(currentTitle);
+      target.dataset.related = targetRelated.join("|||");
+    }
+  });
+  removed.forEach(targetTitle => {
+    const target = findByTitle(targetTitle);
+    if(!target) return;
+    const targetRelated = (target.dataset.related || "").split("|||").map(s => s.trim()).filter(Boolean);
+    const idx = targetRelated.indexOf(currentTitle);
+    if(idx !== -1){
+      targetRelated.splice(idx, 1);
+      target.dataset.related = targetRelated.join("|||");
+    }
+  });
+}
+function renderRelatedLinks(){
+  const items = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  const titleMap = new Map();
+  items.forEach(item => {
+    const t = item.querySelector(".wiki-title")?.textContent.trim();
+    if(t) titleMap.set(t, item);
+  });
+  items.forEach(item => {
+    const wrap = item.querySelector('[data-role="related"]');
+    if(!wrap) return;
+    const raw = item.dataset.related || "";
+    const titles = raw.split("|||").map(s => s.trim()).filter(Boolean);
+    const valid = titles.filter(t => titleMap.has(t) && titleMap.get(t) !== item);
+    const newHtml = valid.length
+      ? `<span class="related-label">関連:</span>` + valid.map(t => `<button type="button" class="related-link-btn" data-target="${escAttr(t)}">${escHtml(t)}</button>`).join("")
+      : "";
+    if(wrap.innerHTML !== newHtml) wrap.innerHTML = newHtml;
+    const wantDisplay = valid.length ? "flex" : "none";
+    if(wrap.style.display !== wantDisplay) wrap.style.display = wantDisplay;
+  });
+}
+document.getElementById("wiki-list").addEventListener("click", (e) => {
+  const btn = e.target.closest(".related-link-btn");
+  if(!btn) return;
+  const items = Array.from(document.querySelectorAll("#wiki-list .wiki-item"));
+  const target = items.find(item => item.querySelector(".wiki-title")?.textContent.trim() === btn.dataset.target);
+  if(!target) return;
+  document.getElementById("wiki-search").value = "";
+  currentCategoryFilter = "all";
+  showAllItems = true;
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+  applyWikiFilter();
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+  target.classList.add("wiki-flash");
+  setTimeout(() => target.classList.remove("wiki-flash"), 1400);
+});
+document.getElementById("wiki-list").addEventListener("click", (e) => {
+  const tagBtn = e.target.closest(".wiki-tag");
+  if(!tagBtn) return;
+  currentCategoryFilter = "all";
+  showAllItems = false;
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+  const searchInput = document.getElementById("wiki-search");
+  searchInput.value = tagBtn.dataset.tag;
+  applyWikiFilter();
+  searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+/* ---------- 印刷用レイアウト ---------- */
+document.getElementById("print-btn").addEventListener("click", () => window.print());
+let wasShowAllBeforePrint = false;
+window.addEventListener("beforeprint", () => {
+  wasShowAllBeforePrint = showAllItems;
+  showAllItems = true;
+  applyWikiFilter();
+});
+window.addEventListener("afterprint", () => {
+  showAllItems = wasShowAllBeforePrint;
+  applyWikiFilter();
+});
+
+/* ---------- SNSシェア用の画像を作成 ---------- */
+function measureWrappedLines(ctx, text, maxWidth, maxLines){
+  const chars = String(text || "").split("");
+  const lines = [];
+  let line = "";
+  for(let i = 0; i < chars.length; i++){
+    const testLine = line + chars[i];
+    if(ctx.measureText(testLine).width > maxWidth && line !== ""){
+      lines.push(line);
+      line = chars[i];
+      if(maxLines && lines.length >= maxLines){ line = ""; break; }
+    } else {
+      line = testLine;
+    }
+  }
+  if(line && (!maxLines || lines.length < maxLines)) lines.push(line);
+  return lines;
+}
+function drawTextLines(ctx, lines, x, y, lineHeight){
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight));
+  return y + lines.length * lineHeight;
+}
+function drawCanvasStar(ctx, cx, cy, r, color, alpha){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for(let i = 0; i < 5; i++){
+    const angle = (Math.PI * 2 * i) / 5 - Math.PI / 2;
+    const angle2 = angle + Math.PI / 5;
+    ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+    ctx.lineTo(cx + r * 0.42 * Math.cos(angle2), cy + r * 0.42 * Math.sin(angle2));
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+async function generateShareImage(item){
+  const category = item.querySelector(".wiki-category")?.textContent || "";
+  const title = item.querySelector(".wiki-title")?.textContent || "";
+  const body = item.querySelector(".wiki-body")?.textContent || "";
+  const source = item.querySelector(".wiki-source")?.textContent || "";
+  const tags = (item.dataset.tags || "").split("|||").map(s => s.trim()).filter(Boolean);
+
+  /* フォントの読み込みを待ってから描画(未読込みだと既定フォントになるため) */
+  try{
+    if(document.fonts && document.fonts.load){
+      await Promise.all([
+        document.fonts.load("bold 46px 'Zen Maru Gothic'"),
+        document.fonts.load("bold 30px 'Zen Maru Gothic'"),
+        document.fonts.load("bold 26px 'Zen Maru Gothic'"),
+        document.fonts.load("32px 'Noto Sans JP'"),
+      ]);
+    }
+  }catch(e){ /* 読み込みに失敗しても既定フォントで続行 */ }
+
+  const W = 1080;
+  const canvas = document.createElement("canvas");
+  canvas.width = W; canvas.height = 1080; /* 計測用の仮サイズ(後で実サイズに変更します) */
+  const ctx = canvas.getContext("2d");
+
+  const cardX = 60, cardW = 960, radius = 36;
+  const textX = cardX + 48;
+  const textW = cardW - 96;
+
+  /* ---- 内容を実際に描く前に、必要な行数・高さを計測する ---- */
+  ctx.font = "bold 46px 'Zen Maru Gothic', sans-serif";
+  const titleLines = measureWrappedLines(ctx, title, textW, 4);
+  ctx.font = "32px 'Noto Sans JP', sans-serif";
+  const bodyLines = measureWrappedLines(ctx, body, textW, 20);
+
+  let tagRowCount = 0;
+  if(tags.length){
+    ctx.font = "bold 22px 'Zen Maru Gothic', sans-serif";
+    let tagX = 0;
+    tagRowCount = 1;
+    tags.forEach(t => {
+      const w = ctx.measureText(`#${t}`).width + 28;
+      if(tagX + w > textW){ tagX = 0; tagRowCount++; }
+      tagX += w + 10;
+    });
+  }
+
+  const TITLE_LINE_H = 62, BODY_LINE_H = 48, TAG_ROW_H = 46;
+  let contentH = 56; /* カード上部からバッジ開始位置までの余白 */
+  contentH += (category || source) ? 90 : 16; /* バッジ分(実際の描画と同じ分岐) */
+  contentH += 46; /* バッジ〜タイトル1行目までの間隔 */
+  contentH += titleLines.length * TITLE_LINE_H;
+  contentH += 30; /* タイトルと本文の間隔 */
+  contentH += bodyLines.length * BODY_LINE_H;
+  if(tagRowCount) contentH += 34 + tagRowCount * TAG_ROW_H;
+  contentH += 60; /* カード下部の余白 */
+
+  const cardY = 96;
+  const cardH = Math.max(700, contentH);
+  const H = cardY * 2 + cardH;
+  canvas.width = W; canvas.height = H; /* 実サイズに変更(内容はリセットされるので、ここから改めて描画) */
+
+  /* 背景グラデーション */
+  const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+  bgGrad.addColorStop(0, "#ffe2e6");
+  bgGrad.addColorStop(0.55, "#fff7f5");
+  bgGrad.addColorStop(1, "#ffffff");
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  /* 背景の装飾(星・円) */
+  drawCanvasStar(ctx, 950, 96, 26, "#e0233a", 0.20);
+  drawCanvasStar(ctx, 108, H - 96, 20, "#e0233a", 0.18);
+  drawCanvasStar(ctx, 966, H - 118, 15, "#e0233a", 0.24);
+  ctx.save();
+  ctx.globalAlpha = 0.10;
+  ctx.fillStyle = "#e0233a";
+  ctx.beginPath(); ctx.arc(40, 40, 100, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W - 40, H - 40, 140, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+
+  /* カード */
+  ctx.save();
+  ctx.shadowColor = "rgba(43,35,49,0.20)";
+  ctx.shadowBlur = 44;
+  ctx.shadowOffsetY = 20;
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(cardX, cardY, cardW, cardH, radius); else ctx.rect(cardX, cardY, cardW, cardH);
+  ctx.fill();
+  ctx.restore();
+
+  /* カード上部の推し色アクセントバー */
+  ctx.save();
+  ctx.fillStyle = "#e0233a";
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(cardX, cardY, cardW, 14, [radius, radius, 0, 0]); else ctx.rect(cardX, cardY, cardW, 14);
+  ctx.fill();
+  ctx.restore();
+
+  /* 装飾クォートマーク(バッジ・タイトルと重ならないよう右上の隅に小さく収める) */
+  ctx.save();
+  ctx.font = "bold 120px Georgia, serif";
+  ctx.fillStyle = "rgba(224,35,58,0.09)";
+  ctx.textBaseline = "top";
+  ctx.fillText("❝", cardX + cardW - 130, cardY + 28);
+  ctx.textBaseline = "alphabetic";
+  ctx.restore();
+
+  let cursorY = cardY + 56;
+
+  /* カテゴリ・情報源バッジ(横並び) */
+  let badgeX = textX;
+  if(category){
+    ctx.font = "bold 26px 'Zen Maru Gothic', sans-serif";
+    const badgeW = ctx.measureText(category).width + 56;
+    ctx.fillStyle = "#ffe2e6";
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(badgeX, cursorY, badgeW, 52, 26); else ctx.rect(badgeX, cursorY, badgeW, 52);
+    ctx.fill();
+    ctx.fillStyle = "#b81b30";
+    ctx.textBaseline = "middle";
+    ctx.fillText(category, badgeX + 28, cursorY + 27);
+    ctx.textBaseline = "alphabetic";
+    badgeX += badgeW + 14;
+  }
+  if(source){
+    const label = `情報源:${source}`;
+    ctx.font = "bold 24px 'Zen Maru Gothic', sans-serif";
+    const badgeW = ctx.measureText(label).width + 50;
+    ctx.fillStyle = "#ffe2e6";
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(badgeX, cursorY, badgeW, 52, 26); else ctx.rect(badgeX, cursorY, badgeW, 52);
+    ctx.fill();
+    ctx.fillStyle = "#b81b30";
+    ctx.textBaseline = "middle";
+    ctx.fillText(label, badgeX + 25, cursorY + 27);
+    ctx.textBaseline = "alphabetic";
+    badgeX += badgeW + 14;
+  }
+  cursorY += (category || source) ? 90 : 16;
+
+  /* タイトル */
+  ctx.fillStyle = "#2b2331";
+  ctx.font = "bold 46px 'Zen Maru Gothic', sans-serif";
+  cursorY = drawTextLines(ctx, titleLines, textX, cursorY + 46, TITLE_LINE_H);
+
+  /* 本文 */
+  cursorY += 30;
+  ctx.fillStyle = "#5a4b56";
+  ctx.font = "32px 'Noto Sans JP', sans-serif";
+  cursorY = drawTextLines(ctx, bodyLines, textX, cursorY, BODY_LINE_H);
+
+  /* タグ */
+  if(tags.length){
+    cursorY += 34;
+    ctx.font = "bold 22px 'Zen Maru Gothic', sans-serif";
+    let tagX = textX;
+    const rightLimit = textX + textW;
+    tags.forEach(t => {
+      const label = `#${t}`;
+      const w = ctx.measureText(label).width + 28;
+      if(tagX + w > rightLimit){ tagX = textX; cursorY += TAG_ROW_H; }
+      ctx.fillStyle = "#ffe2e6";
+      ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(tagX, cursorY, w, 36, 18); else ctx.rect(tagX, cursorY, w, 36);
+      ctx.fill();
+      ctx.fillStyle = "#b81b30";
+      ctx.textBaseline = "middle";
+      ctx.fillText(label, tagX + 14, cursorY + 19);
+      ctx.textBaseline = "alphabetic";
+      tagX += w + 10;
+    });
+  }
+
+  const link = document.createElement("a");
+  link.download = "wiki-share-" + Date.now() + ".png";
+  link.href = canvas.toDataURL("image/png");
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+document.getElementById("wiki-list").addEventListener("click", (e) => {
+  const btn = e.target.closest(".share-image-btn");
+  if(!btn) return;
+  const item = btn.closest(".wiki-item");
+  if(item) generateShareImage(item);
+});
+
+/* ---------- 編集モード(パスワードで保護) ---------- */
+let editMode = false;
+const toggleBtn = document.getElementById("toggle-edit");
+const saveBtn = document.getElementById("save-html");
+function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+function enterEditMode(){
+  editMode = true;
+  setEditable(true);
+  document.body.classList.add("editing");
+  toggleBtn.textContent = "編集を終える";
+  saveBtn.style.display = "inline-flex";
+  document.getElementById("export-data").style.display = "inline-flex";
+  document.getElementById("import-data").style.display = "inline-flex";
+}
+function exitEditMode(){
+  editMode = false;
+  setEditable(false);
+  document.body.classList.remove("editing");
+  toggleBtn.textContent = "編集する";
+  saveBtn.style.display = "none";
+  document.getElementById("export-data").style.display = "none";
+  document.getElementById("import-data").style.display = "none";
+}
+function requestEditAccess(){
+  if(authenticated){ enterEditMode(); return; }
+  openModal("password");
+}
+toggleBtn.addEventListener("click", () => { if(editMode){ exitEditMode(); } else { requestEditAccess(); } });
+
+/* ---------- モーダル(項目追加・編集フォーム) ---------- */
+let modalType = null;
+let modalEditTarget = null;
+function openModal(type, prefill){
+  modalType = type;
+  modalEditTarget = (prefill && prefill.editTarget) || null;
+  modalOriginalWikiPhoto = (prefill && prefill.photo) || "";
+  modalOriginalAddedAt = (prefill && prefill.addedAt) || "";
+  pendingWikiPhoto = "";
+  pendingRelated = (prefill && Array.isArray(prefill.related)) ? prefill.related.slice() : [];
+  pendingTags = (prefill && Array.isArray(prefill.tags)) ? prefill.tags.slice() : [];
+  const titles = { wiki: "項目を追加", password: "編集用パスワード" };
+  document.getElementById("modal-title").textContent = modalEditTarget ? "編集する" : (titles[type] || "追加");
+  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(type);
+  document.getElementById("modal-submit").textContent = type === "password" ? "確認する" : (modalEditTarget ? "更新する" : "追加する");
+  document.getElementById("modal-backdrop").classList.add("open");
+  if(type === "wiki"){
+    initWikiPhotoUpload();
+    const dl = document.getElementById("category-suggestions");
+    if(dl){
+      const cats = [];
+      document.querySelectorAll("#wiki-list .wiki-item").forEach(item => { const c = item.dataset.category; if(c && !cats.includes(c)) cats.push(c); });
+      dl.innerHTML = cats.map(c => `<option value="${escAttr(c)}"></option>`).join("");
+    }
+    renderRelatedSelect();
+    renderTagChips();
+    renderTagSuggestions();
+  }
+  if(prefill){
+    Object.keys(prefill).forEach(k => {
+      if(k === "editTarget" || k === "photo" || k === "addedAt" || k === "related" || k === "tags") return;
+      const el = document.getElementById("f-" + k);
+      if(el) el.value = prefill[k];
+    });
+  }
+  if(type === "wiki" && modalOriginalWikiPhoto){
+    const preview = document.getElementById("wiki-photo-preview");
+    if(preview){ preview.style.backgroundImage = `url('${modalOriginalWikiPhoto}')`; preview.style.display = "block"; }
+  }
+  const firstInput = document.querySelector("#modal-fields .qa-input, #modal-fields .qa-textarea");
+  if(firstInput) firstInput.focus();
+}
+function closeModal(){ document.getElementById("modal-backdrop").classList.remove("open"); modalType = null; modalEditTarget = null; }
+function val(id, fallback){ const el = document.getElementById(id); const v = el ? el.value.trim() : ""; return v || fallback; }
+function modalFieldsHTML(type){
+  if(type === "password") return `<div class="qa-label">編集用パスワード</div><input class="qa-input" type="password" id="f-password" placeholder="パスワードを入力">`;
+  if(type === "wiki") return `
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-title" placeholder="例:実は虫が苦手">
+    <div class="qa-label">カテゴリ</div>
+    <input class="qa-input" id="f-category" list="category-suggestions" placeholder="例:性格・素顔、好きなもの、エピソード">
+    <datalist id="category-suggestions"></datalist>
+    <div class="qa-label">情報源(任意・例:8/15配信にて)</div><input class="qa-input" id="f-source" placeholder="例:8/15配信にて">
+    <div class="qa-label">本文</div><textarea class="qa-textarea" id="f-body" placeholder="内容を入力してください"></textarea>
+    <div class="qa-label">リンクURL(任意・専用ボタンから開けます。YouTubeなら本文下にサムネを自動表示)</div>
+    <input class="qa-input" id="f-url" placeholder="https://...">
+    <div class="qa-label">画像を添付(任意・未入力でYouTubeリンクがあれば自動でサムネを使用。タップでは開けません)</div>
+    <input type="file" accept="image/*" class="qa-input" id="f-photo-file">
+    <div class="photo-preview" id="wiki-photo-preview"></div>
+    <div class="qa-label">タグ(任意・複数つけられます)</div>
+    <div class="tag-chip-row" id="tag-chip-row"></div>
+    <div class="tag-input-row">
+      <input class="qa-input" id="f-tag-input" placeholder="タグを入力">
+      <button type="button" class="tag-add-btn" id="add-tag-chip">追加</button>
+    </div>
+    <div class="tag-suggest-row" id="tag-suggest-row"></div>
+    <div class="qa-label">関連する項目(任意・タップして選択)</div>
+    <div class="related-select-row" id="related-select-row"></div>`;
+  return "";
+}
+let pendingRelated = [];
+function renderRelatedSelect(){
+  const wrap = document.getElementById("related-select-row");
+  if(!wrap) return;
+  const excludeTitle = modalEditTarget ? (modalEditTarget.querySelector(".wiki-title")?.textContent.trim() || "") : "";
+  const allTitles = [];
+  document.querySelectorAll("#wiki-list .wiki-item").forEach(item => {
+    const t = item.querySelector(".wiki-title")?.textContent.trim();
+    if(t && t !== excludeTitle && !allTitles.includes(t)) allTitles.push(t);
+  });
+  if(!allTitles.length){
+    wrap.innerHTML = `<p class="related-select-empty">他に登録されている項目がまだありません</p>`;
+    return;
+  }
+  wrap.innerHTML = allTitles.map(t => `<button type="button" class="related-select-btn${pendingRelated.includes(t) ? " active" : ""}" data-title="${escAttr(t)}">${escHtml(t)}</button>`).join("");
+}
+document.getElementById("modal-fields").addEventListener("click", (e) => {
+  const btn = e.target.closest(".related-select-btn");
+  if(!btn) return;
+  const t = btn.dataset.title;
+  const i = pendingRelated.indexOf(t);
+  if(i === -1) pendingRelated.push(t); else pendingRelated.splice(i, 1);
+  renderRelatedSelect();
+});
+
+let pendingTags = [];
+function renderTagChips(){
+  const wrap = document.getElementById("tag-chip-row");
+  if(!wrap) return;
+  wrap.innerHTML = pendingTags.map((t, i) => `<span class="tag-chip">${escHtml(t)}<button type="button" class="tag-chip-remove" data-idx="${i}" aria-label="削除">×</button></span>`).join("");
+}
+function renderTagSuggestions(){
+  const wrap = document.getElementById("tag-suggest-row");
+  if(!wrap) return;
+  const allTags = [];
+  document.querySelectorAll("#wiki-list .wiki-item").forEach(item => {
+    (item.dataset.tags || "").split("|||").map(s => s.trim()).filter(Boolean).forEach(t => { if(!allTags.includes(t)) allTags.push(t); });
+  });
+  const remaining = allTags.filter(t => !pendingTags.includes(t));
+  wrap.innerHTML = remaining.length
+    ? `<span class="tag-suggest-label">既存のタグから追加:</span>` + remaining.map(t => `<button type="button" class="tag-suggest-btn" data-tag="${escAttr(t)}">＋ ${escHtml(t)}</button>`).join("")
+    : "";
+}
+function addTagChip(name){
+  const trimmed = (name || "").trim();
+  if(!trimmed || pendingTags.includes(trimmed)) return;
+  pendingTags.push(trimmed);
+  renderTagChips();
+  renderTagSuggestions();
+}
+document.getElementById("modal-fields").addEventListener("click", (e) => {
+  const removeBtn = e.target.closest(".tag-chip-remove");
+  if(removeBtn){
+    pendingTags.splice(parseInt(removeBtn.dataset.idx, 10), 1);
+    renderTagChips();
+    renderTagSuggestions();
+    return;
+  }
+  const suggestBtn = e.target.closest(".tag-suggest-btn");
+  if(suggestBtn){ addTagChip(suggestBtn.dataset.tag); return; }
+  if(e.target.id === "add-tag-chip"){
+    const input = document.getElementById("f-tag-input");
+    addTagChip(input.value);
+    input.value = "";
+    input.focus();
+  }
+});
+document.getElementById("modal-fields").addEventListener("keydown", (e) => {
+  if(e.target.id === "f-tag-input" && e.key === "Enter"){
+    e.preventDefault();
+    addTagChip(e.target.value);
+    e.target.value = "";
+  }
+});
+
+document.getElementById("add-wiki").addEventListener("click", () => openModal("wiki"));
+document.getElementById("modal-cancel").addEventListener("click", closeModal);
+document.getElementById("modal-backdrop").addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closeModal(); });
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape" && document.getElementById("modal-backdrop").classList.contains("open")) closeModal();
+});
+
+document.getElementById("modal-submit").addEventListener("click", () => {
+  if(modalType === "password"){
+    const pw = val("f-password", "");
+    sha256Hex(pw).then(hash => {
+      if(hash !== EDIT_PASSWORD_HASH){ alert("パスワードが違います"); return; }
+      authenticated = true;
+      closeModal();
+      enterEditMode();
+    }).catch(() => {
+      alert("この環境ではパスワード確認に必要な機能が使えません。実際に公開したURL(https)で開いてお試しください。");
+    });
+    return;
+  }
+  if(modalType === "wiki"){
+    const photo = pendingWikiPhoto || modalOriginalWikiPhoto || "";
+    const addedAt = modalEditTarget ? (modalOriginalAddedAt || "") : new Date().toISOString().slice(0, 10);
+    const order = modalEditTarget ? modalOriginalOrder : undefined;
+    const oldRelated = modalEditTarget ? (modalEditTarget.dataset.related || "").split("|||").map(s => s.trim()).filter(Boolean) : [];
+    const related = pendingRelated.join("|||");
+    const leftoverTagInput = document.getElementById("f-tag-input");
+    if(leftoverTagInput && leftoverTagInput.value.trim()) addTagChip(leftoverTagInput.value);
+    const tags = pendingTags.slice();
+    const currentTitle = val("f-title","タイトル");
+    const html = wikiItemHTML({ title: currentTitle, category: val("f-category","その他"), source: val("f-source",""), body: val("f-body",""), url: val("f-url",""), photo, addedAt, order, related, tags });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { document.getElementById("wiki-list").insertAdjacentHTML("beforeend", html); }
+    syncRelatedBidirectional(currentTitle, oldRelated, pendingRelated.slice());
+    renderRelatedLinks();
+  }
+  setEditable(editMode);
+  closeModal();
+});
+
+/* 既存項目の編集(✎)・削除(×)・並び替え(↑↓) */
+function openEditModal(card){
+  if(card.classList.contains("wiki-item")){
+    openModal("wiki", {
+      editTarget: card,
+      title: card.querySelector(".wiki-title")?.textContent || "",
+      category: card.querySelector(".wiki-category")?.textContent || "",
+      source: card.querySelector(".wiki-source")?.textContent || "",
+      body: card.querySelector(".wiki-body")?.textContent || "",
+      url: card.dataset.url || "",
+      photo: card.dataset.photo || "",
+      addedAt: card.dataset.added || "",
+      related: (card.dataset.related || "").split("|||").filter(Boolean),
+      tags: (card.dataset.tags || "").split("|||").filter(Boolean),
+    });
+    modalOriginalOrder = card.dataset.order || "";
+  }
+}
+document.addEventListener("click", (e) => {
+  if(e.target.closest(".edit-edit")){
+    const card = e.target.closest(".wiki-item");
+    if(card) openEditModal(card);
+    return;
+  }
+  if(e.target.classList.contains("edit-remove")){
+    const card = e.target.closest(".wiki-item");
+    if(card){
+      const title = card.querySelector(".wiki-title")?.textContent.trim() || "";
+      card.remove();
+      if(title){
+        document.querySelectorAll("#wiki-list .wiki-item").forEach(item => {
+          const list = (item.dataset.related || "").split("|||").map(s => s.trim()).filter(Boolean);
+          const idx = list.indexOf(title);
+          if(idx !== -1){
+            list.splice(idx, 1);
+            item.dataset.related = list.join("|||");
+          }
+        });
+        renderRelatedLinks();
+      }
+    }
+    return;
+  }
+  const upBtn = e.target.closest(".move-up");
+  const downBtn = e.target.closest(".move-down");
+  if(upBtn || downBtn){
+    const card = e.target.closest(".wiki-item");
+    if(card && card.parentElement){
+      const swapOrder = (a, b) => { const t = a.dataset.order; a.dataset.order = b.dataset.order; b.dataset.order = t; };
+      if(upBtn && card.previousElementSibling){
+        swapOrder(card, card.previousElementSibling);
+        card.parentElement.insertBefore(card, card.previousElementSibling);
+      }
+      if(downBtn && card.nextElementSibling){
+        swapOrder(card, card.nextElementSibling);
+        card.parentElement.insertBefore(card.nextElementSibling, card);
+      }
+      hasUnsavedChanges = true;
+    }
+  }
+});
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+function extractWikiData(){
+  return {
+    eyebrow: document.getElementById("w-eyebrow").textContent,
+    title: document.getElementById("w-title").textContent,
+    desc: document.getElementById("w-desc").textContent,
+    items: Array.from(document.querySelectorAll("#wiki-list .wiki-item")).map(el => ({
+      title: el.querySelector(".wiki-title")?.textContent || "",
+      category: el.querySelector(".wiki-category")?.textContent || "",
+      source: el.querySelector(".wiki-source")?.textContent || "",
+      body: el.querySelector(".wiki-body")?.textContent || "",
+      url: el.dataset.url || "",
+      photo: el.dataset.photo || "",
+      addedAt: el.dataset.added || "",
+      order: el.dataset.order || "",
+      related: el.dataset.related || "",
+      tags: el.dataset.tags || "",
+    })),
+  };
+}
+function rebuildWikiFromData(data){
+  if(data.eyebrow !== undefined) document.getElementById("w-eyebrow").textContent = data.eyebrow;
+  if(data.title !== undefined) document.getElementById("w-title").textContent = data.title;
+  if(data.desc !== undefined) document.getElementById("w-desc").textContent = data.desc;
+  if(data.items){
+    document.getElementById("wiki-list").innerHTML = data.items.map(wikiItemHTML).join("");
+    const maxOrder = Math.max(-1, ...data.items.map(it => parseInt(it.order, 10)).filter(n => !isNaN(n)));
+    wikiOrderCounter = Math.max(wikiOrderCounter, maxOrder + 1);
+  }
+  setEditable(editMode);
+  syncOgpTags();
+  renderCategoryFilter();
+  renderRelatedLinks();
+  renderDailyPick();
+  hasUnsavedChanges = true;
+}
+document.getElementById("export-data").addEventListener("click", () => {
+  const json = JSON.stringify(extractWikiData(), null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "wiki-data.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+document.getElementById("import-data").addEventListener("click", () => {
+  document.getElementById("import-file-input").click();
+});
+document.getElementById("import-file-input").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if(!file) return;
+  if(!confirm("現在の内容を、選んだファイルの内容で上書きします。よろしいですか?")) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try{
+      const data = JSON.parse(ev.target.result);
+      rebuildWikiFromData(data);
+      alert("データを読み込みました。内容を確認して「保存(ダウンロード)」してください。");
+    }catch(err){
+      alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
+    }
+  };
+  reader.readAsText(file);
+});
+
+/* 編集モード中は、項目のリンクをタップしても遷移させない */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.wiki-link-btn");
+  if(link) e.preventDefault();
+});
+
+/* タップ数の計測(GA4イベント) */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* 保存(編集内容を反映した新しいHTMLファイルをダウンロード) */
+saveBtn.addEventListener("click", () => {
+  exitEditMode();
+  closeModal();
+  syncOgpTags();
+  const luEl = document.getElementById("last-updated");
+  if(luEl){
+    const d = new Date();
+    luEl.textContent = `最終更新:${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  }
+  const htmlOut = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([htmlOut], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "wiki-edited.html";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  hasUnsavedChanges = false;
+});
+
+/* ---------- 同じ場所にある wiki-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  try{
+    const res = await fetch("wiki-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildWikiFromData(data);
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }
+})();
+
+</script>
+
+</body>
+</html>
