@@ -25,26 +25,6 @@
       "related": ""
     },
     {
-      "name": "氷匠よこ田 栄店",
-      "categories": [
-        "ご飯屋"
-      ],
-      "area": "愛知県名古屋市栄区",
-      "visitPeriod": "",
-      "source": "",
-      "body": "",
-      "recommend": "",
-      "url": "",
-      "snsUrl": "https://www.instagram.com/p/DbiMm3ej0oZ/?igsi=MXd6Z25scXEycGxzag==",
-      "snsLabel": "",
-      "snsIcon": "",
-      "status": "",
-      "photos": [],
-      "addedAt": "",
-      "order": "1",
-      "related": ""
-    },
-    {
       "name": "東尋坊",
       "categories": [
         "聖地巡礼"
@@ -60,7 +40,7 @@
       "snsIcon": "",
       "status": "",
       "photos": [],
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "2",
       "related": ""
     },
@@ -80,7 +60,7 @@
       "snsIcon": "",
       "status": "",
       "photos": [],
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "3",
       "related": ""
     },
@@ -100,9 +80,10 @@
       "snsIcon": "",
       "status": "",
       "photos": [],
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "4",
       "related": ""
     }
-  ]
+  ],
+  "backLinkUrl": "index.html"
 }

@@ -23,17 +23,6 @@
   },
   "songs": [
     {
-      "title": "好きになっちゃった",
-      "date": "2023-07-05",
-      "desc": "SKE48の31stシングルで初選抜に選出される。",
-      "url": "https://www.youtube.com/watch?v=pqA3FsWDiZs&list=RDpqA3FsWDiZs&start_radio=1&pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB",
-      "addedAt": "",
-      "order": "0",
-      "category": "選抜曲",
-      "linkLabel": "MVを見る",
-      "album": "好きになっちゃった"
-    },
-    {
       "title": "君だけがターゲット",
       "date": "2026-03-18",
       "desc": "SHOWROOM選抜曲でセンターを務める。",
@@ -45,55 +34,11 @@
       "album": ""
     },
     {
-      "title": "New Ager",
-      "date": "2022-10-05",
-      "desc": "初カップリング曲でセンターを務める。",
-      "url": "https://www.youtube.com/watch?v=A4Ugkvba22s&list=RDA4Ugkvba22s&start_radio=1&pp=ygUJ5Y6f5YSq5a-noAcB",
-      "addedAt": "2026-09-04",
-      "order": "5",
-      "category": "カップリング曲",
-      "linkLabel": "MV見る",
-      "album": ""
-    },
-    {
-      "title": "Unlimited",
-      "date": "2025-03-12",
-      "desc": "相川Team S楽曲",
-      "url": "https://www.youtube.com/watch?v=TxmSoVL9EpM&list=RDTxmSoVL9EpM&start_radio=1",
-      "addedAt": "2026-09-04",
-      "order": "6",
-      "category": "カップリング曲",
-      "linkLabel": "MVを見る",
-      "album": ""
-    },
-    {
-      "title": "愛のホログラム",
-      "date": "2024-02-28",
-      "desc": "32nd singleで2作連続で選抜に選出される。",
-      "url": "https://www.youtube.com/watch?v=knk_nGwljMU",
-      "addedAt": "2026-09-04",
-      "order": "7",
-      "category": "選抜曲",
-      "linkLabel": "MVを見る",
-      "album": ""
-    },
-    {
-      "title": "Beautiful",
-      "date": "2024-02-28",
-      "desc": "",
-      "url": "https://www.youtube.com/watch?v=vEjFilr2lbQ&list=RDvEjFilr2lbQ&start_radio=1",
-      "addedAt": "2026-09-04",
-      "order": "8",
-      "category": "カップリング曲",
-      "linkLabel": "YouTubeを見る",
-      "album": ""
-    },
-    {
       "title": "放っておけないよユニコーン",
       "date": "2026-03-18",
       "desc": "",
       "url": "https://www.youtube.com/watch?v=jfL12MRdGsY&list=RDjfL12MRdGsY&start_radio=1&pp=ygUV44Om44OL44Kz44O844OzIHNrZTQ4oAcB",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "9",
       "category": "カップリング曲",
       "linkLabel": "YouTubeを見る",
@@ -104,7 +49,7 @@
       "date": "2026-03-18",
       "desc": "",
       "url": "https://www.youtube.com/watch?v=qIqd4mLCskQ&list=RDqIqd4mLCskQ&start_radio=1&pp=ygUNT25lIGdlbSBza2U0OKAHAQ%3D%3D",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "10",
       "category": "カップリング曲",
       "linkLabel": "MVを見る",
@@ -115,7 +60,7 @@
       "date": "2025-09-24",
       "desc": "",
       "url": "https://youtu.be/Y1PsOcRG_ps?si=BoqvDM_MQP_djShw",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "11",
       "category": "カップリング曲",
       "linkLabel": "MVを見る",
@@ -126,10 +71,65 @@
       "date": "2025-09-24",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "15",
       "category": "カップリング曲",
       "linkLabel": "",
+      "album": ""
+    },
+    {
+      "title": "Unlimited",
+      "date": "2025-03-12",
+      "desc": "相川Team S楽曲",
+      "url": "https://www.youtube.com/watch?v=TxmSoVL9EpM&list=RDTxmSoVL9EpM&start_radio=1",
+      "addedAt": "",
+      "order": "6",
+      "category": "カップリング曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "愛のホログラム",
+      "date": "2024-02-28",
+      "desc": "32nd singleで2作連続で選抜に選出される。",
+      "url": "https://www.youtube.com/watch?v=knk_nGwljMU",
+      "addedAt": "",
+      "order": "7",
+      "category": "選抜曲",
+      "linkLabel": "MVを見る",
+      "album": ""
+    },
+    {
+      "title": "Beautiful",
+      "date": "2024-02-28",
+      "desc": "",
+      "url": "https://www.youtube.com/watch?v=vEjFilr2lbQ&list=RDvEjFilr2lbQ&start_radio=1",
+      "addedAt": "",
+      "order": "8",
+      "category": "カップリング曲",
+      "linkLabel": "YouTubeを見る",
+      "album": ""
+    },
+    {
+      "title": "好きになっちゃった",
+      "date": "2023-07-05",
+      "desc": "SKE48の31stシングルで初選抜に選出される。",
+      "url": "https://www.youtube.com/watch?v=pqA3FsWDiZs&list=RDpqA3FsWDiZs&start_radio=1&pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB",
+      "addedAt": "",
+      "order": "0",
+      "category": "選抜曲",
+      "linkLabel": "MVを見る",
+      "album": "好きになっちゃった"
+    },
+    {
+      "title": "New Ager",
+      "date": "2022-10-05",
+      "desc": "初カップリング曲でセンターを務める。",
+      "url": "https://www.youtube.com/watch?v=A4Ugkvba22s&list=RDA4Ugkvba22s&start_radio=1&pp=ygUJ5Y6f5YSq5a-noAcB",
+      "addedAt": "",
+      "order": "5",
+      "category": "カップリング曲",
+      "linkLabel": "MV見る",
       "album": ""
     }
   ],
@@ -139,7 +139,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "13",
       "count": ""
     },
@@ -148,7 +148,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "59",
       "count": ""
     },
@@ -157,7 +157,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "60",
       "count": ""
     },
@@ -166,7 +166,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "61",
       "count": ""
     },
@@ -175,7 +175,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "62",
       "count": ""
     },
@@ -184,7 +184,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "63",
       "count": ""
     },
@@ -193,7 +193,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "64",
       "count": ""
     },
@@ -202,7 +202,7 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "65",
       "count": ""
     },
@@ -211,21 +211,12 @@
       "date": "",
       "desc": "",
       "url": "",
-      "addedAt": "2026-09-04",
+      "addedAt": "",
       "order": "66",
       "count": ""
     }
   ],
   "media": [
-    {
-      "title": "舞台『推しが武道館いってくれたら死ぬ』東京公演",
-      "date": "2206-02-27",
-      "desc": "",
-      "url": "",
-      "addedAt": "2026-09-05",
-      "order": "25",
-      "category": "舞台"
-    },
     {
       "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
       "date": "2026.09.11",
@@ -731,6 +722,15 @@
       "category": "テレビ"
     },
     {
+      "title": "舞台『推しが武道館いってくれたら死ぬ』東京公演",
+      "date": "2026-02-27",
+      "desc": "",
+      "url": "",
+      "addedAt": "",
+      "order": "25",
+      "category": "舞台"
+    },
+    {
       "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
       "date": "2026-02-25",
       "desc": "",
@@ -941,5 +941,6 @@
   "criteria": [
     "本ページの出演回数・掲載楽曲は、公式に発表された情報をもとに個人でまとめたものです。",
     "非公式のファンサイトのため、内容に誤りが含まれる可能性があります。正確な情報は必ず公式サイト・公式SNSをご確認ください。"
-  ]
+  ],
+  "backLinkUrl": "index.html"
 }
