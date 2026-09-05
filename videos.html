@@ -311,9 +311,20 @@ body.editing .add-row{ display:flex; }
   .video-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
   a{ text-decoration:underline; }
 }
+.initial-load-overlay{
+  position:fixed; inset:0; z-index:99999; background:var(--paper); display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
+}
+.initial-load-overlay.hide{ opacity:0; pointer-events:none; }
+.initial-load-spinner{
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--oshi-color);
+  border-radius:50%; animation:initial-load-spin .8s linear infinite;
+}
+@keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body data-rendered="true" class="">
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 
 <nav class="topnav">
   <div class="wrap">
@@ -934,6 +945,14 @@ document.addEventListener("click", (e) => {
    ・見つかった場合は、そちらの内容でページを上書きします
    ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
 (async function loadExternalDataIfAvailable(){
+  const overlay = document.getElementById("initial-load-overlay");
+  const hideOverlay = () => {
+    if(!overlay || overlay.dataset.hidden) return;
+    overlay.dataset.hidden = "1";
+    overlay.classList.add("hide");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
   try{
     const res = await fetch("videos-data.json", { cache: "no-store" });
     if(!res.ok) return;
@@ -942,6 +961,9 @@ document.addEventListener("click", (e) => {
     hasUnsavedChanges = false;
   }catch(e){
     /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }finally{
+    clearTimeout(safetyTimer);
+    hideOverlay();
   }
 })();
 

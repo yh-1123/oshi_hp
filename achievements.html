@@ -251,9 +251,20 @@ body.editing .add-row{ display:flex; }
   .record-item, .criteria-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
   a{ text-decoration:underline; }
 }
+.initial-load-overlay{
+  position:fixed; inset:0; z-index:99999; background:var(--paper); display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
+}
+.initial-load-overlay.hide{ opacity:0; pointer-events:none; }
+.initial-load-spinner{
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--oshi-color);
+  border-radius:50%; animation:initial-load-spin .8s linear infinite;
+}
+@keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body data-rendered="true" class="">
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 
 <nav class="topnav">
   <div class="wrap">
@@ -284,106 +295,34 @@ body.editing .add-row{ display:flex; }
   <div class="wrap">
     <div class="sec-head">
       <h2><span class="mark">◆</span><span class="editable" id="songs-heading" contenteditable="true">楽曲</span></h2>
-      <p class="editable" id="songs-desc" contenteditable="true">選抜曲・カップリング曲・ユニット曲などをまとめています</p>
+      <p class="editable" id="songs-desc" contenteditable="true">選抜曲・カップリング曲・ユニット曲・ソロ楽曲などをまとめています</p>
     </div>
     <div class="search-wrap">
       <input type="search" id="song-search" class="search-input" placeholder="🔍 曲名で検索">
     </div>
     <div class="tag-filter-row" id="song-category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="選抜曲">選抜曲</button><button type="button" class="tag-filter-btn" data-cat="カップリング曲">カップリング曲</button></div>
     <div class="tag-filter-row" id="song-album-filter"></div>
-    <div class="record-list" id="song-list"><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-03-18" data-url="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB0gcJCRsMAYcqIYzv" data-link-label="MVを見る" data-added="" data-order="1" style="">
+    <div class="record-list" id="song-list"><div class="editable-item record-item" data-type="song" data-category="選抜曲" data-album="" data-date="2026-04-01" data-url="" data-link-label="" data-added="" data-order="0" style="">
     
     
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.03.18</span></div>
-    <h3 class="record-title editable" contenteditable="true">君だけがターゲット</h3>
-    <p class="record-desc editable" contenteditable="true">SHOWROOM選抜曲でセンターを務める。</p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/yaDeh_HwZgY/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB0gcJCRsMAYcqIYzv" target="_blank" rel="noopener">MVを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-03-18" data-url="https://www.youtube.com/watch?v=jfL12MRdGsY&amp;list=RDjfL12MRdGsY&amp;start_radio=1&amp;pp=ygUV44Om44OL44Kz44O844OzIHNrZTQ4oAcB" data-link-label="YouTubeを見る" data-added="" data-order="9" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.03.18</span></div>
-    <h3 class="record-title editable" contenteditable="true">放っておけないよユニコーン</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/jfL12MRdGsY/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=jfL12MRdGsY&amp;list=RDjfL12MRdGsY&amp;start_radio=1&amp;pp=ygUV44Om44OL44Kz44O844OzIHNrZTQ4oAcB" target="_blank" rel="noopener">YouTubeを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-03-18" data-url="https://www.youtube.com/watch?v=qIqd4mLCskQ&amp;list=RDqIqd4mLCskQ&amp;start_radio=1&amp;pp=ygUNT25lIGdlbSBza2U0OKAHAQ%3D%3D" data-link-label="MVを見る" data-added="" data-order="10" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.03.18</span></div>
-    <h3 class="record-title editable" contenteditable="true">もう知らん</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/qIqd4mLCskQ/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=qIqd4mLCskQ&amp;list=RDqIqd4mLCskQ&amp;start_radio=1&amp;pp=ygUNT25lIGdlbSBza2U0OKAHAQ%3D%3D" target="_blank" rel="noopener">MVを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2025-09-24" data-url="https://youtu.be/Y1PsOcRG_ps?si=BoqvDM_MQP_djShw" data-link-label="MVを見る" data-added="" data-order="11" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2025.09.24</span></div>
-    <h3 class="record-title editable" contenteditable="true">隣の人は？</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/Y1PsOcRG_ps/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://youtu.be/Y1PsOcRG_ps?si=BoqvDM_MQP_djShw" target="_blank" rel="noopener">MVを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2025-09-24" data-url="" data-link-label="" data-added="" data-order="15" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2025.09.24</span></div>
-    <h3 class="record-title editable" contenteditable="true">どこまで嘘を言えたら</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">選抜曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.04.01</span></div>
+    <h3 class="record-title editable" contenteditable="true">サンプル選抜曲タイトル</h3>
+    <p class="record-desc editable" contenteditable="true">◯枚目シングル表題曲。センターを務めた。</p>
     
     
     
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2025-03-12" data-url="https://www.youtube.com/watch?v=TxmSoVL9EpM&amp;list=RDTxmSoVL9EpM&amp;start_radio=1" data-link-label="MVを見る" data-added="" data-order="6" style="">
+  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-04-01" data-url="" data-link-label="" data-added="" data-order="1" style="">
     
     
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2025.03.12</span></div>
-    <h3 class="record-title editable" contenteditable="true">Unlimited</h3>
-    <p class="record-desc editable" contenteditable="true">相川Team S楽曲</p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/TxmSoVL9EpM/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=TxmSoVL9EpM&amp;list=RDTxmSoVL9EpM&amp;start_radio=1" target="_blank" rel="noopener">MVを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="選抜曲" data-album="" data-date="2024-02-28" data-url="https://www.youtube.com/watch?v=knk_nGwljMU" data-link-label="MVを見る" data-added="" data-order="7" style="display: none;">
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.04.01</span></div>
+    <h3 class="record-title editable" contenteditable="true">サンプルカップリング曲</h3>
+    <p class="record-desc editable" contenteditable="true">同シングル収録曲。</p>
     
     
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">選抜曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2024.02.28</span></div>
-    <h3 class="record-title editable" contenteditable="true">愛のホログラム</h3>
-    <p class="record-desc editable" contenteditable="true">32nd singleで2作連続で選抜に選出される。</p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/knk_nGwljMU/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=knk_nGwljMU" target="_blank" rel="noopener">MVを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2024-02-28" data-url="https://www.youtube.com/watch?v=vEjFilr2lbQ&amp;list=RDvEjFilr2lbQ&amp;start_radio=1" data-link-label="YouTubeを見る" data-added="" data-order="8" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2024.02.28</span></div>
-    <h3 class="record-title editable" contenteditable="true">Beautiful</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/vEjFilr2lbQ/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=vEjFilr2lbQ&amp;list=RDvEjFilr2lbQ&amp;start_radio=1" target="_blank" rel="noopener">YouTubeを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="選抜曲" data-album="好きになっちゃった" data-date="2023-07-05" data-url="https://www.youtube.com/watch?v=pqA3FsWDiZs&amp;list=RDpqA3FsWDiZs&amp;start_radio=1&amp;pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB" data-link-label="MVを見る" data-added="" data-order="0" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">選抜曲</span><span class="record-album editable" contenteditable="true">💿 好きになっちゃった</span><span class="record-date">2023.07.05</span></div>
-    <h3 class="record-title editable" contenteditable="true">好きになっちゃった</h3>
-    <p class="record-desc editable" contenteditable="true">SKE48の31stシングルで初選抜に選出される。</p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/pqA3FsWDiZs/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=pqA3FsWDiZs&amp;list=RDpqA3FsWDiZs&amp;start_radio=1&amp;pp=ygUb5aW944GN44Gr44Gq44Gj44Gh44KD44Gj44GfoAcB" target="_blank" rel="noopener">MVを見る</a>
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2022-10-05" data-url="https://www.youtube.com/watch?v=A4Ugkvba22s&amp;list=RDA4Ugkvba22s&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" data-link-label="MV見る" data-added="" data-order="5" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2022.10.05</span></div>
-    <h3 class="record-title editable" contenteditable="true">New Ager</h3>
-    <p class="record-desc editable" contenteditable="true">初カップリング曲でセンターを務める。</p>
-    <img class="record-thumb" src="https://img.youtube.com/vi/A4Ugkvba22s/hqdefault.jpg" alt="">
-    <a class="record-link" href="https://www.youtube.com/watch?v=A4Ugkvba22s&amp;list=RDA4Ugkvba22s&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" target="_blank" rel="noopener">MV見る</a>
     
   </div></div>
     <p class="no-results" id="song-no-results">条件に合う楽曲が見つかりませんでした。</p>
-    <button class="load-more-btn" id="load-more-songs" type="button" style="display: flex;">＋ もっと見る(残り4件)</button>
+    <button class="load-more-btn" id="load-more-songs" type="button" style="display:none;">＋ もっと見る</button>
     
   </div>
 </section>
@@ -394,95 +333,32 @@ body.editing .add-row{ display:flex; }
       <h2><span class="mark">◆</span><span class="editable" id="performances-heading" contenteditable="true">公演</span></h2>
       <p class="editable" id="performances-desc" contenteditable="true">出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます</p>
     </div>
-    <div class="stat-callout" id="performance-stat-callout" style="display: none;">
+    <div class="stat-callout" id="performance-stat-callout">
       <div class="stat-label">劇場公演出演回数</div>
       <span class="stat-icon">🎭</span>
-      <div class="stat-num-row"><span class="stat-num" id="performance-count">0</span><span class="stat-unit">回</span></div>
+      <div class="stat-num-row"><span class="stat-num" id="performance-count">23</span><span class="stat-unit">回</span></div>
     </div>
-    <div class="record-list" id="performance-list"><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="13" style="">
+    <div class="record-list" id="performance-list"><div class="editable-item record-item" data-type="performance" data-date="2026-05-10" data-url="" data-count="15" data-added="" data-order="2" style="">
     
     
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">ずっと君を探している</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="59" style="">
+    <div class="record-count-corner"><span class="count-num">15</span><span class="count-suffix">回</span></div>
+    <div class="record-meta"><span class="record-date">2026.05.10</span></div>
+    <h3 class="record-title editable" contenteditable="true">サンプル劇場公演A</h3>
+    <p class="record-desc editable" contenteditable="true">定期公演。この公演での通算出演回数です。</p>
     
     
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">僕の太陽</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
+  </div><div class="editable-item record-item" data-type="performance" data-date="2026-06-01" data-url="" data-count="8" data-added="" data-order="3" style="">
     
     
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="60" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">制服の芽</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="61" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">愛を君に、愛を僕に</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="62" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">時間がない</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="63" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">声出していこーぜ!!</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="64" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">手をつなぎながら</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="65" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">We're Growing Up</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="" data-url="" data-count="" data-added="" data-order="66" style="">
-    
-    
-    
-    <div class="record-meta"></div>
-    <h3 class="record-title editable" contenteditable="true">We’re Growing Up～2nd～</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
+    <div class="record-count-corner"><span class="count-num">8</span><span class="count-suffix">回</span></div>
+    <div class="record-meta"><span class="record-date">2026.06.01</span></div>
+    <h3 class="record-title editable" contenteditable="true">サンプル劇場公演B</h3>
+    <p class="record-desc editable" contenteditable="true">別演目での公演回数です。</p>
     
     
   </div></div>
     <p class="no-results" id="performance-no-results">まだ公演が登録されていません。</p>
-    <button class="load-more-btn" id="load-more-performances" type="button" style="display: none;">＋ もっと見る(残り3件)</button>
+    <button class="load-more-btn" id="load-more-performances" type="button" style="display:none;">＋ もっと見る</button>
     
   </div>
 </section>
@@ -496,650 +372,18 @@ body.editing .add-row{ display:flex; }
     <div class="search-wrap">
       <input type="search" id="media-search" class="search-input" placeholder="🔍 番組名・企画名で検索">
     </div>
-    <div class="tag-filter-row" id="media-category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="ラジオ">ラジオ</button><button type="button" class="tag-filter-btn" data-cat="テレビ">テレビ</button><button type="button" class="tag-filter-btn" data-cat="雑誌・書籍">雑誌・書籍</button><button type="button" class="tag-filter-btn" data-cat="イベント">イベント</button><button type="button" class="tag-filter-btn" data-cat="SHOWROOM">SHOWROOM</button><button type="button" class="tag-filter-btn" data-cat="配信">配信</button><button type="button" class="tag-filter-btn" data-cat="YouTube">YouTube</button><button type="button" class="tag-filter-btn" data-cat="舞台">舞台</button><button type="button" class="tag-filter-btn" data-cat="劇">劇</button></div>
-    <div class="record-list" id="media-list"><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026.09.11" data-url="" data-added="2026-09-04" data-order="18" style="">
+    <div class="tag-filter-row" id="media-category-filter"></div>
+    <div class="record-list" id="media-list"><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-03-15" data-url="" data-added="" data-order="4" style="">
     
     
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.09.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-09-03" data-url="" data-added="2026-09-04" data-order="17" style="">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.09.03</span></div>
-    <h3 class="record-title editable" contenteditable="true">CBCラジオ「SKE48 なるべくしゃべりたい」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-08-30" data-url="" data-added="2026-09-04" data-order="19" style="">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.08.30</span></div>
-    <h3 class="record-title editable" contenteditable="true">中京テレビ「24時間テレビ49 スペシャルLIVE」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-08-27" data-url="" data-added="2026-09-04" data-order="20" style="">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.08.27</span></div>
-    <h3 class="record-title editable" contenteditable="true">CBCラジオ「SKE48 なるべくしゃべりたい」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="雑誌・書籍" data-date="2026-08-19" data-url="" data-added="2026-09-04" data-order="21" style="">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">雑誌・書籍</span><span class="record-date">2026.08.19</span></div>
-    <h3 class="record-title editable" contenteditable="true">「週刊SPA!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-08-12" data-url="" data-added="2026-09-04" data-order="22" style="">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.08.12</span></div>
-    <h3 class="record-title editable" contenteditable="true">SHOWROOM『恋シュンの旬』</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-07-29" data-url="" data-added="2026-09-04" data-order="32" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.07.29</span></div>
-    <h3 class="record-title editable" contenteditable="true">SHOWROOM『恋シュンの旬』</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-26" data-url="" data-added="2026-09-04" data-order="31" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.26</span></div>
-    <h3 class="record-title editable" contenteditable="true">「CBCラジオ夏まつり2026」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-07-24" data-url="" data-added="2026-09-04" data-order="30" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.07.24</span></div>
-    <h3 class="record-title editable" contenteditable="true">ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-15" data-url="" data-added="2026-09-04" data-order="29" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.15</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-14" data-url="" data-added="2026-09-04" data-order="27" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.14</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-11" data-url="" data-added="2026-09-04" data-order="26" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO みつ吉と名門大洋フェリーで行く!SKE48 SUMMER Tour 2026 応援ツアー～瀬戸内海クルーズと福岡満喫の旅PartⅡ～</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-07-10" data-url="" data-added="2026-09-04" data-order="28" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.07.10</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CD発売記念「3on1トーク会」「グループショットチェキ付きトーク会」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-07-08" data-url="" data-added="2026-09-04" data-order="25" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.07.08</span></div>
-    <h3 class="record-title editable" contenteditable="true">ニコニコチャンネル「SKE48非公式ちゃんねる」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-07-03" data-url="" data-added="2026-09-04" data-order="24" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.07.03</span></div>
-    <h3 class="record-title editable" contenteditable="true">ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-07-01" data-url="" data-added="2026-09-04" data-order="23" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.07.01</span></div>
-    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-06-24" data-url="" data-added="2026-09-04" data-order="44" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.06.24</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-06-23" data-url="" data-added="2026-09-04" data-order="43" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.06.23</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 初恋の瞬間 SHOWROOM緊急特番</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-21" data-url="" data-added="2026-09-04" data-order="42" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.21</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team Sオリジナル新公演『ずっと君を探している』CDリリース記念「プレミアムグループトーク会」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-20" data-url="" data-added="2026-09-04" data-order="41" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.20</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』8K 舞台挨拶付き上映会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-14" data-url="" data-added="2026-09-04" data-order="40" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.14</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』リミスタ オンライントーク会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-13" data-url="" data-added="2026-09-04" data-order="39" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.13</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』リミスタ オンラインサイン会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="SHOWROOM" data-date="2026-06-11" data-url="" data-added="2026-09-04" data-order="38" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">SHOWROOM</span><span class="record-date">2026.06.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">SHOWROOM『5月度ステラ★SHOWCASE!!』</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-06-10" data-url="" data-added="2026-09-04" data-order="37" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.06.10</span></div>
-    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-07" data-url="" data-added="2026-09-04" data-order="36" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.07</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』8K 舞台挨拶付き上映会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-06-06" data-url="" data-added="2026-09-04" data-order="34" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.06.06</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」</h3>
-    <p class="record-desc editable" contenteditable="true">11期スペシャル</p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-06-06" data-url="" data-added="2026-09-04" data-order="35" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.06.06</span></div>
-    <h3 class="record-title editable" contenteditable="true">「テレビ愛知 ミカンのむき方 / 真夜中のウナギたち イベント」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-06-04" data-url="" data-added="2026-09-04" data-order="33" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.06.04</span></div>
-    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="雑誌・書籍" data-date="2026-05-30" data-url="" data-added="2026-09-04" data-order="58" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">雑誌・書籍</span><span class="record-date">2026.05.30</span></div>
-    <h3 class="record-title editable" contenteditable="true">「東スポ競馬」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-05-27" data-url="" data-added="2026-09-04" data-order="57" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.05.27</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-23" data-url="" data-added="2026-09-04" data-order="56" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.23</span></div>
-    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-20" data-url="" data-added="2026-09-04" data-order="55" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.20</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-16" data-url="" data-added="2026-09-04" data-order="53" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.16</span></div>
-    <h3 class="record-title editable" contenteditable="true">ミニAlbum 舞台『推しが武道館いってくれたら死ぬ』リリース記念握手会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-16" data-url="" data-added="2026-09-04" data-order="54" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.16</span></div>
-    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-14" data-url="" data-added="2026-09-04" data-order="52" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.14</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 ×「ガイア」訪店第3弾</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-05-13" data-url="" data-added="2026-09-04" data-order="51" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.05.13</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-09" data-url="" data-added="2026-09-04" data-order="49" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.09</span></div>
-    <h3 class="record-title editable" contenteditable="true">ミニAlbum 舞台『推しが武道館いってくれたら死ぬ』リリース記念握手会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-09" data-url="" data-added="2026-09-04" data-order="50" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.09</span></div>
-    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-06" data-url="" data-added="2026-09-04" data-order="47" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.06</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』現地でロングトーク会&amp;プレミアム・グループサイン会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-05" data-url="" data-added="2026-09-04" data-order="48" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.05</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演『ずっと君を探している』現地でロングトーク会&amp;プレミアム・グループサイン会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-05-02" data-url="" data-added="2026-09-04" data-order="45" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.05.02</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 ×「ガイア」来店第2弾</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-05-02" data-url="" data-added="2026-09-04" data-order="46" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.05.02</span></div>
-    <h3 class="record-title editable" contenteditable="true">岐阜放送「SKE48のひだまりハートカフェ」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-04-22" data-url="" data-added="2026-09-05" data-order="6" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.04.22</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-04-08" data-url="" data-added="2026-09-05" data-order="5" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.04.08</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-04-05" data-url="" data-added="" data-order="4" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.04.05</span></div>
-    <h3 class="record-title editable" contenteditable="true">CBCラジオ「ウインクス presents SKE48原優寧の建築ラジオ」</h3>
-    <p class="record-desc editable" contenteditable="true">レギュラー出演</p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-03-25" data-url="" data-added="2026-09-05" data-order="15" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.03.25</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-20" data-url="" data-added="2026-09-05" data-order="14" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.20</span></div>
-    <h3 class="record-title editable" contenteditable="true">ニコニコチャンネル「SKE48非公式ちゃんねる」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-16" data-url="" data-added="2026-09-05" data-order="13" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.16</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 Team S オリジナル新公演「ずっと君を探している」情報解禁生配信</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-03-11" data-url="" data-added="2026-09-05" data-order="12" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.03.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="雑誌・書籍" data-date="2026-03-10" data-url="" data-added="2026-09-05" data-order="11" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">雑誌・書籍</span><span class="record-date">2026.03.10</span></div>
-    <h3 class="record-title editable" contenteditable="true">「Forty-Eight Times」(AKB48新聞電子版)</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-03-06" data-url="" data-added="2026-09-05" data-order="9" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.06</span></div>
-    <h3 class="record-title editable" contenteditable="true">FM AICHI「FUJIMAKI GROUP presents SKE48のF&amp;Cミュージック」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-03-06" data-url="" data-added="2026-09-05" data-order="10" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.06</span></div>
-    <h3 class="record-title editable" contenteditable="true">CBCラジオ「SKE48なるべくしゃべりたいCBC公開録音vol.13」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-03" data-url="" data-added="2026-09-05" data-order="8" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.03</span></div>
-    <h3 class="record-title editable" contenteditable="true">「SKE48 初恋の瞬間」 SHOWROOM配信</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="配信" data-date="2026-03-01" data-url="" data-added="2026-09-05" data-order="7" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">配信</span><span class="record-date">2026.03.01</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』Streaming+配信</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-28" data-url="" data-added="2026-09-05" data-order="26" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.28</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』東京公演</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-02-28" data-url="" data-added="2026-09-05" data-order="27" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.02.28</span></div>
-    <h3 class="record-title editable" contenteditable="true">日本テレビ「バズリズム02」</h3>
-    <p class="record-desc editable" contenteditable="true">君だけがターゲット披露！</p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-27" data-url="" data-added="" data-order="25" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.27</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』東京公演</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-02-25" data-url="" data-added="2026-09-05" data-order="24" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.02.25</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-23" data-url="" data-added="2026-09-05" data-order="22" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.23</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-22" data-url="" data-added="2026-09-05" data-order="23" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.22</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-21" data-url="" data-added="2026-09-05" data-order="20" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.21</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="舞台" data-date="2026-02-20" data-url="" data-added="2026-09-05" data-order="21" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">舞台</span><span class="record-date">2026.02.20</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』愛知公演</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-02-11" data-url="" data-added="2026-09-05" data-order="18" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.02.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">舞台『推しが武道館いってくれたら死ぬ』ビジュアル付きチケットサイン会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-02-11" data-url="" data-added="2026-09-05" data-order="19" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.02.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-02-08" data-url="" data-added="2026-09-05" data-order="17" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.02.08</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 36thシングル対象 オンラインサイン会&amp;チェキ会&amp;抽選会</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-02-04" data-url="" data-added="2026-09-05" data-order="16" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.02.04</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-31" data-url="" data-added="2026-09-05" data-order="38" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.31</span></div>
-    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-23" data-url="" data-added="2026-09-05" data-order="37" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.23</span></div>
-    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-01-21" data-url="" data-added="2026-09-05" data-order="36" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.01.21</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-20" data-url="" data-added="2026-09-05" data-order="35" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.20</span></div>
-    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-01-16" data-url="" data-added="2026-09-05" data-order="32" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.01.16</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-16" data-url="" data-added="2026-09-05" data-order="33" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.16</span></div>
-    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-16" data-url="" data-added="2026-09-05" data-order="34" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.16</span></div>
-    <h3 class="record-title editable" contenteditable="true">メ～テレ「Digった!」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2026-01-12" data-url="" data-added="2026-09-05" data-order="31" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2026.01.12</span></div>
-    <h3 class="record-title editable" contenteditable="true">「ブシロード新春大発表会2026」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-01-11" data-url="" data-added="2026-09-05" data-order="30" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.01.11</span></div>
-    <h3 class="record-title editable" contenteditable="true">TOKAI RADIO公開収録「みつ吉とSKE48の愉快な仲間たち!みつ吉フェスやっちゃうでちょっ!Part3 ～もうすぐ2じゃないよ放送4000回!めでたすぎるスペシャル!～」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="テレビ" data-date="2026-01-09" data-url="" data-added="2026-09-05" data-order="29" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">テレビ</span><span class="record-date">2026.01.09</span></div>
-    <h3 class="record-title editable" contenteditable="true">テレビ愛知「愛知あたりまえ俱楽部」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="YouTube" data-date="2026-01-07" data-url="" data-added="2026-09-05" data-order="28" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">YouTube</span><span class="record-date">2026.01.07</span></div>
-    <h3 class="record-title editable" contenteditable="true">千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="イベント" data-date="2025-09-14" data-url="" data-added="2026-09-04" data-order="16" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">イベント</span><span class="record-date">2025.09.14</span></div>
-    <h3 class="record-title editable" contenteditable="true">10チャンあたりま縁日 IN 大須</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="劇" data-date="2024-11-02" data-url="" data-added="2026-09-04" data-order="14" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">劇</span><span class="record-date">2024.11.02</span></div>
-    <h3 class="record-title editable" contenteditable="true">ラブストーリー朗読劇【Sweet Love Theater】</h3>
-    <p class="record-desc editable" contenteditable="true"></p>
-    
-    
-  </div><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2024-09-12" data-url="" data-added="2026-09-04" data-order="12" style="display: none;">
-    
-    
-    <div class="record-meta"><span class="record-new-badge">NEW</span><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2024.09.12</span></div>
-    <h3 class="record-title editable" contenteditable="true">SKE48 ゆうねと千成工業がものづくりやってみた</h3>
-    <p class="record-desc editable" contenteditable="true">初の冠ラジオ</p>
+    <div class="record-meta"><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.15</span></div>
+    <h3 class="record-title editable" contenteditable="true">サンプルラジオ番組</h3>
+    <p class="record-desc editable" contenteditable="true">レギュラー出演回。</p>
     
     
   </div></div>
     <p class="no-results" id="media-no-results">条件に合う記録が見つかりませんでした。</p>
-    <button class="load-more-btn" id="load-more-medias" type="button" style="display: flex;">＋ もっと見る(残り74件)</button>
+    <button class="load-more-btn" id="load-more-medias" type="button" style="display:none;">＋ もっと見る</button>
     
   </div>
 </section>
@@ -1630,6 +874,14 @@ document.addEventListener("click", (e) => {
    ・見つかった場合は、そちらの内容でページを上書きします
    ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
 (async function loadExternalDataIfAvailable(){
+  const overlay = document.getElementById("initial-load-overlay");
+  const hideOverlay = () => {
+    if(!overlay || overlay.dataset.hidden) return;
+    overlay.dataset.hidden = "1";
+    overlay.classList.add("hide");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
   try{
     const res = await fetch("achievements-data.json", { cache: "no-store" });
     if(!res.ok) return;
@@ -1638,6 +890,9 @@ document.addEventListener("click", (e) => {
     hasUnsavedChanges = false;
   }catch(e){
     /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }finally{
+    clearTimeout(safetyTimer);
+    hideOverlay();
   }
 })();
 

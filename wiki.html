@@ -287,9 +287,20 @@ body.editing .add-row{ display:flex; }
   .wiki-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
   a{ text-decoration:underline; }
 }
+.initial-load-overlay{
+  position:fixed; inset:0; z-index:99999; background:var(--paper); display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
+}
+.initial-load-overlay.hide{ opacity:0; pointer-events:none; }
+.initial-load-spinner{
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--oshi-color);
+  border-radius:50%; animation:initial-load-spin .8s linear infinite;
+}
+@keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body data-rendered="true" class="">
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 
 <nav class="topnav">
   <div class="wrap">
@@ -310,8 +321,8 @@ body.editing .add-row{ display:flex; }
     <p class="editable" id="w-desc" contenteditable="true">配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。</p>
     <div class="daily-pick show" id="daily-pick"><button type="button" class="pickup-shuffle-btn" aria-label="別の話に切り替える" title="別の話に切り替える">🔀</button>
     <div class="daily-pick-label">✦ こんな話も</div>
-    <div class="daily-pick-title">実は虫が苦手</div>
-    <div class="daily-pick-body">配信中に虫の写った映像が流れた瞬間に悲鳴を上げていて、実は虫が苦手だということが判明しました。普段のクールなイメージとのギャップが話題に。</div></div>
+    <div class="daily-pick-title">デビュー前は人見知りだった</div>
+    <div class="daily-pick-body">加入初期は人見知りで、自己紹介の時に噛んでしまったというエピソードが古参の間では有名です。</div></div>
     <div class="search-wrap">
       <input type="search" id="wiki-search" class="search-input" placeholder="🔍 気になるキーワードで検索">
     </div>
@@ -390,7 +401,7 @@ body.editing .add-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -1108,8 +1119,18 @@ document.addEventListener("click", (e) => {
 /* ---------- 同じ場所にある wiki-data.json があれば自動で読み込む ----------
    ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
    ・見つかった場合は、そちらの内容でページを上書きします
-   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます
+   ・読み込みが終わるまでの間、元のHTMLの内容が一瞬表示されてしまわないよう、
+     結果が確定するまで初期読み込みオーバーレイで隠しておきます */
 (async function loadExternalDataIfAvailable(){
+  const overlay = document.getElementById("initial-load-overlay");
+  const hideOverlay = () => {
+    if(!overlay || overlay.dataset.hidden) return;
+    overlay.dataset.hidden = "1";
+    overlay.classList.add("hide");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
   try{
     const res = await fetch("wiki-data.json", { cache: "no-store" });
     if(!res.ok) return;
@@ -1118,6 +1139,9 @@ document.addEventListener("click", (e) => {
     hasUnsavedChanges = false;
   }catch(e){
     /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }finally{
+    clearTimeout(safetyTimer);
+    hideOverlay();
   }
 })();
 

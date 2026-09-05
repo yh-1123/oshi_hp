@@ -314,13 +314,24 @@ body.editing .info-card{ padding-top:50px; position:relative; }
   .info-card, .activity-card, .episode-card, .feature-card, .link-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
   a{ text-decoration:underline; }
 }
+.initial-load-overlay{
+  position:fixed; inset:0; z-index:99999; background:var(--paper); display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
+}
+.initial-load-overlay.hide{ opacity:0; pointer-events:none; }
+.initial-load-spinner{
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--oshi-color);
+  border-radius:50%; animation:initial-load-spin .8s linear infinite;
+}
+@keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body data-rendered="true" class="">
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 
 <nav class="topnav">
   <div class="wrap">
-    <div class="brand editable" id="nav-brand" contenteditable="true"></div>
+    <div class="brand editable" id="nav-brand" contenteditable="true">布教ツール</div>
     <div class="nav-right">
       <a href="index.html" class="profile-nav-link home-nav-link" data-url="index.html">ホーム</a>
       <a href="places.html" class="profile-nav-link">ゆかりの場所</a>
@@ -336,7 +347,7 @@ body.editing .info-card{ padding-top:50px; position:relative; }
 <header class="page-hero">
   <div class="wrap">
     <span class="eyebrow-badge editable" id="hero-badge" contenteditable="true">意外な一面</span>
-    <h1 id="hero-title-wrap"><span class="editable" id="hero-name-main" contenteditable="true">原優寧と</span><span class="accent editable" id="hero-name-accent" contenteditable="true">建築</span></h1>
+    <h1 id="hero-title-wrap"><span class="editable" id="hero-name-main" contenteditable="true"></span><span class="accent editable" id="hero-name-accent" contenteditable="true">建築</span></h1>
     <p class="catch editable" id="hero-catch" contenteditable="true">学び、語り、現在へ。アイドルとしてだけじゃない、もうひとつの顔。</p>
     <p class="breadcrumb"><a href="index.html" class="home-breadcrumb-link" data-url="index.html">トップ</a> ＞ 建築との関わり</p>
   </div>
@@ -347,12 +358,12 @@ body.editing .info-card{ padding-top:50px; position:relative; }
     <div class="intro-card">
       <div class="intro-icon">🏛️</div>
       <div class="intro-list" id="introList"><div class="editable-item intro-p">
-    <p class="editable" contenteditable="true">建築系の大学で建築を学んだ星乃ひなた。現在もラジオや企業のSNS、広告媒体など、さまざまな場を通じて建築と関わり続けています。アイドル活動と並行して、建築への関心を大切にしています。</p>
+    <p class="editable" contenteditable="true"></p>
     
     
     
   </div><div class="editable-item intro-p">
-    <p class="editable" contenteditable="true">その背景をまとめて紹介します。</p>
+    <p class="editable" contenteditable="true">「なぜ建築なのか」を知ると、普段のトークやふとした発言の解像度がぐっと上がるはず。ここでは、その背景をまとめて紹介します。</p>
     
     
     
@@ -362,13 +373,50 @@ body.editing .info-card{ padding-top:50px; position:relative; }
   </div>
 </section>
 
-<section id="university" style="">
+<section id="university">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span><span class="editable" id="university-heading" contenteditable="true"><br></span></h2>
-      <p class="editable" id="university-desc" contenteditable="true"><br></p>
+      <h2><span class="mark">◆</span><span class="editable" id="university-heading" contenteditable="true">建築を学んだ大学時代</span></h2>
+      <p class="editable" id="university-desc" contenteditable="true">専攻や学んでいた内容について</p>
     </div>
-    <div class="split-grid" id="universityGrid"></div>
+    <div class="split-grid" id="universityGrid"><div class="editable-item info-card" data-style="bullet">
+    
+    
+    <h3><span class="dot"></span><span class="editable" contenteditable="true">分かっている事実</span></h3>
+    <div class="fact-list" data-role="items"><div class="editable-item fact-item">
+    <span class="bullet">・</span>
+    <span class="editable" contenteditable="true">建築学系の学部・学科に在籍していたことを公表</span>
+    
+    
+    
+  </div><div class="editable-item fact-item">
+    <span class="bullet">・</span>
+    <span class="editable" contenteditable="true">設計課題や模型製作に取り組んでいた時期があると発言</span>
+    
+    
+    
+  </div><div class="editable-item fact-item">
+    <span class="bullet">・</span>
+    <span class="editable" contenteditable="true">デビュー・活動開始のタイミングで学業と両立</span>
+    
+    
+    
+  </div></div>
+    
+    
+  </div><div class="editable-item info-card" data-style="plain">
+    
+    
+    <h3><span class="dot"></span><span class="editable" contenteditable="true">本人が語った大学時代</span></h3>
+    <div class="quote-list" data-role="items"><div class="editable-item quote-p">
+    <p class="editable" contenteditable="true">ラジオやインタビューで、当時の課題提出や設計演習について触れたことがある。徹夜で模型を作った話や、印象に残っている建物・建築家について語る場面も。</p>
+    
+    
+    
+  </div></div>
+    
+    
+  </div></div>
     
   </div>
 </section>
@@ -382,41 +430,41 @@ body.editing .info-card{ padding-top:50px; position:relative; }
 
     <div class="feature-card">
       
-      <span class="feature-badge editable" id="radioBadge" contenteditable="true">🎙 冠ラジオ</span>
-      <h3 class="editable" id="radioTitle" contenteditable="true">ウインクス presents SKE48原優寧の建築ラジオ</h3>
-      <p class="editable" id="radioDesc" contenteditable="true">建築について学びながら、もっと身近に、もっと楽しく「建築」を知るラジオ番組。SKE48の原優寧がパーソナリティを務め、建築の基礎知識や知られざる魅力、建物にまつわるさまざまな話題を楽しくお届けします。建築のことをよく知らない方も楽しめる、原優寧と一緒に学ぶ“建築入門ラジオ”。番組を聴けば、いつもの街並みや建物が、ちょっと違って見えてくるかもしれません。</p>
-      <div class="feature-tags" id="featureTags"></div>
+      <span class="feature-badge editable" id="radioBadge" contenteditable="true">🎙 レギュラーコーナー</span>
+      <h3 class="editable" id="radioTitle" contenteditable="true">建築について語るラジオ</h3>
+      <p class="editable" id="radioDesc" contenteditable="true">自身の番組内で不定期に設けている、建築をテーマに語るコーナー。訪れた建築物の感想や、学生時代に好きだった建築家の話などを紹介している。</p>
+      <div class="feature-tags" id="featureTags"><span class="feature-tag editable-item">
+    <span class="editable" contenteditable="true">建築巡り</span>
+    <button class="chip-remove" aria-label="削除">×</button>
+  </span><span class="feature-tag editable-item">
+    <span class="editable" contenteditable="true">好きな建築家</span>
+    <button class="chip-remove" aria-label="削除">×</button>
+  </span><span class="feature-tag editable-item">
+    <span class="editable" contenteditable="true">リスナーの質問コーナー</span>
+    <button class="chip-remove" aria-label="削除">×</button>
+  </span></div>
       
       <div class="feature-link-row">
-        <span class="feature-link-label editable" id="radioLinkLabel" contenteditable="true">▶ 番組をチェックする</span>
-        <a class="feature-link-go" id="radioLink" href="https://hicbc.com/radio/kenchiku/" target="_blank" rel="noopener" data-url="https://hicbc.com/radio/kenchiku/" aria-label="番組を開く">開く ›</a>
+        <span class="feature-link-label editable" id="radioLinkLabel" contenteditable="true"></span>
+        <a class="feature-link-go" id="radioLink" href="#" target="_blank" rel="noopener" data-url="#" aria-label="番組を開く">開く ›</a>
       </div>
     </div>
 
-    <div class="activity-grid" id="activityList"><div class="editable-item activity-card" data-url="https://x.com/yune_hara/status/1949077408973484107" data-photo="">
+    <div class="activity-grid" id="activityList"><div class="editable-item activity-card" data-url="" data-photo="">
     
     
-    <span class="tag editable" contenteditable="true">お仕事①</span>
-    <h3 class="editable" contenteditable="true">大成工務株式会社の公式SNSに登場</h3>
-    <p class="editable" contenteditable="true">建築ガールとして出演して魅力を伝える。</p>
-    
-    <a class="activity-go-btn" href="https://x.com/yune_hara/status/1949077408973484107" target="_blank" rel="noopener" aria-label="開く">開く ›</a>
-    
-  </div><div class="editable-item activity-card" data-url="https://ske48.co.jp/news/detail/53992" data-photo="">
+    <span class="tag editable" contenteditable="true">活動①</span>
+    <h3 class="editable" contenteditable="true">建築イベントへの来場</h3>
+    <p class="editable" contenteditable="true">建築展や住宅展示会などのイベントに私的に足を運んだことをSNSで報告。</p>
     
     
-    <span class="tag editable" contenteditable="true">お仕事②</span>
-    <h3 class="editable" contenteditable="true">髙松建設株式会社のインタラクティブ動画へ出演</h3>
-    <p class="editable" contenteditable="true">会社の魅力や社内の雰囲気、そして仕事のやりがいについて、実際に社員の皆さんへインタビュー</p>
-    
-    <a class="activity-go-btn" href="https://ske48.co.jp/news/detail/53992" target="_blank" rel="noopener" aria-label="開く">開く ›</a>
     
   </div><div class="editable-item activity-card" data-url="" data-photo="">
     
     
-    <span class="tag editable" contenteditable="true">お仕事③</span>
-    <h3 class="editable" contenteditable="true">「日刊建設工業新聞」掲載</h3>
-    <p class="editable" contenteditable="true">説明文を入力</p>
+    <span class="tag editable" contenteditable="true">活動②</span>
+    <h3 class="editable" contenteditable="true">雑誌・記事での言及</h3>
+    <p class="editable" contenteditable="true">インタビュー記事の中で趣味・特技として建築好きを紹介されるケースがある。</p>
     
     
     
@@ -426,25 +474,67 @@ body.editing .info-card{ padding-top:50px; position:relative; }
   </div>
 </section>
 
-<section id="episodes" style="">
+<section id="episodes">
   <div class="wrap">
     <div class="sec-head">
       <h2><span class="mark">◆</span><span class="editable" id="episodes-heading" contenteditable="true">建築にまつわるエピソード</span></h2>
       <p class="editable" id="episodes-desc" contenteditable="true">本人の発言から見えるエピソード集</p>
     </div>
-    <div id="episodeList"></div>
+    <div id="episodeList"><div class="editable-item episode-card">
+    
+    
+    <h3 class="editable" contenteditable="true">「徹夜で模型を作った思い出」</h3>
+    <p class="editable" contenteditable="true">締め切り前に友人と徹夜で建築模型を作り上げたエピソード。当時の苦労を笑いながら振り返っている。</p>
+    
+  </div><div class="editable-item episode-card">
+    
+    
+    <h3 class="editable" contenteditable="true">「印象に残っている建物」</h3>
+    <p class="editable" contenteditable="true">旅行や課題で訪れた建物の中で、特に印象に残っているものについて語る場面があった。</p>
+    
+  </div></div>
     <button class="load-more-btn" id="load-more-episodes" type="button" style="display:none;">＋ もっと見る</button>
     
   </div>
 </section>
 
-<section id="records" style="">
+<section id="records">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span><span class="editable" id="records-heading" contenteditable="true"><br></span></h2>
-      <p class="editable" id="records-desc" contenteditable="true"><br></p>
+      <h2><span class="mark">◆</span><span class="editable" id="records-heading" contenteditable="true">建築について語った記録</span></h2>
+      <p class="editable" id="records-desc" contenteditable="true">番組やインタビューで語った内容のまとめ</p>
     </div>
-    <div class="timeline" id="recordList"></div>
+    <div class="timeline" id="recordList"><div class="editable-item tl-item">
+    
+    
+    <div class="tl-head">
+      <span class="tl-date editable" contenteditable="true">202X.XX</span>
+      <span class="tl-type editable" contenteditable="true">ラジオ</span>
+    </div>
+    <h3 class="editable" contenteditable="true">「好きな建築様式」について語る</h3>
+    <p class="editable" contenteditable="true">番組内コーナーで、学生時代に興味を持っていた建築様式を紹介。</p>
+    
+  </div><div class="editable-item tl-item">
+    
+    
+    <div class="tl-head">
+      <span class="tl-date editable" contenteditable="true">202X.XX</span>
+      <span class="tl-type editable" contenteditable="true">インタビュー</span>
+    </div>
+    <h3 class="editable" contenteditable="true">大学時代の専攻について言及</h3>
+    <p class="editable" contenteditable="true">雑誌インタビューで建築を学んでいたエピソードに触れる。</p>
+    
+  </div><div class="editable-item tl-item">
+    
+    
+    <div class="tl-head">
+      <span class="tl-date editable" contenteditable="true">202X.XX</span>
+      <span class="tl-type editable" contenteditable="true">その他</span>
+    </div>
+    <h3 class="editable" contenteditable="true">SNSで建築イベント来場を報告</h3>
+    <p class="editable" contenteditable="true">私的に訪れた建築関連イベントの様子を投稿。</p>
+    
+  </div></div>
     <button class="load-more-btn" id="load-more-records" type="button" style="display:none;">＋ もっと見る</button>
     
 
@@ -456,13 +546,31 @@ body.editing .info-card{ padding-top:50px; position:relative; }
     <div class="sec-head">
       <h2><span class="mark">◆</span><span class="editable" id="links-heading" contenteditable="true">関連リンク・参考資料</span></h2>
     </div>
-    <div class="link-list" id="linkList"><div class="editable-item link-item-wrap" data-url="https://hicbc.com/radio/kenchiku/">
+    <div class="link-list" id="linkList"><div class="editable-item link-item-wrap" data-url="#">
     
     
     <div class="link-item">
       <span class="link-icon editable" contenteditable="true">🎙</span>
       <span class="link-label editable" contenteditable="true">公式ラジオ</span>
-      <a class="link-go-btn" href="https://hicbc.com/radio/kenchiku/" target="_blank" rel="noopener" aria-label="このリンクを開く">開く ›</a>
+      <a class="link-go-btn" href="#" target="_blank" rel="noopener" aria-label="このリンクを開く">開く ›</a>
+    </div>
+    
+  </div><div class="editable-item link-item-wrap" data-url="#">
+    
+    
+    <div class="link-item">
+      <span class="link-icon editable" contenteditable="true">📰</span>
+      <span class="link-label editable" contenteditable="true">公式インタビュー</span>
+      <a class="link-go-btn" href="#" target="_blank" rel="noopener" aria-label="このリンクを開く">開く ›</a>
+    </div>
+    
+  </div><div class="editable-item link-item-wrap" data-url="#">
+    
+    
+    <div class="link-item">
+      <span class="link-icon editable" contenteditable="true">🔗</span>
+      <span class="link-label editable" contenteditable="true">関連する公式記事</span>
+      <a class="link-go-btn" href="#" target="_blank" rel="noopener" aria-label="このリンクを開く">開く ›</a>
     </div>
     
   </div></div>
@@ -476,7 +584,7 @@ body.editing .info-card{ padding-top:50px; position:relative; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -886,6 +994,14 @@ document.addEventListener("click", (e) => {
    ・見つかった場合は、そちらの内容でページを上書きします
    ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
 (async function loadExternalDataIfAvailable(){
+  const overlay = document.getElementById("initial-load-overlay");
+  const hideOverlay = () => {
+    if(!overlay || overlay.dataset.hidden) return;
+    overlay.dataset.hidden = "1";
+    overlay.classList.add("hide");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
   try{
     const res = await fetch("architecture-data.json", { cache: "no-store" });
     if(!res.ok) return;
@@ -897,6 +1013,9 @@ document.addEventListener("click", (e) => {
     hasUnsavedChanges = false;
   }catch(e){
     /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }finally{
+    clearTimeout(safetyTimer);
+    hideOverlay();
   }
 })();
 

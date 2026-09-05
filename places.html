@@ -295,9 +295,20 @@ body.editing .add-row{ display:flex; }
   .place-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
   a{ text-decoration:underline; }
 }
+.initial-load-overlay{
+  position:fixed; inset:0; z-index:99999; background:var(--paper); display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
+}
+.initial-load-overlay.hide{ opacity:0; pointer-events:none; }
+.initial-load-spinner{
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--oshi-color);
+  border-radius:50%; animation:initial-load-spin .8s linear infinite;
+}
+@keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body data-rendered="true" class="">
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 
 <nav class="topnav">
   <div class="wrap">
@@ -317,17 +328,17 @@ body.editing .add-row{ display:flex; }
     <h1 class="editable" id="p-title" contenteditable="true">推しゆかりの場所まとめ</h1>
     <p class="editable" id="p-desc" contenteditable="true">配信やSNSで紹介していたお店や、旅行・撮影で訪れた場所をまとめています。巡礼の参考にどうぞ。</p>
     <div class="daily-pick show" id="daily-pick"><div class="daily-pick-label">✦ 今日のピックアップ</div>
-    <div class="daily-pick-title">博物館 明治村</div>
-    <div class="daily-pick-body">TeamS新公演のタイトルにもなっている「ずっと君を探している」MV撮影で訪れる。</div></div>
+    <div class="daily-pick-title">サンプル喫茶店</div>
+    <div class="daily-pick-body">配信中に「行きつけの喫茶店」として紹介していたお店。ケーキが美味しいと話していました。</div></div>
     <div class="search-wrap">
       <input type="search" id="place-search" class="search-input" placeholder="🔍 場所の名前やエリアで検索">
     </div>
-    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="ご飯屋">ご飯屋</button><button type="button" class="tag-filter-btn" data-cat="聖地巡礼">聖地巡礼</button><button type="button" class="tag-filter-btn" data-cat="その他">その他</button></div>
+    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="ご飯屋">ご飯屋</button><button type="button" class="tag-filter-btn" data-cat="聖地巡礼">聖地巡礼</button></div>
     <div class="jp-map show" id="jp-map">
       <button type="button" class="jp-region" data-key="hokkaido">北海道</button>
       <button type="button" class="jp-region" data-key="tohoku">東北</button>
-      <button type="button" class="jp-region" data-key="kanto">関東</button>
-      <button type="button" class="jp-region has-pin" data-key="chubu">中部<span class="jp-region-pin">3</span></button>
+      <button type="button" class="jp-region has-pin" data-key="kanto">関東<span class="jp-region-pin">1</span></button>
+      <button type="button" class="jp-region" data-key="chubu">中部</button>
       <button type="button" class="jp-region has-pin" data-key="kinki">近畿<span class="jp-region-pin">1</span></button>
       <button type="button" class="jp-region" data-key="chugoku">中国</button>
       <button type="button" class="jp-region" data-key="shikoku">四国</button>
@@ -348,87 +359,45 @@ body.editing .add-row{ display:flex; }
         <button type="button" class="view-mode-btn" data-mode="timeline">時系列</button>
       </div>
     </div>
-    <div class="place-list" id="place-list"><div class="place-item" data-categories="ご飯屋" data-area="三重県桑名市" data-url="" data-sns="" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="" data-region="kinki" data-order="0" data-visit="" data-related="" style="">
+    <div class="place-list" id="place-list"><div class="place-item" data-categories="ご飯屋" data-area="東京都渋谷区" data-url="" data-sns="" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="" data-region="kanto" data-order="0" data-visit="2026年5月" data-related="" style="">
     
     
     <div class="place-meta">
       
       
       <span class="place-category">ご飯屋</span>
-      <span class="place-visit editable" contenteditable="true" style="display:none;"></span>
-      <span class="place-source editable" contenteditable="true" style="display:none;"></span>
+      <span class="place-visit editable" contenteditable="true">🗓 2026年5月</span>
+      <span class="place-source editable" contenteditable="true">8/20 配信にて</span>
     </div>
-    <h3 class="place-name editable" contenteditable="true">パン工房KOKO</h3>
-    <div class="place-area editable" contenteditable="true">📍 三重県桑名市</div>
-    <p class="place-body editable" contenteditable="true"></p>
-    <div class="place-recommend editable" contenteditable="true" style="display:none;"><span class="place-recommend-mark">💡 おすすめポイント</span></div>
+    <h3 class="place-name editable" contenteditable="true">サンプル喫茶店</h3>
+    <div class="place-area editable" contenteditable="true">📍 東京都渋谷区</div>
+    <p class="place-body editable" contenteditable="true">配信中に「行きつけの喫茶店」として紹介していたお店。ケーキが美味しいと話していました。</p>
+    <div class="place-recommend editable" contenteditable="true"><span class="place-recommend-mark">💡 おすすめポイント</span>季節限定のいちごタルトが特におすすめだそうです。</div>
     
     <div class="place-link-row">
-      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%91%E3%83%B3%E5%B7%A5%E6%88%BFKOKO%20%E4%B8%89%E9%87%8D%E7%9C%8C%E6%A1%91%E5%90%8D%E5%B8%82" target="_blank" rel="noopener">📍 地図で見る</a>
+      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E5%96%AB%E8%8C%B6%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA" target="_blank" rel="noopener">📍 地図で見る</a>
       
     </div>
     <div class="place-related" data-role="related" style="display: none;"></div>
     
-  </div><div class="place-item" data-categories="聖地巡礼" data-area="福井県坂井市" data-url="" data-sns="https://www.instagram.com/p/DcQy4JEj5u5/?img_index=1&amp;igsi=MTl4aGZ2NnFuNGxjOA==" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="2026-09-04" data-region="chubu" data-order="2" data-visit="" data-related="" style="">
+  </div><div class="place-item" data-categories="聖地巡礼" data-area="京都府" data-url="" data-sns="" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="" data-region="kinki" data-order="1" data-visit="2026年3月" data-related="" style="">
     
     
     <div class="place-meta">
-      <span class="place-new-badge">NEW</span>
+      
       
       <span class="place-category">聖地巡礼</span>
-      <span class="place-visit editable" contenteditable="true" style="display:none;"></span>
-      <span class="place-source editable" contenteditable="true">SNSにて</span>
+      <span class="place-visit editable" contenteditable="true">🗓 2026年3月</span>
+      <span class="place-source editable" contenteditable="true" style="display:none;"></span>
     </div>
-    <h3 class="place-name editable" contenteditable="true">東尋坊</h3>
-    <div class="place-area editable" contenteditable="true">📍 福井県坂井市</div>
-    <p class="place-body editable" contenteditable="true">同期の杉本りいなちゃんとの旅行で訪れる。</p>
+    <h3 class="place-name editable" contenteditable="true">◯◯神社</h3>
+    <div class="place-area editable" contenteditable="true">📍 京都府</div>
+    <p class="place-body editable" contenteditable="true">雑誌の撮影で使われた神社。SNSにも同じアングルの写真が投稿されていました。</p>
     <div class="place-recommend editable" contenteditable="true" style="display:none;"><span class="place-recommend-mark">💡 おすすめポイント</span></div>
     
     <div class="place-link-row">
-      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E5%B0%8B%E5%9D%8A%20%E7%A6%8F%E4%BA%95%E7%9C%8C%E5%9D%82%E4%BA%95%E5%B8%82" target="_blank" rel="noopener">📍 地図で見る</a>
-      <a class="place-map-link place-sns-link" href="https://www.instagram.com/p/DcQy4JEj5u5/?img_index=1&amp;igsi=MTl4aGZ2NnFuNGxjOA==" target="_blank" rel="noopener">📷 Instagramを見る</a>
-    </div>
-    <div class="place-related" data-role="related" style="display: none;"></div>
-    
-  </div><div class="place-item" data-categories="聖地巡礼" data-area="愛知県犬山市" data-url="なし" data-sns="https://www.instagram.com/p/DXgx1UWjzp9/?img_index=2&amp;igsi=Mm91OXR2Y2lhd2Fz" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="2026-09-04" data-region="chubu" data-order="3" data-visit="" data-related="" style="">
-    
-    
-    <div class="place-meta">
-      <span class="place-new-badge">NEW</span>
+      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E2%97%AF%E2%97%AF%E7%A5%9E%E7%A4%BE%20%E4%BA%AC%E9%83%BD%E5%BA%9C" target="_blank" rel="noopener">📍 地図で見る</a>
       
-      <span class="place-category">聖地巡礼</span>
-      <span class="place-visit editable" contenteditable="true" style="display:none;"></span>
-      <span class="place-source editable" contenteditable="true" style="display:none;"></span>
-    </div>
-    <h3 class="place-name editable" contenteditable="true">博物館 明治村</h3>
-    <div class="place-area editable" contenteditable="true">📍 愛知県犬山市</div>
-    <p class="place-body editable" contenteditable="true">TeamS新公演のタイトルにもなっている「ずっと君を探している」MV撮影で訪れる。</p>
-    <div class="place-recommend editable" contenteditable="true"><span class="place-recommend-mark">💡 おすすめポイント</span>挽肉コロッケを食べたとのこと</div>
-    
-    <div class="place-link-row">
-      <a class="place-map-link" href="なし" target="_blank" rel="noopener">📍 地図で見る</a>
-      <a class="place-map-link place-sns-link" href="https://www.instagram.com/p/DXgx1UWjzp9/?img_index=2&amp;igsi=Mm91OXR2Y2lhd2Fz" target="_blank" rel="noopener">📷 Instagramを見る</a>
-    </div>
-    <div class="place-related" data-role="related" style="display: none;"></div>
-    
-  </div><div class="place-item" data-categories="その他" data-area="愛知県春日井市" data-url="" data-sns="https://youtube.com/shorts/3sBnZg8P93o?si=LBFhkVTDuAOjmmnd" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="2026-09-04" data-region="chubu" data-order="4" data-visit="" data-related="" style="">
-    
-    
-    <div class="place-meta">
-      <span class="place-new-badge">NEW</span>
-      
-      <span class="place-category">その他</span>
-      <span class="place-visit editable" contenteditable="true" style="display:none;"></span>
-      <span class="place-source editable" contenteditable="true" style="display:none;"></span>
-    </div>
-    <h3 class="place-name editable" contenteditable="true">上州家</h3>
-    <div class="place-area editable" contenteditable="true">📍 愛知県春日井市</div>
-    <p class="place-body editable" contenteditable="true"></p>
-    <div class="place-recommend editable" contenteditable="true" style="display:none;"><span class="place-recommend-mark">💡 おすすめポイント</span></div>
-    
-    <div class="place-link-row">
-      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%8A%E5%B7%9E%E5%AE%B6%20%E6%84%9B%E7%9F%A5%E7%9C%8C%E6%98%A5%E6%97%A5%E4%BA%95%E5%B8%82" target="_blank" rel="noopener">📍 地図で見る</a>
-      <a class="place-map-link place-sns-link" href="https://youtube.com/shorts/3sBnZg8P93o?si=LBFhkVTDuAOjmmnd" target="_blank" rel="noopener">▶️ YouTubeを見る</a>
     </div>
     <div class="place-related" data-role="related" style="display: none;"></div>
     
@@ -925,6 +894,14 @@ document.addEventListener("click", (e) => {
    ・見つかった場合は、そちらの内容でページを上書きします
    ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
 (async function loadExternalDataIfAvailable(){
+  const overlay = document.getElementById("initial-load-overlay");
+  const hideOverlay = () => {
+    if(!overlay || overlay.dataset.hidden) return;
+    overlay.dataset.hidden = "1";
+    overlay.classList.add("hide");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  const safetyTimer = setTimeout(hideOverlay, 5000); /* 通信が遅い場合の保険。5秒経ったら諦めて表示する */
   try{
     const res = await fetch("places-data.json", { cache: "no-store" });
     if(!res.ok) return;
@@ -933,6 +910,9 @@ document.addEventListener("click", (e) => {
     hasUnsavedChanges = false;
   }catch(e){
     /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }finally{
+    clearTimeout(safetyTimer);
+    hideOverlay();
   }
 })();
 
