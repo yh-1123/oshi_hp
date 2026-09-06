@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
+<html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <link rel="manifest" href="manifest.json">
@@ -11,15 +10,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="推し布教ページ">
 <meta property="og:title" content="動画まとめ">
-<meta property="og:description" content="公式チャンネルなどに投稿されている動画をまとめています">
+<meta property="og:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
 <meta property="og:image" content="">
 <meta property="og:url" content="">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="動画まとめ">
-<meta name="twitter:description" content="公式チャンネルなどに投稿されている動画をまとめています">
+<meta name="twitter:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
@@ -179,9 +178,16 @@ section{ padding:20px 0 30px; }
   color:var(--oshi-color); font-size:10px; font-weight:700; padding:4px 10px; border-radius:999px; font-family:inherit; cursor:pointer;
 }
 .video-watch-btn:hover{ background:var(--oshi-color-soft); }
+.video-dup-btn{
+  display:none; margin-top:8px; width:100%; border:1px solid var(--line); background:#fff; color:var(--sub-ink);
+  font-size:11.5px; font-weight:700; padding:7px 10px; border-radius:10px; cursor:pointer; font-family:inherit;
+}
+body.editing .video-dup-btn{ display:block; }
+.video-dup-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); border-color:var(--oshi-color); }
 .video-related{ display:none; margin-top:10px; }
 .video-related-label{ font-size:10.5px; color:var(--sub-ink); font-weight:700; margin-bottom:6px; }
-.video-related-track{ display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; scroll-snap-type:x mandatory; }
+.video-related-track{ display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; scroll-snap-type:x mandatory; cursor:grab; }
+.video-related-track.dragging{ cursor:grabbing; scroll-snap-type:none; }
 .video-related-track::-webkit-scrollbar{ display:none; }
 .video-related-card{
   flex:0 0 96px; border:none; background:none; padding:0; cursor:pointer; text-align:left; font-family:inherit;
@@ -194,14 +200,23 @@ section{ padding:20px 0 30px; }
 .related-chip-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
 .related-chip{
   display:inline-flex; align-items:center; gap:5px; background:var(--oshi-color); color:#fff; font-size:11.5px;
-  font-weight:700; padding:5px 8px 5px 10px; border-radius:999px;
+  font-weight:700; padding:5px 8px 5px 10px; border-radius:999px; max-width:220px;
 }
+.related-chip > :not(.related-chip-remove){ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .related-chip-remove{ border:none; background:rgba(255,255,255,0.3); color:#fff; width:16px; height:16px; border-radius:50%; font-size:10px; cursor:pointer; line-height:1; margin-left:2px; }
-.related-chip-order{
-  width:34px; border:none; border-radius:6px; background:rgba(255,255,255,0.25); color:#fff; font-size:10.5px;
-  font-weight:700; text-align:center; padding:3px 2px; font-family:inherit;
+.related-order-btn{
+  display:inline-flex; align-items:center; gap:4px; margin-top:8px; border:1px solid var(--oshi-color); background:#fff;
+  color:var(--oshi-color); font-size:11px; font-weight:700; padding:5px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
 }
-.related-chip-order::placeholder{ color:rgba(255,255,255,0.7); }
+.related-order-btn:hover{ background:var(--oshi-color-soft); }
+.related-order-row{ display:flex; align-items:center; gap:10px; background:var(--accent2); border:1px solid var(--line); border-radius:10px; padding:8px 10px; }
+input.related-order-input.qa-input{ flex:none; width:56px; text-align:center; padding:9px 4px; }
+.related-order-title{ flex:1; font-size:12.5px; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.related-order-back-btn{
+  display:block; width:100%; margin-top:14px; border:1px solid var(--line); background:#fff; color:var(--sub-ink);
+  font-size:12.5px; font-weight:700; padding:9px; border-radius:10px; cursor:pointer; font-family:inherit;
+}
+.related-order-back-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); border-color:var(--oshi-color); }
 .related-input-row{ display:flex; gap:6px; margin-top:6px; }
 .related-input-row .qa-input{ flex:1; }
 .related-add-btn{
@@ -209,13 +224,15 @@ section{ padding:20px 0 30px; }
   padding:0 14px; border-radius:10px; cursor:pointer; font-family:inherit;
 }
 .related-add-btn:hover{ background:var(--oshi-color-soft); }
-.related-suggest-row{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:8px; }
-.related-suggest-label{ font-size:10.5px; color:var(--sub-ink); }
-.related-suggest-btn{
-  border:1px dashed var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
-  padding:4px 10px; border-radius:999px; cursor:pointer; font-family:inherit;
+.related-suggest-label{ font-size:10.5px; color:var(--sub-ink); margin-top:8px; display:block; }
+.related-suggest-list{ display:flex; flex-direction:column; gap:3px; margin-top:6px; max-height:160px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; padding:5px; }
+.related-suggest-item{
+  display:flex; align-items:center; gap:6px; border:none; background:none; text-align:left; width:100%;
+  padding:7px 8px; border-radius:8px; cursor:pointer; font-family:inherit; color:var(--ink); font-size:12.5px;
 }
-.related-suggest-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.related-suggest-item:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+.related-suggest-item span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.related-suggest-empty{ font-size:11.5px; color:var(--sub-ink); padding:6px; text-align:center; }
 @keyframes videoFlash{ 0%,100%{ box-shadow:var(--shadow-sm); } 30%{ box-shadow:0 0 0 4px var(--oshi-color-soft), var(--shadow-md); } }
 .video-flash{ animation: videoFlash 1.4s ease; }
 
@@ -332,7 +349,8 @@ body.editing .add-row{ display:flex; }
   animation:up-next-badge-pulse 1.6s ease-in-out infinite;
 }
 @keyframes up-next-badge-pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(224,35,58,0.55); } 50%{ box-shadow:0 0 0 5px rgba(224,35,58,0); } }
-.up-next-track{ display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; scroll-snap-type:x mandatory; }
+.up-next-track{ display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; scroll-snap-type:x mandatory; cursor:grab; }
+.up-next-track.dragging{ cursor:grabbing; scroll-snap-type:none; }
 .up-next-track::-webkit-scrollbar{ display:none; }
 .up-next-card{
   flex:0 0 140px; border:none; background:none; padding:0; cursor:pointer; text-align:left; font-family:inherit;
@@ -369,16 +387,16 @@ body.editing .add-row{ display:flex; }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body>
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
-<div class="initial-load-overlay" id="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 <nav class="topnav">
   <div class="wrap">
     <div class="nav-left">
       <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
-      <button class="back-link-edit" type="button" aria-label="リンク先を編集">✎</button>
+      
     </div>
-    <div class="brand editable" id="nav-brand" contenteditable="false">動画まとめ</div>
+    <div class="brand editable" id="nav-brand" contenteditable="true">動画まとめ</div>
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
@@ -388,14 +406,19 @@ body.editing .add-row{ display:flex; }
 
 <header class="p-hero">
   <div class="wrap">
-    <span class="eyebrow editable" id="p-eyebrow" contenteditable="false">公式チャンネルなど</span>
-    <h1 class="editable" id="p-title" contenteditable="false">動画まとめ</h1>
-    <p class="editable" id="p-desc" contenteditable="false">公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。</p>
-    <div class="daily-pick" id="daily-pick"></div>
+    <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">公式チャンネルなど</span>
+    <h1 class="editable" id="p-title" contenteditable="true">動画まとめ</h1>
+    <p class="editable" id="p-desc" contenteditable="true">公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。</p>
+    <div class="daily-pick show" id="daily-pick"><div class="daily-pick-thumb"><img src="https://img.youtube.com/vi/A4Ugkvba22s/hqdefault.jpg" alt=""></div>
+    <div class="daily-pick-body">
+      <div class="daily-pick-label">✦ 今日のピックアップ</div>
+      <div class="daily-pick-title">「New Ager」Music Video／2022.10.5 on sale SKE48 30th.Single c/w</div>
+      
+    </div></div>
     <div class="search-wrap">
       <input type="search" id="video-search" class="search-input" placeholder="🔍 動画タイトルで検索">
     </div>
-    <div class="category-filter" id="category-filter"></div>
+    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="MV">MV</button><button type="button" class="tag-filter-btn" data-cat="メイキング">メイキング</button><button type="button" class="tag-filter-btn" data-cat="ロケ">ロケ</button><button type="button" class="tag-filter-btn" data-cat="その他">その他</button></div>
   </div>
 </header>
 
@@ -404,10 +427,1146 @@ body.editing .add-row{ display:flex; }
     <div class="sec-head">
       <h2><span class="mark">◆</span>動画一覧</h2>
     </div>
-    <div class="video-list" id="video-list"></div>
+    <div class="video-list" id="video-list"><div class="editable-item video-item" data-category="" data-date="2026-08-29" data-url="https://www.youtube.com/watch?v=Cu36djopxws" data-added="2026-09-06" data-order="3" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="Cu36djopxws" aria-label="動画を再生"><img src="https://img.youtube.com/vi/Cu36djopxws/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-new-badge">NEW</span><span class="video-date">2026.08.29</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【SKE48】マンションを丸ごとリノベーション！？SKE48×HAYASE 新プロジェクト始動！</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="Cu36djopxws">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-07-23" data-url="https://www.youtube.com/watch?v=eWMIAslTQEo" data-added="" data-order="18" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="eWMIAslTQEo" aria-label="動画を再生"><img src="https://img.youtube.com/vi/eWMIAslTQEo/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.07.23</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【発表】今年も地元企業コラボやります！Team Sに発表【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="eWMIAslTQEo">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-07-06" data-url="https://www.youtube.com/watch?v=Iis0OT4DBMk" data-added="" data-order="40" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="Iis0OT4DBMk" aria-label="動画を再生"><img src="https://img.youtube.com/vi/Iis0OT4DBMk/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.07.06</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２６年７月１日（水）２じゃないよ！原優寧vs鈴木恋奈</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="Iis0OT4DBMk">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2026-07-06" data-url="https://www.youtube.com/watch?v=1QQFMAQePYA" data-added="" data-order="46" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="1QQFMAQePYA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/1QQFMAQePYA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.07.06</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年７月６日（土）３じゃないよ！ 北川愛乃vs野村実代vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="1QQFMAQePYA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-07-06" data-url="https://www.youtube.com/watch?v=m2vZnHstcbk" data-added="" data-order="60" data-related="" data-tags="食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="m2vZnHstcbk" aria-label="動画を再生"><img src="https://img.youtube.com/vi/m2vZnHstcbk/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.07.06</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【大興奮】春日井製菓工場に潜入！SKE48メンバーがお菓子作りの裏側を見学してきました！</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="m2vZnHstcbk">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-06-27" data-url="https://www.youtube.com/watch?v=2dmk15NHzGc&amp;list=RD2dmk15NHzGc&amp;start_radio=1" data-added="" data-order="29" data-related="" data-tags="ずっと君を探している" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="2dmk15NHzGc" aria-label="動画を再生"><img src="https://img.youtube.com/vi/2dmk15NHzGc/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.06.27</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 Team S オリジナル新公演「ずっと君を探している」／「ずっと君を探している」15名ver.</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="ずっと君を探している">#ずっと君を探している</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="2dmk15NHzGc">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-06-10" data-url="https://www.youtube.com/watch?v=FH7RuqpPgJY&amp;t=3s&amp;pp=ygUJ5Y6f5YSq5a-n" data-added="" data-order="1" data-related="" data-tags="はらへりすぎ|||食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="FH7RuqpPgJY" aria-label="動画を再生"><img src="https://img.youtube.com/vi/FH7RuqpPgJY/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.06.10</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【アイドルのリアル休日密着】11期生 杉本りいな、原優寧編</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="はらへりすぎ">#はらへりすぎ</button><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="FH7RuqpPgJY">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-06-06" data-url="https://youtu.be/o9iLy1uBWVM?si=W3yD3MVRh7DK0ORf" data-added="" data-order="21" data-related="２０２５年１２月１３日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏::" data-tags="1+1+1は3じゃなよ|||食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="o9iLy1uBWVM" aria-label="動画を再生"><img src="https://img.youtube.com/vi/o9iLy1uBWVM/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.06.06</span><span class="video-category editable" contenteditable="false">その他</span></div>
+      <h3 class="video-title editable" contenteditable="false">２０２６年６月６日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏vs森本くるみ</h3>
+      <p class="video-desc editable" contenteditable="false">塩むすびを頬張る姿が愛おしい</p>
+      <div class="video-recommend editable" contenteditable="false" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="o9iLy1uBWVM">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="MV" data-date="2026-06-01" data-url="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" data-added="" data-order="0" data-related="「君だけがターゲット」Music Video Making Movie / SKE48 36th.Single c/w" data-tags="初恋の瞬間" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="yaDeh_HwZgY" aria-label="動画を再生"><img src="https://img.youtube.com/vi/yaDeh_HwZgY/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.06.01</span><span class="video-category editable" contenteditable="true">MV</span></div>
+      <h3 class="video-title editable" contenteditable="true">「君だけがターゲット」Music Video／2026.3.18 on sale SKE48 36th.Single c/w</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="初恋の瞬間">#初恋の瞬間</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="yaDeh_HwZgY">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2026-05-25" data-url="https://youtu.be/ukK3S8ROOqA?si=BD0uXmz_OsBtBfi_" data-added="" data-order="24" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="ukK3S8ROOqA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/ukK3S8ROOqA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.05.25</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２６年５月２０日（水）２じゃないよ！原優寧vs森本くるみ</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="ukK3S8ROOqA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="メイキング" data-date="2026-05-19" data-url="https://www.youtube.com/watch?v=pjTjN2L9VHA&amp;list=RDpjTjN2L9VHA&amp;start_radio=1&amp;pp=ygUe5ZCb44Gg44GR44GM44K_44O844Ky44OD44OI44CNoAcB" data-added="" data-order="22" data-related="「君だけがターゲット」Music Video／2026.3.18 on sale SKE48 36th.Single c/w::" data-tags="初恋の瞬間" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="pjTjN2L9VHA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/pjTjN2L9VHA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.05.19</span><span class="video-category editable" contenteditable="true">メイキング</span></div>
+      <h3 class="video-title editable" contenteditable="true">「君だけがターゲット」Music Video Making Movie / SKE48 36th.Single c/w</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="初恋の瞬間">#初恋の瞬間</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="pjTjN2L9VHA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="メイキング" data-date="2026-05-18" data-url="https://www.youtube.com/watch?v=IwcUvQzRqwA&amp;list=RDIwcUvQzRqwA&amp;start_radio=1" data-added="" data-order="54" data-related="「もう知らん」Music Video／2026.3.18 on sale SKE48 36th.Single c/w::" data-tags="OneGem" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="IwcUvQzRqwA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/IwcUvQzRqwA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.05.18</span><span class="video-category editable" contenteditable="true">メイキング</span></div>
+      <h3 class="video-title editable" contenteditable="true">「もう知らん」Music Video Making Movie / SKE48 36th.Single c/w</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="OneGem">#OneGem</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="IwcUvQzRqwA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-05-02" data-url="https://youtu.be/jfL12MRdGsY?si=RnevrSdJ2xMDjwrU" data-added="" data-order="14" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="jfL12MRdGsY" aria-label="動画を再生"><img src="https://img.youtube.com/vi/jfL12MRdGsY/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.05.02</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">「放っておけないよユニコーン」劇場パフォーマンス映像／2026.3.18 on sale SKE48 36th.Single c/w</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="jfL12MRdGsY">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="MV" data-date="2026-04-22" data-url="https://youtu.be/lDnP_giyi10?si=LgFbwCZfaNzdXPYK" data-added="" data-order="13" data-related="" data-tags="ずっと君を探している" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="lDnP_giyi10" aria-label="動画を再生"><img src="https://img.youtube.com/vi/lDnP_giyi10/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.04.22</span><span class="video-category editable" contenteditable="true">MV</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 Team S オリジナル新公演「ずっと君を探している」／「ずっと君を探している」Music Video</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="ずっと君を探している">#ずっと君を探している</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="lDnP_giyi10">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="MV" data-date="2026-02-28" data-url="https://youtu.be/qIqd4mLCskQ?si=qw1pZQ191vwSJGpE" data-added="" data-order="15" data-related="「もう知らん」Music Video Making Movie / SKE48 36th.Single c/w::" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="qIqd4mLCskQ" aria-label="動画を再生"><img src="https://img.youtube.com/vi/qIqd4mLCskQ/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.02.28</span><span class="video-category editable" contenteditable="true">MV</span></div>
+      <h3 class="video-title editable" contenteditable="true">「もう知らん」Music Video／2026.3.18 on sale SKE48 36th.Single c/w</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="qIqd4mLCskQ">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-02-08" data-url="https://www.youtube.com/watch?v=HA4EeQQIZhI" data-added="" data-order="8" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="HA4EeQQIZhI" aria-label="動画を再生"><img src="https://img.youtube.com/vi/HA4EeQQIZhI/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.02.08</span><span class="video-category editable" contenteditable="false">その他</span></div>
+      <h3 class="video-title editable" contenteditable="false">【バレンタインだよ】ドキドキ❓告白大作戦！</h3>
+      <p class="video-desc editable" contenteditable="false"></p>
+      <div class="video-recommend editable" contenteditable="false"><span class="video-recommend-mark">💡 おすすめポイント</span>きゅんきゅんすること間違いなし！</div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="HA4EeQQIZhI">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="ロケ" data-date="2026-01-31" data-url="https://youtu.be/ZDXgYdcHUrE?si=GpOsQB8zOs9KXPA2" data-added="" data-order="25" data-related="SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部::|||SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部::" data-tags="愛知あたりまえ倶楽部|||食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="ZDXgYdcHUrE" aria-label="動画を再生"><img src="https://img.youtube.com/vi/ZDXgYdcHUrE/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.01.31</span><span class="video-category editable" contenteditable="true">ロケ</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true"><span class="video-recommend-mark">💡 おすすめポイント</span>熱々なたこ焼きを頬張る姿が愛おしい</div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="愛知あたりまえ倶楽部">#愛知あたりまえ倶楽部</button><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="ZDXgYdcHUrE">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="ロケ" data-date="2026-01-24" data-url="https://www.youtube.com/watch?v=v6kEuPk46hE" data-added="" data-order="27" data-related="SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部::|||SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部::" data-tags="愛知あたりまえ倶楽部" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="v6kEuPk46hE" aria-label="動画を再生"><img src="https://img.youtube.com/vi/v6kEuPk46hE/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.01.24</span><span class="video-category editable" contenteditable="true">ロケ</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="愛知あたりまえ倶楽部">#愛知あたりまえ倶楽部</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="v6kEuPk46hE">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2026-01-17" data-url="https://www.youtube.com/watch?v=OIfys3fHpa0" data-added="" data-order="26" data-related="SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部::|||SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部::" data-tags="愛知あたりまえ倶楽部|||食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="OIfys3fHpa0" aria-label="動画を再生"><img src="https://img.youtube.com/vi/OIfys3fHpa0/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.01.17</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true"><span class="video-recommend-mark">💡 おすすめポイント</span>ターキーを頬張る姿が愛おしい</div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="愛知あたりまえ倶楽部">#愛知あたりまえ倶楽部</button><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="OIfys3fHpa0">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="202508525" data-url="https://www.youtube.com/watch?v=VzwOQWoSH-Q" data-added="" data-order="48" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="VzwOQWoSH-Q" aria-label="動画を再生"><img src="https://img.youtube.com/vi/VzwOQWoSH-Q/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">202508525</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【ミカンのむき方】アオキーズ・ピザコラボ盛り上げSP エンディングトーク【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="VzwOQWoSH-Q">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-12-29" data-url="https://youtu.be/xqmMyIsOcCo?si=cL7qNEnwUbAL578n" data-added="" data-order="23" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="xqmMyIsOcCo" aria-label="動画を再生"><img src="https://img.youtube.com/vi/xqmMyIsOcCo/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.12.29</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年１２月２２日（月）２じゃないよ！大村杏vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="xqmMyIsOcCo">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-12-28" data-url="https://www.youtube.com/watch?v=OE08-FAGLYo&amp;t=1039s" data-added="" data-order="4" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="OE08-FAGLYo" aria-label="動画を再生"><img src="https://img.youtube.com/vi/OE08-FAGLYo/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.12.28</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【大忘年会】2025年振り返り！アイドル総決算</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="OE08-FAGLYo">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-12-13" data-url="https://youtu.be/G3CSGrGATXY?si=pyePN1OtOeOt5RFZ" data-added="" data-order="30" data-related="２０２６年６月６日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏vs森本くるみ::" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="G3CSGrGATXY" aria-label="動画を再生"><img src="https://img.youtube.com/vi/G3CSGrGATXY/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.12.13</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年１２月１３日（土）３じゃないよ！原優寧vs山村さくらvs篠原京香vs大村杏</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="G3CSGrGATXY">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-12-01" data-url="https://www.youtube.com/watch?v=hIx3GJ6MkBo" data-added="" data-order="49" data-related="" data-tags="1+1は2じゃないよ|||食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="hIx3GJ6MkBo" aria-label="動画を再生"><img src="https://img.youtube.com/vi/hIx3GJ6MkBo/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.12.01</span><span class="video-category editable" contenteditable="false">その他</span></div>
+      <h3 class="video-title editable" contenteditable="false">２０２５年１１月２６日（水）２じゃないよ！石黒友月vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="false"></p>
+      <div class="video-recommend editable" contenteditable="false" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="hIx3GJ6MkBo">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-10-18" data-url="https://www.youtube.com/watch?v=BSZcbzo8FYU&amp;t=423s" data-added="" data-order="45" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="BSZcbzo8FYU" aria-label="動画を再生"><img src="https://img.youtube.com/vi/BSZcbzo8FYU/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.10.18</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年１０月１８（土）３じゃないよ！石黒友月vs坂本真凛vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="BSZcbzo8FYU">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-10-13" data-url="https://www.youtube.com/watch?v=vn64sHNSZww&amp;t=330s" data-added="" data-order="31" data-related="" data-tags="1+1は2じゃないよ|||はらへりすぎ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="vn64sHNSZww" aria-label="動画を再生"><img src="https://img.youtube.com/vi/vn64sHNSZww/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.10.13</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年１０月６日（月）２じゃないよ！杉本りいなvs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button><button type="button" class="video-tag" data-tag="はらへりすぎ">#はらへりすぎ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="vn64sHNSZww">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-09-29" data-url="https://www.youtube.com/watch?v=haZCZATLEGM" data-added="" data-order="52" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="haZCZATLEGM" aria-label="動画を再生"><img src="https://img.youtube.com/vi/haZCZATLEGM/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.09.29</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年９月２６日（金）２じゃないよ！原優寧vs伊藤虹々美</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="haZCZATLEGM">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-09-18" data-url="https://www.youtube.com/watch?v=XmNL-qDRSts&amp;t=89s" data-added="2026-09-06" data-order="64" data-related="" data-tags="食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="XmNL-qDRSts" aria-label="動画を再生"><img src="https://img.youtube.com/vi/XmNL-qDRSts/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-new-badge">NEW</span><span class="video-date">2025.09.18</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【ピザコラボ】手渡し販売会終わりのお疲れまかないピザトーク【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true"><span class="video-recommend-mark">💡 おすすめポイント</span>ピザの食べっぷりが最高！</div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="XmNL-qDRSts">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-07-28" data-url="https://www.youtube.com/watch?v=hWHV4mu5Ws4" data-added="" data-order="53" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="hWHV4mu5Ws4" aria-label="動画を再生"><img src="https://img.youtube.com/vi/hWHV4mu5Ws4/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.07.28</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年７月２４日（木）２じゃないよ！中野愛理vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="hWHV4mu5Ws4">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-07-06" data-url="https://www.youtube.com/watch?v=drilYuhewpA" data-added="" data-order="65" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="drilYuhewpA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/drilYuhewpA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.07.06</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【地元プレゼン】それぞれ地元の強みを出し合うプレゼン企画、選ばれるのは❓❓❓</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="drilYuhewpA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-07-01" data-url="https://www.youtube.com/watch?v=2sbJPKQUL_s&amp;list=RD2sbJPKQUL_s&amp;start_radio=1" data-added="" data-order="50" data-related="「Unlimited」Music Video / SKE48 Team S::" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="2sbJPKQUL_s" aria-label="動画を再生"><img src="https://img.youtube.com/vi/2sbJPKQUL_s/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.07.01</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 Team S「Unlimited」劇場パフォーマンス映像</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="2sbJPKQUL_s">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-06-08" data-url="https://www.youtube.com/watch?v=vPEKjp3M8bA" data-added="" data-order="44" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="vPEKjp3M8bA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/vPEKjp3M8bA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.06.08</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年６月７日（土）３じゃないよ！熊崎晴香vs原優寧vs柿元礼愛</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="vPEKjp3M8bA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-06-02" data-url="https://www.youtube.com/watch?v=SHBPFzU6Ljw" data-added="" data-order="68" data-related="" data-tags="1+1は2じゃないよ|||はらへりすぎ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="SHBPFzU6Ljw" aria-label="動画を再生"><img src="https://img.youtube.com/vi/SHBPFzU6Ljw/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.06.02</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年５月２８日（水）２じゃないよ！原優寧vs杉本りいな</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button><button type="button" class="video-tag" data-tag="はらへりすぎ">#はらへりすぎ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="SHBPFzU6Ljw">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-05-25" data-url="https://www.youtube.com/watch?v=r5LBFkIeob8&amp;pp=ygUJ5Y6f5YSq5a-n0gcJCRsMAYcqIYzv" data-added="" data-order="7" data-related="" data-tags="食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="r5LBFkIeob8" aria-label="動画を再生"><img src="https://img.youtube.com/vi/r5LBFkIeob8/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.05.25</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【くだまき酒場】九州の女たちが飲みます</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="r5LBFkIeob8">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-03-03" data-url="https://youtu.be/Jmqxvaf-O0Y?si=p0TjyixoEJ9thpRl" data-added="" data-order="28" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="Jmqxvaf-O0Y" aria-label="動画を再生"><img src="https://img.youtube.com/vi/Jmqxvaf-O0Y/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.03.03</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年２月２４日（月）２じゃないよ！原優寧vs倉本羽菜</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="Jmqxvaf-O0Y">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="MV" data-date="2025-03-01" data-url="https://youtu.be/TxmSoVL9EpM?si=HTFMRQT0-deXJ0F0" data-added="" data-order="9" data-related="SKE48 Team S「Unlimited」劇場パフォーマンス映像::" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="TxmSoVL9EpM" aria-label="動画を再生"><img src="https://img.youtube.com/vi/TxmSoVL9EpM/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.03.01</span><span class="video-category editable" contenteditable="true">MV</span></div>
+      <h3 class="video-title editable" contenteditable="true">「Unlimited」Music Video / SKE48 Team S</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="TxmSoVL9EpM">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2025-02-17" data-url="https://www.youtube.com/watch?v=hJDExQqfkFU" data-added="" data-order="59" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="hJDExQqfkFU" aria-label="動画を再生"><img src="https://img.youtube.com/vi/hJDExQqfkFU/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.02.17</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２５年２月１３日（木）２じゃないよ！原優寧vs柿元礼愛</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="hJDExQqfkFU">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2025-02-09" data-url="https://www.youtube.com/watch?v=bPh4rSJQWPA&amp;t=6s" data-added="" data-order="2" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="bPh4rSJQWPA" aria-label="動画を再生"><img src="https://img.youtube.com/vi/bPh4rSJQWPA/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2025.02.09</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【プロフィール警察/第三の容疑者】福岡県出身 職業アイドル 自称ピエロナリタイ 原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="bPh4rSJQWPA">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2024-12-02" data-url="https://www.youtube.com/watch?v=2uKpTNP9th0" data-added="" data-order="39" data-related="" data-tags="1+1は2じゃないよ|||食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="2uKpTNP9th0" aria-label="動画を再生"><img src="https://img.youtube.com/vi/2uKpTNP9th0/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.12.02</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年１１月２７日（水）２じゃないよ！鬼頭未来vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="2uKpTNP9th0">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-11-23" data-url="https://youtu.be/aJeT01Yn58Q?si=lHA8BMPhYIsLdhAo" data-added="" data-order="12" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="aJeT01Yn58Q" aria-label="動画を再生"><img src="https://img.youtube.com/vi/aJeT01Yn58Q/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.11.23</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 Team S「言えなくてタコス」Performance Video</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="aJeT01Yn58Q">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2024-11-11" data-url="https://www.youtube.com/watch?v=YIMr9JDO9gQ" data-added="" data-order="58" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="YIMr9JDO9gQ" aria-label="動画を再生"><img src="https://img.youtube.com/vi/YIMr9JDO9gQ/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.11.11</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年１１月７日（木）２じゃないよ！荒野姫楓vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="YIMr9JDO9gQ">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-10-23" data-url="https://youtu.be/6kb4GZzurlI?si=EwmMSNKkQdArl8qM" data-added="" data-order="20" data-related="" data-tags="未完全TV" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="6kb4GZzurlI" aria-label="動画を再生"><img src="https://img.youtube.com/vi/6kb4GZzurlI/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.10.23</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【ダービー】アイドルがノコギリ片手にDIY！？前代未聞のレースが開幕！【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="未完全TV">#未完全TV</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="6kb4GZzurlI">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-09-30" data-url="https://www.youtube.com/watch?v=nLorFsbKIxQ" data-added="" data-order="70" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="nLorFsbKIxQ" aria-label="動画を再生"><img src="https://img.youtube.com/vi/nLorFsbKIxQ/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.09.30</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年９月２５日（水）２じゃないよ！青木莉樺vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="nLorFsbKIxQ">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-08-31" data-url="https://www.youtube.com/watch?v=sV-6M-GT5_w" data-added="" data-order="66" data-related="" data-tags="食" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="sV-6M-GT5_w" aria-label="動画を再生"><img src="https://img.youtube.com/vi/sV-6M-GT5_w/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.08.31</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【歌志軒コラボ】#4 トッピング会議がいよいよスタート！果たしてどんなトッピングに…！？【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="食">#食</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="sV-6M-GT5_w">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-07-09" data-url="https://www.youtube.com/watch?v=_B2HqnJrnsc" data-added="" data-order="61" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="_B2HqnJrnsc" aria-label="動画を再生"><img src="https://img.youtube.com/vi/_B2HqnJrnsc/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.07.09</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年７月２日（火）２じゃないよ！井上瑠夏vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="_B2HqnJrnsc">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-06-04" data-url="https://www.youtube.com/watch?v=Acy7T6Wd1u0&amp;t=261s" data-added="" data-order="62" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="Acy7T6Wd1u0" aria-label="動画を再生"><img src="https://img.youtube.com/vi/Acy7T6Wd1u0/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.06.04</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年５月３０日（木）２じゃないよ！上村亜柚香vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="Acy7T6Wd1u0">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2024-05-12" data-url="https://www.youtube.com/watch?v=50ybyist8LY" data-added="" data-order="42" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="50ybyist8LY" aria-label="動画を再生"><img src="https://img.youtube.com/vi/50ybyist8LY/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.05.12</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２４年３月４日（月）２じゃないよ！伊藤実希vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="50ybyist8LY">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-03-27" data-url="https://www.youtube.com/watch?v=8lAdn70nMuc" data-added="" data-order="63" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="8lAdn70nMuc" aria-label="動画を再生"><img src="https://img.youtube.com/vi/8lAdn70nMuc/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.03.27</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 倉島杏実×大村杏×原優寧【Platinum FLASH vol.25】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="8lAdn70nMuc">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2024-02-24" data-url="https://www.youtube.com/watch?v=vEjFilr2lbQ&amp;list=RDvEjFilr2lbQ&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" data-added="" data-order="19" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="vEjFilr2lbQ" aria-label="動画を再生"><img src="https://img.youtube.com/vi/vEjFilr2lbQ/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.02.24</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 研究生「Beautiful」劇場初パフォーマンス映像</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="vEjFilr2lbQ">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="MV" data-date="2024-02-04" data-url="https://youtu.be/knk_nGwljMU?si=D-l8kA8OUI2ofh_3" data-added="" data-order="11" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="knk_nGwljMU" aria-label="動画を再生"><img src="https://img.youtube.com/vi/knk_nGwljMU/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2024.02.04</span><span class="video-category editable" contenteditable="true">MV</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48 「愛のホログラム」 Music Video / 2024.2.28 on sale</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="knk_nGwljMU">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-12-26" data-url="https://www.youtube.com/watch?v=tLm_2ALqp3Y&amp;t=168s" data-added="" data-order="38" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="tLm_2ALqp3Y" aria-label="動画を再生"><img src="https://img.youtube.com/vi/tLm_2ALqp3Y/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.12.26</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年１２月２１日（木）２じゃないよ！江籠裕奈vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="tLm_2ALqp3Y">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-12-19" data-url="https://www.youtube.com/watch?v=PboEsPZrtkk&amp;t=96s" data-added="" data-order="43" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="PboEsPZrtkk" aria-label="動画を再生"><img src="https://img.youtube.com/vi/PboEsPZrtkk/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.12.19</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年１２月１３日（水）２じゃないよ！太田彩夏vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="PboEsPZrtkk">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-12-10" data-url="https://www.youtube.com/watch?v=jhgnjeIyl7A" data-added="" data-order="51" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="jhgnjeIyl7A" aria-label="動画を再生"><img src="https://img.youtube.com/vi/jhgnjeIyl7A/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.12.10</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年１２月９日（土）３じゃないよ！太田彩夏vs鎌田菜月vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="jhgnjeIyl7A">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-10-17" data-url="https://www.youtube.com/watch?v=nk9z9m5CnLk" data-added="" data-order="56" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="nk9z9m5CnLk" aria-label="動画を再生"><img src="https://img.youtube.com/vi/nk9z9m5CnLk/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.10.17</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年１０月１１日（水）２じゃないよ！北川愛乃vs原優寧vs？？？</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="nk9z9m5CnLk">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-09-24" data-url="https://www.youtube.com/watch?v=2TLrSJxJEcE" data-added="" data-order="47" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="2TLrSJxJEcE" aria-label="動画を再生"><img src="https://img.youtube.com/vi/2TLrSJxJEcE/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.09.24</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年９月２３日（土）３じゃないよ！太田彩夏vs末永桜花vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="2TLrSJxJEcE">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2023-07-16" data-url="https://www.youtube.com/watch?v=7W49lKOOVkc" data-added="" data-order="41" data-related="" data-tags="未完全TV" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="7W49lKOOVkc" aria-label="動画を再生"><img src="https://img.youtube.com/vi/7W49lKOOVkc/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.07.16</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【カレー愛】SKE48随一のマニアがココイチを熱く語ったら後輩 原優寧との温度差がすごかったww【未完全TV】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="未完全TV">#未完全TV</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="7W49lKOOVkc">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2023-07-12" data-url="https://www.youtube.com/watch?v=YLvkRnYtWsU&amp;pp=ygUJ5Y6f5YSq5a-n" data-added="" data-order="16" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="YLvkRnYtWsU" aria-label="動画を再生"><img src="https://img.youtube.com/vi/YLvkRnYtWsU/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.07.12</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">SKE48日高優月×井上瑠夏×鎌田菜月×原優寧：「好きになっちゃった」インタビュー</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="YLvkRnYtWsU">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-07-11" data-url="https://www.youtube.com/watch?v=AUUXj4Gic4M&amp;t=4s" data-added="" data-order="55" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="AUUXj4Gic4M" aria-label="動画を再生"><img src="https://img.youtube.com/vi/AUUXj4Gic4M/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.07.11</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年７月５日（水）２じゃないよ！末永桜花vs原優寧（好きになっちゃったリリース当日スペシャル！）</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="AUUXj4Gic4M">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2023-07-02" data-url="https://www.youtube.com/watch?v=SBHGEP7EXmI" data-added="" data-order="67" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="SBHGEP7EXmI" aria-label="動画を再生"><img src="https://img.youtube.com/vi/SBHGEP7EXmI/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.07.02</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年７月１日（土）３じゃないよ！太田彩夏vs末永桜花vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="SBHGEP7EXmI">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-06-17" data-url="https://www.youtube.com/watch?v=HT7EVuA8iX0" data-added="" data-order="57" data-related="" data-tags="1+1+1は3じゃなよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="HT7EVuA8iX0" aria-label="動画を再生"><img src="https://img.youtube.com/vi/HT7EVuA8iX0/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.06.17</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２３年６月１７日（土）３じゃないよ！江籠裕奈vs熊崎晴香vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1+1は3じゃなよ">#1+1+1は3じゃなよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="HT7EVuA8iX0">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2023-06-03" data-url="https://www.youtube.com/watch?v=EfRdCxu0iy4" data-added="" data-order="34" data-related="" data-tags="未完全TV" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="EfRdCxu0iy4" aria-label="動画を再生"><img src="https://img.youtube.com/vi/EfRdCxu0iy4/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.06.03</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【未公開】大食いYouTuberになりたい原優寧「とにかく〇〇が好き」【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="未完全TV">#未完全TV</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="EfRdCxu0iy4">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2023-05-29" data-url="https://www.youtube.com/watch?v=5PHEYuEOZxM" data-added="" data-order="35" data-related="" data-tags="未完全TV" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="5PHEYuEOZxM" aria-label="動画を再生"><img src="https://img.youtube.com/vi/5PHEYuEOZxM/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.05.29</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【私服】カワイイはワイプから♡愛されサイズの黒ワンピ！超世代チームの上級コーデ🔥アイドル私服チェック【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="未完全TV">#未完全TV</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="5PHEYuEOZxM">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2023-03-30" data-url="https://www.youtube.com/watch?v=xYY3493OZ6g" data-added="" data-order="33" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="xYY3493OZ6g" aria-label="動画を再生"><img src="https://img.youtube.com/vi/xYY3493OZ6g/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.03.30</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【SKE48も登場！】AKB48グループのルーキーたちが「超十代」でフレッシュなランウェイ披露！＜超十代 －ULTRA TEENS FES－ 2023＠TOKYO＞</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="xYY3493OZ6g">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2023-01-02" data-url="https://youtu.be/yn9Mk7NY3ag?si=_r7ecr4bEB20vGdb" data-added="" data-order="17" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="yn9Mk7NY3ag" aria-label="動画を再生"><img src="https://img.youtube.com/vi/yn9Mk7NY3ag/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2023.01.02</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【あけおめ】SKE48・原優寧から2023年あけおめメッセージ！今年は「地元・福岡でもイベントをしてみたい」</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="yn9Mk7NY3ag">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2022-12-16" data-url="https://www.youtube.com/watch?v=zLksLVWq1-o" data-added="" data-order="32" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="zLksLVWq1-o" aria-label="動画を再生"><img src="https://img.youtube.com/vi/zLksLVWq1-o/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.12.16</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【SKE48】九州出身三人娘スペシャルインタビュー</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="zLksLVWq1-o">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2022-11-06" data-url="https://www.youtube.com/watch?v=bkZ4asHboQk" data-added="" data-order="6" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="bkZ4asHboQk" aria-label="動画を再生"><img src="https://img.youtube.com/vi/bkZ4asHboQk/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.11.06</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【ウラ側】SKE48 原優寧がハロウィン仮装してお菓子配り！アイドル人生初の影アナにも挑戦！【ミカンのむき方】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="bkZ4asHboQk">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2022-09-20" data-url="https://www.youtube.com/watch?v=vUfOkAK9XKc" data-added="" data-order="69" data-related="" data-tags="1+1は2じゃないよ" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="vUfOkAK9XKc" aria-label="動画を再生"><img src="https://img.youtube.com/vi/vUfOkAK9XKc/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.09.20</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">２０２２年９月１３日（火）２じゃないよ！入内嶋涼vs原優寧</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="1+1は2じゃないよ">#1+1は2じゃないよ</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="vUfOkAK9XKc">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="" data-date="2022-09-14" data-url="https://www.youtube.com/watch?v=K38DgFzWDPY&amp;list=RDK38DgFzWDPY&amp;start_radio=1&amp;pp=ygUh5Y6f5YSq5a-n44CA44Kq44O844OH44Kj44K344On44OzoAcB" data-added="" data-order="5" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="K38DgFzWDPY" aria-label="動画を再生"><img src="https://img.youtube.com/vi/K38DgFzWDPY/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.09.14</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【未公開】11期研究生 原優寧 センターへの軌跡【SKE48 初センター記念】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="K38DgFzWDPY">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="MV" data-date="2022-09-11" data-url="https://youtu.be/A4Ugkvba22s?si=AVnKgDawnPR9P0ad" data-added="" data-order="10" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="A4Ugkvba22s" aria-label="動画を再生"><img src="https://img.youtube.com/vi/A4Ugkvba22s/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.09.11</span><span class="video-category editable" contenteditable="true">MV</span></div>
+      <h3 class="video-title editable" contenteditable="true">「New Ager」Music Video／2022.10.5 on sale SKE48 30th.Single c/w</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      <button type="button" class="video-watch-btn" data-yt-id="A4Ugkvba22s">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2022-07-08" data-url="https://youtu.be/M6PKn-iPlXs?si=S0vJkZlrx38MGnOL" data-added="" data-order="37" data-related="" data-tags="未完全TV" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="M6PKn-iPlXs" aria-label="動画を再生"><img src="https://img.youtube.com/vi/M6PKn-iPlXs/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.07.08</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【未公開】「青海さんから聞きたかった」原優寧＆杉本りいなのクレーム！【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="未完全TV">#未完全TV</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="M6PKn-iPlXs">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="その他" data-date="2022-07-05" data-url="https://youtu.be/kCdYV-ixTg0?si=76P0MT1TQKOWprap" data-added="" data-order="36" data-related="" data-tags="未完全TV" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <button type="button" class="video-thumb-link" data-yt-id="kCdYV-ixTg0" aria-label="動画を再生"><img src="https://img.youtube.com/vi/kCdYV-ixTg0/hqdefault.jpg" alt=""><span class="video-play-badge">▶</span></button>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2022.07.05</span><span class="video-category editable" contenteditable="true">その他</span></div>
+      <h3 class="video-title editable" contenteditable="true">【未公開】「年上なのに」失礼すぎる担当Dに原優寧が…【SKE48】</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"><button type="button" class="video-tag" data-tag="未完全TV">#未完全TV</button></div>
+      <button type="button" class="video-watch-btn" data-yt-id="kCdYV-ixTg0">▶ 再生する</button>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div></div>
     <p class="no-results" id="no-results">条件に合う動画が見つかりませんでした。</p>
-    <button class="load-more-btn" id="load-more-videos" type="button" style="display:none;">＋ もっと見る</button>
-    <div class="add-row"><button class="add-btn" id="add-video">＋ 動画を追加</button></div>
+    <button class="load-more-btn" id="load-more-videos" type="button" style="display: none;">＋ もっと見る(残り37件)</button>
+    
   </div>
 </section>
 
@@ -416,15 +1575,9 @@ body.editing .add-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
-<div class="edit-toolbar">
-  <button class="tb-btn primary" id="toggle-edit">編集する</button>
-  <button class="tb-btn" id="generate-public-html" style="display:none">🌐 公開用HTMLを書き出す</button>
-  <button class="tb-btn-icon" id="export-data" style="display:none" type="button" aria-label="データを書き出し" title="データを書き出し(JSON)">📤</button>
-  <button class="tb-btn-icon" id="import-data" style="display:none" type="button" aria-label="データを読み込み" title="データを読み込み(JSON)">📥</button>
-  <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;">
-</div>
+
 
 <div class="video-player-backdrop" id="video-player-backdrop" role="dialog" aria-modal="true" aria-label="動画プレイヤー">
   <div class="video-player-box">
@@ -434,32 +1587,10 @@ body.editing .add-row{ display:flex; }
   </div>
 </div>
 
-<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="modal">
-    <h3 id="modal-title">追加</h3>
-    <div id="modal-fields"></div>
-    <div class="modal-actions">
-      <button class="tb-btn" id="modal-cancel" type="button">キャンセル</button>
-      <button class="add-btn" id="modal-submit" type="button">追加する</button>
-    </div>
-  </div>
-</div>
+
 
 <script>
-/* @EDIT_ONLY_START */
-/* ==========================================================
-   編集用パスワード。他のページと同じ仕組み(SHA-256ハッシュ)。
-   初期パスワードは "oshikatsu2026" です。
-   ========================================================== */
-const EDIT_PASSWORD_HASH = "ce9d9c91a8374c694448bdb6f6591003c96353d8eaf6ee9e32c7e47d47c1ac14";
-async function sha256Hex(text){
-  if(!window.crypto || !window.crypto.subtle){ return Promise.reject(new Error("subtlecrypto-unavailable")); }
-  const bytes = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
-}
-let authenticated = false;
-/* @EDIT_ONLY_END */
+
 let editMode = false;
 
 const VIDEOS = {
@@ -568,7 +1699,7 @@ function videoItemHTML(v){
   const chaptersHtml = (ytId && chaptersForDisplay.length)
     ? `<div class="video-chapters">${chaptersForDisplay.map(c => `<button type="button" class="video-chapter-btn" data-yt-id="${ytId}" data-time="${c.time}">⏱ ${formatSecondsToTime(c.time)} ${esc(c.label)}</button>`).join("")}</div>`
     : "";
-  return `<div class="editable-item video-item" data-category="${escAttr(v.category)}" data-date="${escAttr(v.date)}" data-url="${escAttr(v.url)}" data-added="${escAttr(v.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}" data-tags="${escAttr(tagsRaw)}" data-pickup-comment="${escAttr(v.pickupComment)}" data-chapters="${escAttr(chaptersRaw)}">
+  return `<div class="editable-item video-item" data-category="${escAttr(v.category)}" data-date="${escAttr(v.date)}" data-url="${escAttr(v.url)}" data-added="${escAttr(v.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}" data-tags="${escAttr(tagsRaw)}" data-pickup-comment="${escAttr(v.pickupComment)}" data-chapters="${escAttr(chaptersRaw)}" data-series-order="${escAttr(v.seriesOrder || "")}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
     ${thumbHtml}
@@ -580,6 +1711,7 @@ function videoItemHTML(v){
       ${tagsHtml}
       ${watchBtn}
       ${chaptersHtml}
+      <button type="button" class="video-dup-btn">⧉ この内容で複製</button>
       <div class="video-related" data-role="related"></div>
     </div>
     ${REORDER_ROW}
@@ -625,20 +1757,7 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 
 /* ---------- 未保存の変更を警告 ---------- */
 let hasUnsavedChanges = false;
-/* @EDIT_ONLY_START */
-function watchDirty(id){
-  const el = document.getElementById(id);
-  if(!el) return;
-  new MutationObserver((mutations) => {
-    const relevant = mutations.some(m => !(m.type === "attributes" && m.attributeName === "style"));
-    if(relevant) hasUnsavedChanges = true;
-  }).observe(el, { childList: true, subtree: true, characterData: true, attributes: true });
-}
-["nav-brand","p-eyebrow","p-title","p-desc","video-list"].forEach(watchDirty);
-window.addEventListener("beforeunload", (e) => {
-  if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = ""; }
-});
-/* @EDIT_ONLY_END */
+
 
 /* ---------- シェアボタン ---------- */
 document.getElementById("share-btn-nav").addEventListener("click", async () => {
@@ -667,6 +1786,48 @@ document.getElementById("share-btn-nav").addEventListener("click", async () => {
 /* ---------- 印刷 ---------- */
 document.getElementById("print-btn").addEventListener("click", () => window.print());
 
+/* ---------- 横スクロール一覧(次の動画・関連動画)をPCでも操作できるように ---------- */
+document.addEventListener("wheel", (e) => {
+  const track = e.target.closest(".up-next-track, .video-related-track");
+  if(!track) return;
+  if(track.scrollWidth <= track.clientWidth) return;
+  if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  e.preventDefault();
+  track.scrollLeft += e.deltaY;
+}, { passive: false });
+(function initTrackDragScroll(){
+  let dragTrack = null;
+  let startX = 0;
+  let startScroll = 0;
+  let moved = false;
+  document.addEventListener("mousedown", (e) => {
+    const track = e.target.closest(".up-next-track, .video-related-track");
+    if(!track || track.scrollWidth <= track.clientWidth) return;
+    dragTrack = track;
+    startX = e.clientX;
+    startScroll = track.scrollLeft;
+    moved = false;
+    track.classList.add("dragging");
+  });
+  document.addEventListener("mousemove", (e) => {
+    if(!dragTrack) return;
+    const dx = e.clientX - startX;
+    if(Math.abs(dx) > 4) moved = true;
+    dragTrack.scrollLeft = startScroll - dx;
+  });
+  document.addEventListener("mouseup", () => {
+    if(dragTrack) dragTrack.classList.remove("dragging");
+    dragTrack = null;
+  });
+  document.addEventListener("click", (e) => {
+    if(moved && e.target.closest(".up-next-track, .video-related-track")){
+      e.preventDefault();
+      e.stopPropagation();
+      moved = false;
+    }
+  }, true);
+})();
+
 /* ---------- トップに戻るボタン ---------- */
 (function initBackToTop(){
   const btn = document.getElementById("back-to-top");
@@ -675,20 +1836,7 @@ document.getElementById("print-btn").addEventListener("click", () => window.prin
 })();
 
 /* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
-/* @EDIT_ONLY_START */
-(function initSecretUnlock(){
-  const target = document.getElementById("footer-tap-target");
-  const toolbar = document.querySelector(".edit-toolbar");
-  if(!target || !toolbar) return;
-  let tapCount = 0, resetTimer = null;
-  target.addEventListener("click", () => {
-    tapCount++;
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => { tapCount = 0; }, 2000);
-    if(tapCount >= 5){ tapCount = 0; toolbar.classList.add("unlocked"); }
-  });
-})();
-/* @EDIT_ONLY_END */
+
 
 /* ---------- カテゴリ絞り込み・検索・もっと見る・並び替え ---------- */
 let currentCategoryFilter = "all";
@@ -878,450 +2026,7 @@ renderRelatedLinks();
 
 /* ---------- 編集モード(パスワードで保護) ---------- */
 function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
-/* @EDIT_ONLY_START */
-const toggleBtn = document.getElementById("toggle-edit");
-const publicHtmlBtn = document.getElementById("generate-public-html");
-document.querySelector(".back-link-edit")?.addEventListener("click", () => {
-  const link = document.querySelector(".back-link");
-  if(!link) return;
-  openModal("navLink", { editTarget: link, navLabel: link.textContent, navUrl: link.getAttribute("href") || "" });
-});
-function enterEditMode(){
-  editMode = true;
-  setEditable(true);
-  document.body.classList.add("editing");
-  toggleBtn.textContent = "編集を終える";
-  publicHtmlBtn.style.display = "inline-flex";
-  document.getElementById("export-data").style.display = "inline-flex";
-  document.getElementById("import-data").style.display = "inline-flex";
-}
-function exitEditMode(){
-  editMode = false;
-  setEditable(false);
-  document.body.classList.remove("editing");
-  toggleBtn.textContent = "編集する";
-  publicHtmlBtn.style.display = "none";
-  document.getElementById("export-data").style.display = "none";
-  document.getElementById("import-data").style.display = "none";
-}
-function requestEditAccess(){
-  if(authenticated){ enterEditMode(); return; }
-  openModal("password");
-}
-toggleBtn.addEventListener("click", () => { editMode ? exitEditMode() : requestEditAccess(); });
 
-/* ---------- モーダル(項目追加・編集フォーム) ---------- */
-let modalType = null;
-let modalEditTarget = null;
-let modalOriginalAddedAt = "";
-let modalOriginalOrder = "";
-/* ---------- 関連動画:順番(010,020形式)の解析・並び替え共通処理 ---------- */
-function parseRelatedField(raw){
-  return (raw || "").split("|||").map(s => s.trim()).filter(Boolean).map(entry => {
-    const sepIdx = entry.lastIndexOf("::");
-    if(sepIdx === -1) return { title: entry, order: "" };
-    return { title: entry.slice(0, sepIdx), order: entry.slice(sepIdx + 2) };
-  });
-}
-function serializeRelatedField(list){
-  return list.map(r => `${r.title}::${r.order || ""}`).join("|||");
-}
-function shuffleArray(arr){
-  const a = arr.slice();
-  for(let i = a.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-function sortRelatedEntries(list){
-  const hasOrder = (r) => r.order !== "" && r.order !== undefined && r.order !== null && !isNaN(parseFloat(r.order));
-  const ordered = list.filter(hasOrder).slice().sort((a, b) => parseFloat(a.order) - parseFloat(b.order));
-  const unordered = shuffleArray(list.filter(r => !hasOrder(r)));
-  return ordered.concat(unordered);
-}
-function syncRelatedBidirectional(currentTitle, oldRelatedList, newRelatedList){
-  const items = Array.from(document.querySelectorAll("#video-list .video-item"));
-  const findByTitle = (t) => items.find(item => item.querySelector(".video-title")?.textContent.trim() === t);
-  const oldTitles = oldRelatedList.map(r => r.title);
-  const newTitles = newRelatedList.map(r => r.title);
-  const added = newTitles.filter(t => !oldTitles.includes(t));
-  const removed = oldTitles.filter(t => !newTitles.includes(t));
-  added.forEach(targetTitle => {
-    const target = findByTitle(targetTitle);
-    if(!target) return;
-    const targetRelated = parseRelatedField(target.dataset.related);
-    if(!targetRelated.some(r => r.title === currentTitle)){
-      targetRelated.push({ title: currentTitle, order: "" });
-      target.dataset.related = serializeRelatedField(targetRelated);
-    }
-  });
-  removed.forEach(targetTitle => {
-    const target = findByTitle(targetTitle);
-    if(!target) return;
-    const targetRelated = parseRelatedField(target.dataset.related);
-    const idx = targetRelated.findIndex(r => r.title === currentTitle);
-    if(idx !== -1){
-      targetRelated.splice(idx, 1);
-      target.dataset.related = serializeRelatedField(targetRelated);
-    }
-  });
-}
-let pendingRelated = [];
-function renderRelatedChips(){
-  const wrap = document.getElementById("related-chip-row");
-  if(!wrap) return;
-  wrap.innerHTML = pendingRelated.map((r, i) => `<span class="related-chip"><input type="text" inputmode="numeric" class="related-chip-order" data-idx="${i}" value="${escAttr(r.order || "")}" placeholder="順">${esc(r.title)}<button type="button" class="related-chip-remove" data-idx="${i}" aria-label="削除">×</button></span>`).join("");
-}
-function renderRelatedSuggestions(){
-  const wrap = document.getElementById("related-suggest-row");
-  if(!wrap) return;
-  const allTitles = [];
-  document.querySelectorAll("#video-list .video-item").forEach(item => {
-    const t = item.querySelector(".video-title")?.textContent.trim();
-    if(t && !allTitles.includes(t)) allTitles.push(t);
-  });
-  const remaining = allTitles.filter(t => !pendingRelated.some(r => r.title === t) && t !== val("f-title",""));
-  wrap.innerHTML = remaining.length
-    ? `<span class="related-suggest-label">既存の動画から追加:</span>` + remaining.map(t => `<button type="button" class="related-suggest-btn" data-title="${escAttr(t)}">＋ ${esc(t)}</button>`).join("")
-    : "";
-}
-function addRelatedChip(title){
-  const trimmed = (title || "").trim();
-  if(!trimmed || pendingRelated.some(r => r.title === trimmed)) return;
-  pendingRelated.push({ title: trimmed, order: "" });
-  renderRelatedChips();
-  renderRelatedSuggestions();
-}
-document.getElementById("modal-fields").addEventListener("input", (e) => {
-  const orderInput = e.target.closest(".related-chip-order");
-  if(orderInput){
-    const idx = parseInt(orderInput.dataset.idx, 10);
-    if(pendingRelated[idx]) pendingRelated[idx].order = orderInput.value.trim();
-  }
-});
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  const removeBtn = e.target.closest(".related-chip-remove");
-  if(removeBtn){
-    pendingRelated.splice(parseInt(removeBtn.dataset.idx, 10), 1);
-    renderRelatedChips();
-    renderRelatedSuggestions();
-    return;
-  }
-  const suggestBtn = e.target.closest(".related-suggest-btn");
-  if(suggestBtn){ addRelatedChip(suggestBtn.dataset.title); return; }
-  if(e.target.id === "add-related-chip"){
-    const input = document.getElementById("f-related-input");
-    addRelatedChip(input.value);
-    input.value = "";
-    input.focus();
-  }
-});
-document.getElementById("modal-fields").addEventListener("keydown", (e) => {
-  if(e.target.id === "f-related-input" && e.key === "Enter"){
-    e.preventDefault();
-    addRelatedChip(e.target.value);
-    e.target.value = "";
-  }
-});
-
-let pendingChapters = [];
-function formatSecondsToTime(sec){
-  sec = Math.max(0, Math.round(sec));
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-function parseTimeToSeconds(str){
-  const trimmed = (str || "").trim();
-  if(!trimmed) return null;
-  const parts = trimmed.split(":").map(s => s.trim());
-  if(parts.some(p => p === "" || isNaN(Number(p)))) return null;
-  let sec = 0;
-  for(const p of parts) sec = sec * 60 + Number(p);
-  return sec;
-}
-function renderChapterChips(){
-  const wrap = document.getElementById("chapter-chip-row");
-  if(!wrap) return;
-  wrap.innerHTML = pendingChapters.map((c, i) => `<div class="chapter-chip"><span class="chapter-chip-time">⏱ ${formatSecondsToTime(c.time)}</span><span class="chapter-chip-label">${esc(c.label)}</span><button type="button" class="chapter-chip-remove" data-idx="${i}" aria-label="削除">×</button></div>`).join("");
-}
-function addChapterChip(timeStr, label){
-  const sec = parseTimeToSeconds(timeStr);
-  const trimmedLabel = (label || "").trim();
-  if(sec === null || !trimmedLabel) return false;
-  pendingChapters.push({ time: sec, label: trimmedLabel });
-  pendingChapters.sort((a, b) => a.time - b.time);
-  renderChapterChips();
-  return true;
-}
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  const chapterRemoveBtn = e.target.closest(".chapter-chip-remove");
-  if(chapterRemoveBtn){
-    pendingChapters.splice(parseInt(chapterRemoveBtn.dataset.idx, 10), 1);
-    renderChapterChips();
-    return;
-  }
-  if(e.target.id === "add-chapter-chip"){
-    const timeInput = document.getElementById("f-chapter-time");
-    const labelInput = document.getElementById("f-chapter-label");
-    if(addChapterChip(timeInput.value, labelInput.value)){
-      timeInput.value = "";
-      labelInput.value = "";
-      labelInput.focus();
-    } else {
-      alert("時間(例:1:23)とラベルの両方を入力してください");
-    }
-  }
-});
-let pendingTags = [];
-function renderTagChips(){
-  const wrap = document.getElementById("tag-chip-row");
-  if(!wrap) return;
-  wrap.innerHTML = pendingTags.map((t, i) => `<span class="tag-chip">${esc(t)}<button type="button" class="tag-chip-remove" data-idx="${i}" aria-label="削除">×</button></span>`).join("");
-}
-function renderTagSuggestions(){
-  const wrap = document.getElementById("tag-suggest-row");
-  if(!wrap) return;
-  const allTags = [];
-  document.querySelectorAll("#video-list .video-item").forEach(item => {
-    (item.dataset.tags || "").split("|||").map(s => s.trim()).filter(Boolean).forEach(t => { if(!allTags.includes(t)) allTags.push(t); });
-  });
-  const remaining = allTags.filter(t => !pendingTags.includes(t));
-  wrap.innerHTML = remaining.length
-    ? `<span class="tag-suggest-label">既存のタグから追加:</span>` + remaining.map(t => `<button type="button" class="tag-suggest-btn" data-tag="${escAttr(t)}">＋ ${esc(t)}</button>`).join("")
-    : "";
-}
-function addTagChip(name){
-  const trimmed = (name || "").trim();
-  if(!trimmed || pendingTags.includes(trimmed)) return;
-  pendingTags.push(trimmed);
-  renderTagChips();
-  renderTagSuggestions();
-}
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  const removeBtn = e.target.closest(".tag-chip-remove");
-  if(removeBtn){
-    pendingTags.splice(parseInt(removeBtn.dataset.idx, 10), 1);
-    renderTagChips();
-    renderTagSuggestions();
-    return;
-  }
-  const suggestBtn = e.target.closest(".tag-suggest-btn");
-  if(suggestBtn){ addTagChip(suggestBtn.dataset.tag); return; }
-  if(e.target.id === "add-tag-chip"){
-    const input = document.getElementById("f-tag-input");
-    addTagChip(input.value);
-    input.value = "";
-    input.focus();
-  }
-});
-document.getElementById("modal-fields").addEventListener("keydown", (e) => {
-  if(e.target.id === "f-tag-input" && e.key === "Enter"){
-    e.preventDefault();
-    addTagChip(e.target.value);
-    e.target.value = "";
-  }
-  if((e.target.id === "f-chapter-time" || e.target.id === "f-chapter-label") && e.key === "Enter"){
-    e.preventDefault();
-    const timeInput = document.getElementById("f-chapter-time");
-    const labelInput = document.getElementById("f-chapter-label");
-    if(addChapterChip(timeInput.value, labelInput.value)){
-      timeInput.value = "";
-      labelInput.value = "";
-      labelInput.focus();
-    }
-  }
-});
-
-function val(id, fallback){ const el = document.getElementById(id); const v = el ? el.value.trim() : ""; return v || fallback; }
-function modalFieldsHTML(type){
-  if(type === "password") return `<div class="qa-label">パスワードを入力してください</div><input class="qa-input" id="f-password" type="password" placeholder="パスワード">`;
-  if(type === "navLink") return `
-    <div class="qa-label">表示名</div><input class="qa-input" id="f-navLabel" placeholder="例:← トップに戻る">
-    <div class="qa-label">リンク先(ファイル名)</div><input class="qa-input" id="f-navUrl" placeholder="例:index.html">`;
-  if(type === "video") return `
-    <div class="qa-label">動画タイトル</div><input class="qa-input" id="f-title" placeholder="動画タイトルを入力">
-    <div class="qa-label">動画URL(YouTubeの場合は自動でサムネ表示)</div><input class="qa-input" id="f-url" placeholder="https://...">
-    <div class="qa-label">カテゴリ(任意・例:本編、Shorts、切り抜き)</div>
-    <input class="qa-input" id="f-category" list="category-suggestions" placeholder="例:本編">
-    <datalist id="category-suggestions"></datalist>
-    <div class="qa-label">公開日(任意・例:2026-06-01、2026/6/1、2026年6月1日 なども可)</div><input class="qa-input" id="f-date" placeholder="例:2026-06-01">
-    <div class="qa-label">説明(任意)</div><textarea class="qa-textarea" id="f-desc" placeholder="動画の内容についてのメモ"></textarea>
-    <div class="qa-label">おすすめコメント(任意・目立つ形で表示されます)</div>
-    <textarea class="qa-textarea" id="f-recommend" placeholder="例:ここのダンスパートは必見!"></textarea>
-    <div class="qa-label">推しコメント(任意・「今日のピックアップ」枠に表示されます。未入力なら説明で代用)</div>
-    <textarea class="qa-textarea" id="f-pickupComment" placeholder="例:この曲めちゃくちゃ聴いてます!"></textarea>
-    <div class="qa-label">タグ(任意・複数つけられます)</div>
-    <div class="tag-chip-row" id="tag-chip-row"></div>
-    <div class="tag-input-row">
-      <input class="qa-input" id="f-tag-input" placeholder="タグを入力">
-      <button type="button" class="tag-add-btn" id="add-tag-chip">追加</button>
-    </div>
-    <div class="tag-suggest-row" id="tag-suggest-row"></div>
-    <div class="qa-label">おすすめチャプター(任意・タップでその時間から再生されます)</div>
-    <div class="chapter-chip-row" id="chapter-chip-row"></div>
-    <div class="chapter-input-row">
-      <input class="qa-input" id="f-chapter-time" placeholder="1:23">
-      <input class="qa-input" id="f-chapter-label" placeholder="例:神ダンスパート">
-      <button type="button" class="chapter-add-btn" id="add-chapter-chip">追加</button>
-    </div>
-    <div class="qa-label">関連する動画(任意・再生終了後の「次の動画」にも反映されます)</div>
-    <div style="font-size:10.5px; color:var(--sub-ink); margin-bottom:4px;">各項目の左の欄に010, 020のように数字を入れると、その順番で表示されます(空欄はランダム表示)</div>
-    <div class="related-chip-row" id="related-chip-row"></div>
-    <div class="related-input-row">
-      <input class="qa-input" id="f-related-input" placeholder="動画タイトルを入力">
-      <button type="button" class="related-add-btn" id="add-related-chip">追加</button>
-    </div>
-    <div class="related-suggest-row" id="related-suggest-row"></div>
-    <div class="qa-date-row" style="margin-top:10px;">
-      <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);">
-        <input type="checkbox" id="f-markNew" checked style="width:18px; height:18px;"> NEWバッジを表示する
-      </label>
-    </div>
-    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px;">サイト公開時にまとめて登録する場合は、チェックを外すとNEW表示されません</div>`;
-  return "";
-}
-const MODAL_TITLES = { password: "編集用パスワード", video: "動画を追加", navLink: "リンクを編集" };
-function openModal(type, prefill){
-  modalType = type;
-  modalEditTarget = (prefill && prefill.editTarget) || null;
-  modalOriginalAddedAt = (prefill && prefill.addedAt) || "";
-  modalOriginalOrder = (prefill && prefill.order) || "";
-  pendingRelated = (prefill && Array.isArray(prefill.related)) ? prefill.related.slice() : [];
-  pendingTags = (prefill && Array.isArray(prefill.tags)) ? prefill.tags.slice() : [];
-  pendingChapters = (prefill && Array.isArray(prefill.chapters)) ? prefill.chapters.slice() : [];
-  document.getElementById("modal-title").textContent = modalEditTarget ? "編集する" : (MODAL_TITLES[type] || "追加");
-  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(type);
-  document.getElementById("modal-submit").textContent = type === "password" ? "確認する" : (modalEditTarget ? "更新する" : "追加する");
-  document.getElementById("modal-backdrop").classList.add("open");
-  if(prefill){
-    Object.keys(prefill).forEach(k => {
-      if(["editTarget","addedAt","order","related","tags","chapters"].includes(k)) return;
-      const el = document.getElementById("f-" + k);
-      if(el) el.value = prefill[k];
-    });
-    const markNewEl = document.getElementById("f-markNew");
-    if(markNewEl) markNewEl.checked = !!prefill.addedAt;
-  }
-  if(type === "video"){
-    const dl = document.getElementById("category-suggestions");
-    if(dl){
-      const cats = [];
-      document.querySelectorAll("#video-list .video-item").forEach(item => { const c = item.dataset.category; if(c && !cats.includes(c)) cats.push(c); });
-      dl.innerHTML = cats.map(c => `<option value="${escAttr(c)}"></option>`).join("");
-    }
-    renderRelatedChips();
-    renderRelatedSuggestions();
-    renderTagChips();
-    renderTagSuggestions();
-    renderChapterChips();
-  }
-  const firstInput = document.querySelector("#modal-fields .qa-input, #modal-fields .qa-textarea");
-  if(firstInput) firstInput.focus();
-}
-function closeModal(){ document.getElementById("modal-backdrop").classList.remove("open"); modalType = null; modalEditTarget = null; }
-document.getElementById("modal-cancel").addEventListener("click", closeModal);
-document.getElementById("modal-fields").addEventListener("focusin", (e) => {
-  if(e.target.id === "f-date") e.target.select();
-});
-document.getElementById("modal-backdrop").addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closeModal(); });
-document.addEventListener("keydown", (e) => {
-  if(e.key === "Escape" && document.getElementById("modal-backdrop").classList.contains("open")) closeModal();
-});
-document.getElementById("add-video").addEventListener("click", () => openModal("video"));
-
-function addAndRefresh(containerId, html){
-  document.getElementById(containerId).insertAdjacentHTML("beforeend", html);
-  setEditable(editMode);
-}
-document.getElementById("modal-submit").addEventListener("click", () => {
-  if(modalType === "password"){
-    const pw = val("f-password", "");
-    sha256Hex(pw).then(hash => {
-      if(hash !== EDIT_PASSWORD_HASH){ alert("パスワードが違います"); return; }
-      authenticated = true;
-      closeModal();
-      enterEditMode();
-    }).catch(() => {
-      alert("この環境ではパスワード確認に必要な機能が使えません。実際に公開したURL(https)で開いてお試しください。");
-    });
-    return;
-  }
-  if(modalType === "navLink"){
-    const label = val("f-navLabel", "");
-    const url = val("f-navUrl", "");
-    if(modalEditTarget){
-      if(label) modalEditTarget.textContent = label;
-      if(url){ modalEditTarget.setAttribute("href", url); modalEditTarget.dataset.url = url; }
-      hasUnsavedChanges = true;
-    }
-    closeModal();
-    return;
-  }
-  if(modalType === "video"){
-    const markNewEl = document.getElementById("f-markNew");
-    const addedAt = markNewEl
-      ? (markNewEl.checked ? (modalOriginalAddedAt || new Date().toISOString().slice(0, 10)) : "")
-      : (modalEditTarget ? (modalOriginalAddedAt || "") : new Date().toISOString().slice(0, 10));
-    const order = modalEditTarget ? modalOriginalOrder : undefined;
-    const leftoverInput = document.getElementById("f-related-input");
-    if(leftoverInput && leftoverInput.value.trim()) addRelatedChip(leftoverInput.value);
-    const related = pendingRelated.slice();
-    const oldRelated = modalEditTarget ? parseRelatedField(modalEditTarget.dataset.related) : [];
-    const leftoverTagInput = document.getElementById("f-tag-input");
-    if(leftoverTagInput && leftoverTagInput.value.trim()) addTagChip(leftoverTagInput.value);
-    const tags = pendingTags.slice();
-    const currentTitle = val("f-title","動画タイトル");
-    const html = videoItemHTML({ title: currentTitle, url: val("f-url",""), category: val("f-category",""), date: parseFlexibleDate(val("f-date","")), desc: val("f-desc",""), recommend: val("f-recommend",""), pickupComment: val("f-pickupComment",""), related, tags, chapters: pendingChapters.slice(), addedAt, order });
-    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { addAndRefresh("video-list", html); }
-    syncRelatedBidirectional(currentTitle, oldRelated, related);
-    sortVideosByDate();
-  }
-  closeModal();
-});
-
-/* 既存項目の編集(✎)・削除(×)・並び替え(↑↓) */
-document.addEventListener("click", (e) => {
-  const editBtn = e.target.closest(".edit-edit");
-  if(editBtn){
-    const item = editBtn.closest(".video-item");
-    if(item){
-      openModal("video", {
-        editTarget: item,
-        title: item.querySelector(".video-title")?.textContent.trim() || "",
-        url: item.dataset.url || "",
-        category: item.dataset.category || "",
-        date: item.dataset.date || "",
-        desc: item.querySelector(".video-desc")?.textContent.trim() || "",
-        recommend: item.querySelector(".video-recommend")?.textContent.replace(/^💡\s*おすすめポイント/, "").trim() || "",
-        pickupComment: item.dataset.pickupComment || "",
-        chapters: parseChaptersField(item.dataset.chapters),
-        related: parseRelatedField(item.dataset.related),
-        tags: (item.dataset.tags || "").split("|||").filter(Boolean),
-        addedAt: item.dataset.added || "",
-        order: item.dataset.order || "",
-      });
-    }
-    return;
-  }
-  const rm = e.target.closest(".edit-remove");
-  if(rm){
-    const item = rm.closest(".video-item");
-    if(item) item.remove();
-    return;
-  }
-  const upBtn = e.target.closest(".move-up");
-  const downBtn = e.target.closest(".move-down");
-  if(upBtn || downBtn){
-    const item = e.target.closest(".video-item");
-    if(!item || !item.parentElement) return;
-    const swapOrder = (a, b) => { const t = a.dataset.order; a.dataset.order = b.dataset.order; b.dataset.order = t; };
-    if(upBtn && item.previousElementSibling){ swapOrder(item, item.previousElementSibling); item.parentElement.insertBefore(item, item.previousElementSibling); }
-    if(downBtn && item.nextElementSibling){ swapOrder(item, item.nextElementSibling); item.parentElement.insertBefore(item.nextElementSibling, item); }
-  }
-});
-/* @EDIT_ONLY_END */
 
 /* 編集モード中は、動画リンクをタップしても遷移させない */
 document.addEventListener("click", (e) => {
@@ -1494,31 +2199,7 @@ document.getElementById("video-up-next").addEventListener("click", (e) => {
 });
 
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
-/* @EDIT_ONLY_START */
-function extractPageData(){
-  return {
-    navBrand: document.getElementById("nav-brand").textContent,
-    eyebrow: document.getElementById("p-eyebrow").textContent,
-    title: document.getElementById("p-title").textContent,
-    desc: document.getElementById("p-desc").textContent,
-    items: Array.from(document.querySelectorAll("#video-list .video-item")).map(el => ({
-      title: el.querySelector(".video-title")?.textContent.trim() || "",
-      url: el.dataset.url || "",
-      category: el.dataset.category || "",
-      date: el.dataset.date || "",
-      desc: el.querySelector(".video-desc")?.textContent.trim() || "",
-      recommend: el.querySelector(".video-recommend")?.textContent.replace(/^💡\s*おすすめポイント/, "").trim() || "",
-      pickupComment: el.dataset.pickupComment || "",
-      chapters: el.dataset.chapters || "",
-      related: el.dataset.related || "",
-      tags: el.dataset.tags || "",
-      addedAt: el.dataset.added || "",
-      order: el.dataset.order || "",
-    })),
-    backLinkUrl: document.querySelector(".back-link")?.getAttribute("href") || "",
-  };
-}
-/* @EDIT_ONLY_END */
+
 function rebuildFromData(data){
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
   if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
@@ -1541,38 +2222,7 @@ function rebuildFromData(data){
   renderRelatedLinks();
   hasUnsavedChanges = true;
 }
-/* @EDIT_ONLY_START */
-document.getElementById("export-data").addEventListener("click", () => {
-  const json = JSON.stringify(extractPageData(), null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = "videos-data.json";
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-  hasUnsavedChanges = false;
-});
-document.getElementById("import-data").addEventListener("click", () => {
-  document.getElementById("import-file-input").click();
-});
-document.getElementById("import-file-input").addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  e.target.value = "";
-  if(!file) return;
-  if(!confirm("現在の内容を、選んだファイルの内容で上書きします。よろしいですか?")) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    try{
-      const data = JSON.parse(ev.target.result);
-      rebuildFromData(data);
-      alert("データを読み込みました。内容を確認して「🌐 公開用HTMLを書き出す」または「📤 データを書き出し」をご利用ください。");
-    }catch(err){
-      alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
-    }
-  };
-  reader.readAsText(file);
-});
-/* @EDIT_ONLY_END */
+
 
 /* タップ数の計測(GA4イベント) */
 document.addEventListener("click", (e) => {
@@ -1585,43 +2235,7 @@ document.addEventListener("click", (e) => {
 });
 
 /* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
-/* @EDIT_ONLY_START */
-function generatePublicHtml(){
-  const clone = document.documentElement.cloneNode(true);
-  clone.querySelectorAll(".edit-toolbar, #modal-backdrop, .edit-edit, .edit-remove, .add-row, .reorder-row, .back-link-edit").forEach(el => el.remove());
-  const cloneBody = clone.querySelector("body");
-  if(cloneBody){
-    cloneBody.classList.remove("editing");
-    let overlayClone = clone.querySelector("#initial-load-overlay");
-    if(!overlayClone){
-      overlayClone = document.createElement("div");
-      overlayClone.id = "initial-load-overlay";
-      overlayClone.className = "initial-load-overlay";
-      overlayClone.innerHTML = '<div class="initial-load-spinner"></div>';
-      cloneBody.insertBefore(overlayClone, cloneBody.firstChild);
-    } else {
-      overlayClone.classList.remove("hide");
-      overlayClone.removeAttribute("data-hidden");
-    }
-  }
-  const scripts = clone.querySelectorAll("script");
-  const mainScript = scripts[scripts.length - 1];
-  if(mainScript){
-    mainScript.textContent = mainScript.textContent.replace(/\/\* @EDIT_ONLY_START \*\/[\s\S]*?\/\* @EDIT_ONLY_END \*\//g, "");
-  }
-  const htmlOut = "<!DOCTYPE html>\n" + clone.outerHTML;
-  const blob = new Blob([htmlOut], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "videos-public.html";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-}
-publicHtmlBtn.addEventListener("click", generatePublicHtml);
-/* @EDIT_ONLY_END */
+
 
 /* ---------- 同じ場所にある videos-data.json があれば自動で読み込む ----------
    ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
@@ -1652,5 +2266,6 @@ publicHtmlBtn.addEventListener("click", generatePublicHtml);
 
 </script>
 
-</body>
-</html>
+
+
+</body></html>
