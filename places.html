@@ -20,6 +20,21 @@
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -102,7 +117,7 @@ section{ padding:26px 0 30px; }
 
 /* 場所カード */
 .place-list{ display:flex; flex-direction:column; gap:14px; }
-.place-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.place-item{ position:relative; padding:16px 84px 16px 52px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
 .place-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
 .place-category{ font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:2px 9px; }
 .place-source{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
@@ -207,6 +222,20 @@ body.editing .editable:hover{ background:var(--oshi-color-soft); }
 }
 body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
 body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.fav-btn{
+  position:absolute; top:8px; left:8px; width:32px; height:32px; border-radius:50%;
+  background:rgba(255,255,255,0.9); border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:5; font-family:inherit;
+}
+.fav-btn:hover{ border-color:var(--oshi-color); }
+.fav-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.fav-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 14px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.fav-filter-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.fav-filter-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.sort-toggle-row{ display:flex; justify-content:center; gap:8px; margin-top:12px; flex-wrap:wrap; }
 
 .reorder-row{ display:none; gap:6px; margin-top:10px; }
 body.editing .reorder-row{ display:flex; }
@@ -356,6 +385,9 @@ body.editing .add-row{ display:flex; }
       <input type="search" id="place-search" class="search-input" placeholder="🔍 場所の名前やエリアで検索">
     </div>
     <div class="category-filter" id="category-filter"></div>
+    <div class="sort-toggle-row">
+      <button type="button" class="fav-filter-btn" id="fav-filter-btn">☆ お気に入りだけ表示</button>
+    </div>
     <div class="jp-map" id="jp-map">
       <button type="button" class="jp-region" data-key="hokkaido">北海道</button>
       <button type="button" class="jp-region" data-key="tohoku">東北</button>
@@ -493,6 +525,7 @@ function placeItemHTML(p){
     : p.status === "stale" ? `<span class="place-status-badge status-stale">⚠ 情報が古いかも</span>`
     : "";
   return `<div class="place-item" data-categories="${escAttr(categoriesRaw)}" data-area="${escAttr(p.area)}" data-url="${escAttr(p.url)}" data-sns="${escAttr(p.snsUrl)}" data-sns-label="${escAttr(p.snsLabel)}" data-sns-icon="${escAttr(p.snsIcon)}" data-status="${escAttr(p.status)}" data-photos="${escAttr(JSON.stringify(photos))}" data-added="${escAttr(p.addedAt)}" data-region="${region}" data-order="${order}" data-visit="${escAttr(p.visitPeriod)}" data-related="${escAttr(relatedRaw)}">
+    <button class="fav-btn" type="button" aria-label="お気に入り">☆</button>
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
     <div class="place-meta">
@@ -621,7 +654,46 @@ window.addEventListener("afterprint", () => { showAllItems = wasShowAllBeforePri
 let currentCategoryFilter = "all";
 let currentRegionFilter = "";
 let showAllItems = false;
+let favoriteOnlyMode = false;
 const PLACE_INITIAL_VISIBLE = 6;
+const FAV_STORAGE_KEY = "oshi-favorites-places";
+function getFavorites(){
+  try{
+    const raw = localStorage.getItem(FAV_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function isFavorite(name){ return getFavorites().includes(name); }
+function toggleFavorite(name){
+  const favs = getFavorites();
+  const idx = favs.indexOf(name);
+  if(idx === -1) favs.push(name); else favs.splice(idx, 1);
+  try{ localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(favs)); }catch(e){ /* ストレージ利用不可の場合は無視 */ }
+  return idx === -1;
+}
+function applyFavoriteStates(){
+  document.querySelectorAll("#place-list .place-item").forEach(item => {
+    const name = item.querySelector(".place-name")?.textContent.trim() || "";
+    const btn = item.querySelector(".fav-btn");
+    if(!btn) return;
+    const fav = isFavorite(name);
+    const wantText = fav ? "★" : "☆";
+    if(btn.classList.contains("active") !== fav) btn.classList.toggle("active", fav);
+    if(btn.textContent !== wantText) btn.textContent = wantText;
+  });
+}
+document.getElementById("place-list").addEventListener("click", (e) => {
+  const btn = e.target.closest(".fav-btn");
+  if(!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const item = btn.closest(".place-item");
+  const name = item.querySelector(".place-name")?.textContent.trim() || "";
+  const nowFav = toggleFavorite(name);
+  btn.classList.toggle("active", nowFav);
+  btn.textContent = nowFav ? "★" : "☆";
+  if(favoriteOnlyMode && !nowFav) applyPlaceFilter();
+});
 function currentSearchQuery(){
   const el = document.getElementById("place-search");
   return el ? el.value.trim().toLowerCase() : "";
@@ -636,9 +708,10 @@ function applyPlaceFilter(){
     const categoryOk = (currentCategoryFilter === "all" || itemCategories(item).includes(currentCategoryFilter));
     const regionOk = (!currentRegionFilter || item.dataset.region === currentRegionFilter);
     const searchOk = !q || item.textContent.toLowerCase().includes(q);
-    return categoryOk && regionOk && searchOk;
+    const favOk = !favoriteOnlyMode || isFavorite(item.querySelector(".place-name")?.textContent.trim() || "");
+    return categoryOk && regionOk && searchOk && favOk;
   });
-  const isNarrowed = currentCategoryFilter !== "all" || !!currentRegionFilter || !!q;
+  const isNarrowed = currentCategoryFilter !== "all" || !!currentRegionFilter || !!q || favoriteOnlyMode;
   const limitActive = !showAllItems && !isNarrowed && matched.length > PLACE_INITIAL_VISIBLE;
   allItems.forEach(item => { item.style.display = "none"; });
   matched.forEach((item, i) => {
@@ -719,7 +792,15 @@ document.getElementById("jp-map").addEventListener("click", (e) => {
   if(!btn || !btn.classList.contains("has-pin")) return;
   toggleRegionFilter(btn.dataset.key);
 });
-new MutationObserver(() => { renderCategoryFilter(); renderJapanMap(); renderDailyPick(); renderRelatedLinks(); }).observe(document.getElementById("place-list"), { childList: true, subtree: true, characterData: true });
+new MutationObserver(() => { renderCategoryFilter(); renderJapanMap(); renderDailyPick(); renderRelatedLinks(); applyFavoriteStates(); }).observe(document.getElementById("place-list"), { childList: true, subtree: true, characterData: true });
+document.getElementById("fav-filter-btn").addEventListener("click", () => {
+  favoriteOnlyMode = !favoriteOnlyMode;
+  const btn = document.getElementById("fav-filter-btn");
+  btn.textContent = favoriteOnlyMode ? "☆ すべて表示" : "☆ お気に入りだけ表示";
+  btn.classList.toggle("active", favoriteOnlyMode);
+  showAllItems = false;
+  applyPlaceFilter();
+});
 renderCategoryFilter();
 renderJapanMap();
 renderDailyPick();

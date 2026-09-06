@@ -20,6 +20,21 @@
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];

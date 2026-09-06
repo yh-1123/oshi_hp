@@ -19,6 +19,21 @@
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -220,6 +235,20 @@ body.editing .editable:hover{ background:var(--oshi-color-soft); }
 }
 body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
 body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.fav-btn{
+  position:absolute; top:8px; left:8px; width:32px; height:32px; border-radius:50%;
+  background:rgba(255,255,255,0.9); border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:5; font-family:inherit;
+}
+.fav-btn:hover{ border-color:var(--oshi-color); }
+.fav-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.fav-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 14px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.fav-filter-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.fav-filter-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.sort-toggle-row{ display:flex; justify-content:center; gap:8px; margin-top:12px; flex-wrap:wrap; }
 body.editing .goods-item{ padding-top:44px; }
 
 .add-row{ display:none; margin-top:14px; }
@@ -402,6 +431,9 @@ body.editing .add-row{ display:flex; }
       <button type="button" class="tag-filter-btn" data-status="soldout">🚫 完売</button>
     </div>
     <div class="tag-filter-row" id="category-filter"></div>
+    <div class="sort-toggle-row">
+      <button type="button" class="fav-filter-btn" id="fav-filter-btn">☆ お気に入りだけ表示</button>
+    </div>
   </div>
 </header>
 
@@ -544,6 +576,7 @@ function goodsItemHTML(g){
     ? `<div class="goods-recommend editable" contenteditable="false"><span class="goods-recommend-mark">💡 おすすめポイント</span>${esc(g.recommend)}</div>`
     : `<div class="goods-recommend editable" contenteditable="false" style="display:none;"><span class="goods-recommend-mark">💡 おすすめポイント</span></div>`;
   return `<div class="editable-item goods-item" data-category="${escAttr(g.category)}" data-links="${escAttr(linksRaw)}" data-photo="${escAttr(g.photo)}" data-start="${escAttr(g.startDate)}" data-end="${escAttr(g.endDate)}" data-added="${escAttr(g.addedAt)}" data-order="${order}" data-status="${status ? status.key : "none"}" data-pickup="${g.pickup ? "1" : ""}" data-pickup-comment="${escAttr(g.pickupComment)}" data-sold-out="${g.soldOut ? "1" : ""}" data-related="${escAttr(relatedRaw)}" data-details="${escAttr(g.details)}">
+    <button class="fav-btn" type="button" aria-label="お気に入り">☆</button>
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
     <div class="goods-thumb">${thumbInner}</div>
@@ -670,7 +703,46 @@ document.getElementById("print-btn").addEventListener("click", () => window.prin
 let currentStatusFilter = "all";
 let currentCategoryFilter = "all";
 let showAllItems = false;
+let favoriteOnlyMode = false;
 const GOODS_INITIAL_VISIBLE = 6;
+const FAV_STORAGE_KEY = "oshi-favorites-goods";
+function getFavorites(){
+  try{
+    const raw = localStorage.getItem(FAV_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function isFavorite(title){ return getFavorites().includes(title); }
+function toggleFavorite(title){
+  const favs = getFavorites();
+  const idx = favs.indexOf(title);
+  if(idx === -1) favs.push(title); else favs.splice(idx, 1);
+  try{ localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(favs)); }catch(e){ /* ストレージ利用不可の場合は無視 */ }
+  return idx === -1;
+}
+function applyFavoriteStates(){
+  document.querySelectorAll("#goods-grid .goods-item").forEach(item => {
+    const title = item.querySelector(".goods-title")?.textContent.trim() || "";
+    const btn = item.querySelector(".fav-btn");
+    if(!btn) return;
+    const fav = isFavorite(title);
+    const wantText = fav ? "★" : "☆";
+    if(btn.classList.contains("active") !== fav) btn.classList.toggle("active", fav);
+    if(btn.textContent !== wantText) btn.textContent = wantText;
+  });
+}
+document.getElementById("goods-grid").addEventListener("click", (e) => {
+  const btn = e.target.closest(".fav-btn");
+  if(!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const item = btn.closest(".goods-item");
+  const title = item.querySelector(".goods-title")?.textContent.trim() || "";
+  const nowFav = toggleFavorite(title);
+  btn.classList.toggle("active", nowFav);
+  btn.textContent = nowFav ? "★" : "☆";
+  if(favoriteOnlyMode && !nowFav) applyGoodsFilter();
+});
 function currentSearchQuery(){
   const el = document.getElementById("goods-search");
   return el ? el.value.trim().toLowerCase() : "";
@@ -682,9 +754,10 @@ function applyGoodsFilter(){
     const statusOk = (currentStatusFilter === "all" || item.dataset.status === currentStatusFilter);
     const categoryOk = (currentCategoryFilter === "all" || item.dataset.category === currentCategoryFilter);
     const searchOk = !q || item.textContent.toLowerCase().includes(q);
-    return statusOk && categoryOk && searchOk;
+    const favOk = !favoriteOnlyMode || isFavorite(item.querySelector(".goods-title")?.textContent.trim() || "");
+    return statusOk && categoryOk && searchOk && favOk;
   });
-  const isNarrowed = currentStatusFilter !== "all" || currentCategoryFilter !== "all" || !!q;
+  const isNarrowed = currentStatusFilter !== "all" || currentCategoryFilter !== "all" || !!q || favoriteOnlyMode;
   const limitActive = !showAllItems && !isNarrowed && matched.length > GOODS_INITIAL_VISIBLE;
   allItems.forEach(item => { item.style.display = "none"; });
   matched.forEach((item, i) => {
@@ -738,7 +811,15 @@ document.getElementById("category-filter").addEventListener("click", (e) => {
   document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
   applyGoodsFilter();
 });
-new MutationObserver(() => { renderCategoryFilter(); renderPickupTrack(); renderRelatedLinks(); }).observe(document.getElementById("goods-grid"), { childList: true, subtree: true, characterData: true });
+new MutationObserver(() => { renderCategoryFilter(); renderPickupTrack(); renderRelatedLinks(); applyFavoriteStates(); }).observe(document.getElementById("goods-grid"), { childList: true, subtree: true, characterData: true });
+document.getElementById("fav-filter-btn").addEventListener("click", () => {
+  favoriteOnlyMode = !favoriteOnlyMode;
+  const btn = document.getElementById("fav-filter-btn");
+  btn.textContent = favoriteOnlyMode ? "☆ すべて表示" : "☆ お気に入りだけ表示";
+  btn.classList.toggle("active", favoriteOnlyMode);
+  showAllItems = false;
+  applyGoodsFilter();
+});
 
 /* ---------- 関連商品リンク ---------- */
 function renderRelatedLinks(){

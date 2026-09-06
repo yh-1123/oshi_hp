@@ -36,6 +36,26 @@
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- ==========================================================
+     自分専用アクセス除外(合言葉付きURLに1回アクセスすると、その
+     ブラウザでは以後ずっとアナリティクス計測されなくなります)
+     ========================================================== -->
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
+
+<!-- ==========================================================
      Googleアナリティクス(GA4)
      1) https://analytics.google.com/ で無料のプロパティを作成
      2) 発行される測定ID(G-から始まる文字列)を取得
