@@ -97,6 +97,13 @@ body.editing .back-link-edit{ display:inline-block; }
   padding:5px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
 }
 .tag-filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+.sort-toggle-row{ display:flex; justify-content:center; margin-top:10px; }
+.sort-toggle-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 14px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.sort-toggle-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.sort-toggle-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
 
 section{ padding:20px 0 30px; }
 .sec-head{ margin-bottom:16px; }
@@ -126,12 +133,6 @@ section{ padding:20px 0 30px; }
 .video-tags{ display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
 .video-tags:empty{ display:none; margin-top:0; }
 .video-tag{ font-size:9.5px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:2px 8px; border:none; cursor:pointer; font-family:inherit; }
-.video-chapters{ display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
-.video-chapter-btn{
-  display:inline-flex; align-items:center; gap:3px; border:1px solid var(--oshi-color); background:#fff; color:var(--oshi-color);
-  font-size:10px; font-weight:700; padding:3px 9px; border-radius:999px; cursor:pointer; font-family:inherit;
-}
-.video-chapter-btn:hover{ background:var(--oshi-color-soft); }
 .video-tag:hover{ background:var(--oshi-color); color:#fff; }
 .tag-chip-row{ display:flex; flex-wrap:wrap; gap:6px; }
 .tag-chip{
@@ -217,6 +218,17 @@ input.related-order-input.qa-input{ flex:none; width:56px; text-align:center; pa
   font-size:12.5px; font-weight:700; padding:9px; border-radius:10px; cursor:pointer; font-family:inherit;
 }
 .related-order-back-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); border-color:var(--oshi-color); }
+.dup-compare-heading{ font-size:11px; font-weight:700; color:var(--sub-ink); margin:12px 0 6px; }
+.dup-compare-card{ display:flex; align-items:center; gap:10px; background:var(--accent2); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:6px; }
+.dup-compare-card img{ width:72px; aspect-ratio:16/9; object-fit:cover; border-radius:6px; flex:none; background:#ddd; }
+.dup-compare-info{ flex:1; min-width:0; }
+.dup-compare-title{ font-size:12.5px; font-weight:700; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dup-compare-date{ font-size:10.5px; color:var(--sub-ink); margin-top:2px; }
+.dup-confirm-btn{
+  display:block; width:100%; margin-top:14px; border:1px solid var(--oshi-color); background:#fff; color:var(--oshi-color);
+  font-size:13px; font-weight:900; padding:10px; border-radius:10px; cursor:pointer; font-family:inherit;
+}
+.dup-confirm-btn:hover{ background:var(--oshi-color-soft); }
 .related-input-row{ display:flex; gap:6px; margin-top:6px; }
 .related-input-row .qa-input{ flex:1; }
 .related-add-btn{
@@ -334,6 +346,14 @@ body.editing .add-row{ display:flex; }
   background:rgba(255,255,255,0.15); color:#fff; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
 }
 .video-player-close:hover{ background:rgba(255,255,255,0.3); }
+.video-player-chapters{ display:none; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.video-player-chapters.show{ display:flex; }
+.video-player-chapter-btn{
+  display:inline-flex; align-items:center; gap:4px; border:1px solid rgba(255,255,255,0.35); background:rgba(255,255,255,0.08);
+  color:#fff; font-size:11px; font-weight:700; padding:5px 11px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.video-player-chapter-btn:hover{ background:rgba(255,255,255,0.18); }
+.video-player-chapter-btn.current{ border-color:var(--oshi-color); background:var(--oshi-color); }
 
 .up-next{
   display:none; margin-top:16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
@@ -411,7 +431,7 @@ body.editing .add-row{ display:flex; }
     <p class="editable" id="p-desc" contenteditable="true">公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。</p>
     <div class="daily-pick show" id="daily-pick"><div class="daily-pick-thumb"></div>
     <div class="daily-pick-body">
-      <div class="daily-pick-label">✦ 今日のピックアップ</div>
+      <div class="daily-pick-label">✦ おすすめ動画</div>
       <div class="daily-pick-title">サンプル動画タイトル</div>
       <div class="daily-pick-desc">動画の内容についての簡単な説明。</div>
     </div></div>
@@ -419,6 +439,9 @@ body.editing .add-row{ display:flex; }
       <input type="search" id="video-search" class="search-input" placeholder="🔍 動画タイトルで検索">
     </div>
     <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="Shorts">Shorts</button><button type="button" class="tag-filter-btn" data-cat="本編">本編</button></div>
+    <div class="sort-toggle-row">
+      <button type="button" class="sort-toggle-btn" id="sort-toggle-btn">🔀 ランダムに並び替え</button>
+    </div>
   </div>
 </header>
 
@@ -439,7 +462,6 @@ body.editing .add-row{ display:flex; }
       <div class="video-tags"></div>
       
       
-      
       <div class="video-related" data-role="related" style="display: none;"></div>
     </div>
     
@@ -453,7 +475,6 @@ body.editing .add-row{ display:flex; }
       <p class="video-desc editable" contenteditable="true">動画の内容についての簡単な説明。</p>
       <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
       <div class="video-tags"></div>
-      
       
       
       <div class="video-related" data-role="related" style="display: none;"></div>
@@ -479,6 +500,7 @@ body.editing .add-row{ display:flex; }
   <div class="video-player-box">
     <button class="video-player-close" id="video-player-close" type="button" aria-label="閉じる">×</button>
     <div class="video-player-frame" id="video-player-frame"><div id="yt-player-el"></div></div>
+    <div class="video-player-chapters" id="video-player-chapters"></div>
     <div class="up-next" id="video-up-next"></div>
   </div>
 </div>
@@ -589,10 +611,6 @@ function videoItemHTML(v){
   const tagsHtml = tagsArr.length ? `<div class="video-tags">${tagsArr.map(t => `<button type="button" class="video-tag" data-tag="${escAttr(t)}">#${esc(t)}</button>`).join("")}</div>` : `<div class="video-tags"></div>`;
   const chaptersArr = Array.isArray(v.chapters) ? v.chapters : [];
   const chaptersRaw = chaptersArr.map(c => `${c.time}::${c.label}`).join("|||") || (typeof v.chapters === "string" ? v.chapters : "");
-  const chaptersForDisplay = chaptersArr.length ? chaptersArr : parseChaptersField(chaptersRaw);
-  const chaptersHtml = (ytId && chaptersForDisplay.length)
-    ? `<div class="video-chapters">${chaptersForDisplay.map(c => `<button type="button" class="video-chapter-btn" data-yt-id="${ytId}" data-time="${c.time}">⏱ ${formatSecondsToTime(c.time)} ${esc(c.label)}</button>`).join("")}</div>`
-    : "";
   return `<div class="editable-item video-item" data-category="${escAttr(v.category)}" data-date="${escAttr(v.date)}" data-url="${escAttr(v.url)}" data-added="${escAttr(v.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}" data-tags="${escAttr(tagsRaw)}" data-pickup-comment="${escAttr(v.pickupComment)}" data-chapters="${escAttr(chaptersRaw)}" data-series-order="${escAttr(v.seriesOrder || "")}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
@@ -604,7 +622,6 @@ function videoItemHTML(v){
       ${recommendHtml}
       ${tagsHtml}
       ${watchBtn}
-      ${chaptersHtml}
       <button type="button" class="video-dup-btn">⧉ この内容で複製</button>
       <div class="video-related" data-role="related"></div>
     </div>
@@ -735,6 +752,7 @@ document.addEventListener("wheel", (e) => {
 /* ---------- カテゴリ絞り込み・検索・もっと見る・並び替え ---------- */
 let currentCategoryFilter = "all";
 let showAllItems = false;
+let activeTagFilter = null;
 const VIDEO_INITIAL_VISIBLE = 6;
 function currentSearchQuery(){
   const el = document.getElementById("video-search");
@@ -747,7 +765,13 @@ function getMatchedVideoItems(){
     const cat = item.dataset.category || "";
     const categoryOk = currentCategoryFilter === "all"
       || (currentCategoryFilter === "その他" ? (!cat || cat === "その他") : cat === currentCategoryFilter);
-    const searchOk = !q || item.textContent.toLowerCase().includes(q);
+    let searchOk;
+    if(activeTagFilter){
+      const tags = (item.dataset.tags || "").split("|||").filter(Boolean);
+      searchOk = tags.includes(activeTagFilter);
+    } else {
+      searchOk = !q || item.textContent.toLowerCase().includes(q);
+    }
     return categoryOk && searchOk;
   });
 }
@@ -804,23 +828,36 @@ document.getElementById("category-filter").addEventListener("click", (e) => {
   if(!btn) return;
   currentCategoryFilter = btn.dataset.cat;
   showAllItems = false;
+  activeTagFilter = null;
   document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
   applyVideoFilter();
 });
-document.getElementById("video-search").addEventListener("input", () => { showAllItems = false; applyVideoFilter(); });
+document.getElementById("video-search").addEventListener("input", () => { activeTagFilter = null; showAllItems = false; applyVideoFilter(); });
 
-function sortVideosByDate(){
+let videoSortMode = "date";
+function sortVideoList(){
   const list = document.getElementById("video-list");
   const items = Array.from(list.querySelectorAll(".video-item"));
-  items.sort((a, b) => {
-    const da = a.dataset.date || "0000-00-00";
-    const db = b.dataset.date || "0000-00-00";
-    if(da !== db) return db.localeCompare(da);
-    return (parseInt(a.dataset.order || "0", 10) - parseInt(b.dataset.order || "0", 10));
-  });
-  items.forEach(item => list.appendChild(item));
+  if(videoSortMode === "random"){
+    shuffleArray(items).forEach(item => list.appendChild(item));
+  } else {
+    items.sort((a, b) => {
+      const da = a.dataset.date || "0000-00-00";
+      const db = b.dataset.date || "0000-00-00";
+      if(da !== db) return db.localeCompare(da);
+      return (parseInt(a.dataset.order || "0", 10) - parseInt(b.dataset.order || "0", 10));
+    });
+    items.forEach(item => list.appendChild(item));
+  }
   applyVideoFilter();
 }
+document.getElementById("sort-toggle-btn").addEventListener("click", () => {
+  videoSortMode = videoSortMode === "date" ? "random" : "date";
+  const btn = document.getElementById("sort-toggle-btn");
+  btn.textContent = videoSortMode === "random" ? "📅 公開順に戻す" : "🔀 ランダムに並び替え";
+  btn.classList.toggle("active", videoSortMode === "random");
+  sortVideoList();
+});
 
 new MutationObserver(() => { renderCategoryFilter(); renderDailyPick(); renderRelatedLinks(); }).observe(document.getElementById("video-list"), { childList: true, subtree: true, characterData: true });
 
@@ -902,20 +939,14 @@ document.getElementById("video-list").addEventListener("click", (e) => {
 });
 
 renderCategoryFilter();
-sortVideosByDate();
+sortVideoList();
 
-/* ---------- 今日のピックアップ(日替わり・固定シード) ---------- */
-function hashString(s){
-  let h = 0;
-  for(let i = 0; i < s.length; i++){ h = (h * 31 + s.charCodeAt(i)) | 0; }
-  return Math.abs(h);
-}
+/* ---------- おすすめ動画(読み込むたびにランダム) ---------- */
 function renderDailyPick(){
   const wrap = document.getElementById("daily-pick");
   const items = Array.from(document.querySelectorAll("#video-list .video-item"));
   if(!items.length){ wrap.classList.remove("show"); wrap.innerHTML = ""; return; }
-  const todayKey = new Date().toISOString().slice(0, 10);
-  const idx = hashString(todayKey) % items.length;
+  const idx = Math.floor(Math.random() * items.length);
   const picked = items[idx];
   const title = picked.querySelector(".video-title")?.textContent.trim() || "";
   const desc = picked.dataset.pickupComment || picked.querySelector(".video-desc")?.textContent.trim() || "";
@@ -925,7 +956,7 @@ function renderDailyPick(){
   wrap.classList.add("show");
   wrap.innerHTML = `<div class="daily-pick-thumb">${thumbHtml}</div>
     <div class="daily-pick-body">
-      <div class="daily-pick-label">✦ 今日のピックアップ</div>
+      <div class="daily-pick-label">✦ おすすめ動画</div>
       <div class="daily-pick-title">${esc(title)}</div>
       ${descHtml}
     </div>`;
@@ -1053,6 +1084,7 @@ async function openVideoPlayer(ytId, sourceItem, startSeconds){
   document.getElementById("video-player-backdrop").classList.add("open");
   document.getElementById("video-up-next").classList.remove("show");
   document.getElementById("video-up-next").innerHTML = "";
+  renderPlayerChapters(sourceItem);
   await loadYouTubeAPI();
   if(ytPlayer && typeof ytPlayer.loadVideoById === "function"){
     ytPlayer.loadVideoById({ videoId: ytId, startSeconds: startSeconds || 0 });
@@ -1076,6 +1108,23 @@ async function openVideoPlayer(ytId, sourceItem, startSeconds){
     });
   }
 }
+function renderPlayerChapters(sourceItem){
+  const wrap = document.getElementById("video-player-chapters");
+  const chapters = parseChaptersField(sourceItem?.dataset.chapters);
+  if(!chapters.length){
+    wrap.classList.remove("show");
+    wrap.innerHTML = "";
+    return;
+  }
+  wrap.innerHTML = chapters.map(c => `<button type="button" class="video-player-chapter-btn" data-time="${c.time}">⏱ ${formatSecondsToTime(c.time)} ${esc(c.label)}</button>`).join("");
+  wrap.classList.add("show");
+}
+document.getElementById("video-player-chapters").addEventListener("click", (e) => {
+  const btn = e.target.closest(".video-player-chapter-btn");
+  if(!btn || !ytPlayer || typeof ytPlayer.seekTo !== "function") return;
+  ytPlayer.seekTo(parseFloat(btn.dataset.time), true);
+  if(typeof ytPlayer.playVideo === "function") ytPlayer.playVideo();
+});
 function closeVideoPlayer(){
   document.getElementById("video-player-backdrop").classList.remove("open");
   document.getElementById("video-up-next").classList.remove("show");
@@ -1095,14 +1144,14 @@ document.getElementById("video-list").addEventListener("click", (e) => {
   if(!trigger) return;
   e.preventDefault();
   const item = trigger.closest(".video-item");
-  const seekTime = trigger.classList.contains("video-chapter-btn") ? parseFloat(trigger.dataset.time) : undefined;
-  openVideoPlayer(trigger.dataset.ytId, item, seekTime);
+  openVideoPlayer(trigger.dataset.ytId, item);
 });
 document.getElementById("video-list").addEventListener("click", (e) => {
   const tagBtn = e.target.closest(".video-tag");
   if(!tagBtn) return;
   currentCategoryFilter = "all";
   showAllItems = false;
+  activeTagFilter = tagBtn.dataset.tag;
   document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
   const searchInput = document.getElementById("video-search");
   searchInput.value = tagBtn.dataset.tag;
@@ -1132,7 +1181,7 @@ function rebuildFromData(data){
     document.getElementById("video-list").innerHTML = data.items.map(videoItemHTML).join("");
     const maxOrder = Math.max(-1, ...data.items.map(it => parseInt(it.order, 10)).filter(n => !isNaN(n)));
     videoOrderCounter = Math.max(videoOrderCounter, maxOrder + 1);
-    sortVideosByDate();
+    sortVideoList();
   }
   setEditable(editMode);
   syncOgpTags();
