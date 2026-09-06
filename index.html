@@ -16,6 +16,7 @@
 <meta name="apple-mobile-web-app-title" content="推し布教">
 
 <title>原優寧 布教サイト</title>
+<meta name="description" content="推し活応援ページ">
 
 <!-- ==========================================================
      SNSシェア用OGPタグ。公開後、SNSにURLを貼ると下記の情報が
@@ -589,7 +590,20 @@ body.editing .reorder-row{ display:flex; }
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
-</head>
+<script type="application/ld+json" id="structured-data">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "原優寧 布教サイト"
+    },
+    {
+      "@type": "Person",
+      "name": "原優寧",
+      "image": "https://yh-1123.github.io/oshi_hp/ogp.jpg"
+    }
+  ]
+}</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
 
@@ -632,7 +646,7 @@ body.editing .reorder-row{ display:flex; }
       <span class="hero-star hero-star-2" aria-hidden="true">✦</span>
       <button class="hero-photo-edit" id="hero-photo-edit" type="button" aria-label="写真を変更">📷</button>
     </div>
-    <h1 id="hero-name-wrap"><span class="editable" id="hero-name-main" contenteditable="true"></span> <span class="accent editable" id="hero-name-accent" contenteditable="true"></span></h1>
+    <h1 id="hero-name-wrap"><span class="editable" id="hero-name-main" contenteditable="true">原優寧</span> <span class="accent editable" id="hero-name-accent" contenteditable="true"></span></h1>
     <div class="kana editable" id="hero-kana" contenteditable="true"></div>
     <p class="catch editable" id="hero-catch" contenteditable="true"></p>
     <div class="stats" id="hero-stats"></div>
@@ -884,6 +898,7 @@ function syncOgpTags(){
   setMeta('meta[property="og:title"]', title);
   setMeta('meta[property="og:site_name"]', title);
   setMeta('meta[property="og:description"]', catchText);
+  setMeta('meta[name="description"]', catchText);
   setMeta('meta[name="twitter:title"]', title);
   setMeta('meta[name="twitter:description"]', catchText);
   if(OGP_IMAGE_URL){
@@ -893,6 +908,32 @@ function syncOgpTags(){
   if(location.href && location.href.indexOf("file://") !== 0){
     setMeta('meta[property="og:url"]', location.href);
   }
+  syncStructuredData(name, catchText);
+}
+function syncStructuredData(name, catchText){
+  const siteName = name ? `${name} 布教サイト` : "原優寧 布教サイト";
+  const baseUrl = (location.href && location.href.indexOf("file://") !== 0) ? location.href.replace(/index\.html$/, "") : "";
+  const graph = [
+    {
+      "@type": "WebSite",
+      "name": siteName,
+      "url": baseUrl || undefined,
+    },
+  ];
+  if(name){
+    const person = { "@type": "Person", "name": name };
+    if(catchText) person.description = catchText;
+    if(OGP_IMAGE_URL) person.image = OGP_IMAGE_URL;
+    graph.push(person);
+  }
+  let script = document.getElementById("structured-data");
+  if(!script){
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "structured-data";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2);
 }
 
 /* ==========================================================
@@ -901,7 +942,7 @@ function syncOgpTags(){
    sns の platform は "x" / "instagram" / "tiktok"
    ========================================================== */
 const OSHI = {
-  nameMain: "",
+  nameMain: "原優寧",
   nameAccent: "",
   kana: "",
   badge: "推し活はじめませんか",

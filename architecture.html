@@ -8,16 +8,17 @@
 <link rel="icon" href="icon-192.png">
 
 <title>建築 | 原優寧 布教サイト</title>
+<meta name="description" content="原優寧さんと建築との意外な関わりをまとめたページです。">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="原優寧 布教サイト">
-<meta property="og:title" content="建築">
-<meta property="og:description" content="">
+<meta property="og:title" content="原優寧 建築">
+<meta property="og:description" content="原優寧さんと建築との意外な関わりをまとめたページです。">
 <meta property="og:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 <meta property="og:url" content="">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="建築">
-<meta name="twitter:description" content="">
+<meta name="twitter:title" content="原優寧 建築">
+<meta name="twitter:description" content="原優寧さんと建築との意外な関わりをまとめたページです。">
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
@@ -338,7 +339,26 @@ body.editing .info-card{ padding-top:50px; position:relative; }
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
-</head>
+<script type="application/ld+json" id="structured-data">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "原優寧 建築"
+        }
+      ]
+    }
+  ]
+}</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
 
@@ -372,7 +392,7 @@ body.editing .info-card{ padding-top:50px; position:relative; }
 <header class="page-hero">
   <div class="wrap">
     <span class="eyebrow-badge editable" id="hero-badge" contenteditable="true">意外な一面</span>
-    <h1 id="hero-title-wrap"><span class="editable" id="hero-name-main" contenteditable="true"></span><span class="accent editable" id="hero-name-accent" contenteditable="true">建築</span></h1>
+    <h1 id="hero-title-wrap"><span class="editable" id="hero-name-main" contenteditable="true">原優寧</span> <span class="accent editable" id="hero-name-accent" contenteditable="true">建築</span></h1>
     <p class="catch editable" id="hero-catch" contenteditable="true"></p>
     <p class="breadcrumb"><a href="index.html" class="home-breadcrumb-link" data-url="index.html">トップ</a> ＞ 建築との関わり</p>
   </div>
@@ -518,7 +538,7 @@ function initActivityPhotoUpload(){
 /* ---------- SNSシェア用OGPタグの同期 ---------- */
 const OGP_IMAGE_URL = "https://yh-1123.github.io/oshi_hp/ogp.jpg";
 function syncOgpTags(){
-  const title = document.getElementById("hero-name-main").textContent.trim() + document.getElementById("hero-name-accent").textContent.trim();
+  const title = (document.getElementById("hero-name-main").textContent.trim() + " " + document.getElementById("hero-name-accent").textContent.trim()).trim();
   const desc = document.getElementById("hero-catch").textContent.trim();
   const setMeta = (selector, value) => {
     const el = document.querySelector(selector);
@@ -526,10 +546,30 @@ function syncOgpTags(){
   };
   setMeta('meta[property="og:title"]', title);
   setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="description"]', desc);
   setMeta('meta[name="twitter:title"]', title);
   setMeta('meta[name="twitter:description"]', desc);
   if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
   if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+  syncStructuredData(title || "建築");
+}
+function syncStructuredData(pageTitle){
+  const baseUrl = (location.href.indexOf("file://") !== 0) ? location.href.replace(/[^/]*$/, "") : "";
+  const graph = [{
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": baseUrl ? baseUrl + "index.html" : undefined },
+      { "@type": "ListItem", "position": 2, "name": pageTitle },
+    ],
+  }];
+  let script = document.getElementById("structured-data");
+  if(!script){
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "structured-data";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2);
 }
 
 /* ---------- PWA:Service Worker登録 ---------- */
@@ -555,7 +595,7 @@ document.getElementById("print-btn").addEventListener("click", () => window.prin
 
 /* ---------- シェアボタン ---------- */
 document.getElementById("share-btn-nav").addEventListener("click", async () => {
-  const title = document.getElementById("hero-name-main").textContent.trim() + document.getElementById("hero-name-accent").textContent.trim();
+  const title = (document.getElementById("hero-name-main").textContent.trim() + " " + document.getElementById("hero-name-accent").textContent.trim()).trim();
   const catchText = document.getElementById("hero-catch").textContent.trim();
   const shareText = catchText ? `${title}｜${catchText}` : title;
   const shareUrl = location.href;
@@ -591,7 +631,7 @@ const PAGE = {
   ],
   hero: {
     badge: "意外な一面",
-    nameMain: "",
+    nameMain: "原優寧",
     nameAccent: "建築",
     catch: "",
   },

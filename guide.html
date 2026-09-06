@@ -29,6 +29,7 @@
 </script>
 
 <title>推し活はじめてガイド | 原優寧 布教サイト</title>
+<meta name="description" content="よく使う用語や、はじめての現場で気になることをまとめました。分からない言葉があったらここをチェックしてみてね。">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -225,7 +226,26 @@ body.editing .add-row{ display:flex; }
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
-</head>
+<script type="application/ld+json" id="structured-data">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "推し活はじめてガイド"
+        }
+      ]
+    }
+  ]
+}</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
 
@@ -498,10 +518,30 @@ function syncOgpTags(){
   };
   setMeta('meta[property="og:title"]', title || "推し活はじめてガイド");
   setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="description"]', desc);
   setMeta('meta[name="twitter:title"]', title || "推し活はじめてガイド");
   setMeta('meta[name="twitter:description"]', desc);
   if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
   if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+  syncStructuredData(title || "推し活はじめてガイド");
+}
+function syncStructuredData(pageTitle){
+  const baseUrl = (location.href.indexOf("file://") !== 0) ? location.href.replace(/[^/]*$/, "") : "";
+  const graph = [{
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": baseUrl ? baseUrl + "index.html" : undefined },
+      { "@type": "ListItem", "position": 2, "name": pageTitle },
+    ],
+  }];
+  let script = document.getElementById("structured-data");
+  if(!script){
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "structured-data";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2);
 }
 syncOgpTags();
 
