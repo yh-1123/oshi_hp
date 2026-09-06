@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yh-1123.github.io/oshi_hp/sitemap.xml
