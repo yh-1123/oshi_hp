@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
+<html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <link rel="manifest" href="manifest.json">
@@ -11,15 +10,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="推し布教ページ">
 <meta property="og:title" content="動画まとめ">
-<meta property="og:description" content="公式チャンネルなどに投稿されている動画をまとめています">
+<meta property="og:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
 <meta property="og:image" content="">
 <meta property="og:url" content="">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="動画まとめ">
-<meta name="twitter:description" content="公式チャンネルなどに投稿されている動画をまとめています">
+<meta name="twitter:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
@@ -408,16 +407,16 @@ body.editing .add-row{ display:flex; }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
-<body>
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
-<div class="initial-load-overlay" id="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
 <nav class="topnav">
   <div class="wrap">
     <div class="nav-left">
       <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
-      <button class="back-link-edit" type="button" aria-label="リンク先を編集">✎</button>
+      
     </div>
-    <div class="brand editable" id="nav-brand" contenteditable="false">動画まとめ</div>
+    <div class="brand editable" id="nav-brand" contenteditable="true">動画まとめ</div>
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
@@ -427,14 +426,19 @@ body.editing .add-row{ display:flex; }
 
 <header class="p-hero">
   <div class="wrap">
-    <span class="eyebrow editable" id="p-eyebrow" contenteditable="false">公式チャンネルなど</span>
-    <h1 class="editable" id="p-title" contenteditable="false">動画まとめ</h1>
-    <p class="editable" id="p-desc" contenteditable="false">公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。</p>
-    <div class="daily-pick" id="daily-pick"></div>
+    <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">公式チャンネルなど</span>
+    <h1 class="editable" id="p-title" contenteditable="true">動画まとめ</h1>
+    <p class="editable" id="p-desc" contenteditable="true">公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。</p>
+    <div class="daily-pick show" id="daily-pick"><div class="daily-pick-thumb"></div>
+    <div class="daily-pick-body">
+      <div class="daily-pick-label">✦ おすすめ動画</div>
+      <div class="daily-pick-title">サンプルショート動画</div>
+      
+    </div></div>
     <div class="search-wrap">
       <input type="search" id="video-search" class="search-input" placeholder="🔍 動画タイトルで検索">
     </div>
-    <div class="category-filter" id="category-filter"></div>
+    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="Shorts">Shorts</button><button type="button" class="tag-filter-btn" data-cat="本編">本編</button></div>
     <div class="sort-toggle-row">
       <button type="button" class="sort-toggle-btn" id="sort-toggle-btn">🔀 ランダムに並び替え</button>
     </div>
@@ -446,10 +450,40 @@ body.editing .add-row{ display:flex; }
     <div class="sec-head">
       <h2><span class="mark">◆</span>動画一覧</h2>
     </div>
-    <div class="video-list" id="video-list"></div>
+    <div class="video-list" id="video-list"><div class="editable-item video-item" data-category="Shorts" data-date="2026-06-10" data-url="" data-added="" data-order="1" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <div class="video-thumb-link"><span class="video-play-badge">▶</span></div>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.06.10</span><span class="video-category editable" contenteditable="true">Shorts</span></div>
+      <h3 class="video-title editable" contenteditable="true">サンプルショート動画</h3>
+      <p class="video-desc editable" contenteditable="true"></p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div><div class="editable-item video-item" data-category="本編" data-date="2026-06-01" data-url="" data-added="" data-order="0" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
+    
+    
+    <div class="video-thumb-link"><span class="video-play-badge">▶</span></div>
+    <div class="video-body">
+      <div class="video-meta"><span class="video-date">2026.06.01</span><span class="video-category editable" contenteditable="true">本編</span></div>
+      <h3 class="video-title editable" contenteditable="true">サンプル動画タイトル</h3>
+      <p class="video-desc editable" contenteditable="true">動画の内容についての簡単な説明。</p>
+      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="video-tags"></div>
+      
+      
+      <div class="video-related" data-role="related" style="display: none;"></div>
+    </div>
+    
+  </div></div>
     <p class="no-results" id="no-results">条件に合う動画が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-videos" type="button" style="display:none;">＋ もっと見る</button>
-    <div class="add-row"><button class="add-btn" id="add-video">＋ 動画を追加</button></div>
+    
   </div>
 </section>
 
@@ -460,13 +494,7 @@ body.editing .add-row{ display:flex; }
 
 <button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
-<div class="edit-toolbar">
-  <button class="tb-btn primary" id="toggle-edit">編集する</button>
-  <button class="tb-btn" id="generate-public-html" style="display:none">🌐 公開用HTMLを書き出す</button>
-  <button class="tb-btn-icon" id="export-data" style="display:none" type="button" aria-label="データを書き出し" title="データを書き出し(JSON)">📤</button>
-  <button class="tb-btn-icon" id="import-data" style="display:none" type="button" aria-label="データを読み込み" title="データを読み込み(JSON)">📥</button>
-  <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;">
-</div>
+
 
 <div class="video-player-backdrop" id="video-player-backdrop" role="dialog" aria-modal="true" aria-label="動画プレイヤー">
   <div class="video-player-box">
@@ -477,32 +505,10 @@ body.editing .add-row{ display:flex; }
   </div>
 </div>
 
-<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="modal">
-    <h3 id="modal-title">追加</h3>
-    <div id="modal-fields"></div>
-    <div class="modal-actions">
-      <button class="tb-btn" id="modal-cancel" type="button">キャンセル</button>
-      <button class="add-btn" id="modal-submit" type="button">追加する</button>
-    </div>
-  </div>
-</div>
+
 
 <script>
-/* @EDIT_ONLY_START */
-/* ==========================================================
-   編集用パスワード。他のページと同じ仕組み(SHA-256ハッシュ)。
-   初期パスワードは "oshikatsu2026" です。
-   ========================================================== */
-const EDIT_PASSWORD_HASH = "ce9d9c91a8374c694448bdb6f6591003c96353d8eaf6ee9e32c7e47d47c1ac14";
-async function sha256Hex(text){
-  if(!window.crypto || !window.crypto.subtle){ return Promise.reject(new Error("subtlecrypto-unavailable")); }
-  const bytes = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
-}
-let authenticated = false;
-/* @EDIT_ONLY_END */
+
 let editMode = false;
 
 const VIDEOS = {
@@ -574,6 +580,12 @@ function parseChaptersField(raw){
     if(isNaN(time)) return null;
     return { time, label };
   }).filter(Boolean);
+}
+function formatSecondsToTime(sec){
+  sec = Math.max(0, Math.round(sec));
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
 }
 const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';
 
@@ -662,20 +674,7 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 
 /* ---------- 未保存の変更を警告 ---------- */
 let hasUnsavedChanges = false;
-/* @EDIT_ONLY_START */
-function watchDirty(id){
-  const el = document.getElementById(id);
-  if(!el) return;
-  new MutationObserver((mutations) => {
-    const relevant = mutations.some(m => !(m.type === "attributes" && m.attributeName === "style"));
-    if(relevant) hasUnsavedChanges = true;
-  }).observe(el, { childList: true, subtree: true, characterData: true, attributes: true });
-}
-["nav-brand","p-eyebrow","p-title","p-desc","video-list"].forEach(watchDirty);
-window.addEventListener("beforeunload", (e) => {
-  if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = ""; }
-});
-/* @EDIT_ONLY_END */
+
 
 /* ---------- シェアボタン ---------- */
 document.getElementById("share-btn-nav").addEventListener("click", async () => {
@@ -754,20 +753,7 @@ document.addEventListener("wheel", (e) => {
 })();
 
 /* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
-/* @EDIT_ONLY_START */
-(function initSecretUnlock(){
-  const target = document.getElementById("footer-tap-target");
-  const toolbar = document.querySelector(".edit-toolbar");
-  if(!target || !toolbar) return;
-  let tapCount = 0, resetTimer = null;
-  target.addEventListener("click", () => {
-    tapCount++;
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => { tapCount = 0; }, 2000);
-    if(tapCount >= 5){ tapCount = 0; toolbar.classList.add("unlocked"); }
-  });
-})();
-/* @EDIT_ONLY_END */
+
 
 /* ---------- カテゴリ絞り込み・検索・もっと見る・並び替え ---------- */
 let currentCategoryFilter = "all";
@@ -876,6 +862,11 @@ document.getElementById("sort-toggle-btn").addEventListener("click", () => {
   const btn = document.getElementById("sort-toggle-btn");
   btn.textContent = videoSortMode === "random" ? "📅 公開順に戻す" : "🔀 ランダムに並び替え";
   btn.classList.toggle("active", videoSortMode === "random");
+  currentCategoryFilter = "all";
+  activeTagFilter = null;
+  showAllItems = false;
+  document.getElementById("video-search").value = "";
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
   sortVideoList();
 });
 
@@ -996,597 +987,7 @@ renderRelatedLinks();
 
 /* ---------- 編集モード(パスワードで保護) ---------- */
 function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
-/* @EDIT_ONLY_START */
-const toggleBtn = document.getElementById("toggle-edit");
-const publicHtmlBtn = document.getElementById("generate-public-html");
-document.querySelector(".back-link-edit")?.addEventListener("click", () => {
-  const link = document.querySelector(".back-link");
-  if(!link) return;
-  openModal("navLink", { editTarget: link, navLabel: link.textContent, navUrl: link.getAttribute("href") || "" });
-});
-function enterEditMode(){
-  editMode = true;
-  setEditable(true);
-  document.body.classList.add("editing");
-  toggleBtn.textContent = "編集を終える";
-  publicHtmlBtn.style.display = "inline-flex";
-  document.getElementById("export-data").style.display = "inline-flex";
-  document.getElementById("import-data").style.display = "inline-flex";
-}
-function exitEditMode(){
-  editMode = false;
-  setEditable(false);
-  document.body.classList.remove("editing");
-  toggleBtn.textContent = "編集する";
-  publicHtmlBtn.style.display = "none";
-  document.getElementById("export-data").style.display = "none";
-  document.getElementById("import-data").style.display = "none";
-}
-function requestEditAccess(){
-  if(authenticated){ enterEditMode(); return; }
-  openModal("password");
-}
-toggleBtn.addEventListener("click", () => { editMode ? exitEditMode() : requestEditAccess(); });
 
-/* ---------- モーダル(項目追加・編集フォーム) ---------- */
-let modalType = null;
-let modalEditTarget = null;
-let modalOriginalAddedAt = "";
-let modalOriginalOrder = "";
-function syncRelatedBidirectional(currentTitle, oldTitles, newTitles){
-  const items = Array.from(document.querySelectorAll("#video-list .video-item"));
-  const findByTitle = (t) => items.find(item => item.querySelector(".video-title")?.textContent.trim() === t);
-  const added = newTitles.filter(t => !oldTitles.includes(t));
-  const removed = oldTitles.filter(t => !newTitles.includes(t));
-  added.forEach(targetTitle => {
-    const target = findByTitle(targetTitle);
-    if(!target) return;
-    const targetRelated = parseRelatedField(target.dataset.related);
-    if(!targetRelated.includes(currentTitle)){
-      targetRelated.push(currentTitle);
-      target.dataset.related = serializeRelatedField(targetRelated);
-    }
-  });
-  removed.forEach(targetTitle => {
-    const target = findByTitle(targetTitle);
-    if(!target) return;
-    const targetRelated = parseRelatedField(target.dataset.related);
-    const idx = targetRelated.indexOf(currentTitle);
-    if(idx !== -1){
-      targetRelated.splice(idx, 1);
-      target.dataset.related = serializeRelatedField(targetRelated);
-    }
-  });
-}
-let pendingRelated = [];
-function renderRelatedChips(){
-  const wrap = document.getElementById("related-chip-row");
-  if(!wrap) return;
-  wrap.innerHTML = pendingRelated.map((t, i) => `<span class="related-chip"><span>${esc(t)}</span><button type="button" class="related-chip-remove" data-idx="${i}" aria-label="削除">×</button></span>`).join("");
-}
-function getCurrentEditingTitle(){
-  const el = document.getElementById("f-title");
-  if(el) return el.value.trim();
-  try{
-    const saved = JSON.parse(document.getElementById("modal-fields").dataset.savedValues || "{}");
-    return (saved["f-title"] || "").trim();
-  }catch(e){ return ""; }
-}
-function renderRelatedSuggestions(){
-  const wrap = document.getElementById("related-suggest-row");
-  if(!wrap) return;
-  const query = (document.getElementById("f-related-search")?.value || "").trim().toLowerCase();
-  const allTitles = [];
-  document.querySelectorAll("#video-list .video-item").forEach(item => {
-    const t = item.querySelector(".video-title")?.textContent.trim();
-    if(t && !allTitles.includes(t)) allTitles.push(t);
-  });
-  const remaining = allTitles.filter(t => !pendingRelated.includes(t) && t !== getCurrentEditingTitle() && (!query || t.toLowerCase().includes(query)));
-  wrap.innerHTML = remaining.length
-    ? remaining.map(t => `<button type="button" class="related-suggest-item" data-title="${escAttr(t)}">＋ <span>${esc(t)}</span></button>`).join("")
-    : `<div class="related-suggest-empty">${query ? "一致する動画が見つかりません" : "追加できる動画がありません"}</div>`;
-}
-let pendingSeriesOrder = "";
-let pendingDuplicateConfirmed = false;
-function findPotentialDuplicates(title, url){
-  const normTitle = (title || "").trim().toLowerCase();
-  const ytId = getYouTubeId(url);
-  const items = Array.from(document.querySelectorAll("#video-list .video-item"));
-  return items.filter(item => {
-    if(item === modalEditTarget) return false;
-    const itemTitle = (item.querySelector(".video-title")?.textContent || "").trim().toLowerCase();
-    const itemYtId = getYouTubeId(item.dataset.url);
-    const titleMatch = normTitle && itemTitle === normTitle;
-    const urlMatch = ytId && itemYtId && ytId === itemYtId;
-    return titleMatch || urlMatch;
-  });
-}
-function duplicateWarningHTML(title, url, duplicates){
-  const newYtId = getYouTubeId(url);
-  const newThumb = newYtId ? `https://i.ytimg.com/vi/${newYtId}/hqdefault.jpg` : "";
-  const dupRows = duplicates.map(item => {
-    const t = item.querySelector(".video-title")?.textContent || "";
-    const thumbSrc = item.querySelector(".video-thumb-link img")?.getAttribute("src") || "";
-    const date = item.dataset.date ? formatDate(item.dataset.date) : "";
-    return `<div class="dup-compare-card">
-      ${thumbSrc ? `<img src="${thumbSrc}" alt="">` : `<div style="width:72px; aspect-ratio:16/9; flex:none;"></div>`}
-      <div class="dup-compare-info">
-        <div class="dup-compare-title">${esc(t)}</div>
-        ${date ? `<div class="dup-compare-date">${date}</div>` : ""}
-      </div>
-    </div>`;
-  }).join("");
-  return `
-    <div class="qa-label">⚠️ よく似た動画がすでに登録されています</div>
-    <div style="font-size:11px; color:var(--sub-ink); margin-bottom:10px;">間違って重複登録していないか確認してください。</div>
-    <div class="dup-compare-heading">今回追加する内容</div>
-    <div class="dup-compare-card">
-      ${newThumb ? `<img src="${newThumb}" alt="">` : `<div style="width:72px; aspect-ratio:16/9; flex:none;"></div>`}
-      <div class="dup-compare-info"><div class="dup-compare-title">${esc(title)}</div></div>
-    </div>
-    <div class="dup-compare-heading">似ている既存の動画(${duplicates.length}件)</div>
-    ${dupRows}
-    <button type="button" class="dup-confirm-btn" id="dup-confirm-add">それでも追加する</button>
-    <button type="button" class="related-order-back-btn" id="dup-cancel-add">← 戻って修正する</button>`;
-}
-function relatedOrderEditorHTML(){
-  const currentTitle = getCurrentEditingTitle() || "(この動画)";
-  const items = Array.from(document.querySelectorAll("#video-list .video-item"));
-  const selfRow = `<div class="related-order-row" style="background:var(--oshi-color-soft); border-color:var(--oshi-color);">
-    <input type="text" inputmode="numeric" class="qa-input related-order-input" data-self="1" value="${escAttr(pendingSeriesOrder)}" placeholder="順">
-    <span class="related-order-title">${esc(currentTitle)}(この動画)</span>
-  </div>`;
-  const relatedRows = pendingRelated.map((t, i) => {
-    const el = items.find(item => item.querySelector(".video-title")?.textContent.trim() === t);
-    const order = el ? (el.dataset.seriesOrder || "") : "";
-    return `<div class="related-order-row">
-      <input type="text" inputmode="numeric" class="qa-input related-order-input" data-title="${escAttr(t)}" value="${escAttr(order)}" placeholder="順">
-      <span class="related-order-title">${esc(t)}</span>
-      <button type="button" class="related-chip-remove" data-idx="${i}" aria-label="削除" style="flex:none;">×</button>
-    </div>`;
-  }).join("");
-  return `<div class="qa-label">動画の表示順(シリーズ順)</div>
-    <div style="font-size:10.5px; color:var(--sub-ink); margin-bottom:8px;">数字が小さい順に表示されます(010, 020のように)。空欄はランダム表示になります。この順番は、どの動画の関連動画欄に表示される時も共通で使われます。</div>
-    <div class="related-chip-row" style="flex-direction:column; gap:8px;">
-      ${selfRow}
-      ${relatedRows}
-    </div>
-    <span class="related-suggest-label">既存の動画から関連動画を追加:</span>
-    <input class="qa-input" id="f-related-search" placeholder="🔍 動画タイトルで絞り込み">
-    <div class="related-suggest-list" id="related-suggest-row"></div>
-    <button type="button" class="related-order-back-btn" id="close-related-order">← 戻る</button>`;
-}
-document.getElementById("modal-fields").addEventListener("input", (e) => {
-  const orderInput = e.target.closest(".related-order-input");
-  if(orderInput){
-    if(orderInput.dataset.self){
-      pendingSeriesOrder = orderInput.value.trim();
-      return;
-    }
-    const title = orderInput.dataset.title;
-    const el = Array.from(document.querySelectorAll("#video-list .video-item")).find(item => item.querySelector(".video-title")?.textContent.trim() === title);
-    if(el) el.dataset.seriesOrder = orderInput.value.trim();
-    return;
-  }
-  if(e.target.id === "f-related-search") renderRelatedSuggestions();
-});
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  if(e.target.id === "open-related-order"){
-    const savedValues = {};
-    document.querySelectorAll("#modal-fields [id^='f-']").forEach(el => { savedValues[el.id] = el.value; });
-    document.getElementById("modal-fields").dataset.savedValues = JSON.stringify(savedValues);
-    document.getElementById("modal-fields").innerHTML = relatedOrderEditorHTML();
-    renderRelatedSuggestions();
-    return;
-  }
-  if(e.target.id === "close-related-order"){
-    restoreMainVideoForm();
-    return;
-  }
-  if(e.target.id === "dup-cancel-add"){
-    restoreMainVideoForm();
-    return;
-  }
-  if(e.target.id === "dup-confirm-add"){
-    restoreMainVideoForm();
-    pendingDuplicateConfirmed = true;
-    document.getElementById("modal-submit").click();
-  }
-});
-function addRelatedChip(title){
-  const trimmed = (title || "").trim();
-  if(!trimmed || pendingRelated.includes(trimmed)) return;
-  pendingRelated.push(trimmed);
-  renderRelatedChips();
-  renderRelatedSuggestions();
-}
-function restoreMainVideoForm(){
-  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(modalType);
-  renderRelatedChips();
-  renderRelatedSuggestions();
-  renderTagChips();
-  renderTagSuggestions();
-  renderChapterChips();
-  const savedRaw = document.getElementById("modal-fields").dataset.savedValues;
-  if(savedRaw){
-    const savedValues = JSON.parse(savedRaw);
-    Object.keys(savedValues).forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.value = savedValues[id];
-    });
-  }
-}
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  const inOrderPopup = !!document.getElementById("close-related-order");
-  const removeBtn = e.target.closest(".related-chip-remove");
-  if(removeBtn){
-    pendingRelated.splice(parseInt(removeBtn.dataset.idx, 10), 1);
-    if(inOrderPopup){
-      document.getElementById("modal-fields").innerHTML = relatedOrderEditorHTML();
-      renderRelatedSuggestions();
-    } else {
-      renderRelatedChips();
-      renderRelatedSuggestions();
-    }
-    return;
-  }
-  const suggestBtn = e.target.closest(".related-suggest-item");
-  if(suggestBtn){
-    addRelatedChip(suggestBtn.dataset.title);
-    if(inOrderPopup){
-      document.getElementById("modal-fields").innerHTML = relatedOrderEditorHTML();
-      renderRelatedSuggestions();
-    } else {
-      const searchInput = document.getElementById("f-related-search");
-      if(searchInput) searchInput.value = "";
-      renderRelatedSuggestions();
-    }
-    return;
-  }
-  if(e.target.id === "add-related-chip"){
-    const input = document.getElementById("f-related-input");
-    addRelatedChip(input.value);
-    input.value = "";
-    input.focus();
-  }
-});
-document.getElementById("modal-fields").addEventListener("keydown", (e) => {
-  if(e.target.id === "f-related-input" && e.key === "Enter"){
-    e.preventDefault();
-    addRelatedChip(e.target.value);
-    e.target.value = "";
-  }
-});
-
-let pendingChapters = [];
-function formatSecondsToTime(sec){
-  sec = Math.max(0, Math.round(sec));
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-function parseTimeToSeconds(str){
-  const trimmed = (str || "").trim();
-  if(!trimmed) return null;
-  const parts = trimmed.split(":").map(s => s.trim());
-  if(parts.some(p => p === "" || isNaN(Number(p)))) return null;
-  let sec = 0;
-  for(const p of parts) sec = sec * 60 + Number(p);
-  return sec;
-}
-function renderChapterChips(){
-  const wrap = document.getElementById("chapter-chip-row");
-  if(!wrap) return;
-  wrap.innerHTML = pendingChapters.map((c, i) => `<div class="chapter-chip"><span class="chapter-chip-time">⏱ ${formatSecondsToTime(c.time)}</span><span class="chapter-chip-label">${esc(c.label)}</span><button type="button" class="chapter-chip-remove" data-idx="${i}" aria-label="削除">×</button></div>`).join("");
-}
-function addChapterChip(timeStr, label){
-  const sec = parseTimeToSeconds(timeStr);
-  const trimmedLabel = (label || "").trim();
-  if(sec === null || !trimmedLabel) return false;
-  pendingChapters.push({ time: sec, label: trimmedLabel });
-  pendingChapters.sort((a, b) => a.time - b.time);
-  renderChapterChips();
-  return true;
-}
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  const chapterRemoveBtn = e.target.closest(".chapter-chip-remove");
-  if(chapterRemoveBtn){
-    pendingChapters.splice(parseInt(chapterRemoveBtn.dataset.idx, 10), 1);
-    renderChapterChips();
-    return;
-  }
-  if(e.target.id === "add-chapter-chip"){
-    const timeInput = document.getElementById("f-chapter-time");
-    const labelInput = document.getElementById("f-chapter-label");
-    if(addChapterChip(timeInput.value, labelInput.value)){
-      timeInput.value = "";
-      labelInput.value = "";
-      labelInput.focus();
-    } else {
-      alert("時間(例:1:23)とラベルの両方を入力してください");
-    }
-  }
-});
-let pendingTags = [];
-function renderTagChips(){
-  const wrap = document.getElementById("tag-chip-row");
-  if(!wrap) return;
-  wrap.innerHTML = pendingTags.map((t, i) => `<span class="tag-chip">${esc(t)}<button type="button" class="tag-chip-remove" data-idx="${i}" aria-label="削除">×</button></span>`).join("");
-}
-function renderTagSuggestions(){
-  const wrap = document.getElementById("tag-suggest-row");
-  if(!wrap) return;
-  const allTags = [];
-  document.querySelectorAll("#video-list .video-item").forEach(item => {
-    (item.dataset.tags || "").split("|||").map(s => s.trim()).filter(Boolean).forEach(t => { if(!allTags.includes(t)) allTags.push(t); });
-  });
-  const remaining = allTags.filter(t => !pendingTags.includes(t));
-  wrap.innerHTML = remaining.length
-    ? `<span class="tag-suggest-label">既存のタグから追加:</span>` + remaining.map(t => `<button type="button" class="tag-suggest-btn" data-tag="${escAttr(t)}">＋ ${esc(t)}</button>`).join("")
-    : "";
-}
-function addTagChip(name){
-  const trimmed = (name || "").trim();
-  if(!trimmed || pendingTags.includes(trimmed)) return;
-  pendingTags.push(trimmed);
-  renderTagChips();
-  renderTagSuggestions();
-}
-document.getElementById("modal-fields").addEventListener("click", (e) => {
-  const removeBtn = e.target.closest(".tag-chip-remove");
-  if(removeBtn){
-    pendingTags.splice(parseInt(removeBtn.dataset.idx, 10), 1);
-    renderTagChips();
-    renderTagSuggestions();
-    return;
-  }
-  const suggestBtn = e.target.closest(".tag-suggest-btn");
-  if(suggestBtn){ addTagChip(suggestBtn.dataset.tag); return; }
-  if(e.target.id === "add-tag-chip"){
-    const input = document.getElementById("f-tag-input");
-    addTagChip(input.value);
-    input.value = "";
-    input.focus();
-  }
-});
-document.getElementById("modal-fields").addEventListener("keydown", (e) => {
-  if(e.target.id === "f-tag-input" && e.key === "Enter"){
-    e.preventDefault();
-    addTagChip(e.target.value);
-    e.target.value = "";
-  }
-  if((e.target.id === "f-chapter-time" || e.target.id === "f-chapter-label") && e.key === "Enter"){
-    e.preventDefault();
-    const timeInput = document.getElementById("f-chapter-time");
-    const labelInput = document.getElementById("f-chapter-label");
-    if(addChapterChip(timeInput.value, labelInput.value)){
-      timeInput.value = "";
-      labelInput.value = "";
-      labelInput.focus();
-    }
-  }
-});
-
-function val(id, fallback){ const el = document.getElementById(id); const v = el ? el.value.trim() : ""; return v || fallback; }
-function modalFieldsHTML(type){
-  if(type === "password") return `<div class="qa-label">パスワードを入力してください</div><input class="qa-input" id="f-password" type="password" placeholder="パスワード">`;
-  if(type === "navLink") return `
-    <div class="qa-label">表示名</div><input class="qa-input" id="f-navLabel" placeholder="例:← トップに戻る">
-    <div class="qa-label">リンク先(ファイル名)</div><input class="qa-input" id="f-navUrl" placeholder="例:index.html">`;
-  if(type === "video") return `
-    <div class="qa-label">動画タイトル</div><input class="qa-input" id="f-title" placeholder="動画タイトルを入力">
-    <div class="qa-label">動画URL(YouTubeの場合は自動でサムネ表示)</div><input class="qa-input" id="f-url" placeholder="https://...">
-    <div class="qa-label">カテゴリ(任意・例:本編、Shorts、切り抜き)</div>
-    <input class="qa-input" id="f-category" list="category-suggestions" placeholder="例:本編">
-    <datalist id="category-suggestions"></datalist>
-    <div class="qa-label">公開日(任意・例:2026-06-01、2026/6/1、2026年6月1日 なども可)</div><input class="qa-input" id="f-date" placeholder="例:2026-06-01">
-    <div class="qa-label">説明(任意)</div><textarea class="qa-textarea" id="f-desc" placeholder="動画の内容についてのメモ"></textarea>
-    <div class="qa-label">おすすめコメント(任意・目立つ形で表示されます)</div>
-    <textarea class="qa-textarea" id="f-recommend" placeholder="例:ここのダンスパートは必見!"></textarea>
-    <div class="qa-label">推しコメント(任意・「おすすめ動画」枠に表示されます。未入力なら説明で代用)</div>
-    <textarea class="qa-textarea" id="f-pickupComment" placeholder="例:この曲めちゃくちゃ聴いてます!"></textarea>
-    <div class="qa-label">タグ(任意・複数つけられます)</div>
-    <div class="tag-chip-row" id="tag-chip-row"></div>
-    <div class="tag-input-row">
-      <input class="qa-input" id="f-tag-input" placeholder="タグを入力">
-      <button type="button" class="tag-add-btn" id="add-tag-chip">追加</button>
-    </div>
-    <div class="tag-suggest-row" id="tag-suggest-row"></div>
-    <div class="qa-label">おすすめチャプター(任意・タップでその時間から再生されます)</div>
-    <div class="chapter-chip-row" id="chapter-chip-row"></div>
-    <div class="chapter-input-row">
-      <input class="qa-input" id="f-chapter-time" placeholder="1:23">
-      <input class="qa-input" id="f-chapter-label" placeholder="例:神ダンスパート">
-      <button type="button" class="chapter-add-btn" id="add-chapter-chip">追加</button>
-    </div>
-    <div class="qa-label">関連する動画(任意・再生終了後の「次の動画」にも反映されます)</div>
-    <div style="font-size:10.5px; color:var(--sub-ink); margin-bottom:4px;">双方向に自動で反映されます(片方に追加すると、もう片方にも追加されます)</div>
-    <div class="related-chip-row" id="related-chip-row"></div>
-    <div class="related-input-row">
-      <input class="qa-input" id="f-related-input" placeholder="動画タイトルを入力">
-      <button type="button" class="related-add-btn" id="add-related-chip">追加</button>
-    </div>
-    <span class="related-suggest-label">既存の動画から追加:</span>
-    <input class="qa-input" id="f-related-search" placeholder="🔍 動画タイトルで絞り込み">
-    <div class="related-suggest-list" id="related-suggest-row"></div>
-    <button type="button" class="related-order-btn" id="open-related-order">🔀 表示順を設定</button>
-    <div class="qa-date-row" style="margin-top:10px;">
-      <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);">
-        <input type="checkbox" id="f-markNew" checked style="width:18px; height:18px;"> NEWバッジを表示する
-      </label>
-    </div>
-    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px;">サイト公開時にまとめて登録する場合は、チェックを外すとNEW表示されません</div>`;
-  return "";
-}
-const MODAL_TITLES = { password: "編集用パスワード", video: "動画を追加", navLink: "リンクを編集" };
-function openModal(type, prefill){
-  modalType = type;
-  modalEditTarget = (prefill && prefill.editTarget) || null;
-  modalOriginalAddedAt = (prefill && prefill.addedAt) || "";
-  modalOriginalOrder = (prefill && prefill.order) || "";
-  pendingRelated = (prefill && Array.isArray(prefill.related)) ? prefill.related.slice() : [];
-  pendingTags = (prefill && Array.isArray(prefill.tags)) ? prefill.tags.slice() : [];
-  pendingChapters = (prefill && Array.isArray(prefill.chapters)) ? prefill.chapters.slice() : [];
-  pendingSeriesOrder = (prefill && prefill.seriesOrder) || "";
-  pendingDuplicateConfirmed = false;
-  document.getElementById("modal-title").textContent = modalEditTarget ? "編集する" : (MODAL_TITLES[type] || "追加");
-  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(type);
-  document.getElementById("modal-submit").textContent = type === "password" ? "確認する" : (modalEditTarget ? "更新する" : "追加する");
-  document.getElementById("modal-backdrop").classList.add("open");
-  if(prefill){
-    Object.keys(prefill).forEach(k => {
-      if(["editTarget","addedAt","order","related","tags","chapters","seriesOrder"].includes(k)) return;
-      const el = document.getElementById("f-" + k);
-      if(el) el.value = prefill[k];
-    });
-    const markNewEl = document.getElementById("f-markNew");
-    if(markNewEl) markNewEl.checked = !!prefill.addedAt;
-  }
-  if(type === "video"){
-    const dl = document.getElementById("category-suggestions");
-    if(dl){
-      const cats = [];
-      document.querySelectorAll("#video-list .video-item").forEach(item => { const c = item.dataset.category; if(c && !cats.includes(c)) cats.push(c); });
-      dl.innerHTML = cats.map(c => `<option value="${escAttr(c)}"></option>`).join("");
-    }
-    renderRelatedChips();
-    renderRelatedSuggestions();
-    renderTagChips();
-    renderTagSuggestions();
-    renderChapterChips();
-  }
-  const firstInput = document.querySelector("#modal-fields .qa-input, #modal-fields .qa-textarea");
-  if(firstInput) firstInput.focus();
-}
-function closeModal(){ document.getElementById("modal-backdrop").classList.remove("open"); modalType = null; modalEditTarget = null; }
-document.getElementById("modal-cancel").addEventListener("click", closeModal);
-document.getElementById("modal-fields").addEventListener("focusin", (e) => {
-  if(e.target.id === "f-date") e.target.select();
-});
-document.getElementById("modal-backdrop").addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closeModal(); });
-document.addEventListener("keydown", (e) => {
-  if(e.key === "Escape" && document.getElementById("modal-backdrop").classList.contains("open")) closeModal();
-});
-document.getElementById("add-video").addEventListener("click", () => openModal("video"));
-
-function addAndRefresh(containerId, html){
-  document.getElementById(containerId).insertAdjacentHTML("beforeend", html);
-  setEditable(editMode);
-}
-document.getElementById("modal-submit").addEventListener("click", () => {
-  if(document.getElementById("close-related-order") || document.getElementById("dup-confirm-add")){
-    restoreMainVideoForm();
-  }
-  if(modalType === "password"){
-    const pw = val("f-password", "");
-    sha256Hex(pw).then(hash => {
-      if(hash !== EDIT_PASSWORD_HASH){ alert("パスワードが違います"); return; }
-      authenticated = true;
-      closeModal();
-      enterEditMode();
-    }).catch(() => {
-      alert("この環境ではパスワード確認に必要な機能が使えません。実際に公開したURL(https)で開いてお試しください。");
-    });
-    return;
-  }
-  if(modalType === "navLink"){
-    const label = val("f-navLabel", "");
-    const url = val("f-navUrl", "");
-    if(modalEditTarget){
-      if(label) modalEditTarget.textContent = label;
-      if(url){ modalEditTarget.setAttribute("href", url); modalEditTarget.dataset.url = url; }
-      hasUnsavedChanges = true;
-    }
-    closeModal();
-    return;
-  }
-  if(modalType === "video"){
-    if(!modalEditTarget && !pendingDuplicateConfirmed){
-      const checkTitle = document.getElementById("f-title")?.value.trim() || "";
-      const checkUrl = document.getElementById("f-url")?.value.trim() || "";
-      const dups = findPotentialDuplicates(checkTitle, checkUrl);
-      if(dups.length){
-        const savedValues = {};
-        document.querySelectorAll("#modal-fields [id^='f-']").forEach(el => { savedValues[el.id] = el.value; });
-        document.getElementById("modal-fields").dataset.savedValues = JSON.stringify(savedValues);
-        document.getElementById("modal-fields").innerHTML = duplicateWarningHTML(checkTitle || "動画タイトル", checkUrl, dups);
-        return;
-      }
-    }
-    const markNewEl = document.getElementById("f-markNew");
-    const addedAt = markNewEl
-      ? (markNewEl.checked ? (modalOriginalAddedAt || new Date().toISOString().slice(0, 10)) : "")
-      : (modalEditTarget ? (modalOriginalAddedAt || "") : new Date().toISOString().slice(0, 10));
-    const order = modalEditTarget ? modalOriginalOrder : undefined;
-    const leftoverInput = document.getElementById("f-related-input");
-    if(leftoverInput && leftoverInput.value.trim()) addRelatedChip(leftoverInput.value);
-    const related = pendingRelated.slice();
-    const oldRelated = modalEditTarget ? parseRelatedField(modalEditTarget.dataset.related) : [];
-    const leftoverTagInput = document.getElementById("f-tag-input");
-    if(leftoverTagInput && leftoverTagInput.value.trim()) addTagChip(leftoverTagInput.value);
-    const tags = pendingTags.slice();
-    const currentTitle = val("f-title","動画タイトル");
-    const html = videoItemHTML({ title: currentTitle, url: val("f-url",""), category: val("f-category",""), date: parseFlexibleDate(val("f-date","")), desc: val("f-desc",""), recommend: val("f-recommend",""), pickupComment: val("f-pickupComment",""), related, tags, chapters: pendingChapters.slice(), seriesOrder: pendingSeriesOrder, addedAt, order });
-    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { addAndRefresh("video-list", html); }
-    syncRelatedBidirectional(currentTitle, oldRelated, related);
-    sortVideoList();
-  }
-  closeModal();
-});
-
-/* 既存項目の編集(✎)・削除(×)・複製(⧉)・並び替え(↑↓) */
-function extractVideoFields(item){
-  return {
-    title: item.querySelector(".video-title")?.textContent.trim() || "",
-    url: item.dataset.url || "",
-    category: item.dataset.category || "",
-    date: item.dataset.date || "",
-    desc: item.querySelector(".video-desc")?.textContent.trim() || "",
-    recommend: item.querySelector(".video-recommend")?.textContent.replace(/^💡\s*おすすめポイント/, "").trim() || "",
-    pickupComment: item.dataset.pickupComment || "",
-    chapters: parseChaptersField(item.dataset.chapters),
-    related: parseRelatedField(item.dataset.related),
-    tags: (item.dataset.tags || "").split("|||").filter(Boolean),
-    seriesOrder: item.dataset.seriesOrder || "",
-  };
-}
-document.addEventListener("click", (e) => {
-  const editBtn = e.target.closest(".edit-edit");
-  if(editBtn){
-    const item = editBtn.closest(".video-item");
-    if(item){
-      openModal("video", {
-        editTarget: item,
-        ...extractVideoFields(item),
-        addedAt: item.dataset.added || "",
-        order: item.dataset.order || "",
-      });
-    }
-    return;
-  }
-  const rm = e.target.closest(".edit-remove");
-  if(rm){
-    const item = rm.closest(".video-item");
-    if(item) item.remove();
-    return;
-  }
-  const dupBtn = e.target.closest(".video-dup-btn");
-  if(dupBtn){
-    const item = dupBtn.closest(".video-item");
-    if(item) openModal("video", extractVideoFields(item));
-    return;
-  }
-  const upBtn = e.target.closest(".move-up");
-  const downBtn = e.target.closest(".move-down");
-  if(upBtn || downBtn){
-    const item = e.target.closest(".video-item");
-    if(!item || !item.parentElement) return;
-    const swapOrder = (a, b) => { const t = a.dataset.order; a.dataset.order = b.dataset.order; b.dataset.order = t; };
-    if(upBtn && item.previousElementSibling){ swapOrder(item, item.previousElementSibling); item.parentElement.insertBefore(item, item.previousElementSibling); }
-    if(downBtn && item.nextElementSibling){ swapOrder(item, item.nextElementSibling); item.parentElement.insertBefore(item.nextElementSibling, item); }
-  }
-});
-/* @EDIT_ONLY_END */
 
 /* 編集モード中は、動画リンクをタップしても遷移させない */
 document.addEventListener("click", (e) => {
@@ -1777,32 +1178,7 @@ document.getElementById("video-up-next").addEventListener("click", (e) => {
 });
 
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
-/* @EDIT_ONLY_START */
-function extractPageData(){
-  return {
-    navBrand: document.getElementById("nav-brand").textContent,
-    eyebrow: document.getElementById("p-eyebrow").textContent,
-    title: document.getElementById("p-title").textContent,
-    desc: document.getElementById("p-desc").textContent,
-    items: Array.from(document.querySelectorAll("#video-list .video-item")).map(el => ({
-      title: el.querySelector(".video-title")?.textContent.trim() || "",
-      url: el.dataset.url || "",
-      category: el.dataset.category || "",
-      date: el.dataset.date || "",
-      desc: el.querySelector(".video-desc")?.textContent.trim() || "",
-      recommend: el.querySelector(".video-recommend")?.textContent.replace(/^💡\s*おすすめポイント/, "").trim() || "",
-      pickupComment: el.dataset.pickupComment || "",
-      chapters: el.dataset.chapters || "",
-      seriesOrder: el.dataset.seriesOrder || "",
-      related: el.dataset.related || "",
-      tags: el.dataset.tags || "",
-      addedAt: el.dataset.added || "",
-      order: el.dataset.order || "",
-    })),
-    backLinkUrl: document.querySelector(".back-link")?.getAttribute("href") || "",
-  };
-}
-/* @EDIT_ONLY_END */
+
 function rebuildFromData(data){
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
   if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
@@ -1825,38 +1201,7 @@ function rebuildFromData(data){
   renderRelatedLinks();
   hasUnsavedChanges = true;
 }
-/* @EDIT_ONLY_START */
-document.getElementById("export-data").addEventListener("click", () => {
-  const json = JSON.stringify(extractPageData(), null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = "videos-data.json";
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-  hasUnsavedChanges = false;
-});
-document.getElementById("import-data").addEventListener("click", () => {
-  document.getElementById("import-file-input").click();
-});
-document.getElementById("import-file-input").addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  e.target.value = "";
-  if(!file) return;
-  if(!confirm("現在の内容を、選んだファイルの内容で上書きします。よろしいですか?")) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    try{
-      const data = JSON.parse(ev.target.result);
-      rebuildFromData(data);
-      alert("データを読み込みました。内容を確認して「🌐 公開用HTMLを書き出す」または「📤 データを書き出し」をご利用ください。");
-    }catch(err){
-      alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
-    }
-  };
-  reader.readAsText(file);
-});
-/* @EDIT_ONLY_END */
+
 
 /* タップ数の計測(GA4イベント) */
 document.addEventListener("click", (e) => {
@@ -1869,43 +1214,7 @@ document.addEventListener("click", (e) => {
 });
 
 /* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
-/* @EDIT_ONLY_START */
-function generatePublicHtml(){
-  const clone = document.documentElement.cloneNode(true);
-  clone.querySelectorAll(".edit-toolbar, #modal-backdrop, .edit-edit, .edit-remove, .add-row, .reorder-row, .back-link-edit, .video-dup-btn").forEach(el => el.remove());
-  const cloneBody = clone.querySelector("body");
-  if(cloneBody){
-    cloneBody.classList.remove("editing");
-    let overlayClone = clone.querySelector("#initial-load-overlay");
-    if(!overlayClone){
-      overlayClone = document.createElement("div");
-      overlayClone.id = "initial-load-overlay";
-      overlayClone.className = "initial-load-overlay";
-      overlayClone.innerHTML = '<div class="initial-load-spinner"></div>';
-      cloneBody.insertBefore(overlayClone, cloneBody.firstChild);
-    } else {
-      overlayClone.classList.remove("hide");
-      overlayClone.removeAttribute("data-hidden");
-    }
-  }
-  const scripts = clone.querySelectorAll("script");
-  const mainScript = scripts[scripts.length - 1];
-  if(mainScript){
-    mainScript.textContent = mainScript.textContent.replace(/\/\* @EDIT_ONLY_START \*\/[\s\S]*?\/\* @EDIT_ONLY_END \*\//g, "");
-  }
-  const htmlOut = "<!DOCTYPE html>\n" + clone.outerHTML;
-  const blob = new Blob([htmlOut], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "videos-public.html";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-}
-publicHtmlBtn.addEventListener("click", generatePublicHtml);
-/* @EDIT_ONLY_END */
+
 
 /* ---------- 同じ場所にある videos-data.json があれば自動で読み込む ----------
    ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
@@ -1936,5 +1245,6 @@ publicHtmlBtn.addEventListener("click", generatePublicHtml);
 
 </script>
 
-</body>
-</html>
+
+
+</body></html>
