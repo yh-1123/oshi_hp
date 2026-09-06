@@ -5,21 +5,6 @@
   "desc": "公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。",
   "items": [
     {
-      "title": "２０２５年９月１７日（水）２じゃないよ！倉島杏実vs原優寧",
-      "url": "https://youtu.be/N8kmzUeUKOo?si=UR9v6BiHydIZeeEJ",
-      "category": "",
-      "date": "2026-09-22",
-      "desc": "",
-      "recommend": "",
-      "pickupComment": "",
-      "chapters": "",
-      "seriesOrder": "",
-      "related": "",
-      "tags": "1+1は2じゃないよ",
-      "addedAt": "",
-      "order": "83"
-    },
-    {
       "title": "【SKE48】マンションを丸ごとリノベーション！？SKE48×HAYASE 新プロジェクト始動！",
       "url": "https://www.youtube.com/watch?v=Cu36djopxws",
       "category": "",
@@ -63,21 +48,6 @@
       "tags": "1+1は2じゃないよ",
       "addedAt": "",
       "order": "40"
-    },
-    {
-      "title": "２０２４年７月６日（土）３じゃないよ！ 北川愛乃vs野村実代vs原優寧",
-      "url": "https://www.youtube.com/watch?v=1QQFMAQePYA",
-      "category": "その他",
-      "date": "2026-07-06",
-      "desc": "",
-      "recommend": "",
-      "pickupComment": "",
-      "chapters": "",
-      "seriesOrder": "",
-      "related": "",
-      "tags": "1+1+1は3じゃなよ",
-      "addedAt": "",
-      "order": "46"
     },
     {
       "title": "【大興奮】春日井製菓工場に潜入！SKE48メンバーがお菓子作りの裏側を見学してきました！",
@@ -350,21 +320,6 @@
       "order": "48"
     },
     {
-      "title": "２０２５年６月１１日（水）２じゃないよ！原優寧vs森本くるみ",
-      "url": "https://youtu.be/EGDjcSUxw4c?si=ddkglvBxrO40dKcW",
-      "category": "",
-      "date": "202506016",
-      "desc": "",
-      "recommend": "",
-      "pickupComment": "",
-      "chapters": "",
-      "seriesOrder": "",
-      "related": "",
-      "tags": "1+1は2じゃないよ",
-      "addedAt": "",
-      "order": "81"
-    },
-    {
       "title": "２０２５年１２月２２日（月）２じゃないよ！大村杏vs原優寧",
       "url": "https://youtu.be/xqmMyIsOcCo?si=cL7qNEnwUbAL578n",
       "category": "その他",
@@ -470,6 +425,21 @@
       "order": "52"
     },
     {
+      "title": "２０２５年９月１７日（水）２じゃないよ！倉島杏実vs原優寧",
+      "url": "https://youtu.be/N8kmzUeUKOo?si=UR9v6BiHydIZeeEJ",
+      "category": "",
+      "date": "2025-09-22",
+      "desc": "",
+      "recommend": "",
+      "pickupComment": "",
+      "chapters": "",
+      "seriesOrder": "",
+      "related": "",
+      "tags": "1+1は2じゃないよ",
+      "addedAt": "",
+      "order": "83"
+    },
+    {
       "title": "【ピザコラボ】手渡し販売会終わりのお疲れまかないピザトーク【SKE48】",
       "url": "https://www.youtube.com/watch?v=XmNL-qDRSts&t=89s",
       "category": "",
@@ -543,6 +513,21 @@
       "tags": "",
       "addedAt": "",
       "order": "50"
+    },
+    {
+      "title": "２０２５年６月１１日（水）２じゃないよ！原優寧vs森本くるみ",
+      "url": "https://youtu.be/EGDjcSUxw4c?si=ddkglvBxrO40dKcW",
+      "category": "",
+      "date": "2025-06-16",
+      "desc": "",
+      "recommend": "",
+      "pickupComment": "",
+      "chapters": "",
+      "seriesOrder": "",
+      "related": "",
+      "tags": "1+1は2じゃないよ",
+      "addedAt": "",
+      "order": "81"
     },
     {
       "title": "２０２５年６月７日（土）３じゃないよ！熊崎晴香vs原優寧vs柿元礼愛",
@@ -813,6 +798,21 @@
       "tags": "1+1は2じゃないよ",
       "addedAt": "",
       "order": "61"
+    },
+    {
+      "title": "２０２４年７月６日（土）３じゃないよ！ 北川愛乃vs野村実代vs原優寧",
+      "url": "https://www.youtube.com/watch?v=1QQFMAQePYA",
+      "category": "その他",
+      "date": "2024-07-06",
+      "desc": "",
+      "recommend": "",
+      "pickupComment": "",
+      "chapters": "",
+      "seriesOrder": "",
+      "related": "",
+      "tags": "1+1+1は3じゃなよ",
+      "addedAt": "",
+      "order": "46"
     },
     {
       "title": "２０２４年５月３０日（木）２じゃないよ！上村亜柚香vs原優寧",
