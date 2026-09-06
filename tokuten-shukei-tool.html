@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="注文履歴を貼り付けるだけで特典会の枚数を自動集計し、日程表・シェア画像まで作れるツールです">
+
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-N5CY6YN1KG');
+</script>
+
+<title>特典会 集計＆日程表メーカー | 原優寧 布教サイト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --ink:#3D1116; --ink-soft:#5C1B23;
+    --paper:#FFFAF9; --paper-dim:#FFE2E6;
+    --gold:#E0233A; --gold-deep:#B81B30;
+    --maroon:#7C3B3B; --good:#4C7A5A;
+    --muted:#7D6B78; --line:#F0DDE6;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper-dim);font-family:'Noto Sans JP', sans-serif;color:var(--ink);line-height:1.6;padding:0 0 60px;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  header.top{background:var(--ink);color:var(--paper);padding:34px 24px 40px;position:relative;}
+  header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:repeating-linear-gradient(90deg, var(--gold) 0 14px, transparent 14px 22px);}
+  .top-inner{max-width:980px;margin:0 auto;}
+  .eyebrow{font-family:'JetBrains Mono', monospace;font-size:12px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin:0 0 10px;}
+  h1.title{font-family:'Zen Maru Gothic', sans-serif;font-size:clamp(22px,4vw,32px);font-weight:900;margin:0 0 8px;}
+  .subtitle{color:#C9C4D6;font-size:13.5px;margin:0;max-width:620px;}
+
+  main{max-width:980px;margin:0 auto;padding:0 24px;}
+
+  section.card{background:var(--paper);border:1px solid var(--line);border-radius:4px;margin-top:24px;padding:22px 22px 26px;}
+  .step-label{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono', monospace;font-size:12px;letter-spacing:.1em;color:var(--gold-deep);text-transform:uppercase;margin:0 0 6px;}
+  .step-label .num{background:var(--ink);color:var(--gold);border-radius:2px;padding:2px 7px;}
+  h2.card-title{font-family:'Zen Maru Gothic', sans-serif;font-size:18px;font-weight:700;margin:0 0 4px;}
+  p.card-desc{color:var(--muted);font-size:13.5px;margin:0 0 16px;}
+
+  textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:3px;padding:12px 14px;font-family:'JetBrains Mono', monospace;font-size:12.5px;resize:vertical;background:#fff;color:var(--ink);}
+  textarea:focus{outline:2px solid var(--gold);outline-offset:1px;}
+
+  .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center;}
+  button{font-family:'Zen Maru Gothic', sans-serif;font-size:13.5px;font-weight:700;border-radius:3px;padding:10px 18px;cursor:pointer;border:1px solid transparent;}
+  button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+  button:active{transform:translateY(1px);}
+  .btn-primary{background:var(--gold);color:var(--ink);border-color:var(--gold-deep);}
+  .btn-primary:hover{background:var(--gold-deep);}
+  .btn-secondary{background:transparent;color:var(--ink);border-color:var(--line);}
+  .btn-secondary:hover{background:var(--paper-dim);}
+  .btn-ghost{background:transparent;color:var(--muted);border-color:transparent;text-decoration:underline;padding:10px 4px;}
+  .status-pill{font-family:'JetBrains Mono', monospace;font-size:12px;color:var(--muted);margin-left:auto;}
+
+  .note-box{background:var(--paper-dim);border-left:3px solid var(--gold);padding:10px 14px;font-size:12.5px;color:var(--muted);margin-top:14px;border-radius:0 3px 3px 0;}
+  .warn-box{background:#FBEFE3;border-left:3px solid var(--maroon);padding:10px 14px;font-size:12.5px;color:var(--ink-soft);margin-top:14px;border-radius:0 3px 3px 0;}
+  .warn-box pre{white-space:pre-wrap;font-size:11.5px;color:var(--muted);margin:6px 0 0;}
+
+  .year-panel{background:var(--paper-dim);border-radius:4px;padding:12px 14px;margin-top:14px;}
+  .year-panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
+  .year-panel-title{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+  .base-year-field{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);}
+  .base-year-field input{width:76px;font-family:'JetBrains Mono', monospace;font-size:12.5px;padding:4px 6px;border:1px solid var(--line);border-radius:3px;}
+  .year-row{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:12.5px;flex-wrap:wrap;}
+  .year-row:last-child{border-bottom:none;}
+  .year-row-date{min-width:52px;}
+  .year-input{width:76px;font-family:'JetBrains Mono', monospace;font-size:12.5px;padding:4px 6px;border:1px solid var(--line);border-radius:3px;}
+  .chip-small{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:999px;}
+  .chip-auto{background:var(--line);color:var(--ink-soft);}
+  .chip-manual{background:var(--gold);color:var(--ink);}
+
+  table.preview{width:100%;border-collapse:collapse;font-size:13px;}
+  table.preview th{text-align:left;font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;}
+  table.preview td{padding:8px 10px;border-bottom:1px solid var(--line);}
+  .table-scroll{overflow-x:auto;}
+  .preview-scroll{max-height:360px;overflow-y:auto;overflow-x:auto;border:1px solid var(--line);border-radius:4px;}
+
+  .chip{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff;white-space:nowrap;}
+
+  /* control panel */
+  .control-panel{background:var(--paper);border:1px solid var(--line);border-radius:4px 4px 0 0;padding:16px 22px;margin-top:26px;}
+  .control-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line);}
+  .control-row:last-child{border-bottom:none;padding-bottom:0;}
+  .control-row:first-child{padding-top:0;}
+  .control-label{font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;min-width:76px;}
+  .pill{background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:700;}
+  .pill.active{background:var(--ink);color:var(--gold);border-color:var(--ink);}
+  select.small{font-family:'Zen Maru Gothic', sans-serif;font-size:12.5px;padding:6px 8px;border-radius:3px;border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .multiselect{position:relative;display:inline-block;}
+  .ms-toggle{cursor:pointer;}
+  .ms-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:10px;min-width:190px;max-height:240px;overflow-y:auto;z-index:50;}
+  .ms-panel.open{display:block;}
+  .ms-actions{display:flex;gap:12px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--line);}
+  .ms-item{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 2px;cursor:pointer;white-space:nowrap;}
+  .ms-item input{cursor:pointer;}
+  .ms-empty{font-size:12px;color:var(--muted);padding:4px 2px;}
+  .reset-link{font-size:12px;color:var(--muted);text-decoration:underline;cursor:pointer;background:none;border:none;padding:4px;}
+  .arrow-sep{color:var(--muted);font-size:12px;}
+  .toggle-switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;user-select:none;}
+  .toggle-switch input{width:34px;height:18px;accent-color:var(--gold-deep);cursor:pointer;}
+
+  .ticket-divider{position:relative;height:1px;border-top:2px dashed var(--line);margin:0 -22px 20px;}
+  .ticket-divider::before,.ticket-divider::after{content:"";position:absolute;top:-9px;width:18px;height:18px;border-radius:50%;background:var(--paper-dim);border:1px solid var(--line);}
+  .ticket-divider::before{left:-9px;} .ticket-divider::after{right:-9px;}
+
+  .result-panel{background:var(--paper);border:1px solid var(--line);border-top:none;border-radius:0 0 4px 4px;padding:20px 22px 24px;}
+  .empty-state{text-align:center;padding:34px 10px;color:var(--muted);font-size:13.5px;}
+  .result-heading{font-size:15px;font-weight:700;margin:0 0 2px;}
+  .result-sub{font-size:12.5px;color:var(--muted);margin:0 0 10px;}
+  .type-total-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+
+  table.result{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px;}
+  table.result thead th{text-align:left;background:var(--ink);color:var(--paper);font-size:11.5px;letter-spacing:.05em;padding:9px 12px;}
+  table.result tbody td{padding:9px 12px;border-bottom:1px solid var(--line);}
+  table.result tbody tr:nth-child(even){background:var(--paper-dim);}
+  table.result td.num, table.result th.num{font-family:'JetBrains Mono', monospace;text-align:right;}
+  table.result tfoot td{padding:10px 12px;font-weight:700;font-family:'JetBrains Mono', monospace;border-top:2px solid var(--ink);}
+
+  .table-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:14px;}
+
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:6px;}
+  .ticket-card{position:relative;background:var(--paper-dim);border:1px solid var(--line);border-radius:6px;padding:16px 16px 14px;}
+  .ticket-card::before,.ticket-card::after{content:"";position:absolute;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:var(--paper);border:1px solid var(--line);}
+  .ticket-card::before{left:-8px;} .ticket-card::after{right:-8px;}
+  .ticket-card .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .ticket-card .part-num{font-family:'JetBrains Mono', monospace;font-size:13px;font-weight:700;color:var(--muted);}
+  .ticket-card .part-num small{font-size:11px;font-weight:500;color:var(--muted);margin-left:2px;}
+  .ticket-card .card-date{font-family:'JetBrains Mono', monospace;font-size:11.5px;color:var(--muted);}
+  .ticket-card .divider-mini{border-top:1px dashed var(--line);margin:10px 0;}
+  .ticket-card .qty-big{font-family:'JetBrains Mono', monospace;font-size:26px;font-weight:700;color:var(--gold-deep);}
+  .ticket-card .qty-big span{font-size:13px;font-weight:500;color:var(--muted);margin-left:3px;}
+  .ticket-card .venue{font-size:12px;color:var(--muted);margin-top:6px;}
+  .ticket-card .member{font-family:'Zen Maru Gothic', sans-serif;font-size:22px;font-weight:900;color:var(--ink);margin-bottom:2px;}
+  .ticket-card .card-work{font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+
+  .timeline-date-head{font-family:'JetBrains Mono', monospace;font-size:13px;font-weight:700;color:var(--ink);margin:22px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--ink);}
+  .timeline-date-venue{font-family:'Zen Maru Gothic', sans-serif;font-size:12px;font-weight:500;color:var(--muted);}
+
+  .rank-list{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+  .rank-row{display:flex;align-items:flex-start;gap:12px;background:var(--paper-dim);border-radius:6px;padding:12px 14px;}
+  .rank-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--line);color:var(--ink-soft);font-family:'JetBrains Mono', monospace;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .rank-badge.rank-gold{background:#E3B23B;color:#3B2E0A;}
+  .rank-badge.rank-silver{background:#C7CDD6;color:#33383F;}
+  .rank-badge.rank-bronze{background:#C98A54;color:#3B240F;}
+  .rank-body{flex:1;min-width:0;}
+  .rank-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .rank-title{font-size:13.5px;font-weight:700;}
+  .rank-value{font-size:15px;font-weight:700;color:var(--gold-deep);}
+  .rank-sub{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .rank-bar-track{background:var(--line);border-radius:999px;height:6px;overflow:hidden;margin-top:8px;}
+  .rank-bar-fill{height:100%;border-radius:999px;}
+  .timeline-date-head:first-child{margin-top:4px;}
+  .timeline{position:relative;margin-left:6px;padding-left:26px;border-left:2px solid var(--line);}
+  .timeline-part-tag{font-family:'JetBrains Mono', monospace;font-size:11.5px;font-weight:700;color:var(--gold-deep);margin:14px 0 8px;padding-bottom:3px;border-bottom:1px dashed var(--line);}
+  .timeline-part-tag:first-child{margin-top:0;}
+  .timeline-item{position:relative;padding-bottom:20px;}
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-item::before{content:"";position:absolute;left:-32px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--ink);}
+  .timeline-item .ti-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .timeline-item .ti-part{font-family:'JetBrains Mono', monospace;font-weight:700;font-size:14px;}
+  .timeline-item .ti-qty{font-family:'JetBrains Mono', monospace;font-weight:700;font-size:15px;color:var(--gold-deep);}
+  .timeline-item .ti-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .share-frame{width:100%;max-width:460px;margin:0 auto;}
+  .share-card{background:linear-gradient(160deg, var(--ink) 0%, var(--ink-soft) 100%);color:var(--paper);border-radius:22px;position:relative;overflow:hidden;min-height:560px;display:flex;flex-direction:column;justify-content:center;}
+  .share-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;background:var(--gold);}
+  .share-deco{position:absolute;border-radius:50%;pointer-events:none;}
+  .share-deco-1{width:240px;height:240px;top:-70px;right:-70px;background:radial-gradient(circle, var(--gold) 0%, transparent 70%);opacity:.28;}
+  .share-deco-2{width:180px;height:180px;bottom:-50px;left:-50px;background:radial-gradient(circle, var(--maroon) 0%, transparent 70%);opacity:.25;}
+  .share-deco-3{width:130px;height:130px;top:38%;left:-40px;background:radial-gradient(circle, var(--good) 0%, transparent 70%);opacity:.18;}
+  .share-content{position:relative;z-index:1;padding:40px 32px 34px;text-align:center;}
+  .share-badge{display:inline-block;font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.16em;color:var(--ink);background:var(--gold);text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:18px;}
+  .share-title{font-size:21px;font-weight:900;margin:0 0 6px;}
+  .share-range{font-family:'JetBrains Mono', monospace;font-size:12px;color:#C9C4D6;margin:0;}
+  .share-perforation{position:relative;height:1px;border-top:2px dashed rgba(255,255,255,.22);margin:26px -32px;}
+  .share-perforation::before,.share-perforation::after{content:"";position:absolute;top:-9px;width:18px;height:18px;border-radius:50%;background:var(--paper);}
+  .share-perforation::before{left:-9px;}
+  .share-perforation::after{right:-9px;}
+  .share-total-wrap{position:relative;width:180px;height:180px;margin:6px auto 2px;display:flex;align-items:center;justify-content:center;}
+  .share-total-halo{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.16) 0%, transparent 72%);}
+  .share-total-num{position:relative;font-family:'JetBrains Mono', monospace;font-size:56px;font-weight:700;color:var(--gold);line-height:1;}
+  .share-total-label{font-size:12px;color:#C9C4D6;margin-top:2px;}
+  .share-stack-bar{display:flex;width:100%;height:12px;border-radius:999px;overflow:hidden;margin-top:22px;background:rgba(255,255,255,.1);}
+  .share-stack-seg{height:100%;}
+  .share-legend{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;margin-top:16px;font-size:13px;}
+  .share-legend b{color:var(--gold);font-family:'JetBrains Mono', monospace;}
+  .share-hidden-note{font-size:12.5px;color:#C9C4D6;margin-top:22px;font-style:italic;}
+  .share-dots{margin-top:26px;letter-spacing:6px;font-size:6px;color:var(--gold);opacity:.7;}
+
+  /* modal */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(33,31,46,.55);z-index:100;align-items:center;justify-content:center;padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal-box{background:var(--paper);border-radius:6px;max-width:480px;width:100%;padding:24px;max-height:80vh;overflow-y:auto;}
+  .modal-box h3{margin:0 0 8px;font-size:16px;}
+  .modal-box p{font-size:13px;color:var(--muted);margin:0 0 14px;}
+  .modal-list{font-size:12.5px;background:var(--paper-dim);border-radius:4px;padding:10px 12px;margin-bottom:16px;}
+  .modal-list div{padding:5px 0;border-bottom:1px dashed var(--line);}
+  .modal-list div:last-child{border-bottom:none;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;}
+
+  @media (max-width:600px){
+    section.card{padding:18px 16px 22px;}
+    .ticket-divider{margin:0 -16px 20px;}
+    .control-panel{padding:14px 16px;}
+    .control-label{min-width:100%;}
+    .share-content{padding:32px 20px 26px;}
+    .share-total-num{font-size:42px;}
+    .share-total-wrap{width:140px;height:140px;}
+  }
+
+  @media print{
+    header.top, .no-print{display:none !important;}
+    body{background:#fff;}
+    section.card, .result-panel, .control-panel{border:none;padding:0;margin:0;}
+    .tabs{display:none;}
+    main{max-width:100%;}
+    .share-card{background:#fff;color:#000;min-height:0;}
+    .share-deco{display:none;}
+    .share-total-num, .share-badge{color:#000;background:none;}
+  }
+
+  .tool-topnav{position:sticky;top:0;z-index:60;background:rgba(255,250,249,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .tool-topnav-inner{max-width:980px;margin:0 auto;padding:0 24px;height:46px;display:flex;align-items:center;}
+  .tool-back-link{font-family:'Zen Maru Gothic', sans-serif;font-size:12.5px;font-weight:700;color:var(--gold-deep);text-decoration:none;}
+  .tool-back-link:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<nav class="tool-topnav no-print">
+  <div class="tool-topnav-inner">
+    <a class="tool-back-link" href="tools.html">← ツール一覧に戻る</a>
+  </div>
+</nav>
+<header class="top">
+  <div class="top-inner">
+    <p class="eyebrow">for fans / order aggregator</p>
+    <h1 class="title">特典会 集計＆日程表メーカー</h1>
+    <p class="subtitle">CD等の注文履歴（トーク会・握手会などの参加券つき商品）を貼り付けると、部ごとの枚数を自動で読み取り、集計表と当日の日程表を作ります。何回かに分けて注文したデータも追加登録できます。データはこの画面上だけで処理され、保存・送信はされません。</p>
+  </div>
+</header>
+
+<main>
+
+  <section class="card no-print">
+    <p class="step-label"><span class="num">01</span>注文履歴を貼り付けて登録</p>
+    <h2 class="card-title">注文履歴ページの表をコピー＆ペースト</h2>
+    <p class="card-desc">注文履歴ページで表の部分を選択してコピーし、そのまま下の欄に貼り付けてください。注文が複数回に分かれている場合は、その都度この欄に貼り付けて「登録する」を押せば追加されます。既存データと日付・会場・部・種別・メンバーが一致するものがあれば、追加前に確認します。</p>
+    <textarea id="rawInput" placeholder="注文履歴の表をそのまま貼り付けてください"></textarea>
+    <div id="registerError" class="warn-box" style="display:none;"></div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="handleRegister()">登録する</button>
+      <button class="btn-secondary" onclick="loadSample()">サンプルデータを試す</button>
+      <button class="btn-ghost" onclick="clearAll()">全データをクリア</button>
+      <span class="status-pill" id="statusPill">登録済み：0件</span>
+    </div>
+    <div class="btn-row" style="margin-top:10px;padding-top:12px;border-top:1px dashed var(--line);">
+      <button class="btn-secondary" onclick="exportBackupCSV()">CSVに書き出す（バックアップ）</button>
+      <button class="btn-secondary" onclick="document.getElementById('csvImportInput').click()">CSVから復元する</button>
+      <input type="file" id="csvImportInput" accept=".csv" style="display:none" onchange="handleImportFile(event)">
+    </div>
+    <div class="note-box">作業を中断するときは「CSVに書き出す」でファイルを保存しておくと、次にこのページを開いたときに「CSVから復元する」で続きから再開できます（このページ自体はデータを保存しません）。このツール以外で作ったCSVも、「日付」「会場」「部」「種別」「枚数」「メンバー」「作品」の見出し（列名）があれば取り込めます（「日付」「部」「枚数」は必須、それ以外は任意）。</div>
+  </section>
+
+  <section class="card no-print" id="previewSection" style="display:none;">
+    <p class="step-label"><span class="num">02</span>登録済みデータを確認</p>
+    <h2 class="card-title">現在登録されている注文</h2>
+    <p class="card-desc" id="previewDesc"></p>
+    <div class="preview-scroll" id="previewTableWrap">
+      <table class="preview" id="previewTable"></table>
+    </div>
+    <div id="unparsedBox" style="display:none;" class="warn-box">
+      <strong id="unparsedCount"></strong> 件、自動で読み取れなかった商品行があります。集計には含まれていません。
+      <pre id="unparsedList"></pre>
+    </div>
+
+    <div class="year-panel">
+      <div class="year-panel-head">
+        <span class="year-panel-title">日付ごとの年（自動判定・修正可）</span>
+        <span class="base-year-field">基準年：<input type="number" id="baseYearInput" onchange="updateBaseYear(this.value)"></span>
+      </div>
+      <div id="dateYearList"></div>
+      <div class="btn-row" style="margin-top:8px;">
+        <button class="reset-link" onclick="resetAllYearOverrides()">すべて自動判定に戻す</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card no-print" id="createSection" style="display:none;">
+    <p class="step-label"><span class="num">03</span>集計結果を作成</p>
+    <h2 class="card-title">集計表・日程表を作成</h2>
+    <p class="card-desc">登録内容を確認できたら、下のボタンで集計結果を作成します。データを追加・修正したときは、もう一度押すと最新の内容に更新されます。</p>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="renderResults()">集計表・日程表を作成／更新</button>
+    </div>
+  </section>
+
+  <div id="resultsSection" style="display:none;">
+    <div class="control-panel no-print">
+      <div class="control-row">
+        <span class="control-label">配色</span>
+        <button class="pill theme-pill active" data-theme="oshi" onclick="setTheme('oshi')">推し活ピンク</button>
+        <button class="pill theme-pill" data-theme="navy" onclick="setTheme('navy')">チケット紺</button>
+        <button class="pill theme-pill" data-theme="pop" onclick="setTheme('pop')">ポップ</button>
+        <button class="pill theme-pill" data-theme="mono" onclick="setTheme('mono')">モノトーン</button>
+        <button class="pill theme-pill" data-theme="natural" onclick="setTheme('natural')">ナチュラル</button>
+        <button class="pill theme-pill" data-theme="sunset" onclick="setTheme('sunset')">サンセット</button>
+        <button class="pill theme-pill" data-theme="lavender" onclick="setTheme('lavender')">ラベンダー</button>
+        <button class="pill theme-pill" data-theme="citynight" onclick="setTheme('citynight')">シティナイト</button>
+        <button class="pill theme-pill" data-theme="retro" onclick="setTheme('retro')">レトロ</button>
+        <button class="pill theme-pill" data-theme="ice" onclick="setTheme('ice')">アイスブルー</button>
+        <button class="pill theme-pill" data-theme="matcha" onclick="setTheme('matcha')">抹茶</button>
+      </div>
+      <div class="control-row">
+        <span class="control-label">表示スタイル</span>
+        <button class="pill style-pill active" data-style="simple" onclick="setStyle('simple')">シンプル表</button>
+        <button class="pill style-pill" data-style="card" onclick="setStyle('card')">チケットカード</button>
+        <button class="pill style-pill" data-style="timeline" onclick="setStyle('timeline')">タイムライン</button>
+        <button class="pill style-pill" data-style="ranking" onclick="setStyle('ranking')">ランキング</button>
+        <button class="pill style-pill" data-style="share" onclick="setStyle('share')">シェア用サマリー</button>
+      </div>
+      <div class="control-row">
+        <span class="control-label">絞り込み</span>
+        <div class="multiselect">
+          <button class="pill ms-toggle" id="msToggle_date" onclick="toggleMultiselect('date')">日付：すべて</button>
+          <div class="ms-panel" id="msPanel_date"></div>
+        </div>
+        <div class="multiselect">
+          <button class="pill ms-toggle" id="msToggle_work" onclick="toggleMultiselect('work')">作品：すべて</button>
+          <div class="ms-panel" id="msPanel_work"></div>
+        </div>
+        <div class="multiselect">
+          <button class="pill ms-toggle" id="msToggle_member" onclick="toggleMultiselect('member')">メンバー：すべて</button>
+          <div class="ms-panel" id="msPanel_member"></div>
+        </div>
+        <div class="multiselect">
+          <button class="pill ms-toggle" id="msToggle_venue" onclick="toggleMultiselect('venue')">会場：すべて</button>
+          <div class="ms-panel" id="msPanel_venue"></div>
+        </div>
+        <div class="multiselect">
+          <button class="pill ms-toggle" id="msToggle_part" onclick="toggleMultiselect('part')">部：すべて</button>
+          <div class="ms-panel" id="msPanel_part"></div>
+        </div>
+        <div class="multiselect">
+          <button class="pill ms-toggle" id="msToggle_type" onclick="toggleMultiselect('type')">種別：すべて</button>
+          <div class="ms-panel" id="msPanel_type"></div>
+        </div>
+        <button class="reset-link" onclick="resetFilters()">絞り込みを解除</button>
+      </div>
+      <div class="control-row">
+        <span class="control-label">並び替え</span>
+        <select class="small" id="sortKey0" onchange="updateSortKey(0,this.value)"></select>
+        <span class="arrow-sep">→</span>
+        <select class="small" id="sortKey1" onchange="updateSortKey(1,this.value)"></select>
+        <span class="arrow-sep">→</span>
+        <select class="small" id="sortKey2" onchange="updateSortKey(2,this.value)"></select>
+        <span class="arrow-sep">→</span>
+        <select class="small" id="sortKey3" onchange="updateSortKey(3,this.value)"></select>
+        <button class="pill" id="sortDirBtn" onclick="toggleSortDir()">↑ 昇順</button>
+      </div>
+      <div class="control-row">
+        <span class="control-label">表示設定</span>
+        <label class="toggle-switch"><input type="checkbox" id="showQtyToggle" checked onchange="toggleShowQty()"> 枚数を表示する</label>
+      </div>
+    </div>
+    <div class="result-panel">
+      <div id="resultPanelContent"></div>
+      <div class="table-actions no-print">
+        <button class="btn-secondary" onclick="copyShareText()">投稿用テキストをコピー</button>
+        <button class="btn-primary" onclick="saveAsImage()">画像として保存</button>
+        <button class="btn-primary" onclick="saveSNSImage()">SNSシェア画像を作成</button>
+        <button class="btn-secondary" onclick="downloadCSV()">CSVダウンロード</button>
+        <button class="btn-secondary" onclick="handlePrint()">印刷</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="modal-overlay" id="dupModal">
+  <div class="modal-box">
+    <h3>既に登録されている内容と重複しています</h3>
+    <p>以下の項目は、既存データと「日付・会場・部・種別・メンバー」が一致します。別注文としてこのまま追加しますか？</p>
+    <div class="modal-list" id="dupList"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="resolveModal(false)">いいえ（追加しない）</button>
+      <button class="btn-primary" onclick="resolveModal(true)">はい（追加する）</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let items = [];
+let unparsed = [];
+let currentStyle = 'simple';
+let currentTheme = 'oshi';
+let showQty = true;
+let filters = {date:[], member:[], venue:[], part:[], type:[], work:[]};
+let filterOptionsCache = {date:[], member:[], venue:[], part:[], type:[], work:[]};
+let filterLabelsCache = {date:[], member:[], venue:[], part:[], type:[], work:[]};
+const FILTER_LABELS_JA = {date:'日付', member:'メンバー', venue:'会場', part:'部', type:'種別', work:'作品'};
+let sortKeys = ['date','venue','part','member'];
+let sortDir = 'asc';
+let modalConfirmCallback = null;
+let baseYear = new Date().getFullYear();
+let dateYearOverrides = new Map(); // "M/D" -> year (manual override)
+
+const FIELD_LABELS = {date:'日付', venue:'会場', part:'部', member:'メンバー', type:'種別', work:'作品', qty:'枚数', none:'指定なし'};
+const FIELD_LABELS_JA = {date:'日付', venue:'会場', part:'部', member:'メンバー', type:'種別', work:'作品'};
+
+const THEMES = {
+  oshi:   {vars:{ink:'#3D1116',inkSoft:'#5C1B23',paper:'#FFFAF9',paperDim:'#FFE2E6',gold:'#E0233A',goldDeep:'#B81B30',maroon:'#7C3B3B',good:'#4C7A5A',muted:'#7D6B78',line:'#F0DDE6'}, chips:['#E0233A','#3D6E8C','#4C7A5A','#C1811F','#8A5FA3','#B0552E']},
+  navy:   {vars:{ink:'#211F2E',inkSoft:'#332F44',paper:'#FBF7EE',paperDim:'#F1EADA',gold:'#E3A23B',goldDeep:'#C1811F',maroon:'#7C3B3B',good:'#4C7A5A',muted:'#6E6A7C',line:'#D8D0BE'}, chips:['#E3A23B','#7C3B3B','#4C7A5A','#3D6E8C','#8A5FA3','#B0552E']},
+  pop:    {vars:{ink:'#3B2145',inkSoft:'#4F2F5C',paper:'#FFF6FA',paperDim:'#FCE9F3',gold:'#F2578C',goldDeep:'#D63E72',maroon:'#7A3FA0',good:'#3FA796',muted:'#8A7090',line:'#F0D3E3'}, chips:['#F2578C','#7A3FA0','#3FA796','#F2A93B','#4C8FE3','#E35D5D']},
+  mono:   {vars:{ink:'#1E1E1E',inkSoft:'#333333',paper:'#FAFAFA',paperDim:'#EDEDED',gold:'#4A4A4A',goldDeep:'#2B2B2B',maroon:'#6B6B6B',good:'#555555',muted:'#8C8C8C',line:'#D9D9D9'}, chips:['#2B2B2B','#6B4F4F','#4F6B5A','#4F5C6B','#6B5F4F','#5C4F6B']},
+  natural:{vars:{ink:'#2E3B2A',inkSoft:'#3F4F38',paper:'#FBF8F1',paperDim:'#EFE8D8',gold:'#C98A3E',goldDeep:'#A66F2E',maroon:'#7A4A32',good:'#5C7A4C',muted:'#7A7A63',line:'#DDD5BE'}, chips:['#C98A3E','#7A4A32','#5C7A4C','#4C6E7A','#8A6A9E','#B0552E']},
+  sunset: {vars:{ink:'#2B1E2F',inkSoft:'#3D2A40',paper:'#FFF8F2',paperDim:'#FCE7D6',gold:'#F2762E',goldDeep:'#D65A18',maroon:'#C13F5E',good:'#3FA0A0',muted:'#8A7368',line:'#F0D3B8'}, chips:['#F2762E','#C13F5E','#3FA0A0','#F2C11E','#6B5FA0','#4C8FE3']},
+  lavender:{vars:{ink:'#3A2E52',inkSoft:'#4A3B66',paper:'#FAF7FF',paperDim:'#EFE6FA',gold:'#B98CE0',goldDeep:'#9A6BC4',maroon:'#E0708C',good:'#6FBFA0',muted:'#8A80A0',line:'#E3D6F2'}, chips:['#B98CE0','#E0708C','#6FBFA0','#F2B84A','#5C8FE0','#E0955C']},
+  citynight:{vars:{ink:'#12141F',inkSoft:'#1D2130',paper:'#F4F6FB',paperDim:'#E4E8F5',gold:'#29C9C4',goldDeep:'#14A8A6',maroon:'#E63FA0',good:'#4C8FE3',muted:'#6E7690',line:'#D7DCEE'}, chips:['#29C9C4','#E63FA0','#4C8FE3','#F2C94C','#9B6BE0','#E0714C']},
+  retro:  {vars:{ink:'#3B2A1E',inkSoft:'#4F3A28',paper:'#FBF3E3',paperDim:'#F2E4C8',gold:'#E0A64E',goldDeep:'#C4863A',maroon:'#3F7A6E',good:'#8A9B4E',muted:'#8A7A63',line:'#E6D6B0'}, chips:['#E0A64E','#3F7A6E','#8A9B4E','#C4544A','#5C7A9E','#B0703E']},
+  ice:    {vars:{ink:'#1E3A4A',inkSoft:'#2A4E60',paper:'#F5FBFE',paperDim:'#E3F1F8',gold:'#4CA9D6',goldDeep:'#3487AD',maroon:'#8C6FB0',good:'#4FB89A',muted:'#7A93A0',line:'#D6E8F2'}, chips:['#4CA9D6','#8C6FB0','#4FB89A','#E0C15C','#4C7AE0','#E08C6F']},
+  matcha: {vars:{ink:'#2B3B24',inkSoft:'#3A4F30',paper:'#FAF8EE',paperDim:'#EFE9D2',gold:'#C9A227',goldDeep:'#A6821E',maroon:'#8C4A3E',good:'#6E8C4A',muted:'#7A7A5F',line:'#DED8B8'}, chips:['#C9A227','#8C4A3E','#6E8C4A','#4A6E8C','#8C6E4A','#5F7A5F']},
+};
+
+let typeColorMap = {};
+function getTypeColor(type){
+  const palette = THEMES[currentTheme].chips;
+  if(!(type in typeColorMap)) typeColorMap[type] = palette[Object.keys(typeColorMap).length % palette.length];
+  return typeColorMap[type];
+}
+
+function setTheme(theme){
+  currentTheme = theme;
+  const v = THEMES[theme].vars;
+  const root = document.documentElement.style;
+  root.setProperty('--ink', v.ink);
+  root.setProperty('--ink-soft', v.inkSoft);
+  root.setProperty('--paper', v.paper);
+  root.setProperty('--paper-dim', v.paperDim);
+  root.setProperty('--gold', v.gold);
+  root.setProperty('--gold-deep', v.goldDeep);
+  root.setProperty('--maroon', v.maroon);
+  root.setProperty('--good', v.good);
+  root.setProperty('--muted', v.muted);
+  root.setProperty('--line', v.line);
+  typeColorMap = {};
+  document.querySelectorAll('.theme-pill').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+
+const PRICE_RE = /¥\s*([\d,]+)[\t ]+(\d+)[\t ]+¥\s*([\d,]+)/g;
+const ITEM_RE = /(\d{1,2})\/(\d{1,2})\s*([^\d(（]+?)\s*[\(（](\d+)部[\)）]\s*([^「]+?)\s*「([^」]+)」\s*\/?\s*(.+?)参加券[:：]\s*(\d+)\s*枚/;
+
+function parseOrderText(text){
+  const parsedItems = [];
+  const unparsedBlocks = [];
+  let lastEnd = 0, m;
+  const blocks = [], prices = [];
+  PRICE_RE.lastIndex = 0;
+  while((m = PRICE_RE.exec(text)) !== null){
+    blocks.push(text.slice(lastEnd, m.index));
+    prices.push({unit:m[1], qty:m[2], subtotal:m[3]});
+    lastEnd = m.index + m[0].length;
+  }
+  blocks.forEach((block, i) => {
+    const im = ITEM_RE.exec(block);
+    if(im){
+      const [, month, day, venue, part, artist, work, typeRaw, ticketsPerUnit] = im;
+      const modeMatch = typeRaw.match(/^(現地で|オンラインで)/);
+      const mode = modeMatch ? modeMatch[1].replace('で','') : '';
+      const eventType = typeRaw.replace(/^(現地で|オンラインで)/, '').trim();
+      const qty = parseInt(String(prices[i].qty).replace(/,/g,'')) || 0;
+      const tpu = parseInt(ticketsPerUnit) || 1;
+      parsedItems.push({
+        month: parseInt(month), day: parseInt(day), venue: venue.trim(), part: parseInt(part),
+        artist: artist.trim(), work: work.trim(), mode, eventType, ticketsPerUnit: tpu,
+        qty, totalTickets: qty * tpu,
+      });
+    } else {
+      const trimmed = block.trim();
+      if(trimmed && !/^(商品|配送状況)/.test(trimmed)) unparsedBlocks.push(trimmed);
+    }
+  });
+  return {items: parsedItems, unparsed: unparsedBlocks, priceMatchCount: blocks.length};
+}
+
+function computeWrapInfo(){
+  const months = new Set(items.map(it=>it.month));
+  const hasLate = [...months].some(m=>m>=10);
+  const hasEarly = [...months].some(m=>m<=3);
+  return hasLate && hasEarly;
+}
+function autoYearFor(month){
+  const wrap = computeWrapInfo();
+  return (wrap && month <= 3) ? baseYear + 1 : baseYear;
+}
+function getYearForDate(month, day){
+  const key = `${month}/${day}`;
+  if(dateYearOverrides.has(key)) return dateYearOverrides.get(key);
+  return autoYearFor(month);
+}
+function getUniqueDateKeys(){
+  const set = new Set(items.map(it => `${it.month}/${it.day}`));
+  return Array.from(set).map(k => {
+    const [m,d] = k.split('/').map(Number);
+    return {month:m, day:d, key:k};
+  }).sort((a,b) => {
+    const ya = getYearForDate(a.month,a.day), yb = getYearForDate(b.month,b.day);
+    return (ya*10000+a.month*100+a.day) - (yb*10000+b.month*100+b.day);
+  });
+}
+function renderDateYearPanel(){
+  const baseInput = document.getElementById('baseYearInput');
+  if(baseInput && document.activeElement !== baseInput) baseInput.value = baseYear;
+  const panel = document.getElementById('dateYearList');
+  if(!panel) return;
+  const dates = getUniqueDateKeys();
+  if(dates.length === 0){
+    panel.innerHTML = '<span style="color:var(--muted);font-size:12.5px;">データがありません</span>';
+    return;
+  }
+  panel.innerHTML = dates.map(d => {
+    const year = getYearForDate(d.month, d.day);
+    const isOverride = dateYearOverrides.has(d.key);
+    return `<div class="year-row">
+      <span class="mono year-row-date">${d.month}/${d.day}</span>
+      <input type="number" class="year-input" value="${year}" onchange="setYearOverride('${d.key}', this.value)">
+      <span class="chip-small ${isOverride ? 'chip-manual' : 'chip-auto'}">${isOverride ? '手動' : '自動'}</span>
+      ${isOverride ? `<button class="reset-link" onclick="clearYearOverride('${d.key}')">自動に戻す</button>` : ''}
+    </div>`;
+  }).join('');
+}
+function setYearOverride(key, value){
+  const y = parseInt(value);
+  if(!isNaN(y)) dateYearOverrides.set(key, y);
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+function clearYearOverride(key){
+  dateYearOverrides.delete(key);
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+function resetAllYearOverrides(){
+  dateYearOverrides.clear();
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+function updateBaseYear(value){
+  const y = parseInt(value);
+  if(!isNaN(y)) baseYear = y;
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+
+function itemKey(it){
+  const y = getYearForDate(it.month, it.day);
+  return `${y}/${it.month}/${it.day}|${it.venue}|${it.part}|${it.eventType}|${it.artist}|${it.work}`;
+}
+
+function showRegisterError(html){
+  const box = document.getElementById('registerError');
+  box.innerHTML = html;
+  box.style.display = 'block';
+}
+function clearRegisterError(){
+  const box = document.getElementById('registerError');
+  box.style.display = 'none';
+  box.innerHTML = '';
+}
+
+function handleRegister(){
+  const text = document.getElementById('rawInput').value;
+  clearRegisterError();
+  if(!text.trim()){
+    showRegisterError('注文履歴が貼り付けられていません。表をコピーしてから貼り付けてください。');
+    return;
+  }
+  const result = parseOrderText(text);
+
+  if(result.priceMatchCount === 0){
+    showRegisterError(`
+      <strong>価格・数量の並びが見つかりませんでした。</strong>
+      「¥1,200　30　¥36,000」のように、<b>単価・個数・小計</b>が並んでいる行が必要です。<br>
+      考えられる原因：
+      <ul style="margin:6px 0 0;padding-left:20px;">
+        <li>表をコピーする際にタブ区切り（列の区切り）が崩れている</li>
+        <li>単価・個数・小計の列を含まない範囲だけをコピーしている</li>
+        <li>想定と異なる注文履歴ページの形式である</li>
+      </ul>
+      表全体（見出し行から）をコピーし直して、もう一度お試しください。
+    `);
+    return;
+  }
+
+  if(result.items.length === 0){
+    const samples = result.unparsed.slice(0, 3).map(s => escapeHtml(s)).join('<br>---<br>');
+    showRegisterError(`
+      <strong>商品名の書式を読み取れませんでした。</strong>
+      「9/13幕張(7部)メンバー名「作品名」/現地でトーク会参加券:1枚」のような形式を想定しています。<br>
+      読み取れなかった内容の例：
+      <pre>${samples}</pre>
+      日付・会場・部・メンバー名・作品名・種別・枚数がこの並びで含まれているか確認してください。
+    `);
+    return;
+  }
+
+  addParsedItems(result.items, result.unparsed);
+}
+
+function addParsedItems(newItems, newUnparsed){
+  const existingKeys = new Set(items.map(itemKey));
+  const toAddDirect = newItems.filter(it => !existingKeys.has(itemKey(it)));
+  const toConfirm = newItems.filter(it => existingKeys.has(itemKey(it)));
+
+  items.push(...toAddDirect);
+  unparsed.push(...(newUnparsed || []));
+
+  if(toConfirm.length > 0){
+    showDuplicateModal(toConfirm, (confirmed) => {
+      if(confirmed) items.push(...toConfirm);
+      finalizeRegistration();
+    });
+  } else {
+    finalizeRegistration();
+  }
+}
+
+function showDuplicateModal(dupItems, onConfirm){
+  const list = document.getElementById('dupList');
+  const existingByKey = new Map();
+  items.forEach(it => {
+    const k = itemKey(it);
+    existingByKey.set(k, (existingByKey.get(k)||0) + it.totalTickets);
+  });
+  list.innerHTML = dupItems.map(it => {
+    const k = itemKey(it);
+    const existingTotal = existingByKey.get(k) || 0;
+    const year = getYearForDate(it.month, it.day);
+    return `<div>${year}/${it.month}/${it.day}　${escapeHtml(it.venue)}　${it.part}部　${escapeHtml(it.eventType)}　${escapeHtml(it.artist)}<br>
+    既存登録分：${existingTotal}枚　／　今回追加分：${it.totalTickets}枚</div>`;
+  }).join('');
+  modalConfirmCallback = onConfirm;
+  document.getElementById('dupModal').classList.add('open');
+}
+
+function resolveModal(result){
+  document.getElementById('dupModal').classList.remove('open');
+  if(modalConfirmCallback) modalConfirmCallback(result);
+  modalConfirmCallback = null;
+}
+
+function finalizeRegistration(){
+  clearRegisterError();
+  document.getElementById('rawInput').value = '';
+  populateFilterOptions();
+  renderPreview();
+  document.getElementById('previewSection').style.display = 'block';
+  document.getElementById('createSection').style.display = 'block';
+  document.getElementById('statusPill').textContent = `登録済み：${items.length}件`;
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+  document.getElementById('previewSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function renderPreview(){
+  document.getElementById('previewDesc').textContent = `現在 ${items.length} 件の商品行が登録されています。`;
+  const multiYear = new Set(items.map(it => getYearForDate(it.month, it.day))).size > 1;
+  const multiWork = new Set(items.map(it => it.work)).size > 1;
+  let html = `<tr><th>日付</th><th>会場</th><th>部</th><th>種別</th><th class="num">枚数</th><th>メンバー</th>${multiWork ? '<th>作品</th>' : ''}</tr>`;
+  items.forEach(it => {
+    const year = getYearForDate(it.month, it.day);
+    const dateLabel = multiYear ? `${year}/${it.month}/${it.day}` : `${it.month}/${it.day}`;
+    html += `<tr>
+      <td class="mono">${dateLabel}</td>
+      <td>${escapeHtml(it.venue)}</td>
+      <td class="mono">${it.part}部</td>
+      <td><span class="chip" style="background:${getTypeColor(it.eventType)}">${escapeHtml(it.eventType)}</span></td>
+      <td class="num mono">${it.totalTickets}</td>
+      <td>${escapeHtml(it.artist)}</td>
+      ${multiWork ? `<td>${escapeHtml(it.work)}</td>` : ''}
+    </tr>`;
+  });
+  document.getElementById('previewTable').innerHTML = html;
+
+  const unparsedBox = document.getElementById('unparsedBox');
+  if(unparsed.length > 0){
+    unparsedBox.style.display = 'block';
+    document.getElementById('unparsedCount').textContent = unparsed.length;
+    document.getElementById('unparsedList').textContent = unparsed.join('\n---\n');
+  } else {
+    unparsedBox.style.display = 'none';
+  }
+
+  renderDateYearPanel();
+}
+
+function populateFilterOptions(){
+  const dateList = getUniqueDateKeys();
+  const multiYearAll = new Set(dateList.map(d => getYearForDate(d.month,d.day))).size > 1;
+  filterOptionsCache.date = dateList.map(d => `${getYearForDate(d.month,d.day)}-${d.month}-${d.day}`);
+  filterLabelsCache.date = dateList.map(d => {
+    const y = getYearForDate(d.month, d.day);
+    return multiYearAll ? `${y}/${d.month}/${d.day}` : `${d.month}/${d.day}`;
+  });
+
+  filterOptionsCache.member = [...new Set(items.map(i=>i.artist))].sort((a,b)=>a.localeCompare(b,'ja'));
+  filterLabelsCache.member = filterOptionsCache.member.slice();
+
+  filterOptionsCache.venue = [...new Set(items.map(i=>i.venue))].sort((a,b)=>a.localeCompare(b,'ja'));
+  filterLabelsCache.venue = filterOptionsCache.venue.slice();
+
+  filterOptionsCache.part = [...new Set(items.map(i=>i.part))].sort((a,b)=>a-b).map(String);
+  filterLabelsCache.part = filterOptionsCache.part.map(p => p + '部');
+
+  filterOptionsCache.type = [...new Set(items.map(i=>i.eventType))].sort((a,b)=>a.localeCompare(b,'ja'));
+  filterLabelsCache.type = filterOptionsCache.type.slice();
+
+  filterOptionsCache.work = [...new Set(items.map(i=>i.work))].sort((a,b)=>a.localeCompare(b,'ja'));
+  filterLabelsCache.work = filterOptionsCache.work.slice();
+
+  // 選択肢から消えた値は絞り込みからも取り除く
+  Object.keys(filters).forEach(key => {
+    filters[key] = filters[key].filter(v => filterOptionsCache[key].includes(v));
+  });
+
+  ['date','member','venue','part','type','work'].forEach(buildMultiselectPanel);
+}
+
+function buildMultiselectPanel(key){
+  const panel = document.getElementById('msPanel_' + key);
+  if(!panel) return;
+  const values = filterOptionsCache[key];
+  const labels = filterLabelsCache[key];
+  let html = `<div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('${key}','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('${key}','none')">選択解除</button>
+  </div>`;
+  if(values.length === 0){
+    html += `<div class="ms-empty">選択肢がありません</div>`;
+  }
+  values.forEach((val, i) => {
+    const checked = filters[key].includes(val) ? 'checked' : '';
+    html += `<label class="ms-item"><input type="checkbox" ${checked} data-value="${escapeHtml(val)}" onchange="toggleFilterValue('${key}', this)"> ${escapeHtml(labels[i])}</label>`;
+  });
+  panel.innerHTML = html;
+  updateMultiselectLabel(key);
+}
+
+function updateMultiselectLabel(key){
+  const btn = document.getElementById('msToggle_' + key);
+  if(!btn) return;
+  const n = filters[key].length;
+  btn.textContent = n === 0 ? `${FILTER_LABELS_JA[key]}：すべて` : `${FILTER_LABELS_JA[key]}：${n}件選択中`;
+  btn.classList.toggle('active', n > 0);
+}
+
+function toggleFilterValue(key, checkboxEl){
+  const val = checkboxEl.dataset.value;
+  if(checkboxEl.checked){
+    if(!filters[key].includes(val)) filters[key].push(val);
+  } else {
+    filters[key] = filters[key].filter(v => v !== val);
+  }
+  updateMultiselectLabel(key);
+  renderActivePanel();
+}
+
+function setAllFilter(key, mode){
+  filters[key] = mode === 'all' ? [...filterOptionsCache[key]] : [];
+  buildMultiselectPanel(key);
+  renderActivePanel();
+}
+
+function toggleMultiselect(key){
+  document.querySelectorAll('.ms-panel').forEach(p => {
+    if(p.id !== 'msPanel_' + key) p.classList.remove('open');
+  });
+  const panel = document.getElementById('msPanel_' + key);
+  if(panel) panel.classList.toggle('open');
+}
+
+document.addEventListener('click', (e) => {
+  if(!e.target.closest('.multiselect')){
+    document.querySelectorAll('.ms-panel').forEach(p => p.classList.remove('open'));
+  }
+});
+
+function resetFilters(){
+  filters = {date:[], member:[], venue:[], part:[], type:[], work:[]};
+  populateFilterOptions();
+  renderActivePanel();
+}
+
+function initSortSelects(){
+  for(let i=0;i<4;i++){
+    const el = document.getElementById('sortKey'+i);
+    const opts = ['date','venue','part','member','type','work','qty','none'];
+    el.innerHTML = opts.map(o => `<option value="${o}">${FIELD_LABELS[o]}</option>`).join('');
+    el.value = sortKeys[i] || 'none';
+  }
+}
+function updateSortKey(idx, value){ sortKeys[idx] = value; renderActivePanel(); }
+function toggleSortDir(){
+  sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  document.getElementById('sortDirBtn').textContent = sortDir === 'asc' ? '↑ 昇順' : '↓ 降順';
+  renderActivePanel();
+}
+function toggleShowQty(){
+  showQty = document.getElementById('showQtyToggle').checked;
+  renderActivePanel();
+}
+
+function groupItems(list, keyFn){
+  const map = new Map();
+  list.forEach(it => {
+    const key = keyFn(it);
+    if(!map.has(key)){
+      map.set(key, {year: getYearForDate(it.month,it.day), month:it.month, day:it.day, venue:it.venue, part:it.part, eventType:it.eventType, artist:it.artist, work:it.work, totalTickets:0, count:0});
+    }
+    const g = map.get(key);
+    g.totalTickets += it.totalTickets;
+    g.count += 1;
+  });
+  return Array.from(map.values());
+}
+
+function fieldValue(g, key){
+  switch(key){
+    case 'date': return g.year*10000+g.month*100+g.day;
+    case 'venue': return g.venue;
+    case 'part': return g.part;
+    case 'member': return g.artist;
+    case 'type': return g.eventType;
+    case 'work': return g.work;
+    case 'qty': return g.totalTickets;
+    default: return 0;
+  }
+}
+function compareGroups(a,b){
+  for(const key of sortKeys){
+    if(key === 'none') continue;
+    const va = fieldValue(a,key), vb = fieldValue(b,key);
+    let diff;
+    if(typeof va === 'string') diff = va.localeCompare(vb, 'ja');
+    else diff = va - vb;
+    if(diff !== 0) return sortDir === 'asc' ? diff : -diff;
+  }
+  return 0;
+}
+
+function applyFilters(list){
+  return list.filter(it => {
+    const dateVal = `${getYearForDate(it.month,it.day)}-${it.month}-${it.day}`;
+    return (filters.date.length===0 || filters.date.includes(dateVal)) &&
+      (filters.member.length===0 || filters.member.includes(it.artist)) &&
+      (filters.venue.length===0 || filters.venue.includes(it.venue)) &&
+      (filters.part.length===0 || filters.part.includes(String(it.part))) &&
+      (filters.type.length===0 || filters.type.includes(it.eventType)) &&
+      (filters.work.length===0 || filters.work.includes(it.work));
+  });
+}
+
+function getGroups(){
+  const filtered = applyFilters(items);
+  const groups = groupItems(filtered, it => {
+    const y = getYearForDate(it.month, it.day);
+    return `${y}/${it.month}/${it.day}|${it.venue}|${it.part}|${it.eventType}|${it.artist}|${it.work}`;
+  });
+  groups.sort(compareGroups);
+  return groups;
+}
+
+function fmtGroupDate(g, multiYear){
+  return multiYear ? `${g.year}/${g.month}/${g.day}` : `${g.month}/${g.day}`;
+}
+
+function uniqueArtistWork(groups){
+  const set = new Set(groups.map(g => g.artist + '「' + g.work + '」'));
+  return set.size === 1 ? Array.from(set)[0] : null;
+}
+
+function renderResults(){
+  populateFilterOptions();
+  initSortSelects();
+  document.getElementById('sortDirBtn').textContent = sortDir === 'asc' ? '↑ 昇順' : '↓ 降順';
+  document.getElementById('resultsSection').style.display = 'block';
+  renderActivePanel();
+  document.getElementById('resultsSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function setStyle(style){
+  currentStyle = style;
+  document.querySelectorAll('.style-pill').forEach(b => b.classList.toggle('active', b.dataset.style === style));
+  renderActivePanel();
+}
+
+function qtyText(val){ return showQty ? val + '枚' : '―'; }
+
+function renderActivePanel(){
+  if(!items.length) return;
+  const groups = getGroups();
+  const el = document.getElementById('resultPanelContent');
+  const heading = '集計結果';
+  const artistLine = uniqueArtistWork(groups);
+  const sub = groups.length === 0 ? '条件に一致するデータがありません。' : (artistLine ? artistLine : '複数のメンバー・作品が含まれています');
+
+  let typeTotalsHtml = '';
+  if(groups.length > 0 && showQty){
+    const totals = {};
+    groups.forEach(g => { totals[g.eventType] = (totals[g.eventType]||0) + g.totalTickets; });
+    typeTotalsHtml = '<div class="type-total-row">' + Object.entries(totals).map(([type,val]) =>
+      `<span class="chip" style="background:${getTypeColor(type)}">${escapeHtml(type)} ${qtyText(val)}</span>`
+    ).join('') + '</div>';
+  }
+
+  const multiYear = new Set(groups.map(g => g.year)).size > 1;
+  const multiWork = new Set(groups.map(g => g.work)).size > 1;
+
+  let bodyHtml = '';
+  if(groups.length === 0){
+    bodyHtml = '<div class="empty-state">条件に一致するデータがありません。絞り込みを確認してください。</div>';
+  } else if(currentStyle === 'simple') bodyHtml = renderStyleSimple(groups, multiYear, multiWork);
+  else if(currentStyle === 'card') bodyHtml = renderStyleCard(groups, multiYear, multiWork);
+  else if(currentStyle === 'timeline') bodyHtml = renderStyleTimeline(groups, multiYear, multiWork);
+  else if(currentStyle === 'ranking') bodyHtml = renderStyleRanking(groups, multiYear, multiWork);
+  else if(currentStyle === 'share') bodyHtml = renderStyleShare(groups, multiYear);
+
+  el.innerHTML = `
+    <div class="ticket-divider no-print"></div>
+    <p class="result-heading">${heading}</p>
+    <p class="result-sub">${escapeHtml(sub)}</p>
+    ${typeTotalsHtml}
+    <div id="captureArea">${bodyHtml}</div>
+  `;
+}
+
+function renderStyleSimple(groups, multiYear, multiWork){
+  let totalTickets = 0;
+  let rows = '';
+  groups.forEach(g => {
+    totalTickets += g.totalTickets;
+    rows += `<tr>
+      <td class="mono">${fmtGroupDate(g, multiYear)}</td>
+      ${multiWork ? `<td>${escapeHtml(g.work)}</td>` : ''}
+      <td>${escapeHtml(g.venue)}</td>
+      <td class="mono">${g.part}部</td>
+      <td><span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span></td>
+      <td>${escapeHtml(g.artist)}</td>
+      <td class="num mono">${qtyText(g.totalTickets)}</td>
+    </tr>`;
+  });
+  const colCount = multiWork ? 6 : 5;
+  return `<div class="table-scroll">
+    <table class="result">
+      <thead><tr><th>日付</th>${multiWork ? '<th>作品</th>' : ''}<th>会場</th><th>部</th><th>種別</th><th>メンバー</th><th class="num">枚数</th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr><td colspan="${colCount}">合計</td><td class="num">${qtyText(totalTickets)}</td></tr></tfoot>
+    </table>
+  </div>`;
+}
+
+function renderStyleCard(groups, multiYear, multiWork){
+  let cards = '';
+  groups.forEach(g => {
+    cards += `<div class="ticket-card">
+      <div class="card-top">
+        <span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span>
+        <span class="card-date">${fmtGroupDate(g, multiYear)}</span>
+      </div>
+      <div class="member">${escapeHtml(g.artist)}</div>
+      ${multiWork ? `<div class="card-work">${escapeHtml(g.work)}</div>` : ''}
+      <div class="part-num">${g.part}<small>部</small></div>
+      <div class="divider-mini"></div>
+      <div class="qty-big">${qtyText(g.totalTickets)}</div>
+      <div class="venue">${escapeHtml(g.venue)}</div>
+    </div>`;
+  });
+  return `<div class="card-grid">${cards}</div>`;
+}
+
+function renderStyleRanking(groups, multiYear, multiWork){
+  const sorted = [...groups].sort((a,b) => b.totalTickets - a.totalTickets);
+  const maxVal = Math.max(...sorted.map(g => g.totalTickets), 1);
+  const medalClass = (i) => i===0 ? 'rank-gold' : i===1 ? 'rank-silver' : i===2 ? 'rank-bronze' : '';
+
+  const rows = sorted.map((g, i) => {
+    const pct = showQty ? Math.round((g.totalTickets / maxVal) * 100) : 0;
+    return `<div class="rank-row">
+      <span class="rank-badge ${medalClass(i)}">${i+1}</span>
+      <div class="rank-body">
+        <div class="rank-top">
+          <span class="rank-title">${escapeHtml(g.artist)}　<span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span></span>
+          <span class="rank-value mono">${qtyText(g.totalTickets)}</span>
+        </div>
+        <div class="rank-sub">${fmtGroupDate(g, multiYear)}　${escapeHtml(g.venue)}　${g.part}部${multiWork ? `　${escapeHtml(g.work)}` : ''}</div>
+        <div class="rank-bar-track"><div class="rank-bar-fill" style="width:${pct}%;background:${getTypeColor(g.eventType)}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="rank-list">${rows}</div>`;
+}
+
+function renderStyleTimeline(groups, multiYear, multiWork){
+  const byDate = new Map();
+  groups.forEach(g => {
+    const key = `${g.year}/${g.month}/${g.day}`;
+    if(!byDate.has(key)) byDate.set(key, []);
+    byDate.get(key).push(g);
+  });
+  let html = '';
+  Array.from(byDate.keys())
+    .sort((a,b) => {
+      const [ay,am,ad] = a.split('/').map(Number);
+      const [by,bm,bd] = b.split('/').map(Number);
+      return (ay*10000+am*100+ad) - (by*10000+bm*100+bd);
+    })
+    .forEach(dateKeyStr => {
+      const [y,m,d] = dateKeyStr.split('/').map(Number);
+      const label = multiYear ? `${y}/${m}/${d}` : `${m}/${d}`;
+      const venues = [...new Set(byDate.get(dateKeyStr).map(g => g.venue))];
+      const venueLabel = venues.length > 0 ? venues.join('・') : '';
+      html += `<div class="timeline-date-head">${label}${venueLabel ? `　<span class="timeline-date-venue">${escapeHtml(venueLabel)}</span>` : ''}</div><div class="timeline">`;
+      let prevPart = null;
+      byDate.get(dateKeyStr).forEach(g => {
+        if(g.part !== prevPart){
+          html += `<div class="timeline-part-tag">${g.part}部</div>`;
+          prevPart = g.part;
+        }
+        html += `<div class="timeline-item">
+          <div class="ti-row">
+            <span class="ti-part"><span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span>　${escapeHtml(g.artist)}${multiWork ? `　${escapeHtml(g.work)}` : ''}</span>
+            <span class="ti-qty">${qtyText(g.totalTickets)}</span>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+  return html;
+}
+
+function computeShareStats(groups, multiYear){
+  const totals = {};
+  let grandTotal = 0;
+  groups.forEach(g => { totals[g.eventType] = (totals[g.eventType]||0) + g.totalTickets; grandTotal += g.totalTickets; });
+  const dates = groups.map(g => g.year*10000+g.month*100+g.day);
+  const minD = Math.min(...dates), maxD = Math.max(...dates);
+  const fmt = (v) => {
+    const year = Math.floor(v/10000), rest = v%10000, month = Math.floor(rest/100), day = rest%100;
+    return multiYear ? `${year}/${month}/${day}` : `${month}/${day}`;
+  };
+  const dateRange = minD === maxD ? fmt(minD) : `${fmt(minD)} 〜 ${fmt(maxD)}`;
+  const titleLine = buildShareTitleLine(groups);
+  const uniqueVenues = new Set(groups.map(g => g.venue));
+  const venueLine = uniqueVenues.size === 1 ? Array.from(uniqueVenues)[0] : `${uniqueVenues.size}会場`;
+  return {totals, grandTotal, dateRange, titleLine, venueLine};
+}
+
+function getTypeEmoji(type){
+  const t = String(type||'');
+  if(/トーク/.test(t)) return '🎤';
+  if(/握手/.test(t)) return '🤝';
+  if(/チェキ|写真|撮影/.test(t)) return '📸';
+  if(/サイン/.test(t)) return '✍️';
+  if(/物販|グッズ/.test(t)) return '🎁';
+  return '🎫';
+}
+
+function renderStyleShare(groups, multiYear){
+  const {totals, grandTotal, dateRange, titleLine, venueLine} = computeShareStats(groups, multiYear);
+
+  let statsHtml = '';
+  if(showQty && grandTotal > 0){
+    let segHtml = '';
+    Object.entries(totals).forEach(([type, val]) => {
+      const pct = (val / grandTotal) * 100;
+      segHtml += `<div class="share-stack-seg" style="width:${pct}%;background:${getTypeColor(type)}"></div>`;
+    });
+    const legendHtml = Object.entries(totals).map(([type, val]) =>
+      `<span>${getTypeEmoji(type)} ${escapeHtml(type)} <b>${val}枚</b></span>`
+    ).join('');
+    statsHtml = `
+      <div class="share-total-wrap">
+        <div class="share-total-halo"></div>
+        <div class="share-total-num">${grandTotal}</div>
+      </div>
+      <div class="share-total-label">合計参加券枚数</div>
+      <div class="share-stack-bar">${segHtml}</div>
+      <div class="share-legend">${legendHtml}</div>`;
+  } else if(!showQty){
+    statsHtml = `
+      <div class="share-total-wrap">
+        <div class="share-total-halo"></div>
+        <div class="share-total-num">―</div>
+      </div>
+      <div class="share-total-label">合計参加券枚数</div>
+      <p class="share-hidden-note">枚数は非公開にしています</p>`;
+  } else {
+    statsHtml = `<p class="share-hidden-note">データがありません</p>`;
+  }
+
+  return `<div class="share-frame">
+    <div class="share-card" id="shareCardCapture">
+      <div class="share-deco share-deco-1"></div>
+      <div class="share-deco share-deco-2"></div>
+      <div class="share-deco share-deco-3"></div>
+      <div class="share-content">
+        <span class="share-badge">✨ EVENT SUMMARY ✨</span>
+        <p class="share-title">${escapeHtml(titleLine)}</p>
+        <p class="share-range">${escapeHtml(dateRange)}　${escapeHtml(venueLine)}</p>
+        <div class="share-perforation"></div>
+        ${statsHtml}
+        <div class="share-dots">${'●'.repeat(14)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function saveSNSImage(){
+  const groups = getGroups();
+  if(groups.length === 0){ alert('保存できるデータがありません。絞り込みを確認してください。'); return; }
+  if(typeof html2canvas === 'undefined'){
+    alert('画像生成用のライブラリを読み込めませんでした。ネットワーク環境をご確認ください。');
+    return;
+  }
+  const previousStyle = currentStyle;
+  setStyle('share');
+  const target = document.getElementById('shareCardCapture') || document.getElementById('captureArea');
+  const bg = THEMES[currentTheme].vars.ink;
+  const runCapture = () => {
+    html2canvas(target, {backgroundColor: bg, scale: 2, useCORS: true, logging: false}).then(canvas => {
+      if(canvas.width === 0 || canvas.height === 0){
+        alert('画像の生成に失敗しました。');
+      } else {
+        const link = document.createElement('a');
+        link.download = 'SNSシェア画像.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      setStyle(previousStyle);
+    }).catch((err) => {
+      console.error(err);
+      alert('画像の生成に失敗しました。');
+      setStyle(previousStyle);
+    });
+  };
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(runCapture).catch(runCapture);
+  } else {
+    runCapture();
+  }
+}
+
+function handlePrint(){
+  const hideTargets = Array.from(document.querySelectorAll('.no-print, section.card'));
+  hideTargets.forEach(el => {
+    el.dataset.printPrevDisplay = el.style.display;
+    el.style.display = 'none';
+  });
+  const restore = () => {
+    hideTargets.forEach(el => {
+      el.style.display = el.dataset.printPrevDisplay || '';
+      delete el.dataset.printPrevDisplay;
+    });
+    window.removeEventListener('afterprint', restore);
+  };
+  window.addEventListener('afterprint', restore);
+  window.print();
+  setTimeout(restore, 1000);
+}
+
+function saveAsImage(){
+  const isShare = currentStyle === 'share';
+  const target = isShare
+    ? (document.getElementById('shareCardCapture') || document.getElementById('captureArea'))
+    : document.getElementById('captureArea');
+  if(!target){ alert('保存する内容がありません。'); return; }
+  if(typeof html2canvas === 'undefined'){
+    alert('画像生成用のライブラリを読み込めませんでした。ネットワーク環境をご確認のうえ、印刷機能をお試しください。');
+    return;
+  }
+  const bg = isShare ? THEMES[currentTheme].vars.ink : THEMES[currentTheme].vars.paper;
+  const runCapture = () => {
+    html2canvas(target, {backgroundColor: bg, scale: 2, useCORS: true, logging: false}).then(canvas => {
+      if(canvas.width === 0 || canvas.height === 0){
+        alert('画像の生成に失敗しました（サイズが取得できませんでした）。印刷機能もお試しください。');
+        return;
+      }
+      const nameBase = isShare ? 'シェア用サマリー' : '集計結果';
+      const link = document.createElement('a');
+      link.download = nameBase + '.png';
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }).catch((err) => {
+      console.error(err);
+      alert('画像の生成に失敗しました。印刷機能もお試しください。');
+    });
+  };
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(runCapture).catch(runCapture);
+  } else {
+    runCapture();
+  }
+}
+
+function buildShareTitleLine(groups){
+  const works = new Set(groups.map(g => g.work));
+  const artists = new Set(groups.map(g => g.artist));
+  if(artists.size === 1 && works.size === 1) return `${Array.from(artists)[0]}「${Array.from(works)[0]}」`;
+  if(works.size === 1) return `「${Array.from(works)[0]}」特典会`;
+  if(artists.size === 1) return `${Array.from(artists)[0]} 特典会`;
+  return '特典会 集計';
+}
+
+function buildShareWorkLine(groups){
+  const works = [...new Set(groups.map(g => g.work))];
+  if(works.length === 0) return '特典会';
+  return works.map(w => `「${w}」`).join('・');
+}
+
+function buildShareHashtags(groups){
+  const works = new Set(groups.map(g => g.work));
+  const artists = new Set(groups.map(g => g.artist));
+  const tags = [];
+  const seen = new Set();
+  const addTag = (raw) => {
+    const clean = String(raw||'').replace(/[\s「」]/g, '');
+    if(clean && !seen.has(clean)){ seen.add(clean); tags.push('#' + clean); }
+  };
+  works.forEach(addTag);
+  artists.forEach(addTag);
+  addTag('特典会');
+  return tags.join(' ');
+}
+
+function generateShareText(){
+  const groups = getGroups();
+  if(groups.length === 0) return '';
+  const multiYear = new Set(groups.map(g=>g.year)).size > 1;
+  const dates = groups.map(g => g.year*10000+g.month*100+g.day);
+  const minD = Math.min(...dates), maxD = Math.max(...dates);
+  const fmt = (v) => {
+    const year = Math.floor(v/10000), rest = v%10000, month = Math.floor(rest/100), day = rest%100;
+    return multiYear ? `${year}/${month}/${day}` : `${month}/${day}`;
+  };
+  const dateRange = minD === maxD ? fmt(minD) : `${fmt(minD)}〜${fmt(maxD)}`;
+
+  // メンバー→種別→枚数
+  const byMember = new Map();
+  let grandTotal = 0;
+  groups.forEach(g => {
+    if(!byMember.has(g.artist)) byMember.set(g.artist, new Map());
+    const typeMap = byMember.get(g.artist);
+    typeMap.set(g.eventType, (typeMap.get(g.eventType)||0) + g.totalTickets);
+    grandTotal += g.totalTickets;
+  });
+
+  const lines = [];
+  lines.push(buildShareWorkLine(groups));
+  lines.push(dateRange);
+  lines.push('');
+  if(showQty){
+    byMember.forEach((typeMap, member) => {
+      lines.push(member);
+      typeMap.forEach((val, type) => lines.push(`　${type}：${val}枚`));
+    });
+    lines.push('');
+    lines.push(`合計：${grandTotal}枚`);
+  } else {
+    byMember.forEach((typeMap, member) => lines.push(member));
+  }
+  lines.push('');
+  lines.push(buildShareHashtags(groups));
+  return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+function copyShareText(){
+  const text = generateShareText();
+  if(!text){ alert('コピーできるデータがありません。'); return; }
+  const fallbackCopy = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand('copy');
+      alert('投稿用テキストをコピーしました。');
+    } catch(e){
+      alert('コピーに失敗しました。以下の内容を手動でコピーしてください。\n\n' + text);
+    }
+    document.body.removeChild(ta);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(() => {
+      alert('投稿用テキストをコピーしました。');
+    }).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+}
+
+function downloadCSV(){
+  const groups = getGroups();
+  const rowsOut = [['日付','会場','部','種別','メンバー','枚数'].join(',')];
+  groups.forEach(g => {
+    rowsOut.push([`${g.year}/${g.month}/${g.day}`, g.venue, `${g.part}部`, g.eventType, g.artist, g.totalTickets].join(','));
+  });
+  const csv = '\uFEFF' + rowsOut.join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '集計結果.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+const BACKUP_HEADER = ['年','月','日','会場','部','種別','モード','メンバー','作品','参加券枚数(1点あたり)','購入点数','合計枚数'];
+
+function csvSafe(v){
+  const s = String(v ?? '');
+  return (s.includes(',') || s.includes('"') || s.includes('\n')) ? '"' + s.replace(/"/g,'""') + '"' : s;
+}
+
+function exportBackupCSV(){
+  if(items.length === 0){ alert('書き出すデータがありません。まず注文履歴を登録してください。'); return; }
+  const rows = [BACKUP_HEADER.join(',')];
+  items.forEach(it => {
+    const year = getYearForDate(it.month, it.day);
+    rows.push([
+      year, it.month, it.day, csvSafe(it.venue), it.part, csvSafe(it.eventType),
+      csvSafe(it.mode), csvSafe(it.artist), csvSafe(it.work),
+      it.ticketsPerUnit, it.qty, it.totalTickets
+    ].join(','));
+  });
+  const csv = '\uFEFF' + rows.join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '特典会データ_バックアップ.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function parseCSVLine(line){
+  const out = [];
+  let cur = '', inQuotes = false;
+  for(let i=0;i<line.length;i++){
+    const c = line[i];
+    if(c === '"'){
+      if(inQuotes && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+      continue;
+    }
+    if(c === ',' && !inQuotes){ out.push(cur); cur=''; continue; }
+    cur += c;
+  }
+  out.push(cur);
+  return out;
+}
+
+const HEADER_ALIASES = {
+  year: ['年','年度','Year'],
+  month: ['月','Month'],
+  day: ['日','Day'],
+  date: ['日付','年月日','Date','date'],
+  venue: ['会場','venue','Venue','場所'],
+  part: ['部','part','Part','部数'],
+  type: ['種別','type','Type','イベント種別'],
+  mode: ['モード','mode','Mode'],
+  artist: ['メンバー','artist','Artist','出演者','名前'],
+  work: ['作品','work','Work','タイトル'],
+  ticketsPerUnit: ['参加券枚数(1点あたり)','1点あたり枚数'],
+  qty: ['購入点数','個数','数量'],
+  total: ['合計枚数','枚数','qty','Qty','count','Count'],
+};
+
+function findColIndex(header, aliasList){
+  for(const alias of aliasList){
+    const idx = header.findIndex(h => h === alias);
+    if(idx !== -1) return idx;
+  }
+  return -1;
+}
+
+function parseFlexibleDate(str){
+  const s = String(str||'').trim();
+  let m = s.match(/^(\d{4})[\/\-年](\d{1,2})[\/\-月](\d{1,2})日?$/);
+  if(m) return {year: parseInt(m[1]), month: parseInt(m[2]), day: parseInt(m[3])};
+  m = s.match(/^(\d{1,2})[\/\-月](\d{1,2})日?$/);
+  if(m) return {year: null, month: parseInt(m[1]), day: parseInt(m[2])};
+  return null;
+}
+
+function parseNumeric(v){
+  const n = parseInt(String(v||'').replace(/[^\d]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+
+function parseImportCSV(text){
+  const lines = text.replace(/\r\n/g,'\n').replace(/^\uFEFF/, '').split('\n').filter(l => l.trim().length > 0);
+  if(lines.length < 2) return {items: [], error: 'empty'};
+  const header = parseCSVLine(lines[0]).map(h => h.trim());
+  const idx = {};
+  for(const key in HEADER_ALIASES) idx[key] = findColIndex(header, HEADER_ALIASES[key]);
+
+  const hasDateInfo = idx.date > -1 || (idx.month > -1 && idx.day > -1);
+  const hasQtyInfo = idx.total > -1 || idx.qty > -1;
+  if(!hasDateInfo || idx.part === -1 || !hasQtyInfo){
+    const missing = [];
+    if(!hasDateInfo) missing.push('日付');
+    if(idx.part === -1) missing.push('部');
+    if(!hasQtyInfo) missing.push('枚数');
+    return {items: [], error: 'missing_columns', missing, header};
+  }
+
+  let skippedRows = 0;
+  const newItems = [];
+  lines.slice(1).forEach(line => {
+    const cols = parseCSVLine(line);
+    let year = null, month = null, day = null;
+    if(idx.date > -1){
+      const parsed = parseFlexibleDate(cols[idx.date]);
+      if(parsed){ year = parsed.year; month = parsed.month; day = parsed.day; }
+    }
+    if(month === null && idx.month > -1) month = parseInt(cols[idx.month]);
+    if(day === null && idx.day > -1) day = parseInt(cols[idx.day]);
+    if(year === null && idx.year > -1) year = parseInt(cols[idx.year]);
+    if(month == null || day == null || isNaN(month) || isNaN(day)){ skippedRows++; return; }
+
+    if(year && !isNaN(year)) dateYearOverrides.set(`${month}/${day}`, year);
+
+    const part = idx.part > -1 ? parseNumeric(cols[idx.part]) : 0;
+    const ticketsPerUnit = idx.ticketsPerUnit > -1 ? (parseNumeric(cols[idx.ticketsPerUnit]) || 1) : 1;
+
+    let qty, totalTickets;
+    if(idx.qty > -1){
+      qty = parseNumeric(cols[idx.qty]);
+      totalTickets = idx.total > -1 ? (parseNumeric(cols[idx.total]) || (qty*ticketsPerUnit)) : (qty*ticketsPerUnit);
+    } else if(idx.total > -1){
+      totalTickets = parseNumeric(cols[idx.total]);
+      qty = totalTickets;
+    } else {
+      qty = 0; totalTickets = 0;
+    }
+
+    newItems.push({
+      month, day,
+      venue: idx.venue > -1 ? (cols[idx.venue]||'').trim() : '',
+      part,
+      eventType: idx.type > -1 ? (cols[idx.type]||'').trim() : '',
+      mode: idx.mode > -1 ? (cols[idx.mode]||'').trim() : '',
+      artist: idx.artist > -1 ? (cols[idx.artist]||'').trim() : '',
+      work: idx.work > -1 ? (cols[idx.work]||'').trim() : '',
+      ticketsPerUnit, qty, totalTickets,
+    });
+  });
+  return {items: newItems, skippedRows};
+}
+
+function handleImportFile(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  clearRegisterError();
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try{
+      const result = parseImportCSV(e.target.result);
+      if(result.error === 'empty'){
+        showRegisterError('CSVファイルにデータ行がありません。見出し行と、その下にデータ行があるか確認してください。');
+        return;
+      }
+      if(result.error === 'missing_columns'){
+        showRegisterError(`
+          <strong>必要な列（見出し）が見つかりませんでした。</strong>
+          不足している列：<b>${result.missing.map(escapeHtml).join('、')}</b><br>
+          このファイルの見出し行：${result.header.map(h => escapeHtml(h)).join('、') || '（読み取れませんでした）'}<br>
+          「日付」「部」「枚数」は必須です（会場・種別・メンバー・作品は任意）。見出し名を確認してください。
+        `);
+        return;
+      }
+      if(result.items.length === 0){
+        showRegisterError(`
+          <strong>読み込める行がありませんでした。</strong>
+          見出しは認識できましたが、日付として読み取れる行がありませんでした（${result.skippedRows||0}行をスキップ）。日付の書き方（例：9/13、2026/9/13）を確認してください。
+        `);
+        return;
+      }
+      if(result.skippedRows > 0){
+        alert(`${result.skippedRows}行は日付を読み取れず、取り込まれませんでした。それ以外の${result.items.length}件を登録します。`);
+      }
+      addParsedItems(result.items, []);
+    } catch(err){
+      showRegisterError('CSVの読み込みに失敗しました。ファイル形式（UTF-8のCSV）を確認してください。');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+  event.target.value = '';
+}
+
+function clearAll(){
+  document.getElementById('rawInput').value = '';
+  document.getElementById('previewSection').style.display = 'none';
+  document.getElementById('createSection').style.display = 'none';
+  document.getElementById('resultsSection').style.display = 'none';
+  items = []; unparsed = [];
+  filters = {date:[], member:[], venue:[], part:[], type:[], work:[]};
+  dateYearOverrides = new Map();
+  baseYear = new Date().getFullYear();
+  document.getElementById('statusPill').textContent = '登録済み：0件';
+}
+
+function loadSample(){
+  const sample =
+`商品\t配送状況\t軽減税率対象\t単価(税込)\t個数\t小計\t備考\tレビューを書く
+ANCD-00001
+9/13幕張(7部)架空はな「はじまりのうた」/現地でトーク会参加券:1枚
+特典説明はコチラ♪\t出荷待ち
+¥1,200\t30\t¥36,000\t\t 
+ANCD-00002
+9/12幕張(9部)架空はな「はじまりのうた」/現地で握手会参加券:1枚
+特典説明はコチラ♪\t\t¥1,200\t30\t¥36,000\t\t 
+ANCD-00003
+9/13幕張(8部)架空りん「はじまりのうた」/現地で握手会参加券:1枚
+特典説明はコチラ♪\t\t¥1,200\t20\t¥24,000\t\t 
+ANCD-00004
+9/13幕張(4部)架空はな「はじまりのうた」/現地で握手会参加券:1枚
+特典説明はコチラ♪\t\t¥1,200\t10\t¥12,000\t\t 
+ANCD-00005
+9/12幕張(8部)架空りん「はじまりのうた」/現地で握手会参加券:1枚
+特典説明はコチラ♪\t\t¥1,200\t5\t¥6,000\t\t `;
+  document.getElementById('rawInput').value = sample;
+  handleRegister();
+}
+</script>
+
+</body>
+</html>
