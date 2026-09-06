@@ -9,7 +9,7 @@
 
 <!-- SNSシェア用OGPタグ(公開後、og:image に実在の画像URLを設定してください) -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:site_name" content="原優寧 布教サイト">
 <meta property="og:title" content="推しゆかりの場所まとめ">
 <meta property="og:description" content="配信やSNSで紹介していたお店や、旅行・撮影で訪れた場所をまとめています。巡礼の参考にどうぞ。">
 <meta property="og:image" content="">
@@ -27,7 +27,7 @@
   gtag('config', 'G-N5CY6YN1KG');
 </script>
 
-<title>推しゆかりの場所まとめ</title>
+<title>推しゆかりの場所まとめ | 原優寧 布教サイト</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -330,19 +330,17 @@ body.editing .add-row{ display:flex; }
     <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">聖地巡礼・お店・旅行先</span>
     <h1 class="editable" id="p-title" contenteditable="true">推しゆかりの場所まとめ</h1>
     <p class="editable" id="p-desc" contenteditable="true">配信やSNSで紹介していたお店や、旅行・撮影で訪れた場所をまとめています。巡礼の参考にどうぞ。</p>
-    <div class="daily-pick show" id="daily-pick"><div class="daily-pick-label">✦ 今日のピックアップ</div>
-    <div class="daily-pick-title">◯◯神社</div>
-    <div class="daily-pick-body">雑誌の撮影で使われた神社。SNSにも同じアングルの写真が投稿されていました。</div></div>
+    <div class="daily-pick" id="daily-pick"></div>
     <div class="search-wrap">
       <input type="search" id="place-search" class="search-input" placeholder="🔍 場所の名前やエリアで検索">
     </div>
-    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="ご飯屋">ご飯屋</button><button type="button" class="tag-filter-btn" data-cat="聖地巡礼">聖地巡礼</button></div>
-    <div class="jp-map show" id="jp-map">
+    <div class="category-filter" id="category-filter"></div>
+    <div class="jp-map" id="jp-map">
       <button type="button" class="jp-region" data-key="hokkaido">北海道</button>
       <button type="button" class="jp-region" data-key="tohoku">東北</button>
-      <button type="button" class="jp-region has-pin" data-key="kanto">関東<span class="jp-region-pin">1</span></button>
+      <button type="button" class="jp-region" data-key="kanto">関東</button>
       <button type="button" class="jp-region" data-key="chubu">中部</button>
-      <button type="button" class="jp-region has-pin" data-key="kinki">近畿<span class="jp-region-pin">1</span></button>
+      <button type="button" class="jp-region" data-key="kinki">近畿</button>
       <button type="button" class="jp-region" data-key="chugoku">中国</button>
       <button type="button" class="jp-region" data-key="shikoku">四国</button>
       <button type="button" class="jp-region" data-key="kyushu">九州・沖縄</button>
@@ -362,49 +360,7 @@ body.editing .add-row{ display:flex; }
         <button type="button" class="view-mode-btn" data-mode="timeline">時系列</button>
       </div>
     </div>
-    <div class="place-list" id="place-list"><div class="place-item" data-categories="ご飯屋" data-area="東京都渋谷区" data-url="" data-sns="" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="" data-region="kanto" data-order="0" data-visit="2026年5月" data-related="" style="">
-    
-    
-    <div class="place-meta">
-      
-      
-      <span class="place-category">ご飯屋</span>
-      <span class="place-visit editable" contenteditable="true">🗓 2026年5月</span>
-      <span class="place-source editable" contenteditable="true">8/20 配信にて</span>
-    </div>
-    <h3 class="place-name editable" contenteditable="true">サンプル喫茶店</h3>
-    <div class="place-area editable" contenteditable="true">📍 東京都渋谷区</div>
-    <p class="place-body editable" contenteditable="true">配信中に「行きつけの喫茶店」として紹介していたお店。ケーキが美味しいと話していました。</p>
-    <div class="place-recommend editable" contenteditable="true"><span class="place-recommend-mark">💡 おすすめポイント</span>季節限定のいちごタルトが特におすすめだそうです。</div>
-    
-    <div class="place-link-row">
-      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E5%96%AB%E8%8C%B6%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA" target="_blank" rel="noopener">📍 地図で見る</a>
-      
-    </div>
-    <div class="place-related" data-role="related" style="display: none;"></div>
-    
-  </div><div class="place-item" data-categories="聖地巡礼" data-area="京都府" data-url="" data-sns="" data-sns-label="" data-sns-icon="" data-status="" data-photos="[]" data-added="" data-region="kinki" data-order="1" data-visit="2026年3月" data-related="" style="">
-    
-    
-    <div class="place-meta">
-      
-      
-      <span class="place-category">聖地巡礼</span>
-      <span class="place-visit editable" contenteditable="true">🗓 2026年3月</span>
-      <span class="place-source editable" contenteditable="true" style="display:none;"></span>
-    </div>
-    <h3 class="place-name editable" contenteditable="true">◯◯神社</h3>
-    <div class="place-area editable" contenteditable="true">📍 京都府</div>
-    <p class="place-body editable" contenteditable="true">雑誌の撮影で使われた神社。SNSにも同じアングルの写真が投稿されていました。</p>
-    <div class="place-recommend editable" contenteditable="true" style="display:none;"><span class="place-recommend-mark">💡 おすすめポイント</span></div>
-    
-    <div class="place-link-row">
-      <a class="place-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=%E2%97%AF%E2%97%AF%E7%A5%9E%E7%A4%BE%20%E4%BA%AC%E9%83%BD%E5%BA%9C" target="_blank" rel="noopener">📍 地図で見る</a>
-      
-    </div>
-    <div class="place-related" data-role="related" style="display: none;"></div>
-    
-  </div></div>
+    <div class="place-list" id="place-list"></div>
     <p class="no-results" id="no-results">条件に合う場所が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-places" type="button" style="display:none;">＋ もっと見る</button>
     
@@ -430,10 +386,7 @@ const PLACES = {
   eyebrow: "聖地巡礼・お店・旅行先",
   title: "推しゆかりの場所まとめ",
   desc: "配信やSNSで紹介していたお店や、旅行・撮影で訪れた場所をまとめています。巡礼の参考にどうぞ。",
-  items: [
-    { name: "サンプル喫茶店", category: "ご飯屋", area: "東京都渋谷区", source: "8/20 配信にて", body: "配信中に「行きつけの喫茶店」として紹介していたお店。ケーキが美味しいと話していました。", recommend: "季節限定のいちごタルトが特におすすめだそうです。", visitPeriod: "2026年5月", url: "", photos: [] },
-    { name: "◯◯神社", category: "聖地巡礼", area: "京都府", source: "", body: "雑誌の撮影で使われた神社。SNSにも同じアングルの写真が投稿されていました。", recommend: "", visitPeriod: "2026年3月", url: "", photos: [] },
-  ],
+  items: [],
 };
 
 const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';

@@ -9,7 +9,7 @@
 
 <!-- SNSシェア用OGPタグ(公開後、og:image に実在の画像URLを設定してください) -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:site_name" content="原優寧 布教サイト">
 <meta property="og:title" content="推しの豆知識・エピソード集">
 <meta property="og:description" content="配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。">
 <meta property="og:image" content="">
@@ -27,7 +27,7 @@
   gtag('config', 'G-N5CY6YN1KG');
 </script>
 
-<title>推しの豆知識・エピソード集</title>
+<title>推しの豆知識・エピソード集 | 原優寧 布教サイト</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -322,14 +322,11 @@ body.editing .add-row{ display:flex; }
     <span class="eyebrow editable" id="w-eyebrow" contenteditable="true">新規さんも古参さんも</span>
     <h1 class="editable" id="w-title" contenteditable="true">推しの豆知識・エピソード集</h1>
     <p class="editable" id="w-desc" contenteditable="true">配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。</p>
-    <div class="daily-pick show" id="daily-pick"><button type="button" class="pickup-shuffle-btn" aria-label="別の話に切り替える" title="別の話に切り替える">🔀</button>
-    <div class="daily-pick-label">✦ こんな話も</div>
-    <div class="daily-pick-title">実は虫が苦手</div>
-    <div class="daily-pick-body">配信中に虫の写った映像が流れた瞬間に悲鳴を上げていて、実は虫が苦手だということが判明しました。普段のクールなイメージとのギャップが話題に。</div></div>
+    <div class="daily-pick" id="daily-pick"></div>
     <div class="search-wrap">
       <input type="search" id="wiki-search" class="search-input" placeholder="🔍 気になるキーワードで検索">
     </div>
-    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="性格・素顔">性格・素顔</button><button type="button" class="tag-filter-btn" data-cat="好きなもの">好きなもの</button><button type="button" class="tag-filter-btn" data-cat="エピソード">エピソード</button></div>
+    <div class="category-filter" id="category-filter"></div>
   </div>
 </header>
 
@@ -344,55 +341,7 @@ body.editing .add-row{ display:flex; }
         <button class="view-toggle-btn" id="random-intro-btn" type="button">🎲 ランダムで表示する</button>
       </div>
     </div>
-    <div class="wiki-list" id="wiki-list"><div class="wiki-item" data-category="性格・素顔" data-photo="" data-url="" data-added="" data-order="0" data-related="" data-tags="" style="">
-    
-    
-    <div class="wiki-meta">
-      
-      <span class="wiki-category editable" contenteditable="true">性格・素顔</span>
-      <span class="wiki-source editable" contenteditable="true">8/15 配信にて</span>
-    </div>
-    <h3 class="wiki-title editable" contenteditable="true">実は虫が苦手</h3>
-    <p class="wiki-body editable" contenteditable="true">配信中に虫の写った映像が流れた瞬間に悲鳴を上げていて、実は虫が苦手だということが判明しました。普段のクールなイメージとのギャップが話題に。</p>
-    <div class="wiki-tags"></div>
-    
-    
-    <div class="wiki-related" data-role="related" style="display: none;"></div>
-    <button class="share-image-btn" type="button">🖼️ 画像でシェア</button>
-    
-  </div><div class="wiki-item" data-category="好きなもの" data-photo="" data-url="" data-added="" data-order="1" data-related="" data-tags="" style="">
-    
-    
-    <div class="wiki-meta">
-      
-      <span class="wiki-category editable" contenteditable="true">好きなもの</span>
-      <span class="wiki-source editable" contenteditable="true" style="display:none;"></span>
-    </div>
-    <h3 class="wiki-title editable" contenteditable="true">好きな食べ物はいちご</h3>
-    <p class="wiki-body editable" contenteditable="true">インタビューやプロフィールで度々語っている好物。差し入れでいちご系のお菓子をもらうととても喜ぶそうです。</p>
-    <div class="wiki-tags"></div>
-    
-    
-    <div class="wiki-related" data-role="related" style="display: none;"></div>
-    <button class="share-image-btn" type="button">🖼️ 画像でシェア</button>
-    
-  </div><div class="wiki-item" data-category="エピソード" data-photo="" data-url="" data-added="" data-order="2" data-related="" data-tags="" style="">
-    
-    
-    <div class="wiki-meta">
-      
-      <span class="wiki-category editable" contenteditable="true">エピソード</span>
-      <span class="wiki-source editable" contenteditable="true" style="display:none;"></span>
-    </div>
-    <h3 class="wiki-title editable" contenteditable="true">デビュー前は人見知りだった</h3>
-    <p class="wiki-body editable" contenteditable="true">加入初期は人見知りで、自己紹介の時に噛んでしまったというエピソードが古参の間では有名です。</p>
-    <div class="wiki-tags"></div>
-    
-    
-    <div class="wiki-related" data-role="related" style="display: none;"></div>
-    <button class="share-image-btn" type="button">🖼️ 画像でシェア</button>
-    
-  </div></div>
+    <div class="wiki-list" id="wiki-list"></div>
     <p class="no-results" id="no-results">条件に合う項目が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-wiki" type="button" style="display:none;">＋ もっと見る</button>
     
@@ -417,11 +366,7 @@ const WIKI = {
   eyebrow: "新規さんも古参さんも",
   title: "推しの豆知識・エピソード集",
   desc: "配信で話していた小ネタや、知ってるとちょっと嬉しい話をまとめています。リアルタイムで配信を追えなかった方もここでチェックできます。",
-  items: [
-    { title: "実は虫が苦手", category: "性格・素顔", source: "8/15 配信にて", body: "配信中に虫の写った映像が流れた瞬間に悲鳴を上げていて、実は虫が苦手だということが判明しました。普段のクールなイメージとのギャップが話題に。", photo: "" },
-    { title: "好きな食べ物はいちご", category: "好きなもの", source: "", body: "インタビューやプロフィールで度々語っている好物。差し入れでいちご系のお菓子をもらうととても喜ぶそうです。", photo: "" },
-    { title: "デビュー前は人見知りだった", category: "エピソード", source: "", body: "加入初期は人見知りで、自己紹介の時に噛んでしまったというエピソードが古参の間では有名です。", photo: "" },
-  ],
+  items: [],
 };
 
 const REORDER_ROW = '<div class="reorder-row"><button class="reorder-btn move-up" type="button">↑ 上へ</button><button class="reorder-btn move-down" type="button">↓ 下へ</button></div>';

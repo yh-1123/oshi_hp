@@ -8,7 +8,7 @@
 <link rel="icon" href="icon-192.png">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:site_name" content="原優寧 布教サイト">
 <meta property="og:title" content="動画まとめ">
 <meta property="og:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
 <meta property="og:image" content="">
@@ -26,7 +26,7 @@
   gtag('config', 'G-N5CY6YN1KG');
 </script>
 
-<title>動画まとめ</title>
+<title>動画まとめ | 原優寧 布教サイト</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -429,16 +429,11 @@ body.editing .add-row{ display:flex; }
     <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">公式チャンネルなど</span>
     <h1 class="editable" id="p-title" contenteditable="true">動画まとめ</h1>
     <p class="editable" id="p-desc" contenteditable="true">公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。</p>
-    <div class="daily-pick show" id="daily-pick"><div class="daily-pick-thumb"></div>
-    <div class="daily-pick-body">
-      <div class="daily-pick-label">✦ おすすめ動画</div>
-      <div class="daily-pick-title">サンプルショート動画</div>
-      
-    </div></div>
+    <div class="daily-pick" id="daily-pick"></div>
     <div class="search-wrap">
       <input type="search" id="video-search" class="search-input" placeholder="🔍 動画タイトルで検索">
     </div>
-    <div class="category-filter show" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="Shorts">Shorts</button><button type="button" class="tag-filter-btn" data-cat="本編">本編</button></div>
+    <div class="category-filter" id="category-filter"></div>
     <div class="sort-toggle-row">
       <button type="button" class="sort-toggle-btn" id="sort-toggle-btn">🔀 ランダムに並び替え</button>
     </div>
@@ -450,37 +445,7 @@ body.editing .add-row{ display:flex; }
     <div class="sec-head">
       <h2><span class="mark">◆</span>動画一覧</h2>
     </div>
-    <div class="video-list" id="video-list"><div class="editable-item video-item" data-category="Shorts" data-date="2026-06-10" data-url="" data-added="" data-order="1" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
-    
-    
-    <div class="video-thumb-link"><span class="video-play-badge">▶</span></div>
-    <div class="video-body">
-      <div class="video-meta"><span class="video-date">2026.06.10</span><span class="video-category editable" contenteditable="true">Shorts</span></div>
-      <h3 class="video-title editable" contenteditable="true">サンプルショート動画</h3>
-      <p class="video-desc editable" contenteditable="true"></p>
-      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
-      <div class="video-tags"></div>
-      
-      
-      <div class="video-related" data-role="related" style="display: none;"></div>
-    </div>
-    
-  </div><div class="editable-item video-item" data-category="本編" data-date="2026-06-01" data-url="" data-added="" data-order="0" data-related="" data-tags="" data-pickup-comment="" data-chapters="" data-series-order="" style="">
-    
-    
-    <div class="video-thumb-link"><span class="video-play-badge">▶</span></div>
-    <div class="video-body">
-      <div class="video-meta"><span class="video-date">2026.06.01</span><span class="video-category editable" contenteditable="true">本編</span></div>
-      <h3 class="video-title editable" contenteditable="true">サンプル動画タイトル</h3>
-      <p class="video-desc editable" contenteditable="true">動画の内容についての簡単な説明。</p>
-      <div class="video-recommend editable" contenteditable="true" style="display:none;"><span class="video-recommend-mark">💡 おすすめポイント</span></div>
-      <div class="video-tags"></div>
-      
-      
-      <div class="video-related" data-role="related" style="display: none;"></div>
-    </div>
-    
-  </div></div>
+    <div class="video-list" id="video-list"></div>
     <p class="no-results" id="no-results">条件に合う動画が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-videos" type="button" style="display:none;">＋ もっと見る</button>
     
@@ -516,10 +481,7 @@ const VIDEOS = {
   eyebrow: "公式チャンネルなど",
   title: "動画まとめ",
   desc: "公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。",
-  items: [
-    { title: "サンプル動画タイトル", category: "本編", date: "2026-06-01", desc: "動画の内容についての簡単な説明。", url: "", addedAt: "" },
-    { title: "サンプルショート動画", category: "Shorts", date: "2026-06-10", desc: "", url: "", addedAt: "" },
-  ],
+  items: [],
 };
 
 function esc(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }

@@ -8,7 +8,7 @@
 <link rel="icon" href="icon-192.png">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:site_name" content="原優寧 布教サイト">
 <meta property="og:title" content="活動実績">
 <meta property="og:description" content="楽曲・公演・メディア出演などの活動記録をまとめています。">
 <meta property="og:image" content="">
@@ -26,7 +26,7 @@
   gtag('config', 'G-N5CY6YN1KG');
 </script>
 
-<title>活動実績</title>
+<title>活動実績 | 原優寧 布教サイト</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -310,27 +310,9 @@ body.editing .add-row{ display:flex; }
     <div class="search-wrap">
       <input type="search" id="song-search" class="search-input" placeholder="🔍 曲名で検索">
     </div>
-    <div class="tag-filter-row" id="song-category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">すべて</button><button type="button" class="tag-filter-btn" data-cat="選抜曲">選抜曲</button><button type="button" class="tag-filter-btn" data-cat="カップリング曲">カップリング曲</button></div>
+    <div class="tag-filter-row" id="song-category-filter"></div>
     <div class="tag-filter-row" id="song-album-filter"></div>
-    <div class="record-list" id="song-list"><div class="editable-item record-item" data-type="song" data-category="選抜曲" data-album="" data-date="2026-04-01" data-url="" data-link-label="" data-added="" data-order="0" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">選抜曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.04.01</span></div>
-    <h3 class="record-title editable" contenteditable="true">サンプル選抜曲タイトル</h3>
-    <p class="record-desc editable" contenteditable="true">◯枚目シングル表題曲。センターを務めた。</p>
-    
-    
-    
-  </div><div class="editable-item record-item" data-type="song" data-category="カップリング曲" data-album="" data-date="2026-04-01" data-url="" data-link-label="" data-added="" data-order="1" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">カップリング曲</span><span class="record-album editable" contenteditable="true" style="display:none;"></span><span class="record-date">2026.04.01</span></div>
-    <h3 class="record-title editable" contenteditable="true">サンプルカップリング曲</h3>
-    <p class="record-desc editable" contenteditable="true">同シングル収録曲。</p>
-    
-    
-    
-  </div></div>
+    <div class="record-list" id="song-list"></div>
     <p class="no-results" id="song-no-results">条件に合う楽曲が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-songs" type="button" style="display:none;">＋ もっと見る</button>
     
@@ -343,31 +325,13 @@ body.editing .add-row{ display:flex; }
       <h2><span class="mark">◆</span><span class="editable" id="performances-heading" contenteditable="true">公演</span></h2>
       <p class="editable" id="performances-desc" contenteditable="true">出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます</p>
     </div>
-    <div class="stat-callout" id="performance-stat-callout">
+    <div class="stat-callout" id="performance-stat-callout" style="display: none;">
       <div class="stat-label">劇場公演出演回数</div>
       <span class="stat-icon">🎭</span>
-      <div class="stat-num-row"><span class="stat-num" id="performance-count">23</span><span class="stat-unit">回</span></div>
+      <div class="stat-num-row"><span class="stat-num" id="performance-count">0</span><span class="stat-unit">回</span></div>
     </div>
-    <div class="record-list" id="performance-list"><div class="editable-item record-item" data-type="performance" data-date="2026-05-10" data-url="" data-count="15" data-added="" data-order="2" style="">
-    
-    
-    <div class="record-count-corner"><span class="count-num">15</span><span class="count-suffix">回</span></div>
-    <div class="record-meta"><span class="record-date">2026.05.10</span></div>
-    <h3 class="record-title editable" contenteditable="true">サンプル劇場公演A</h3>
-    <p class="record-desc editable" contenteditable="true">定期公演。この公演での通算出演回数です。</p>
-    
-    
-  </div><div class="editable-item record-item" data-type="performance" data-date="2026-06-01" data-url="" data-count="8" data-added="" data-order="3" style="">
-    
-    
-    <div class="record-count-corner"><span class="count-num">8</span><span class="count-suffix">回</span></div>
-    <div class="record-meta"><span class="record-date">2026.06.01</span></div>
-    <h3 class="record-title editable" contenteditable="true">サンプル劇場公演B</h3>
-    <p class="record-desc editable" contenteditable="true">別演目での公演回数です。</p>
-    
-    
-  </div></div>
-    <p class="no-results" id="performance-no-results">まだ公演が登録されていません。</p>
+    <div class="record-list" id="performance-list"></div>
+    <p class="no-results show" id="performance-no-results">まだ公演が登録されていません。</p>
     <button class="load-more-btn" id="load-more-performances" type="button" style="display:none;">＋ もっと見る</button>
     
   </div>
@@ -383,16 +347,7 @@ body.editing .add-row{ display:flex; }
       <input type="search" id="media-search" class="search-input" placeholder="🔍 番組名・企画名で検索">
     </div>
     <div class="tag-filter-row" id="media-category-filter"></div>
-    <div class="record-list" id="media-list"><div class="editable-item record-item" data-type="media" data-category="ラジオ" data-date="2026-03-15" data-url="" data-added="" data-order="4" style="">
-    
-    
-    <div class="record-meta"><span class="record-category editable" contenteditable="true">ラジオ</span><span class="record-date">2026.03.15</span></div>
-    <h3 class="record-title editable" contenteditable="true">サンプルラジオ番組</h3>
-    <p class="record-desc editable" contenteditable="true">レギュラー出演回。</p>
-    
-    
-    
-  </div></div>
+    <div class="record-list" id="media-list"></div>
     <p class="no-results" id="media-no-results">条件に合う記録が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-medias" type="button" style="display:none;">＋ もっと見る</button>
     
@@ -425,7 +380,7 @@ body.editing .add-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -450,17 +405,9 @@ const ACHIEVEMENTS = {
     media: { heading: "メディア・イベント", desc: "ラジオ・テレビ・雑誌書籍・イベント出演の記録です" },
     criteria: { heading: "集計・掲載基準", desc: "このページの情報をまとめる上でのルールや注意点です" },
   },
-  songs: [
-    { title: "サンプル選抜曲タイトル", category: "選抜曲", date: "2026-04-01", desc: "◯枚目シングル表題曲。センターを務めた。", url: "", addedAt: "" },
-    { title: "サンプルカップリング曲", category: "カップリング曲", date: "2026-04-01", desc: "同シングル収録曲。", url: "", addedAt: "" },
-  ],
-  performances: [
-    { title: "サンプル劇場公演A", count: "15", date: "2026-05-10", desc: "定期公演。この公演での通算出演回数です。", url: "", addedAt: "" },
-    { title: "サンプル劇場公演B", count: "8", date: "2026-06-01", desc: "別演目での公演回数です。", url: "", addedAt: "" },
-  ],
-  media: [
-    { title: "サンプルラジオ番組", category: "ラジオ", date: "2026-03-15", desc: "レギュラー出演回。", url: "", addedAt: "" },
-  ],
+  songs: [],
+  performances: [],
+  media: [],
   criteria: [
     "本ページの出演回数・掲載楽曲は、公式に発表された情報をもとに個人でまとめたものです。",
     "非公式のファンサイトのため、内容に誤りが含まれる可能性があります。正確な情報は必ず公式サイト・公式SNSをご確認ください。",

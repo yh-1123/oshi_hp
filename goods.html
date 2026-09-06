@@ -8,7 +8,7 @@
 <link rel="icon" href="icon-192.png">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="推し布教ページ">
+<meta property="og:site_name" content="原優寧 布教サイト">
 <meta property="og:title" content="グッズまとめ">
 <meta property="og:description" content="公式が販売しているグッズの情報をまとめています。販売期間の目安にどうぞ。">
 <meta property="og:image" content="">
@@ -26,7 +26,7 @@
   gtag('config', 'G-N5CY6YN1KG');
 </script>
 
-<title>グッズまとめ</title>
+<title>グッズまとめ | 原優寧 布教サイト</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -380,11 +380,11 @@ body.editing .add-row{ display:flex; }
       <button type="button" class="tag-filter-btn" data-status="ended">⏳ 販売終了</button>
       <button type="button" class="tag-filter-btn" data-status="soldout">🚫 完売</button>
     </div>
-    <div class="tag-filter-row" id="category-filter"><button type="button" class="tag-filter-btn active" data-cat="all">種類:すべて</button><button type="button" class="tag-filter-btn" data-cat="アクリルスタンド">アクリルスタンド</button><button type="button" class="tag-filter-btn" data-cat="アパレル">アパレル</button></div>
+    <div class="tag-filter-row" id="category-filter"></div>
   </div>
 </header>
 
-<section id="pickup" class="pickup-section show">
+<section id="pickup" class="pickup-section">
   <div class="wrap">
     <div class="sec-head">
       <h2><span class="mark">◆</span><span class="editable" id="pickup-heading" contenteditable="true">推したいグッズ</span></h2>
@@ -392,16 +392,10 @@ body.editing .add-row{ display:flex; }
     </div>
     <div class="pickup-carousel">
       <button class="pickup-nav prev" id="pickup-prev" type="button" aria-label="前へ">‹</button>
-      <div class="pickup-track" id="pickup-track"><div class="pickup-card" data-target-order="0">
-      <div class="pickup-card-thumb"></div>
-      <div class="pickup-card-body">
-        <div class="pickup-card-title">サンプルアクリルスタンド</div>
-        <div class="pickup-card-comment">このデザインが本当に可愛くて何個も買いたい…!</div>
-      </div>
-    </div></div>
+      <div class="pickup-track" id="pickup-track"></div>
       <button class="pickup-nav next" id="pickup-next" type="button" aria-label="次へ">›</button>
     </div>
-    <div class="pickup-dots" id="pickup-dots"><button type="button" class="pickup-dot active" data-i="0" aria-label="1枚目へ"></button></div>
+    <div class="pickup-dots" id="pickup-dots"></div>
   </div>
 </section>
 
@@ -414,39 +408,7 @@ body.editing .add-row{ display:flex; }
       </div>
       <button class="sort-toggle-btn" id="sort-toggle" type="button">⏳ 終了が近い順</button>
     </div>
-    <div class="goods-grid" id="goods-grid"><div class="editable-item goods-item" data-category="アクリルスタンド" data-links="[]" data-photo="" data-start="2026-08-01" data-end="2026-09-30" data-added="" data-order="0" data-status="onsale" data-pickup="1" data-pickup-comment="このデザインが本当に可愛くて何個も買いたい…!" data-sold-out="" data-related="" data-details="" style="">
-    
-    
-    <div class="goods-thumb"></div>
-    <div class="goods-body">
-      <div class="goods-meta"><span class="goods-pickup-badge">✦ 推し</span><span class="goods-status status-onsale">🟢 販売中</span><span class="goods-category editable" contenteditable="true">アクリルスタンド</span></div>
-      <h3 class="goods-title editable" contenteditable="true">サンプルアクリルスタンド</h3>
-      <div class="goods-price editable" contenteditable="true">1,650円</div>
-      <p class="goods-desc editable" contenteditable="true">オンラインショップ限定。全1種。</p>
-      <div class="goods-recommend editable" contenteditable="true" style="display:none;"><span class="goods-recommend-mark">💡 おすすめポイント</span></div>
-      <div class="goods-period">🗓 2026.08.01 〜 2026.09.30</div>
-      <div class="goods-related" data-role="related" style="display: none;"></div>
-      
-      
-    </div>
-    <button class="goods-share-btn" type="button" aria-label="画像でシェア" title="画像でシェア">🖼️</button>
-  </div><div class="editable-item goods-item" data-category="アパレル" data-links="[]" data-photo="" data-start="2026-10-01" data-end="" data-added="" data-order="1" data-status="upcoming" data-pickup="" data-pickup-comment="" data-sold-out="" data-related="" data-details="" style="">
-    
-    
-    <div class="goods-thumb"></div>
-    <div class="goods-body">
-      <div class="goods-meta"><span class="goods-status status-upcoming">🔜 販売予定</span><span class="goods-category editable" contenteditable="true">アパレル</span></div>
-      <h3 class="goods-title editable" contenteditable="true">サンプルTシャツ</h3>
-      <div class="goods-price editable" contenteditable="true">4,400円</div>
-      <p class="goods-desc editable" contenteditable="true">イベント会場限定販売。</p>
-      <div class="goods-recommend editable" contenteditable="true" style="display:none;"><span class="goods-recommend-mark">💡 おすすめポイント</span></div>
-      <div class="goods-period">🗓 2026.10.01 〜</div>
-      <div class="goods-related" data-role="related" style="display: none;"></div>
-      
-      
-    </div>
-    <button class="goods-share-btn" type="button" aria-label="画像でシェア" title="画像でシェア">🖼️</button>
-  </div></div>
+    <div class="goods-grid" id="goods-grid"></div>
     <p class="no-results" id="no-results">条件に合うグッズが見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-goods" type="button" style="display:none;">＋ もっと見る</button>
     
@@ -480,10 +442,7 @@ const GOODS = {
   eyebrow: "公式グッズ",
   title: "グッズまとめ",
   desc: "公式が販売しているグッズの情報をまとめています。販売期間の目安にどうぞ。",
-  items: [
-    { title: "サンプルアクリルスタンド", category: "アクリルスタンド", price: "1,650円", desc: "オンラインショップ限定。全1種。", links: [], photo: "", startDate: "2026-08-01", endDate: "2026-09-30", addedAt: "", pickup: true, pickupComment: "このデザインが本当に可愛くて何個も買いたい…!" },
-    { title: "サンプルTシャツ", category: "アパレル", price: "4,400円", desc: "イベント会場限定販売。", links: [], photo: "", startDate: "2026-10-01", endDate: "", addedAt: "" },
-  ],
+  items: [],
   sectionText: {
     pickup: { heading: "推したいグッズ", desc: "個人的に特におすすめしたいグッズです" },
     goods: { heading: "グッズ一覧", desc: "販売期間は目安です。詳しくは公式サイト・公式SNSでご確認ください" },
