@@ -1,0 +1,26 @@
+{
+  "navBrand": "便利なツール",
+  "eyebrow": "推し活サポート",
+  "title": "便利なツール",
+  "desc": "推し活に役立つツールをまとめています。気になるものを使ってみてください。",
+  "items": [
+    {
+      "title": "特典会集計ツール",
+      "icon": "",
+      "category": "集計ツール",
+      "desc": "注文履歴をコピペして、トーク会・握手会の券を集計します。",
+      "recommend": "",
+      "url": "https://yh-1123.github.io/oshi_hp/tokuten-shukei-tool.html",
+      "addedAt": "2026-09-06",
+      "order": "0",
+      "related": ""
+    }
+  ],
+  "sectionText": {
+    "tools": {
+      "heading": "ツール一覧",
+      "desc": ""
+    }
+  },
+  "backLinkUrl": "index.html"
+}

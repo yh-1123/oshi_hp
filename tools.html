@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="原優寧 布教サイト">
+<meta property="og:title" content="便利なツール">
+<meta property="og:description" content="推し活に役立つツールをまとめています。気になるものを使ってみてください。">
+<meta property="og:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="便利なツール">
+<meta name="twitter:description" content="推し活に役立つツールをまとめています。気になるものを使ってみてください。">
+<meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
+
+<!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-N5CY6YN1KG');
+</script>
+
+<title>便利なツール | 原優寧 布教サイト</title>
+<meta name="description" content="推し活に役立つツールをまとめています。気になるものを使ってみてください。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --accent2: #ece6e8;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
+}
+html{ scroll-behavior:smooth; }
+body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
+h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; height:46px; column-gap:8px; }
+.nav-left{ display:flex; align-items:center; gap:2px; justify-self:start; min-width:0; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; flex:none; }
+body.editing .back-link-edit{ display:inline-block; }
+.back-link-edit:hover{ color:var(--oshi-color); }
+.brand{ font-size:12px; color:var(--sub-ink); justify-self:center; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-icons{ display:flex; align-items:center; gap:10px; justify-self:end; }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn:hover{ color:var(--oshi-color); }
+
+.p-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
+.p-hero::before{
+  content:""; position:absolute; top:4px; left:50%; width:170px; height:120px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.p-hero .eyebrow{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:9px; font-weight:700; }
+.p-hero h1{ position:relative; font-size:clamp(19px,6.6vw,25px); font-weight:900; }
+.p-hero p{ position:relative; margin:9px auto 0; max-width:420px; font-size:12.5px; color:var(--sub-ink); }
+
+.search-wrap{ position:relative; margin-top:16px; }
+.search-input{
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:11px 16px; font-size:13px;
+  font-family:inherit; background:#fff; color:var(--ink); box-shadow:var(--shadow-sm);
+}
+.search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.tag-filter-row{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:12px; }
+.tag-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
+  padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.tag-filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+
+section{ padding:20px 0 30px; }
+.sec-head{ margin-bottom:16px; }
+.sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:4px; }
+.sec-head p:empty{ display:none; margin-top:0; }
+.sec-head h2{ font-size:16.5px; font-weight:700; display:flex; align-items:baseline; gap:8px; }
+.sec-head h2 .mark{ color:var(--oshi-color); font-size:14px; }
+.no-results{ display:none; text-align:center; color:var(--sub-ink); font-size:12.5px; padding:20px 0; }
+.no-results.show{ display:block; }
+
+/* ---------- グッズカード ---------- */
+.tools-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; }
+@media (max-width:380px){ .tools-grid{ grid-template-columns:1fr; } }
+.tools-item{ position:relative; display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); }
+.tools-icon-wrap{ display:flex; align-items:center; justify-content:center; width:100%; aspect-ratio:2/1; background:linear-gradient(135deg, var(--oshi-color-soft), var(--accent2)); font-size:40px; }
+.tools-icon-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+.tools-body{ padding:10px; flex:1; display:flex; flex-direction:column; }
+.tools-meta{ display:flex; flex-wrap:wrap; gap:4px; margin-bottom:5px; }
+.tools-category{ font-size:9px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:5px; padding:1px 7px; }
+.tools-new-badge{ font-size:9px; font-weight:700; color:#7a5c00; background:#ffd447; border-radius:5px; padding:1px 7px; }
+.tools-title{ font-size:13px; font-weight:700; margin-bottom:3px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.tools-desc{ font-size:11px; color:var(--sub-ink); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:8px; }
+.tools-recommend{ margin-bottom:6px; background:#fffaf0; border:1px dashed #e0a800; border-radius:8px; padding:6px 8px; font-size:10.5px; color:#7a5c00; }
+.tools-recommend-mark{ display:block; font-size:9px; font-weight:700; color:#c98a00; margin-bottom:2px; }
+.tools-launch-btn{
+  display:flex; align-items:center; justify-content:center; gap:5px; margin-top:auto; border:none;
+  background:var(--oshi-color); color:#fff; font-size:12px; font-weight:700; padding:9px 10px; border-radius:10px;
+}
+.tools-launch-btn:hover{ background:var(--oshi-color-deep); }
+.tools-dup-btn{
+  display:none; margin-top:8px; width:100%; border:1px solid var(--line); background:#fff; color:var(--sub-ink);
+  font-size:11.5px; font-weight:700; padding:7px 10px; border-radius:10px; cursor:pointer; font-family:inherit;
+}
+body.editing .tools-dup-btn{ display:block; }
+.tools-dup-btn:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); border-color:var(--oshi-color); }
+
+.sec-head-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.sort-toggle-btn{
+  flex:none; border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit; margin-bottom:2px;
+}
+.sort-toggle-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
+
+/* ---------- ピックアップ商品(カルーセル) ---------- */
+.pickup-section{ display:none; }
+.pickup-section.show{ display:block; }
+.pickup-carousel{ position:relative; }
+.pickup-track{ display:flex; gap:12px; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x mandatory; scrollbar-width:none; }
+.pickup-track::-webkit-scrollbar{ display:none; }
+.pickup-card{
+  position:relative; flex:0 0 190px; scroll-snap-align:start; background:linear-gradient(135deg, var(--oshi-color-soft), #fff);
+  border:1px solid var(--oshi-color); border-radius:14px; overflow:hidden; cursor:pointer; box-shadow:var(--shadow-sm);
+}
+.pickup-card-thumb{ width:100%; aspect-ratio:1/1; background:var(--accent2); }
+.pickup-card-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pickup-card-body{ padding:10px; }
+.pickup-card-title{ font-size:12px; font-weight:700; margin-bottom:3px; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+.pickup-card-comment{ font-size:10.5px; color:var(--sub-ink); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.pickup-nav{
+  position:absolute; top:44%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%;
+  border:1px solid var(--line); background:rgba(255,255,255,0.95); color:var(--oshi-color); font-size:17px;
+  line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:6;
+  box-shadow:0 4px 10px rgba(43,35,49,0.12);
+}
+.pickup-nav.prev{ left:-6px; } .pickup-nav.next{ right:-6px; }
+.pickup-nav:hover{ background:var(--oshi-color); color:#fff; }
+@media (max-width:600px){ .pickup-nav{ display:none; } }
+.pickup-dots{ display:flex; justify-content:center; gap:6px; margin-top:8px; }
+.pickup-dot{ width:6px; height:6px; border-radius:50%; background:var(--line); cursor:pointer; transition:all .2s; border:none; padding:0; }
+.pickup-dot.active{ background:var(--oshi-color); width:16px; border-radius:999px; }
+@keyframes toolsFlash{ 0%,100%{ box-shadow:var(--shadow-sm); } 30%{ box-shadow:0 0 0 4px var(--oshi-color-soft), var(--shadow-md); } }
+.tools-flash{ animation: toolsFlash 1.4s ease; }
+
+.load-more-btn{
+  display:flex; align-items:center; justify-content:center; width:100%; margin-top:14px;
+  border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-weight:700; font-size:12.5px;
+  padding:10px 16px; border-radius:12px; cursor:pointer; font-family:inherit;
+}
+.load-more-btn:hover{ background:var(--oshi-color-soft); }
+
+footer{ text-align:center; padding:30px 0 16px; color:var(--sub-ink); font-size:11px; }
+.last-updated{ margin-top:8px; font-size:10.5px; color:var(--sub-ink); }
+.last-updated:empty{ display:none; }
+
+.back-to-top{
+  position:fixed; right:16px; bottom:78px; z-index:90; width:42px; height:42px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--oshi-color); font-size:18px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.15); display:none; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s ease;
+}
+.back-to-top.show{ display:flex; opacity:1; }
+.back-to-top:hover{ background:var(--oshi-color-soft); }
+
+/* ---------- 編集用の共通パーツ ---------- */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:var(--oshi-color-soft); }
+.edit-remove{
+  display:none; position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+.edit-edit{
+  display:none; position:absolute; top:8px; right:44px; width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid var(--line); color:var(--sub-ink); font-size:14px; line-height:1;
+  cursor:pointer; align-items:center; justify-content:center; z-index:5;
+}
+body.editing .edit-remove, body.editing .edit-edit{ display:flex; }
+body.editing .edit-remove:hover, body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.fav-btn{
+  position:absolute; top:8px; left:8px; width:32px; height:32px; border-radius:50%;
+  background:rgba(255,255,255,0.9); border:1px solid var(--line); color:var(--sub-ink); font-size:16px; line-height:1;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:5; font-family:inherit;
+}
+.fav-btn:hover{ border-color:var(--oshi-color); }
+.fav-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.fav-filter-btn{
+  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 14px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.fav-filter-btn:hover{ border-color:var(--oshi-color); color:var(--oshi-color); }
+.fav-filter-btn.active{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.sort-toggle-row{ display:flex; justify-content:center; gap:8px; margin-top:12px; flex-wrap:wrap; }
+body.editing .tools-item{ padding-top:44px; }
+
+.add-row{ display:none; margin-top:14px; }
+body.editing .add-row{ display:flex; }
+.add-btn{
+  border:1.5px dashed var(--oshi-color); color:var(--oshi-color); background:#fff; border-radius:12px;
+  padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;
+  transition:background .15s ease;
+}
+.add-btn:hover{ background:var(--oshi-color-soft); }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.edit-toolbar::-webkit-scrollbar{ display:none; }
+#footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{
+  flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+  background:var(--paper); color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+}
+.tb-btn-icon:hover{ background:var(--oshi-color-soft); color:var(--oshi-color); }
+
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:84vh; overflow-y:auto; }
+.modal h3{ font-size:15px; margin-bottom:14px; }
+.qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:6px; }
+.qa-label:first-child{ margin-top:0; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:70px; resize:vertical; }
+.qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.qa-date-row{ display:flex; align-items:center; gap:8px; }
+.qa-date-row .qa-input{ flex:1; }
+.qa-date-sep{ color:var(--sub-ink); font-size:12px; flex:none; }
+.photo-preview{ width:100%; aspect-ratio:1/1; max-width:200px; background-size:cover; background-position:center; border-radius:10px; margin:6px auto 0; border:1px solid var(--line); display:none; }
+.crop-wrap{ margin-top:8px; display:none; }
+.crop-viewport{
+  position:relative; width:100%; aspect-ratio:1/1; max-width:260px; margin:0 auto; overflow:hidden; border-radius:14px;
+  background:#111; touch-action:none; cursor:grab; border:1px solid var(--line);
+}
+.crop-viewport:active{ cursor:grabbing; }
+.crop-viewport img{ position:absolute; top:0; left:0; max-width:none; user-select:none; pointer-events:none; }
+.crop-wrap input[type="range"]{ width:100%; max-width:260px; display:block; margin:8px auto 0; accent-color:var(--oshi-color); }
+.crop-hint{ font-size:10.5px; color:var(--sub-ink); margin-top:4px; text-align:center; }
+.related-select-row{ display:flex; flex-wrap:wrap; gap:6px; }
+.related-select-empty{ font-size:11px; color:var(--sub-ink); }
+.related-select-btn{
+  border:1.5px solid var(--line); background:#fff; color:var(--sub-ink); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
+}
+.related-select-btn.active{ border-color:var(--oshi-color); color:var(--oshi-color); background:var(--oshi-color-soft); }
+.tools-related{ display:flex; flex-wrap:wrap; gap:5px; align-items:center; margin-bottom:6px; }
+.related-label{ font-size:10px; color:var(--sub-ink); font-weight:700; }
+.related-link-btn{ border:1px solid var(--line); background:#fff; color:var(--oshi-color); font-size:10px; font-weight:700; padding:3px 9px; border-radius:999px; cursor:pointer; font-family:inherit; }
+.related-link-btn:hover{ background:var(--oshi-color-soft); }
+.modal-actions{ display:flex; gap:8px; margin-top:18px; }
+.modal-actions button{ flex:1; }
+.modal-actions .tb-btn{ background:var(--paper); border:1px solid var(--line); }
+.modal-actions .add-btn{ border-style:solid; background:var(--oshi-color); color:#fff; }
+.modal-actions .add-btn:hover{ background:var(--oshi-color-deep); }
+
+/* ---------- グッズ詳細ポップアップ ---------- */
+.detail-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.55); z-index:220; align-items:center; justify-content:center; padding:20px; }
+.detail-backdrop.open{ display:flex; }
+.detail-box{ position:relative; background:#fff; border-radius:20px; width:100%; max-width:420px; max-height:88vh; overflow-y:auto; box-shadow:var(--shadow-md); }
+.detail-close{
+  position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:50%; border:none;
+  background:rgba(43,35,49,0.55); color:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:2;
+}
+.detail-close:hover{ background:rgba(43,35,49,0.75); }
+.detail-thumb{ width:100%; aspect-ratio:1/1; background:linear-gradient(135deg, var(--oshi-color-soft), var(--accent2)); }
+.detail-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.detail-body{ padding:18px; }
+.detail-meta{ display:flex; flex-wrap:wrap; gap:5px; margin-bottom:8px; }
+.detail-title{ font-size:16px; font-weight:700; margin-bottom:6px; }
+.detail-price{ font-size:15px; font-weight:700; color:var(--oshi-color); margin-bottom:8px; }
+.detail-desc{ font-size:13px; color:var(--ink); white-space:pre-line; margin-bottom:10px; }
+.detail-section-label{ font-size:11px; font-weight:700; color:var(--oshi-color); margin-bottom:4px; }
+.detail-text{ font-size:13px; color:var(--ink); white-space:pre-line; margin-bottom:14px; }
+.detail-period{ font-size:12px; color:var(--sub-ink); margin-bottom:10px; }
+.detail-link-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+
+@media (max-width:480px){
+  .wrap{ padding:0 14px; }
+  .p-hero{ padding:20px 0 14px; }
+  section{ padding:16px 0 26px; }
+}
+
+/* ---------- 印刷用レイアウト ---------- */
+@media print{
+  .topnav, .edit-toolbar, .back-to-top, .search-wrap, .tag-filter-row, .sort-toggle-btn, .fav-filter-btn,
+  .load-more-btn, .add-row, .edit-edit, .edit-remove, .fav-btn{ display:none !important; }
+  body{ padding-bottom:0; background:#fff; }
+  .tools-item{ break-inside:avoid; box-shadow:none; border:1px solid #ccc; }
+  a{ text-decoration:underline; }
+}
+.initial-load-overlay{
+  position:fixed; inset:0; z-index:99999; background:var(--paper); display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
+}
+.initial-load-overlay.hide{ opacity:0; pointer-events:none; }
+.initial-load-spinner{
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--oshi-color);
+  border-radius:50%; animation:initial-load-spin .8s linear infinite;
+}
+@keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
+</style>
+<script type="application/ld+json" id="structured-data">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "便利なツール"
+        }
+      ]
+    }
+  ]
+}</script></head>
+<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
+
+<nav class="topnav">
+  <div class="wrap">
+    <div class="nav-left">
+      <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
+      
+    </div>
+    <div class="brand editable" id="nav-brand" contenteditable="true">便利なツール</div>
+    <div class="nav-icons">
+      <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
+      <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
+    </div>
+  </div>
+</nav>
+
+<header class="p-hero">
+  <div class="wrap">
+    <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">推し活サポート</span>
+    <h1 class="editable" id="p-title" contenteditable="true">便利なツール</h1>
+    <p class="editable" id="p-desc" contenteditable="true">推し活に役立つツールをまとめています。気になるものを使ってみてください。</p>
+    <div class="search-wrap">
+      <input type="search" id="tools-search" class="search-input" placeholder="🔍 ツール名で検索">
+    </div>
+    <div class="tag-filter-row" id="category-filter"></div>
+    <div class="sort-toggle-row">
+      <button type="button" class="sort-toggle-btn" id="sort-toggle-btn">🔀 ランダムに並び替え</button>
+      <button type="button" class="fav-filter-btn" id="fav-filter-btn">☆ お気に入りだけ表示</button>
+    </div>
+  </div>
+</header>
+
+<section id="tools-section">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="tools-heading" contenteditable="true">ツール一覧</span></h2>
+      <p class="editable" id="tools-desc" contenteditable="true">タップすると、それぞれのツールのページが開きます</p>
+    </div>
+    <div class="tools-grid" id="tools-grid"><div class="editable-item tools-item" data-category="集計ツール" data-icon="" data-url="https://yh-1123.github.io/oshi_hp/tokuten-shukei-tool.html" data-added="2026-09-06" data-order="0" data-related="" style="">
+    <button class="fav-btn" type="button" aria-label="お気に入り">☆</button>
+    
+    
+    <div class="tools-icon-wrap">🔧</div>
+    <div class="tools-body">
+      <div class="tools-meta"><span class="tools-new-badge">NEW</span><span class="tools-category editable" contenteditable="true">集計ツール</span></div>
+      <h3 class="tools-title editable" contenteditable="true">特典会集計ツール</h3>
+      <p class="tools-desc editable" contenteditable="true">注文履歴をコピペして、トーク会・握手会の券を集計します。</p>
+      <div class="tools-recommend editable" contenteditable="true" style="display:none;"><span class="tools-recommend-mark">💡 おすすめポイント</span></div>
+      <div class="tools-related" data-role="related" style="display: none;"></div>
+      <a class="tools-launch-btn" href="https://yh-1123.github.io/oshi_hp/tokuten-shukei-tool.html" target="_blank" rel="noopener">▶ 使ってみる</a>
+      
+    </div>
+  </div></div>
+    <p class="no-results" id="no-results">条件に合うツールが見つかりませんでした。</p>
+    <button class="load-more-btn" id="load-more-tools" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<footer>
+  <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
+  <div class="last-updated" id="last-updated"></div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+
+
+
+
+
+<script>
+
+let editMode = false;
+
+const TOOLS = {
+  navBrand: "便利なツール",
+  eyebrow: "推し活サポート",
+  title: "便利なツール",
+  desc: "推し活に役立つツールをまとめています。気になるものを使ってみてください。",
+  items: [],
+  sectionText: {
+    tools: { heading: "ツール一覧", desc: "タップすると、それぞれのツールのページが開きます" },
+  },
+};
+
+function esc(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function isRecentlyAdded(addedAt){
+  if(!addedAt) return false;
+  const added = new Date(addedAt + "T00:00:00");
+  if(isNaN(added.getTime())) return false;
+  const diffDays = (new Date() - added) / (1000 * 60 * 60 * 24);
+  return diffDays >= 0 && diffDays <= 7;
+}
+function formatDate(iso){
+  if(!iso) return "";
+  const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m) return iso;
+  return `${m[1]}.${m[2]}.${m[3]}`;
+}
+let toolsOrderCounter = 0;
+function toolsItemHTML(g){
+  const newBadge = isRecentlyAdded(g.addedAt) ? `<span class="tools-new-badge">NEW</span>` : "";
+  const iconInner = g.icon ? (g.icon.startsWith("http") || g.icon.startsWith("data:") ? `<img src="${escAttr(g.icon)}" alt="">` : esc(g.icon)) : "🔧";
+  const order = (g.order !== undefined && g.order !== "") ? g.order : toolsOrderCounter++;
+  const relatedRaw = Array.isArray(g.related) ? g.related.join("|||") : (g.related || "");
+  const recommendHtml = g.recommend
+    ? `<div class="tools-recommend editable" contenteditable="false"><span class="tools-recommend-mark">💡 おすすめポイント</span>${esc(g.recommend)}</div>`
+    : `<div class="tools-recommend editable" contenteditable="false" style="display:none;"><span class="tools-recommend-mark">💡 おすすめポイント</span></div>`;
+  const launchBtn = g.url
+    ? `<a class="tools-launch-btn" href="${esc(g.url)}" target="_blank" rel="noopener">▶ 使ってみる</a>`
+    : `<button class="tools-launch-btn" type="button" disabled style="opacity:0.5;">リンク未設定</button>`;
+  return `<div class="editable-item tools-item" data-category="${escAttr(g.category)}" data-icon="${escAttr(g.icon)}" data-url="${escAttr(g.url)}" data-added="${escAttr(g.addedAt)}" data-order="${order}" data-related="${escAttr(relatedRaw)}">
+    <button class="fav-btn" type="button" aria-label="お気に入り">☆</button>
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <div class="tools-icon-wrap">${iconInner}</div>
+    <div class="tools-body">
+      <div class="tools-meta">${newBadge}<span class="tools-category editable" contenteditable="false">${esc(g.category || "その他")}</span></div>
+      <h3 class="tools-title editable" contenteditable="false">${esc(g.title)}</h3>
+      <p class="tools-desc editable" contenteditable="false">${esc(g.desc)}</p>
+      ${recommendHtml}
+      <div class="tools-related" data-role="related"></div>
+      ${launchBtn}
+      <button class="tools-dup-btn" type="button">⧉ この内容で複製</button>
+    </div>
+  </div>`;
+}
+
+function renderAll(data){
+  document.getElementById("nav-brand").textContent = data.navBrand;
+  document.getElementById("p-eyebrow").textContent = data.eyebrow;
+  document.getElementById("p-title").textContent = data.title;
+  document.getElementById("p-desc").textContent = data.desc;
+  document.getElementById("tools-grid").innerHTML = data.items.map(toolsItemHTML).join("");
+  Object.keys(data.sectionText || {}).forEach(key => {
+    const h = document.getElementById(key + "-heading");
+    const d = document.getElementById(key + "-desc");
+    if(h) h.textContent = data.sectionText[key].heading;
+    if(d) d.textContent = data.sectionText[key].desc;
+  });
+}
+if(!document.body.dataset.rendered){
+  renderAll(TOOLS);
+  document.body.dataset.rendered = "true";
+}
+
+/* ---------- SNSシェア用OGPタグの同期 ---------- */
+const OGP_IMAGE_URL = "https://yh-1123.github.io/oshi_hp/ogp.jpg";
+function syncOgpTags(){
+  const title = document.getElementById("p-title").textContent.trim();
+  const desc = document.getElementById("p-desc").textContent.trim();
+  const setMeta = (selector, value) => {
+    const el = document.querySelector(selector);
+    if(el && value) el.setAttribute("content", value);
+  };
+  setMeta('meta[property="og:title"]', title || "便利なツール");
+  setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="description"]', desc);
+  setMeta('meta[name="twitter:title"]', title || "便利なツール");
+  setMeta('meta[name="twitter:description"]', desc);
+  if(OGP_IMAGE_URL){ setMeta('meta[property="og:image"]', OGP_IMAGE_URL); setMeta('meta[name="twitter:image"]', OGP_IMAGE_URL); }
+  if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
+  syncStructuredData(title || "便利なツール");
+}
+function syncStructuredData(pageTitle){
+  const baseUrl = (location.href.indexOf("file://") !== 0) ? location.href.replace(/[^/]*$/, "") : "";
+  const graph = [{
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": baseUrl ? baseUrl + "index.html" : undefined },
+      { "@type": "ListItem", "position": 2, "name": pageTitle },
+    ],
+  }];
+  let script = document.getElementById("structured-data");
+  if(!script){
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "structured-data";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2);
+}
+syncOgpTags();
+
+/* ---------- PWA:Service Worker登録 ---------- */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+/* ---------- 未保存の変更を警告 ---------- */
+let hasUnsavedChanges = false;
+
+
+/* ---------- シェアボタン ---------- */
+document.getElementById("share-btn-nav").addEventListener("click", async () => {
+  const title = document.getElementById("p-title").textContent.trim();
+  const desc = document.getElementById("p-desc").textContent.trim();
+  const shareText = desc ? `${title}｜${desc}` : title;
+  const shareUrl = location.href;
+  if(navigator.share){
+    try{ await navigator.share({ title, text: shareText, url: shareUrl }); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  const opened = window.open(intent, "_blank", "noopener");
+  if(!opened){
+    const fallbackText = `${shareText} ${shareUrl}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fallbackText)
+        .then(() => alert("シェア用の文章をコピーしました。SNSに貼り付けてご利用ください。\n\n" + fallbackText))
+        .catch(() => alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText));
+    } else {
+      alert("シェアウィンドウを開けませんでした(ポップアップブロックの可能性)。以下をコピーしてご利用ください。\n\n" + fallbackText);
+    }
+  }
+});
+
+/* ---------- 印刷 ---------- */
+document.getElementById("print-btn").addEventListener("click", () => window.print());
+
+/* ---------- トップに戻るボタン ---------- */
+(function initBackToTop(){
+  const btn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+/* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
+
+
+/* ---------- 検索・カテゴリーフィルター・もっと見る ---------- */
+let currentCategoryFilter = "all";
+let showAllItems = false;
+let favoriteOnlyMode = false;
+const TOOLS_INITIAL_VISIBLE = 6;
+const FAV_STORAGE_KEY = "oshi-favorites-tools";
+function getFavorites(){
+  try{
+    const raw = localStorage.getItem(FAV_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function isFavorite(title){ return getFavorites().includes(title); }
+function toggleFavorite(title){
+  const favs = getFavorites();
+  const idx = favs.indexOf(title);
+  if(idx === -1) favs.push(title); else favs.splice(idx, 1);
+  try{ localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(favs)); }catch(e){ /* ストレージ利用不可の場合は無視 */ }
+  return idx === -1;
+}
+function applyFavoriteStates(){
+  document.querySelectorAll("#tools-grid .tools-item").forEach(item => {
+    const title = item.querySelector(".tools-title")?.textContent.trim() || "";
+    const btn = item.querySelector(".fav-btn");
+    if(!btn) return;
+    const fav = isFavorite(title);
+    const wantText = fav ? "★" : "☆";
+    if(btn.classList.contains("active") !== fav) btn.classList.toggle("active", fav);
+    if(btn.textContent !== wantText) btn.textContent = wantText;
+  });
+}
+document.getElementById("tools-grid").addEventListener("click", (e) => {
+  const btn = e.target.closest(".fav-btn");
+  if(!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const item = btn.closest(".tools-item");
+  const title = item.querySelector(".tools-title")?.textContent.trim() || "";
+  const nowFav = toggleFavorite(title);
+  btn.classList.toggle("active", nowFav);
+  btn.textContent = nowFav ? "★" : "☆";
+  if(favoriteOnlyMode && !nowFav) applyToolsFilter();
+});
+function currentSearchQuery(){
+  const el = document.getElementById("tools-search");
+  return el ? el.value.trim().toLowerCase() : "";
+}
+function applyToolsFilter(){
+  const q = currentSearchQuery();
+  const allItems = Array.from(document.querySelectorAll("#tools-grid .tools-item"));
+  const matched = allItems.filter(item => {
+    const categoryOk = (currentCategoryFilter === "all" || item.dataset.category === currentCategoryFilter);
+    const searchOk = !q || item.textContent.toLowerCase().includes(q);
+    const favOk = !favoriteOnlyMode || isFavorite(item.querySelector(".tools-title")?.textContent.trim() || "");
+    return categoryOk && searchOk && favOk;
+  });
+  const isNarrowed = currentCategoryFilter !== "all" || !!q || favoriteOnlyMode;
+  const limitActive = !showAllItems && !isNarrowed && matched.length > TOOLS_INITIAL_VISIBLE;
+  allItems.forEach(item => { item.style.display = "none"; });
+  matched.forEach((item, i) => {
+    if(limitActive && i >= TOOLS_INITIAL_VISIBLE) return;
+    item.style.display = "";
+  });
+  document.getElementById("no-results").classList.toggle("show", matched.length === 0 && allItems.length > 0);
+  const loadMoreBtn = document.getElementById("load-more-tools");
+  if(limitActive){
+    loadMoreBtn.style.display = "flex";
+    loadMoreBtn.textContent = `＋ もっと見る(残り${matched.length - TOOLS_INITIAL_VISIBLE}件)`;
+  } else {
+    loadMoreBtn.style.display = "none";
+  }
+}
+function renderCategoryFilter(){
+  const wrap = document.getElementById("category-filter");
+  const cats = [];
+  document.querySelectorAll("#tools-grid .tools-item").forEach(item => {
+    const c = item.dataset.category;
+    if(c && !cats.includes(c)) cats.push(c);
+  });
+  if(cats.length < 2){
+    wrap.innerHTML = "";
+    currentCategoryFilter = "all";
+    applyToolsFilter();
+    return;
+  }
+  const current = cats.includes(currentCategoryFilter) ? currentCategoryFilter : "all";
+  currentCategoryFilter = current;
+  wrap.innerHTML = [`<button type="button" class="tag-filter-btn${current === "all" ? " active" : ""}" data-cat="all">種類:すべて</button>`]
+    .concat(cats.map(c => `<button type="button" class="tag-filter-btn${current === c ? " active" : ""}" data-cat="${escAttr(c)}">${c}</button>`))
+    .join("");
+  applyToolsFilter();
+}
+document.getElementById("tools-search").addEventListener("input", () => { showAllItems = false; applyToolsFilter(); });
+document.getElementById("load-more-tools").addEventListener("click", () => { showAllItems = true; applyToolsFilter(); });
+document.getElementById("category-filter").addEventListener("click", (e) => {
+  const btn = e.target.closest(".tag-filter-btn");
+  if(!btn) return;
+  currentCategoryFilter = btn.dataset.cat;
+  showAllItems = false;
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+  applyToolsFilter();
+});
+new MutationObserver(() => { renderCategoryFilter(); renderRelatedLinks(); applyFavoriteStates(); }).observe(document.getElementById("tools-grid"), { childList: true, subtree: true, characterData: true });
+document.getElementById("fav-filter-btn").addEventListener("click", () => {
+  favoriteOnlyMode = !favoriteOnlyMode;
+  const btn = document.getElementById("fav-filter-btn");
+  btn.textContent = favoriteOnlyMode ? "☆ すべて表示" : "☆ お気に入りだけ表示";
+  btn.classList.toggle("active", favoriteOnlyMode);
+  showAllItems = false;
+  applyToolsFilter();
+});
+
+/* ---------- 関連商品リンク ---------- */
+function renderRelatedLinks(){
+  const items = Array.from(document.querySelectorAll("#tools-grid .tools-item"));
+  const titleMap = new Map();
+  items.forEach(item => {
+    const t = item.querySelector(".tools-title")?.textContent.trim();
+    if(t && !titleMap.has(t)) titleMap.set(t, item);
+  });
+  items.forEach(item => {
+    const wrap = item.querySelector('[data-role="related"]');
+    if(!wrap) return;
+    const titles = (item.dataset.related || "").split("|||").map(s => s.trim()).filter(Boolean);
+    const valid = titles.filter(t => titleMap.has(t) && titleMap.get(t) !== item);
+    const newHtml = valid.length
+      ? `<span class="related-label">関連:</span>` + valid.map(t => `<button type="button" class="related-link-btn" data-target="${escAttr(t)}">${esc(t)}</button>`).join("")
+      : "";
+    if(wrap.innerHTML !== newHtml) wrap.innerHTML = newHtml;
+    const wantDisplay = valid.length ? "flex" : "none";
+    if(wrap.style.display !== wantDisplay) wrap.style.display = wantDisplay;
+  });
+}
+document.getElementById("tools-grid").addEventListener("click", (e) => {
+  const btn = e.target.closest(".related-link-btn");
+  if(!btn) return;
+  const items = Array.from(document.querySelectorAll("#tools-grid .tools-item"));
+  const target = items.find(item => item.querySelector(".tools-title")?.textContent.trim() === btn.dataset.target);
+  if(!target) return;
+  document.getElementById("tools-search").value = "";
+  currentCategoryFilter = "all";
+  showAllItems = true;
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+  applyToolsFilter();
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+  target.classList.add("tools-flash");
+  setTimeout(() => target.classList.remove("tools-flash"), 1400);
+});
+
+renderCategoryFilter();
+renderRelatedLinks();
+
+/* ---------- 並び替え:ランダム表示 ---------- */
+let toolsSortMode = "order";
+function applySortMode(){
+  const grid = document.getElementById("tools-grid");
+  const items = Array.from(grid.querySelectorAll(".tools-item"));
+  if(toolsSortMode === "random"){
+    for(let i = items.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+  } else {
+    items.sort((a, b) => (parseInt(a.dataset.order || "0", 10) - parseInt(b.dataset.order || "0", 10)));
+  }
+  items.forEach(item => grid.appendChild(item));
+  applyToolsFilter();
+}
+document.getElementById("sort-toggle-btn").addEventListener("click", () => {
+  toolsSortMode = toolsSortMode === "order" ? "random" : "order";
+  const btn = document.getElementById("sort-toggle-btn");
+  btn.classList.toggle("active", toolsSortMode === "random");
+  btn.textContent = toolsSortMode === "random" ? "📋 通常表示に戻す" : "🔀 ランダムに並び替え";
+  currentCategoryFilter = "all";
+  favoriteOnlyMode = false;
+  showAllItems = false;
+  document.getElementById("tools-search").value = "";
+  document.getElementById("fav-filter-btn").textContent = "☆ お気に入りだけ表示";
+  document.getElementById("fav-filter-btn").classList.remove("active");
+  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+  applySortMode();
+});
+
+/* ---------- 編集モード(パスワードで保護) ---------- */
+/* ---------- 編集モード(パスワードで保護) ---------- */
+function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+
+
+/* 編集モード中は、ツールの起動ボタンをタップしても遷移させない */
+document.addEventListener("click", (e) => {
+  if(!document.body.classList.contains("editing")) return;
+  const link = e.target.closest("a.tools-launch-btn");
+  if(link) e.preventDefault();
+});
+
+/* ---------- データのエクスポート・インポート(JSON) ---------- */
+
+function rebuildFromData(data){
+  if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
+  if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
+  if(data.backLinkUrl){
+    const link = document.querySelector(".back-link");
+    if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
+  }
+  if(data.title !== undefined) document.getElementById("p-title").textContent = data.title;
+  if(data.desc !== undefined) document.getElementById("p-desc").textContent = data.desc;
+  if(data.sectionText){
+    Object.keys(data.sectionText).forEach(key => {
+      const h = document.getElementById(key + "-heading");
+      const d = document.getElementById(key + "-desc");
+      if(h) h.textContent = data.sectionText[key].heading;
+      if(d) d.textContent = data.sectionText[key].desc;
+    });
+  }
+  if(data.items){
+    document.getElementById("tools-grid").innerHTML = data.items.map(toolsItemHTML).join("");
+    const maxOrder = Math.max(-1, ...data.items.map(it => parseInt(it.order, 10)).filter(n => !isNaN(n)));
+    toolsOrderCounter = Math.max(toolsOrderCounter, maxOrder + 1);
+  }
+  setEditable(editMode);
+  syncOgpTags();
+  applyToolsFilter();
+  hasUnsavedChanges = true;
+}
+
+
+/* タップ数の計測(GA4イベント) */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if(!link) return;
+  if(typeof gtag === "function"){
+    const label = (link.textContent || "").trim().slice(0, 60) || link.getAttribute("href");
+    gtag("event", "tap", { event_category: "link", event_label: label });
+  }
+});
+
+/* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
+
+
+/* ---------- 同じ場所にある tools-data.json があれば自動で読み込む ----------
+   ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
+   ・見つかった場合は、そちらの内容でページを上書きします
+   ・見つからない/読み込めない場合は、何も起きず今の内容のまま表示されます */
+(async function loadExternalDataIfAvailable(){
+  const overlay = document.getElementById("initial-load-overlay");
+  const hideOverlay = () => {
+    if(!overlay || overlay.dataset.hidden) return;
+    overlay.dataset.hidden = "1";
+    overlay.classList.add("hide");
+    setTimeout(() => overlay.remove(), 300);
+  };
+  const safetyTimer = setTimeout(hideOverlay, 1500); /* 通信が遅い・失敗している場合の保険。1.5秒経ったら諦めて今の内容を表示する */
+  try{
+    const res = await fetch("tools-data.json", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildFromData(data);
+    hasUnsavedChanges = false;
+  }catch(e){
+    /* file:// で開いている場合や、ファイルが存在しない場合はここに来ます。何もしません */
+  }finally{
+    clearTimeout(safetyTimer);
+    hideOverlay();
+  }
+})();
+
+</script>
+
+
+
+</body></html>
