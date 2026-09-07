@@ -312,6 +312,13 @@
       "desc": "申込方法・用語集・FAQ",
       "url": "guide.html",
       "visible": true
+    },
+    {
+      "icon": "📄",
+      "title": "ツールまとめ",
+      "desc": "使うとちょっとだけ便利になるかも？",
+      "url": "tokuten-shukei-tool.html",
+      "visible": true
     }
   ],
   "officialLinks": [
