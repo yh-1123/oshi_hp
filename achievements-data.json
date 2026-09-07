@@ -1127,6 +1127,60 @@
       "category": "ラジオ"
     },
     {
+      "title": "「Pocochaリレー配信」",
+      "date": "2025-09-28",
+      "desc": "20:00～21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "7",
+      "category": "配信"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-09-26",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "6",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-09-24",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "5",
+      "category": "YouTube"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2025-09-23",
+      "desc": "11:40",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "4",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-09-17",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "3",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「Pocochaリレー配信」",
+      "date": "2025-09-16",
+      "desc": "19:15～20:15",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "2",
+      "category": "配信"
+    },
+    {
       "title": "10チャンあたりま縁日 IN 大須",
       "date": "2025-09-14",
       "desc": "",
@@ -1134,6 +1188,618 @@
       "addedAt": "2026-09-04",
       "order": "16",
       "category": "イベント"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-09-10",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "1",
+      "category": "YouTube"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-09-03",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "0",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-08-27",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "12",
+      "category": "YouTube"
+    },
+    {
+      "title": "ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」",
+      "date": "2025-08-15",
+      "desc": "26:00～26:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "11",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-08-13",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "10",
+      "category": "YouTube"
+    },
+    {
+      "title": "『Quick Japan vol.179』",
+      "date": "2025-08-08",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "9",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2025-08-01",
+      "desc": "15:40～19:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "8",
+      "category": "テレビ"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2025-07-31",
+      "desc": "11:40",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "21",
+      "category": "テレビ"
+    },
+    {
+      "title": "メ～テレ「Digった!」",
+      "date": "2025-07-29",
+      "desc": "11:40",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "20",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 35thシングル対象 オンラインサイン会&チェキ会&抽選会",
+      "date": "2025-07-28",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "18",
+      "category": "イベント"
+    },
+    {
+      "title": "Quick Japan WEB",
+      "date": "2025-07-28",
+      "desc": "19:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "19",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-07-24",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "17",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-07-23",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "16",
+      "category": "YouTube"
+    },
+    {
+      "title": "メ～テレ「Dig った!ナイト」",
+      "date": "2025-07-11",
+      "desc": "25:26",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "15",
+      "category": "テレビ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-07-09",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "14",
+      "category": "YouTube"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2025-07-05",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "13",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-06-25",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "25",
+      "category": "YouTube"
+    },
+    {
+      "title": "テレビ愛知イベント「SKE48 ドキッ♡いたずらだらけの大運動会」",
+      "date": "2025-06-14",
+      "desc": "📍\udccd COMTEC PORTBASE",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "24",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-06-11",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "22",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-06-11",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "23",
+      "category": "YouTube"
+    },
+    {
+      "title": "「東スポ競馬」(WEB)",
+      "date": "2025-05-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "34",
+      "category": "その他"
+    },
+    {
+      "title": "テレビ愛知「愛知あたりまえ俱楽部」",
+      "date": "2025-05-30",
+      "desc": "25:13～25:23",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "33",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-05-28",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "32",
+      "category": "ラジオ"
+    },
+    {
+      "title": "メ〜テレ「Digった!」",
+      "date": "2025-05-16",
+      "desc": "15:40～19:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "31",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-05-14",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "30",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「東スポWEB」",
+      "date": "2025-05-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "29",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「日刊建設工業新聞」",
+      "date": "2025-05-08",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "28",
+      "category": "その他"
+    },
+    {
+      "title": "FC岐阜応援隊「FC岐阜 vs アスルクラロ沼津戦」競馬DAY",
+      "date": "2025-05-06",
+      "desc": "📍\udccd 岐阜メモリアルセンター長良川競技場",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "27",
+      "category": "イベント"
+    },
+    {
+      "title": "「100%SKE48 vol.7」",
+      "date": "2025-05-01",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "26",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "テレビ愛知「SKE48 真夜中のウナギたち」",
+      "date": "2025-04-27",
+      "desc": "24:50～25:20",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "36",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48 真夜中のウナギたち」",
+      "date": "2025-04-13",
+      "desc": "24:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "35",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-03-26",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "37",
+      "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2025-02-27",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "46",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-02-24",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "44",
+      "category": "ラジオ"
+    },
+    {
+      "title": "スプラッシュバトル第1回スピードクイーンメモリアル inボートレース浜名湖",
+      "date": "2025-02-24",
+      "desc": "📍\udccd ボートレース浜名湖",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "45",
+      "category": "イベント"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2025-02-23",
+      "desc": "24:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "43",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 34thシングル「Tick tack zack」オンラインサイン会&チェキ会・抽選会",
+      "date": "2025-02-18",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "42",
+      "category": "イベント"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2025-02-13",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "40",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-02-13",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "41",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2025-02-09",
+      "desc": "24:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "39",
+      "category": "テレビ"
+    },
+    {
+      "title": "ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」",
+      "date": "2025-02-07",
+      "desc": "26:00～28:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "38",
+      "category": "ラジオ"
+    },
+    {
+      "title": "岐阜放送「SKE48の岐阜県だって地元ですっ!」",
+      "date": "2025-01-27",
+      "desc": "21:00～21:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "52",
+      "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2025-01-23",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "51",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2025-01-18",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "50",
+      "category": "ラジオ"
+    },
+    {
+      "title": "岐阜放送「SKE48の岐阜県だって地元ですっ!」",
+      "date": "2025-01-13",
+      "desc": "21:00～21:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "49",
+      "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2025-01-09",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "48",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-01-07",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "47",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-12-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "62",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-12-30",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "61",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-12-28",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "60",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「TopYell NEO 2024～2025」",
+      "date": "2024-12-27",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "59",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-12-26",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "58",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-12-24",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "57",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-12-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "56",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-12-19",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "55",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-12-12",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "54",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2024-12-07",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "53",
+      "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送「BUZZ FRIDAY」",
+      "date": "2024-11-29",
+      "desc": "09:00～11:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "73",
+      "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-11-28",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "72",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-11-27",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "71",
+      "category": "ラジオ"
+    },
+    {
+      "title": "ニコニコチャンネル「SKE48非公式ちゃんねる」",
+      "date": "2024-11-26",
+      "desc": "20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "70",
+      "category": "配信"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2024-11-24",
+      "desc": "24:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "69",
+      "category": "テレビ"
+    },
+    {
+      "title": "豊田合成ブルーファルコン名古屋 vs アースフレンズBM東京・神奈川",
+      "date": "2024-11-23",
+      "desc": "13:00 📍\udccd エントリオ",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "68",
+      "category": "イベント"
+    },
+    {
+      "title": "「ウッドコレクション in 東三河」",
+      "date": "2024-11-22",
+      "desc": "10:00～16:00 📍\udccd 豊橋市総合体育館 第 2 競技場(豊橋市神野新田町字メノ割 1-3 )",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "67",
+      "category": "イベント"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-11-14",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "66",
+      "category": "ラジオ"
+    },
+    {
+      "title": "LOVEあいち・スペシャルコラボ「第79回全国レクリエーション大会inあいち プレ大会」",
+      "date": "2024-11-10",
+      "desc": "📍\udccd 久屋大通公園サカエヒロバス",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "64",
+      "category": "イベント"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2024-11-10",
+      "desc": "24:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "65",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-11-07",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "63",
+      "category": "ラジオ"
     },
     {
       "title": "ラブストーリー朗読劇【Sweet Love Theater】",
@@ -1145,6 +1811,69 @@
       "category": "劇"
     },
     {
+      "title": "高齢者交通安全啓発ミニイベント",
+      "date": "2024-10-26",
+      "desc": "📍\udccd イーアス春日井 1階ネイチャーフィールド(春日井市六軒屋町字東丘22)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "76",
+      "category": "イベント"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-10-24",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "75",
+      "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送「SKE48ゆうねと千成工業がものづくりやってみた!」",
+      "date": "2024-10-10",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "74",
+      "category": "ラジオ"
+    },
+    {
+      "title": "FC岐阜応援隊「FC岐阜 vs ツエーゲン金沢」",
+      "date": "2024-09-28",
+      "desc": "📍\udccd 岐阜メモリアルセンター長良川競技場",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "81",
+      "category": "イベント"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-09-26",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "80",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-09-25",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "79",
+      "category": "ラジオ"
+    },
+    {
+      "title": "@JAM EXPO 2024 supported by UP-T",
+      "date": "2024-09-14",
+      "desc": "📍\udccd 横浜アリーナ ストロベリーステージ",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "78",
+      "category": "フェス"
+    },
+    {
       "title": "SKE48 ゆうねと千成工業がものづくりやってみた",
       "date": "2024-09-12",
       "desc": "初の冠ラジオ",
@@ -1152,6 +1881,1653 @@
       "addedAt": "2026-09-04",
       "order": "12",
       "category": "ラジオ"
+    },
+    {
+      "title": "愛知北エフエム放送『SKE48ゆうねと千成工業がものづくりやってみた!』",
+      "date": "2024-09-12",
+      "desc": "12:30～13:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "77",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2024-08-25",
+      "desc": "24:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "85",
+      "category": "テレビ"
+    },
+    {
+      "title": "「テレビ朝日・六本木ヒルズ 夏祭り SUMMER STATION 音楽LIVE」",
+      "date": "2024-08-10",
+      "desc": "📍\udccd SUMMER STATION LIVEアリーナ (六本木ヒルズアリーナ)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "84",
+      "category": "フェス"
+    },
+    {
+      "title": "SKE48 33rdシングル オンラインサイン会&チェキ会&抽選会",
+      "date": "2024-08-04",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "83",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKYO IDOL FESTIVAL 2024 supported by にしたんクリニック",
+      "date": "2024-08-02",
+      "desc": "📍\udccd HOT STAGE(お台場冒険王2024 ISLAND❤︎STADIUM アイランドスタジアム)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "82",
+      "category": "フェス"
+    },
+    {
+      "title": "SKE48 SUMMER Tour 2024 @Zepp Haneda (TOKYO) <Team S>",
+      "date": "2024-07-28",
+      "desc": "📍\udccd Zepp Haneda",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "92",
+      "category": "その他"
+    },
+    {
+      "title": "SKE48 33rdシングル CDショップ予約購入者特典会",
+      "date": "2024-07-16",
+      "desc": "17:30 📍\udccd HMV&BOOKS HAKATA(福岡) ◼️",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "91",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 SUMMER Tour 2024 @Zepp Fukuoka <Team S>",
+      "date": "2024-07-15",
+      "desc": "📍\udccd Zepp Fukuoka",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "90",
+      "category": "その他"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2024-07-13",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "89",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2024-07-06",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "88",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-07-02",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "87",
+      "category": "ラジオ"
+    },
+    {
+      "title": "SKE48の大富豪はおわらない!ユニット対抗戦YouTube生配信",
+      "date": "2024-07-01",
+      "desc": "20:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "86",
+      "category": "YouTube"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2024-06-15",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "93",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「キン・ドニーチ」",
+      "date": "2024-05-31",
+      "desc": "17:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "99",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-05-30",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "98",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「東スポWEB」",
+      "date": "2024-05-18",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "97",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-05-09",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "96",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-05-08",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "95",
+      "category": "ラジオ"
+    },
+    {
+      "title": "Hello Music Festival Theater&Live -SKE48-",
+      "date": "2024-05-05",
+      "desc": "📍\udccd DIAMOND HALL",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "94",
+      "category": "その他"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-04-19",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "101",
+      "category": "ラジオ"
+    },
+    {
+      "title": "中日ホールオープニングイベント「SKE48 春の未完全TVまつり」",
+      "date": "2024-04-07",
+      "desc": "📍\udccd 中日ホール (名古屋市中区栄 4-1-1 中日ビル6 6F)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "100",
+      "category": "イベント"
+    },
+    {
+      "title": "ニコニコチャンネル「SKE48非公式ちゃんねる」",
+      "date": "2024-03-28",
+      "desc": "20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "110",
+      "category": "配信"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2024-03-10",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "109",
+      "category": "テレビ"
+    },
+    {
+      "title": "フジテレビ「オールナイトフジコ」",
+      "date": "2024-03-08",
+      "desc": "25:05～27:05",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "108",
+      "category": "テレビ"
+    },
+    {
+      "title": "「J-CASTニュース」",
+      "date": "2024-03-05",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "107",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2024-03-04",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "105",
+      "category": "ラジオ"
+    },
+    {
+      "title": "FM長崎「Colors」",
+      "date": "2024-03-04",
+      "desc": "16:00～18:54",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "106",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「愛のホログラム」発売記念リリースイベント",
+      "date": "2024-03-03",
+      "desc": "📍\udccd ららぽーと名古屋みなとアクルス 屋外イベントスペース デカゴン (〒455-8501愛知県名古屋市港区港明2丁目3番2号)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "104",
+      "category": "イベント"
+    },
+    {
+      "title": "ラリー三河湾2024ステージイベント",
+      "date": "2024-03-02",
+      "desc": "📍\udccd ラグーナビーチ",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "103",
+      "category": "イベント"
+    },
+    {
+      "title": "ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」",
+      "date": "2024-03-01",
+      "desc": "26:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "102",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「愛のホログラム」発売記念CDお渡し会",
+      "date": "2024-02-28",
+      "desc": "17:30～18:45",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "123",
+      "category": "イベント"
+    },
+    {
+      "title": "「OKmusic」",
+      "date": "2024-02-28",
+      "desc": "12:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "124",
+      "category": "その他"
+    },
+    {
+      "title": "「愛のホログラム」発売記念CDお渡し会",
+      "date": "2024-02-27",
+      "desc": "17:30～18:45",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "120",
+      "category": "イベント"
+    },
+    {
+      "title": "TBS「PLAYLIST」",
+      "date": "2024-02-27",
+      "desc": "25:58～27:08",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "121",
+      "category": "テレビ"
+    },
+    {
+      "title": "「Smart FLASH」",
+      "date": "2024-02-27",
+      "desc": "17:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "122",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2024-02-25",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "119",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 32ndシングル「愛のホログラム」&カップリング曲「Beautiful」劇場初披露生配信",
+      "date": "2024-02-24",
+      "desc": "16:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "118",
+      "category": "配信"
+    },
+    {
+      "title": "「MARQUEE」",
+      "date": "2024-02-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "117",
+      "category": "その他"
+    },
+    {
+      "title": "「music UP's」",
+      "date": "2024-02-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "116",
+      "category": "その他"
+    },
+    {
+      "title": "東海テレビ「SKE48とちょっとそこまで」",
+      "date": "2024-02-13",
+      "desc": "21:54",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "115",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2024-02-11",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "114",
+      "category": "テレビ"
+    },
+    {
+      "title": "東海テレビ「SKE48とちょっとそこまで」",
+      "date": "2024-02-06",
+      "desc": "21:54",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "113",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 32ndシングル オンラインサイン会&手形会・抽選会",
+      "date": "2024-02-04",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "112",
+      "category": "イベント"
+    },
+    {
+      "title": "Hello Music Festival 2024 in TOKYO",
+      "date": "2024-02-03",
+      "desc": "13:00 📍\udccd パルテノン多摩",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "111",
+      "category": "その他"
+    },
+    {
+      "title": "「BIG ONE GIRLS」",
+      "date": "2024-01-30",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "127",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2024-01-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "126",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2024-01-06",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "125",
+      "category": "ラジオ"
+    },
+    {
+      "title": "ナガシマ カウントダウン&ニューイヤーズパーティ2024",
+      "date": "2023-12-31",
+      "desc": "20:00 📍\udccd ナガシマスパーランド内 大観覧車オーロラ前ステージ",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "137",
+      "category": "イベント"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2023-12-24",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "136",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2023-12-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "135",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "バローグループ×日清のどん兵衛×SKE48「SKE48どん兵衛トークショー&チェキお渡し会」",
+      "date": "2023-12-21",
+      "desc": "18:00～20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "133",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-12-21",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "134",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-12-13",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "132",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2023-12-09",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "131",
+      "category": "ラジオ"
+    },
+    {
+      "title": "スカパー!×イオンコラボ「SKE48 クイズチャレンジ in メタバースイオン」",
+      "date": "2023-12-05",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "130",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO公開収録 SKE48♡1+1は2じゃないよ!祝!放送3400回突破めでたすぎるスペシャル!",
+      "date": "2023-12-02",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "129",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「年末の交通安全県民運動」出発式及び啓発キャンペーン",
+      "date": "2023-12-01",
+      "desc": "📍\udccd 愛知県議会議事堂正面玄関前 ( 愛知県名古屋市中区三の丸3丁目1-2)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "128",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 トーク!トーク!!トーク!!!",
+      "date": "2023-11-27",
+      "desc": "📍\udccd サンシャインサカエB1Fグランドキャニオン広場",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "143",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO公開収録『SKE48♡1+1は2じゃないよ!祝!放送3400回突破めでたすぎるスペシャル!』",
+      "date": "2023-11-26",
+      "desc": "📍\udccd ボートメッセなごや第2展示館内 特設ステージ",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "142",
+      "category": "ラジオ"
+    },
+    {
+      "title": "CBCラジオ「SKE48のドリームクルーズ」",
+      "date": "2023-11-25",
+      "desc": "19:50～20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "141",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「Jak Japan Matsuri 2023」",
+      "date": "2023-11-19",
+      "desc": "📍\udccd Gambir",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "140",
+      "category": "その他"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-11-17",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "139",
+      "category": "ラジオ"
+    },
+    {
+      "title": "CBCラジオ「SKE48のドリームクルーズ」",
+      "date": "2023-11-04",
+      "desc": "19:50～20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "138",
+      "category": "ラジオ"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でトーク会・握手会)ポートメッセなごや",
+      "date": "2023-10-29",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "153",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でトーク会・握手会)ポートメッセなごや",
+      "date": "2023-10-28",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "152",
+      "category": "イベント"
+    },
+    {
+      "title": "『ずぶ濡れSKE48 Team KⅡ』",
+      "date": "2023-10-23",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "151",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でトーク会・握手会)幕張メッセ",
+      "date": "2023-10-22",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "149",
+      "category": "イベント"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-10-22",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "150",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でツーショット撮影会)幕張メッセ",
+      "date": "2023-10-21",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "148",
+      "category": "イベント"
+    },
+    {
+      "title": "高齢者交通安全啓発ミニイベント",
+      "date": "2023-10-14",
+      "desc": "📍\udccd イオンモール東浦",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "147",
+      "category": "イベント"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-10-11",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "146",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「日経エンタテインメント! SKE48 15周年Special」お渡し会",
+      "date": "2023-10-09",
+      "desc": "13:00 📍\udccd 星野書店 近鉄パッセ店",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "145",
+      "category": "その他"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-10-08",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "144",
+      "category": "テレビ"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2023-09-23",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "161",
+      "category": "ラジオ"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ 最終回スペシャル」(#200)",
+      "date": "2023-09-23",
+      "desc": "22:30～24:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "162",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でトーク会・握手会)AICHI SKY EXPO",
+      "date": "2023-09-17",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "160",
+      "category": "イベント"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でツーショット撮影会)AICHI SKY EXPO",
+      "date": "2023-09-16",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "159",
+      "category": "イベント"
+    },
+    {
+      "title": "RKB毎日放送「コモンセンス~常識を疑え~」",
+      "date": "2023-09-12",
+      "desc": "25:33",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "158",
+      "category": "その他"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でトーク会・握手会)幕張メッセ",
+      "date": "2023-09-10",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "156",
+      "category": "イベント"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-09-10",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "157",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」(現地でトーク会・握手会)幕張メッセ",
+      "date": "2023-09-09",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "154",
+      "category": "イベント"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#199)",
+      "date": "2023-09-09",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "155",
+      "category": "テレビ"
+    },
+    {
+      "title": "「BUBKA」10月号",
+      "date": "2023-08-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "176",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "Kiss FM KOBE「10BLOCKS」",
+      "date": "2023-08-26",
+      "desc": "24:15",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "175",
+      "category": "ラジオ"
+    },
+    {
+      "title": "FBS 福岡放送「バリはやッ!ZIP!」",
+      "date": "2023-08-22",
+      "desc": "05:20",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "174",
+      "category": "その他"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」発売記念リリースイベント【CDお渡し会】",
+      "date": "2023-08-21",
+      "desc": "📍\udccd HMV&BOOKS HAKATA",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "173",
+      "category": "イベント"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#198)",
+      "date": "2023-08-19",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "172",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「キン・ドニーチ」",
+      "date": "2023-08-18",
+      "desc": "17:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "171",
+      "category": "テレビ"
+    },
+    {
+      "title": "SKE48 31stシングル「好きになっちゃった」発売記念リリースイベント【ミニライブ・グループ握手会】",
+      "date": "2023-08-14",
+      "desc": "📍\udccd あべのキューズモール",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "170",
+      "category": "イベント"
+    },
+    {
+      "title": "『10チャン縁日』10チャン縁日版 SKE48の未完全TV「ミカンのむき方」",
+      "date": "2023-08-13",
+      "desc": "📍\udccd 久屋大通公園 エディオン久屋広場",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "169",
+      "category": "イベント"
+    },
+    {
+      "title": "SUMMER STATION 音楽ライブ",
+      "date": "2023-08-12",
+      "desc": "📍\udccd SUMMER STATION LIVEアリーナ(六本木ヒルズアリーナ)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "167",
+      "category": "フェス"
+    },
+    {
+      "title": "新世界 メタバースTV‼︎ presents アイドル“ウタ”バースFES2023",
+      "date": "2023-08-12",
+      "desc": "📍\udccd SUMMER STATION LIVEアリーナ(六本木ヒルズアリーナ)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "168",
+      "category": "フェス"
+    },
+    {
+      "title": "TOKYO IDOL FESTIVAL 2023 supported by にしたんクリニック",
+      "date": "2023-08-05",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "164",
+      "category": "フェス"
+    },
+    {
+      "title": "NHK名古屋「Uta-Tube」",
+      "date": "2023-08-05",
+      "desc": "11:15",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "165",
+      "category": "テレビ"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#197)",
+      "date": "2023-08-05",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "166",
+      "category": "テレビ"
+    },
+    {
+      "title": "「7ぴあ」",
+      "date": "2023-08-01",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "163",
+      "category": "その他"
+    },
+    {
+      "title": "「BIG ONE GIRLS」",
+      "date": "2023-07-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "202",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "FBS福岡放送「WAO!」",
+      "date": "2023-07-27",
+      "desc": "25:59",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "201",
+      "category": "その他"
+    },
+    {
+      "title": "東海ラジオ「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-07-26",
+      "desc": "21:40",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "200",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-07-23",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "199",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」YouTube配信",
+      "date": "2023-07-16",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "198",
+      "category": "YouTube"
+    },
+    {
+      "title": "BOYS AND MEN COLORZ SHOW 2023 powered by SHEIN",
+      "date": "2023-07-15",
+      "desc": "📍\udccd 愛知",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "196",
+      "category": "フェス"
+    },
+    {
+      "title": "CBCラジオ「SKE48のドリームクルーズ」",
+      "date": "2023-07-15",
+      "desc": "19:50～20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "197",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「EX大衆」",
+      "date": "2023-07-14",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "195",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「ENCOUNT」",
+      "date": "2023-07-12",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "193",
+      "category": "その他"
+    },
+    {
+      "title": "エフエム熊本「FMK InStyle」",
+      "date": "2023-07-12",
+      "desc": "11:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "194",
+      "category": "ラジオ"
+    },
+    {
+      "title": "東海テレビ「SKE48とちょっとそこまで」",
+      "date": "2023-07-11",
+      "desc": "21:54",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "192",
+      "category": "テレビ"
+    },
+    {
+      "title": "「BOMB」",
+      "date": "2023-07-09",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "190",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-07-09",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "191",
+      "category": "テレビ"
+    },
+    {
+      "title": "CBCラジオ「SKE48のドリームクルーズ」",
+      "date": "2023-07-08",
+      "desc": "19:50～20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "188",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「Yahoo!ニュース」",
+      "date": "2023-07-08",
+      "desc": "12:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "189",
+      "category": "その他"
+    },
+    {
+      "title": "「Real Sound」",
+      "date": "2023-07-07",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "186",
+      "category": "その他"
+    },
+    {
+      "title": "「encore(アンコール)」",
+      "date": "2023-07-07",
+      "desc": "14:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "187",
+      "category": "その他"
+    },
+    {
+      "title": "CBCラジオ「チュウモリ『推シマシ』」",
+      "date": "2023-07-06",
+      "desc": "22:00～24:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "185",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「OKmusic」",
+      "date": "2023-07-05",
+      "desc": "12:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "183",
+      "category": "その他"
+    },
+    {
+      "title": "東海ラジオ「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-07-05",
+      "desc": "21:40",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "184",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「WWSチャンネル」",
+      "date": "2023-07-04",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "181",
+      "category": "その他"
+    },
+    {
+      "title": "東海テレビ「SKE48とちょっとそこまで」",
+      "date": "2023-07-04",
+      "desc": "22:48",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "182",
+      "category": "テレビ"
+    },
+    {
+      "title": "「週刊プレイボーイ」",
+      "date": "2023-07-03",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "180",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「デイリースポーツ」",
+      "date": "2023-07-02",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "179",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "CBCラジオ「SKE48のドリームクルーズ」",
+      "date": "2023-07-01",
+      "desc": "19:50～20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "177",
+      "category": "ラジオ"
+    },
+    {
+      "title": "東海ラジオ「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2023-07-01",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "178",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「BUBKA」8月号",
+      "date": "2023-06-29",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "211",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "MBC南日本放送「モーニングスマイル」",
+      "date": "2023-06-28",
+      "desc": "06:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "210",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「週刊SPA!」",
+      "date": "2023-06-27",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "209",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「music UP’s」(Vol.224)",
+      "date": "2023-06-20",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "208",
+      "category": "その他"
+    },
+    {
+      "title": "NAGOYA GIRLS FESTIVAL 2023",
+      "date": "2023-06-18",
+      "desc": "📍\udccd キャナルパークささしまパークエリア(1号公園) ■イベント",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "207",
+      "category": "フェス"
+    },
+    {
+      "title": "東海ラジオ「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2023-06-17",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "206",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「週刊SPA!」",
+      "date": "2023-06-13",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "205",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」YouTube配信",
+      "date": "2023-06-04",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "204",
+      "category": "YouTube"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#193)",
+      "date": "2023-06-03",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "203",
+      "category": "テレビ"
+    },
+    {
+      "title": "「BIG ONE GIRLS 7月号」",
+      "date": "2023-05-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "220",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-05-28",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "219",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」YouTube配信",
+      "date": "2023-05-21",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "218",
+      "category": "YouTube"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#192)",
+      "date": "2023-05-20",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "217",
+      "category": "テレビ"
+    },
+    {
+      "title": "東海ラジオ「SKE48♡1+1は2じゃないよ!」",
+      "date": "2023-05-17",
+      "desc": "21:40",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "216",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-05-14",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "215",
+      "category": "テレビ"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#191)",
+      "date": "2023-05-06",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "214",
+      "category": "テレビ"
+    },
+    {
+      "title": "「SKE48 春のチームコンサートツアー2023」",
+      "date": "2023-05-05",
+      "desc": "📍\udccd 2023",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "213",
+      "category": "その他"
+    },
+    {
+      "title": "「SKE48 春のチームコンサートツアー2023」",
+      "date": "2023-05-04",
+      "desc": "📍\udccd 2023",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "212",
+      "category": "その他"
+    },
+    {
+      "title": "「BUBKA」6月号",
+      "date": "2023-04-28",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "224",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「SKE48 春のチームコンサートツアー2023」",
+      "date": "2023-04-02",
+      "desc": "📍\udccd 2023",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "222",
+      "category": "その他"
+    },
+    {
+      "title": "アイドル専門チャンネルPigoo「SKE48学園」",
+      "date": "2023-04-02",
+      "desc": "19:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "223",
+      "category": "テレビ"
+    },
+    {
+      "title": "「SKE48 春のチームコンサートツアー2023」",
+      "date": "2023-04-01",
+      "desc": "📍\udccd 2023",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "221",
+      "category": "その他"
+    },
+    {
+      "title": "「Top Yell NEO 2023 SPRING」",
+      "date": "2023-03-31",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "228",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "舞台「LIAR GAME murder mystery」",
+      "date": "2023-03-11",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "227",
+      "category": "その他"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」(配信)",
+      "date": "2023-03-05",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "226",
+      "category": "配信"
+    },
+    {
+      "title": "アイドル専門チャンネルPigoo「SKE48学園」",
+      "date": "2023-03-03",
+      "desc": "21:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "225",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-02-26",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "229",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2023-01-29",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "237",
+      "category": "テレビ"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#185)",
+      "date": "2023-01-28",
+      "desc": "23:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "236",
+      "category": "テレビ"
+    },
+    {
+      "title": "イオンモール香椎浜「魅力発信!愛知・名古屋 観光フェア」～SKE48とのLOVEあいち・スペシャルコラボ～",
+      "date": "2023-01-15",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "235",
+      "category": "イベント"
+    },
+    {
+      "title": "イオンモール香椎浜「魅力発信!愛知・名古屋 観光フェア」～SKE48とのLOVEあいち・スペシャルコラボ～",
+      "date": "2023-01-14",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "233",
+      "category": "イベント"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#184)",
+      "date": "2023-01-14",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "234",
+      "category": "テレビ"
+    },
+    {
+      "title": "ニコニコチャンネル「SKE48非公式ちゃんねる」",
+      "date": "2023-01-12",
+      "desc": "20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "232",
+      "category": "配信"
+    },
+    {
+      "title": "東海テレビ「SKE48のびーめん!」YouTube、ロキポ配信",
+      "date": "2023-01-06",
+      "desc": "19:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "231",
+      "category": "YouTube"
+    },
+    {
+      "title": "「WWSチャンネル」",
+      "date": "2023-01-02",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "230",
+      "category": "その他"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#183)",
+      "date": "2022-12-17",
+      "desc": "23:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "238",
+      "category": "テレビ"
+    },
+    {
+      "title": "大垣ケーブルテレビ『SKE48のタクシーグルメ(ランチ特集)』",
+      "date": "2022-11-13",
+      "desc": "14:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "240",
+      "category": "テレビ"
+    },
+    {
+      "title": "東海テレビ「SKE48のびーめん!」YouTube、ロキポ配信",
+      "date": "2022-11-04",
+      "desc": "19:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "239",
+      "category": "YouTube"
+    },
+    {
+      "title": "ニコニコ生放送「SKE48非公式ちゃんねる」",
+      "date": "2022-10-27",
+      "desc": "20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "244",
+      "category": "配信"
+    },
+    {
+      "title": "東海テレビ「SKE48のびーめん」YouTube生配信",
+      "date": "2022-10-21",
+      "desc": "20:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "243",
+      "category": "YouTube"
+    },
+    {
+      "title": "12月18日 中野サンプラザホール開催「SKE48超世代コンサート2022」お知らせ生配信",
+      "date": "2022-10-19",
+      "desc": "20:15",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "242",
+      "category": "その他"
+    },
+    {
+      "title": "大垣ケーブルテレビ『SKE48のタクシーグルメ(新店舗特集)』",
+      "date": "2022-10-09",
+      "desc": "14:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "241",
+      "category": "テレビ"
+    },
+    {
+      "title": "東海ラジオ「SKE48 1+1は2じゃないよ!」",
+      "date": "2022-09-13",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "246",
+      "category": "ラジオ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2022-09-11",
+      "desc": "25:11",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "245",
+      "category": "テレビ"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2022-08-28",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "253",
+      "category": "テレビ"
+    },
+    {
+      "title": "「コカ・コーラ SUMMER STATION 音楽LIVE」",
+      "date": "2022-08-21",
+      "desc": "📍\udccd コカ・コーラ SUMMER STATION LIVEアリーナ(六本木ヒルズアリーナ)",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "252",
+      "category": "イベント"
+    },
+    {
+      "title": "YouTube/SHOWROOM「2022年9月・SKE48日本ガイシホールコンサート目前!『メンバーまいにちリレー配信』」",
+      "date": "2022-08-14",
+      "desc": "11:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "250",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "テレビ愛知「SKE48の未完全TV」",
+      "date": "2022-08-14",
+      "desc": "24:35",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "251",
+      "category": "テレビ"
+    },
+    {
+      "title": "YouTube/SHOWROOM「2022年9月・SKE48日本ガイシホールコンサート目前!『メンバーまいにちリレー配信』」",
+      "date": "2022-08-13",
+      "desc": "11:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "249",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "YouTube/SHOWROOM「2022年9月・SKE48日本ガイシホールコンサート目前!『メンバーまいにちリレー配信』」",
+      "date": "2022-08-12",
+      "desc": "11:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "248",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "YouTube/SHOWROOM「2022年9月・SKE48日本ガイシホールコンサート目前!『メンバーまいにちリレー配信』」",
+      "date": "2022-08-11",
+      "desc": "11:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "247",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "「月刊エンタメ 9月・10月合併号」",
+      "date": "2022-07-30",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "258",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "東海ラジオ「SKE48 1+1は2じゃないよ!」",
+      "date": "2022-07-13",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "257",
+      "category": "ラジオ"
+    },
+    {
+      "title": "「TV Bros. WEB」",
+      "date": "2022-07-08",
+      "desc": "17:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "256",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "中京テレビ「ナゴヤガールズフェスティバル・スペシャル」",
+      "date": "2022-07-06",
+      "desc": "24:54",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "255",
+      "category": "フェス"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#172)",
+      "date": "2022-07-02",
+      "desc": "23:00～23:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "254",
+      "category": "テレビ"
+    },
+    {
+      "title": "「NAGOYA GIRLS FESTIVAL」",
+      "date": "2022-06-18",
+      "desc": "📍\udccd キャナルパークささしまパークエリア(",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "260",
+      "category": "フェス"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#171)",
+      "date": "2022-06-18",
+      "desc": "23:00～23:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "261",
+      "category": "テレビ"
+    },
+    {
+      "title": "TBSチャンネル1 「SKE48 ゼロポジ」(#170)",
+      "date": "2022-06-04",
+      "desc": "23:00～23:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "259",
+      "category": "テレビ"
+    },
+    {
+      "title": "「九州スポーツ」",
+      "date": "2022-05-23",
+      "desc": "",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "263",
+      "category": "雑誌・書籍"
+    },
+    {
+      "title": "「AKB新聞5月号」",
+      "date": "2022-05-22",
+      "desc": "15:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "262",
+      "category": "雑誌・書籍"
     }
   ],
   "criteria": [
