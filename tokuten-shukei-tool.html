@@ -1,5 +1,404 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
+    <script>
+      (function() {
+        // Capture host references before any artifact code runs: Window.parent
+        // is [Replaceable] (a top-level `var parent` in artifact code would
+        // replace the accessor with a data property), and a top-level
+        // `const crypto` would shadow the global — either would otherwise
+        // silently break the bridge for artifacts that worked before.
+        const realParent = window.parent;
+        const cryptoObj = window.crypto;
+        // html-to-image is only used by takeScreenshot: fetched on first use, not as a
+        // parser-blocking tag. Native fetch, captured before the proxy override below.
+        const realFetch = typeof window.fetch === 'function' ? window.fetch.bind(window) : null;
+        const HTML_TO_IMAGE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.13/html-to-image.min.js";
+        const HTML_TO_IMAGE_INTEGRITY = "sha512-iZ2ORl595Wx6miw+GuadDet4WQbdSWS3JLMoNfY8cRGoEFy6oT3G9IbcrBeL6AfkgpA51ETt/faX6yLV+/gFJg==";
+        let htmlToImageLoad = null;
+        const loadHtmlToImage = () => {
+          if (!htmlToImageLoad) {
+            htmlToImageLoad = (realFetch
+              ? realFetch(HTML_TO_IMAGE_SRC, { integrity: HTML_TO_IMAGE_INTEGRITY, credentials: 'omit', referrerPolicy: 'no-referrer' })
+              : Promise.reject(new Error('fetch unavailable'))
+            )
+              .then((res) => {
+                if (!res.ok) throw new Error('html-to-image failed to load (' + res.status + ')');
+                return res.text();
+              })
+              .then((source) => {
+                // UMD bundle: hide the artifact's AMD/CommonJS globals so it takes the
+                // window-global branch; inline script text runs synchronously on insert.
+                const hidden = ['define', 'module', 'exports'].map((k) => {
+                  const entry = { k, own: Object.prototype.hasOwnProperty.call(window, k), v: window[k] };
+                  try { window[k] = undefined; } catch (e) {}
+                  return entry;
+                });
+                try {
+                  const el = document.createElement('script');
+                  el.text = source;
+                  (document.head || document.documentElement).appendChild(el);
+                } finally {
+                  hidden.forEach(({ k, own, v }) => {
+                    try { if (own) { window[k] = v; } else { delete window[k]; } } catch (e) {}
+                  });
+                }
+                if (!window.htmlToImage) throw new Error('html-to-image unavailable after load');
+                return window.htmlToImage;
+              });
+            // A failed load may be transient; let the next screenshot retry.
+            htmlToImageLoad.catch(() => { htmlToImageLoad = null; });
+          }
+          return htmlToImageLoad;
+        };
+        // crypto.randomUUID exists only in Secure Contexts; fall back to a
+        // unique non-crypto id elsewhere (http://LAN-IP dev flows) —
+        // uniqueness is what the bridge needs, unpredictability is
+        // defense-in-depth on top of the source guards.
+        const newRequestId =
+          cryptoObj && typeof cryptoObj.randomUUID === "function"
+            ? function () { return cryptoObj.randomUUID(); }
+            : function () { return Date.now() + "-" + Math.random(); };
+        const originalConsole = window.console;
+        window.console = {
+          log: (...args) => {
+            originalConsole.log(...args);
+            realParent.postMessage({ type: 'console', message: args.join(' ') }, '*');
+          },
+          error: (...args) => {
+            originalConsole.error(...args);
+            realParent.postMessage({ type: 'console', message: 'Error: ' + args.join(' ') }, '*');
+          },
+          warn: (...args) => {
+            originalConsole.warn(...args);
+            realParent.postMessage({ type: 'console', message: 'Warning: ' + args.join(' ') }, '*');
+          }
+        };
+
+        // Bridge request ids are crypto-random (not sequential) so they
+        // cannot be predicted by other frames in the tab.
+        let callbacksMap = new Map();
+        let streamControllers = new Map();
+        
+        window.claude = {
+          complete: (prompt) => {
+            return new Promise((resolve, reject) => {
+              const id = newRequestId();
+              callbacksMap.set(id, { resolve, reject });
+              realParent.postMessage({ type: 'claudeComplete', id, prompt }, '*');
+            });
+          }
+        };
+
+        window.storage = {
+          get: (key, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = newRequestId();
+              callbacksMap.set(id, { resolve, reject });
+              realParent.postMessage({ type: 'storageGet', id, key, shared }, '*');
+            });
+          },
+          set: (key, value, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = newRequestId();
+              callbacksMap.set(id, { resolve, reject });
+              realParent.postMessage({ type: 'storageSet', id, key, value, shared }, '*');
+            });
+          },
+          delete: (key, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = newRequestId();
+              callbacksMap.set(id, { resolve, reject });
+              realParent.postMessage({ type: 'storageDelete', id, key, shared }, '*');
+            });
+          },
+          list: (prefix, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = newRequestId();
+              callbacksMap.set(id, { resolve, reject });
+              realParent.postMessage({ type: 'storageList', id, prefix, shared }, '*');
+            });
+          }
+        };
+
+        let pendingBlobs = new Map();
+        URL.createObjectURL = (blob) => {
+          // Store the blob and create an ID and URL for it
+          const blobId = `blob-${Date.now()}-${Math.random()}`;
+          pendingBlobs.set(blobId, blob);
+          return `blob-request://${blobId}`;
+        };
+
+        URL.revokeObjectURL = (url) => {
+          // Remove the blob from our store
+          const blobId = url.replace("blob-request://", "");
+          pendingBlobs.delete(blobId);
+        };
+
+        const getBlobFromURL = (url) => {
+          const blobId = url.replace("blob-request://", "");
+          return pendingBlobs.get(blobId);
+        };
+
+        // Override global fetch with streaming support
+        window.fetch = (url, init = {}) => {
+          return new Promise((resolve, reject) => {
+            const id = newRequestId();
+            const channelId = `fetch-${id}-${Date.now()}`;
+            
+            callbacksMap.set(id, { 
+              resolve: (response) => {
+                // Null-body statuses: Response(stream, {status: 204}) throws
+                // per the Fetch spec, which would escape this resolver and
+                // hang the artifact's await forever.
+                if (response.status === 204 || response.status === 205 || response.status === 304) {
+                  try {
+                    resolve(new Response(null, {
+                      status: response.status,
+                      statusText: response.statusText,
+                      headers: response.headers
+                    }));
+                  } catch (err) {
+                    // Invalid statusText/header bytes can throw here too.
+                    reject(new TypeError(
+                      'Bridge fetch: unconstructable response (status ' + response.status + ')'
+                    ));
+                  }
+                  return;
+                }
+                // Create a ReadableStream for the response body
+                const stream = new ReadableStream({
+                  start(controller) {
+                    streamControllers.set(channelId, controller);
+                  },
+                  cancel() {
+                    streamControllers.delete(channelId);
+                  }
+                });
+                
+                // Create and return the Response with the stream. Response()
+                // requires status in [200, 599]; an opaque/no-cors fetch
+                // forwards status 0, which would throw here and escape the
+                // resolver, hanging the artifact's await. Surface it as a
+                // network-error-shaped rejection instead.
+                try {
+                  resolve(new Response(stream, {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: response.headers
+                  }));
+                } catch (err) {
+                  streamControllers.delete(channelId);
+                  reject(new TypeError(
+                    'Bridge fetch: unconstructable response (status ' + response.status + ')'
+                  ));
+                }
+              },
+              reject,
+              channelId
+            });
+            
+            realParent.postMessage({
+              type: 'proxyFetch',
+              id,
+              url,
+              init,
+              channelId
+            }, '*');
+          });
+        };
+
+        window.addEventListener('message', async (event) => {
+          // Only the embedding parent may drive the bridge — sibling and
+          // nested frames can also postMessage into this window.
+          if (event.source !== realParent) return;
+          if (event.data.type === 'takeScreenshot') {
+            // Echo the request's nonce so the requester can correlate the
+            // reply to ITS request — a reply without the expected nonce
+            // (e.g. from a stale pre-remount artifact) is ignored upstream.
+            const screenshotNonce = event.data.nonce;
+            const rootElement = document.getElementById('artifacts-component-root-html');
+            if (!rootElement) {
+              realParent.postMessage({
+                type: 'screenshotError',
+                nonce: screenshotNonce,
+                error: new Error('Root element not found'),
+              }, '*');
+              return;
+            }
+            // Catch CDN load failures and toPng errors so the parent always
+            // gets a response instead of hanging forever.
+            try {
+              const htmlToImage = await loadHtmlToImage();
+              const screenshot = await htmlToImage.toPng(rootElement, {
+                imagePlaceholder:
+                  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjePDgwX8ACOQDoNsk0PMAAAAASUVORK5CYII=",
+              });
+              realParent.postMessage({
+                type: 'screenshotData',
+                nonce: screenshotNonce,
+                data: screenshot,
+              }, '*');
+            } catch (err) {
+              realParent.postMessage({
+                type: 'screenshotError',
+                nonce: screenshotNonce,
+                error: err instanceof Error ? err : new Error(String(err)),
+              }, '*');
+            }
+          } else if (event.data.type === 'claudeComplete') {
+            const callback = callbacksMap.get(event.data.id);
+            if (!callback) return;
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.completion);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'proxyFetchResponse') {
+            const callback = callbacksMap.get(event.data.id);
+            if (!callback) return;
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+              callbacksMap.delete(event.data.id);
+            } else {
+              // Initial response with headers, status, etc.
+              callback.resolve({
+                status: event.data.status,
+                statusText: event.data.statusText,
+                headers: event.data.headers
+              });
+              // Don't delete the callback yet if streaming
+              if (!event.data.body) {
+                callbacksMap.delete(event.data.id);
+              }
+            }
+          } else if (event.data.type === 'proxyFetchStream') {
+            // Handle streaming data chunks
+            const controller = streamControllers.get(event.data.channelId);
+            if (controller) {
+              if (event.data.error) {
+                controller.error(new Error(event.data.error));
+                streamControllers.delete(event.data.channelId);
+              } else if (event.data.done) {
+                controller.close();
+                streamControllers.delete(event.data.channelId);
+                // Clean up the callback
+                const callback = Array.from(callbacksMap.entries()).find(
+                  ([_, value]) => value.channelId === event.data.channelId
+                );
+                if (callback) {
+                  callbacksMap.delete(callback[0]);
+                }
+              } else if (event.data.chunk) {
+                controller.enqueue(new Uint8Array(event.data.chunk));
+              }
+            }
+          } else if (event.data.type === 'storageGet') {
+            const callback = callbacksMap.get(event.data.id);
+            if (!callback) return;
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'storageSet') {
+            const callback = callbacksMap.get(event.data.id);
+            if (!callback) return;
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'storageDelete') {
+            const callback = callbacksMap.get(event.data.id);
+            if (!callback) return;
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'storageList') {
+            const callback = callbacksMap.get(event.data.id);
+            if (!callback) return;
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          }
+        });
+
+        window.addEventListener('click', (event) => {
+          const isEl = event.target instanceof HTMLElement;
+          if (!isEl) return;
+    
+          // find ancestor links
+          const linkEl = event.target.closest("a");
+          if (!linkEl || !linkEl.href) return;
+    
+          event.preventDefault();
+          event.stopImmediatePropagation();
+    
+          if (linkEl.href.startsWith("blob-request:")) {
+            const blob = getBlobFromURL(linkEl.href);
+            if (!blob) return;
+            void blob.arrayBuffer().then((data) => {
+              realParent.postMessage({
+                type: "downloadFile",
+                filename: linkEl.download,
+                data,
+                mimeType: blob.type || "application/octet-stream",
+              });
+            });
+          } else if (linkEl.href.startsWith("data:")) {
+            const [header, base64Data] = linkEl.href.split(",");
+            const mimeMatch = header.match(/data:([^;]+)/);
+            const mimeType = mimeMatch ? mimeMatch[1] : "application/octet-stream";
+            const binaryString = atob(base64Data);
+            const data = Uint8Array.from(binaryString, (c) =>
+              c.charCodeAt(0),
+            ).buffer;
+            realParent.postMessage({
+              type: "downloadFile",
+              filename: linkEl.download,
+              data,
+              mimeType,
+            });
+          } else {
+            let linkUrl;
+            try {
+              linkUrl = new URL(linkEl.href);
+            } catch (error) {
+              return;
+            }
+    
+            if (linkUrl.hostname === window.location.hostname) return;
+      
+            realParent.postMessage({
+              type: 'openExternal',
+              href: linkEl.href,
+            }, '*');
+          }
+      });
+
+        const originalOpen = window.open;
+        window.open = function (url) {
+          realParent.postMessage({
+            type: "openExternal",
+            href: url,
+          }, "*");
+        };
+
+        window.addEventListener('error', (event) => {
+          realParent.postMessage({ type: 'console', message: 'Uncaught Error: ' + event.message }, '*');
+        });
+      })();
+    </script>
+  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="購入履歴を貼り付けるだけで特典会の枚数を自動集計し、日程表・シェア画像まで作れるツールです">
@@ -190,9 +589,9 @@
   .rank-bar-fill{height:100%;border-radius:999px;}
   .timeline-date-head:first-child{margin-top:4px;}
   .timeline{position:relative;margin-left:8px;padding-left:30px;border-left:2px solid var(--line);}
-  .timeline-part-tag{font-family:'JetBrains Mono', monospace;font-size:11.5px;font-weight:700;color:var(--gold-deep);margin:22px 0 14px;padding-bottom:5px;border-bottom:1px dashed var(--line);}
+  .timeline-part-tag{font-family:'JetBrains Mono', monospace;font-size:11.5px;font-weight:700;color:var(--gold-deep);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px dashed var(--line);}
   .timeline-part-tag:first-child{margin-top:0;}
-  .timeline-item{position:relative;padding-bottom:26px;}
+  .timeline-item{position:relative;padding-bottom:14px;}
   .timeline-item:last-child{padding-bottom:0;}
   .timeline-item::before{content:"";position:absolute;left:-36px;top:3px;width:13px;height:13px;border-radius:50%;background:var(--gold);border:2px solid var(--ink);}
   .timeline-item .ti-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
@@ -292,7 +691,7 @@
   .tool-modal-actions{ display:flex; justify-content:flex-end; gap:8px; }
 </style>
 </head>
-<body class="">
+<body id="artifacts-component-root-html" class="">
 
 <nav class="tool-topnav no-print">
   <div class="tool-topnav-inner">
@@ -328,7 +727,7 @@
       <button class="btn-primary" onclick="handleRegister()">登録する</button>
       <button class="btn-secondary" onclick="loadSample()">サンプルデータを試す</button>
       <button class="btn-ghost" onclick="clearAll()">全データをクリア</button>
-      <span class="status-pill" id="statusPill">登録済み：0件</span>
+      <span class="status-pill" id="statusPill">登録済み：5件</span>
     </div>
     <div class="btn-row" style="margin-top:10px;padding-top:12px;border-top:1px dashed var(--line);">
       <button class="btn-secondary" onclick="exportBackupCSV()">CSVに書き出す（バックアップ）</button>
@@ -338,12 +737,52 @@
     <div class="note-box editable" id="step1-note">作業を中断するときは「CSVに書き出す」でファイルを保存しておくと、次にこのページを開いたときに「CSVから復元する」で続きから再開できます（このページ自体はデータを保存しません）。このツール以外で作ったCSVも、「日付」「会場」「部」「種別」「枚数」「メンバー」「作品」の見出し（列名）があれば取り込めます（「日付」「部」「枚数」は必須、それ以外は任意）。</div>
   </section>
 
-  <section class="card no-print" id="previewSection" style="display:none;">
+  <section class="card no-print" id="previewSection" style="display: block;">
     <p class="step-label"><span class="num">02</span>登録済みデータを確認</p>
     <h2 class="card-title">現在登録されている注文</h2>
-    <p class="card-desc" id="previewDesc"></p>
+    <p class="card-desc" id="previewDesc">現在 5 件の商品行が登録されています。</p>
     <div class="preview-scroll" id="previewTableWrap">
-      <table class="preview" id="previewTable"></table>
+      <table class="preview" id="previewTable"><tbody><tr><th>日付</th><th>会場</th><th>部</th><th>種別</th><th class="num">枚数</th><th>メンバー</th></tr><tr>
+      <td class="mono">9/13</td>
+      <td>幕張</td>
+      <td class="mono">7部</td>
+      <td><span class="chip" style="background:#E0233A">トーク会</span></td>
+      <td class="num mono">30</td>
+      <td>架空はな</td>
+      
+    </tr><tr>
+      <td class="mono">9/12</td>
+      <td>幕張</td>
+      <td class="mono">9部</td>
+      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
+      <td class="num mono">30</td>
+      <td>架空はな</td>
+      
+    </tr><tr>
+      <td class="mono">9/13</td>
+      <td>幕張</td>
+      <td class="mono">8部</td>
+      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
+      <td class="num mono">20</td>
+      <td>架空りん</td>
+      
+    </tr><tr>
+      <td class="mono">9/13</td>
+      <td>幕張</td>
+      <td class="mono">4部</td>
+      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
+      <td class="num mono">10</td>
+      <td>架空はな</td>
+      
+    </tr><tr>
+      <td class="mono">9/12</td>
+      <td>幕張</td>
+      <td class="mono">8部</td>
+      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
+      <td class="num mono">5</td>
+      <td>架空りん</td>
+      
+    </tr></tbody></table>
     </div>
     <div id="unparsedBox" style="display:none;" class="warn-box">
       <strong id="unparsedCount"></strong> 件、自動で読み取れなかった商品行があります。集計には含まれていません。
@@ -355,14 +794,24 @@
         <span class="year-panel-title">日付ごとの年（自動判定・修正可）</span>
         <span class="base-year-field">基準年：<input type="number" id="baseYearInput" onchange="updateBaseYear(this.value)"></span>
       </div>
-      <div id="dateYearList"></div>
+      <div id="dateYearList"><div class="year-row">
+      <span class="mono year-row-date">9/12</span>
+      <input type="number" class="year-input" value="2026" onchange="setYearOverride('9/12', this.value)">
+      <span class="chip-small chip-auto">自動</span>
+      
+    </div><div class="year-row">
+      <span class="mono year-row-date">9/13</span>
+      <input type="number" class="year-input" value="2026" onchange="setYearOverride('9/13', this.value)">
+      <span class="chip-small chip-auto">自動</span>
+      
+    </div></div>
       <div class="btn-row" style="margin-top:8px;">
         <button class="reset-link" onclick="resetAllYearOverrides()">すべて自動判定に戻す</button>
       </div>
     </div>
   </section>
 
-  <section class="card no-print" id="createSection" style="display:none;">
+  <section class="card no-print" id="createSection" style="display: block;">
     <p class="step-label"><span class="num">03</span>集計結果を作成</p>
     <h2 class="card-title">集計表・日程表を作成</h2>
     <p class="card-desc">登録内容を確認できたら、下のボタンで集計結果を作成します。データを追加・修正したときは、もう一度押すと最新の内容に更新されます。</p>
@@ -371,7 +820,7 @@
     </div>
   </section>
 
-  <div id="resultsSection" style="display:none;">
+  <div id="resultsSection" style="display: block;">
     <div class="control-panel no-print">
       <div class="control-row">
         <span class="control-label">配色</span>
@@ -404,40 +853,58 @@
         <div class="filter-body">
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_date" onclick="toggleMultiselect('date')">日付：すべて</button>
-          <div class="ms-panel" id="msPanel_date"></div>
+          <div class="ms-panel" id="msPanel_date"><div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('date','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('date','none')">選択解除</button>
+  </div><label class="ms-item"><input type="checkbox" data-value="2026-9-12" onchange="toggleFilterValue('date', this)"> 9/12</label><label class="ms-item"><input type="checkbox" data-value="2026-9-13" onchange="toggleFilterValue('date', this)"> 9/13</label></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_work" onclick="toggleMultiselect('work')">作品：すべて</button>
-          <div class="ms-panel" id="msPanel_work"></div>
+          <div class="ms-panel" id="msPanel_work"><div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('work','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('work','none')">選択解除</button>
+  </div><label class="ms-item"><input type="checkbox" data-value="はじまりのうた" onchange="toggleFilterValue('work', this)"> はじまりのうた</label></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_member" onclick="toggleMultiselect('member')">メンバー：すべて</button>
-          <div class="ms-panel" id="msPanel_member"></div>
+          <div class="ms-panel" id="msPanel_member"><div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('member','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('member','none')">選択解除</button>
+  </div><label class="ms-item"><input type="checkbox" data-value="架空はな" onchange="toggleFilterValue('member', this)"> 架空はな</label><label class="ms-item"><input type="checkbox" data-value="架空りん" onchange="toggleFilterValue('member', this)"> 架空りん</label></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_venue" onclick="toggleMultiselect('venue')">会場：すべて</button>
-          <div class="ms-panel" id="msPanel_venue"></div>
+          <div class="ms-panel" id="msPanel_venue"><div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('venue','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('venue','none')">選択解除</button>
+  </div><label class="ms-item"><input type="checkbox" data-value="幕張" onchange="toggleFilterValue('venue', this)"> 幕張</label></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_part" onclick="toggleMultiselect('part')">部：すべて</button>
-          <div class="ms-panel" id="msPanel_part"></div>
+          <div class="ms-panel" id="msPanel_part"><div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('part','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('part','none')">選択解除</button>
+  </div><label class="ms-item"><input type="checkbox" data-value="4" onchange="toggleFilterValue('part', this)"> 4部</label><label class="ms-item"><input type="checkbox" data-value="7" onchange="toggleFilterValue('part', this)"> 7部</label><label class="ms-item"><input type="checkbox" data-value="8" onchange="toggleFilterValue('part', this)"> 8部</label><label class="ms-item"><input type="checkbox" data-value="9" onchange="toggleFilterValue('part', this)"> 9部</label></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_type" onclick="toggleMultiselect('type')">種別：すべて</button>
-          <div class="ms-panel" id="msPanel_type"></div>
+          <div class="ms-panel" id="msPanel_type"><div class="ms-actions">
+    <button class="reset-link" onclick="setAllFilter('type','all')">すべて選択</button>
+    <button class="reset-link" onclick="setAllFilter('type','none')">選択解除</button>
+  </div><label class="ms-item"><input type="checkbox" data-value="トーク会" onchange="toggleFilterValue('type', this)"> トーク会</label><label class="ms-item"><input type="checkbox" data-value="握手会" onchange="toggleFilterValue('type', this)"> 握手会</label></div>
         </div>
         <button class="reset-link" onclick="resetFilters()">絞り込みを解除</button>
         </div>
       </details>
       <div class="control-row">
         <span class="control-label">並び替え</span>
-        <select class="small" id="sortKey0" onchange="updateSortKey(0,this.value)"></select>
+        <select class="small" id="sortKey0" onchange="updateSortKey(0,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
         <span class="arrow-sep">→</span>
-        <select class="small" id="sortKey1" onchange="updateSortKey(1,this.value)"></select>
+        <select class="small" id="sortKey1" onchange="updateSortKey(1,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
         <span class="arrow-sep">→</span>
-        <select class="small" id="sortKey2" onchange="updateSortKey(2,this.value)"></select>
+        <select class="small" id="sortKey2" onchange="updateSortKey(2,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
         <span class="arrow-sep">→</span>
-        <select class="small" id="sortKey3" onchange="updateSortKey(3,this.value)"></select>
+        <select class="small" id="sortKey3" onchange="updateSortKey(3,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
         <button class="pill" id="sortDirBtn" onclick="toggleSortDir()">↑ 昇順</button>
       </div>
       <div class="control-row">
@@ -446,7 +913,38 @@
       </div>
     </div>
     <div class="result-panel">
-      <div id="resultPanelContent"></div>
+      <div id="resultPanelContent">
+    <div class="ticket-divider no-print"></div>
+    <p class="result-heading">集計結果</p>
+    <p class="result-sub">複数のメンバー・作品が含まれています</p>
+    <div class="type-total-row"><span class="chip" style="background:#3D6E8C">握手会 65枚</span><span class="chip" style="background:#E0233A">トーク会 30枚</span></div>
+    <div id="captureArea"><div class="timeline-date-head">9/12　<span class="timeline-date-venue">幕張</span></div><div class="timeline"><div class="timeline-part-tag">8部</div><div class="timeline-item">
+          <div class="ti-row">
+            <span class="ti-part"><span class="chip" style="background:#3D6E8C">握手会</span>　架空りん</span>
+            <span class="ti-qty">5枚</span>
+          </div>
+        </div><div class="timeline-part-tag">9部</div><div class="timeline-item">
+          <div class="ti-row">
+            <span class="ti-part"><span class="chip" style="background:#3D6E8C">握手会</span>　架空はな</span>
+            <span class="ti-qty">30枚</span>
+          </div>
+        </div></div><div class="timeline-date-head">9/13　<span class="timeline-date-venue">幕張</span></div><div class="timeline"><div class="timeline-part-tag">4部</div><div class="timeline-item">
+          <div class="ti-row">
+            <span class="ti-part"><span class="chip" style="background:#3D6E8C">握手会</span>　架空はな</span>
+            <span class="ti-qty">10枚</span>
+          </div>
+        </div><div class="timeline-part-tag">7部</div><div class="timeline-item">
+          <div class="ti-row">
+            <span class="ti-part"><span class="chip" style="background:#E0233A">トーク会</span>　架空はな</span>
+            <span class="ti-qty">30枚</span>
+          </div>
+        </div><div class="timeline-part-tag">8部</div><div class="timeline-item">
+          <div class="ti-row">
+            <span class="ti-part"><span class="chip" style="background:#3D6E8C">握手会</span>　架空りん</span>
+            <span class="ti-qty">20枚</span>
+          </div>
+        </div></div></div>
+  </div>
       <div class="table-actions no-print">
         <select class="ctrl-select" id="imageResolutionSelect" style="width:auto; min-width:190px;">
           <option value="device">画質：この画面の解像度のまま</option>
