@@ -396,7 +396,7 @@
           <option value="card">チケットカード</option>
           <option value="timeline">タイムライン</option>
           <option value="ranking">ランキング</option>
-          <option value="share">サマリー（SNSシェア画像用）</option>
+          <option value="share">サマリー</option>
         </select>
       </div>
       <details class="control-row filter-details" open="">
@@ -448,9 +448,14 @@
     <div class="result-panel">
       <div id="resultPanelContent"></div>
       <div class="table-actions no-print">
-        <button class="btn-secondary" onclick="copyShareText()">投稿用テキストをコピー</button>
+        <select class="ctrl-select" id="imageResolutionSelect" style="width:auto; min-width:190px;">
+          <option value="device">画質：この画面の解像度のまま</option>
+          <option value="recommend1080" selected="">画質：おすすめ（幅1080px）</option>
+          <option value="sns1200">画質：SNS投稿用（幅1200px）</option>
+        </select>
         <button class="btn-primary" onclick="saveAsImage()">画像として保存</button>
         <button class="btn-secondary" onclick="downloadCSV()">CSVダウンロード</button>
+        <button class="btn-secondary" onclick="copyShareText()">投稿用テキストをコピー</button>
         <button class="btn-secondary" onclick="handlePrint()">印刷</button>
       </div>
     </div>
@@ -1265,20 +1270,34 @@ function saveAsImage(){
     return;
   }
   const bg = isShare ? THEMES[currentTheme].vars.ink : THEMES[currentTheme].vars.paper;
+  /* 解像度の選択に応じて、書き出す幅を固定する。
+     「幅を半分にしてscale:2で書き出す」ことで、くっきりした画質を保ったまま
+     出力ピクセル幅をそろえる(端末の画面幅に依存させない)。 */
+  const resolutionMode = document.getElementById('imageResolutionSelect')?.value || 'recommend1080';
+  let fixedWidth = null;
+  const scale = 2;
+  if(resolutionMode === 'sns1200') fixedWidth = 600;
+  else if(resolutionMode === 'recommend1080') fixedWidth = 540;
+  /* resolutionMode === 'device' の場合は fixedWidth を指定せず、今の画面の幅のまま書き出す */
+
   /* シェア以外(シンプル表・チケットカード・タイムライン・ランキング)は、画面の横幅のまま
-     余白なしで画像化すると、端が詰まって見づらく・不必要に横長になるため、
-     画像化する間だけ余白と適度な最大幅を一時的に適用する */
-  let prevStyle = null;
+     余白なしで画像化すると、端が詰まって見づらくなるため、画像化する間だけ余白を一時的に適用する */
+  const prevStyle = target.getAttribute('style') || '';
   if(!isShare){
-    prevStyle = target.getAttribute('style') || '';
     target.style.padding = '26px 22px';
-    target.style.maxWidth = '640px';
-    target.style.margin = '0 auto';
     target.style.boxSizing = 'border-box';
   }
-  const restoreStyle = () => { if(!isShare) target.setAttribute('style', prevStyle); };
+  if(fixedWidth){
+    target.style.width = fixedWidth + 'px';
+    target.style.maxWidth = fixedWidth + 'px';
+    target.style.margin = '0 auto';
+  } else if(!isShare){
+    target.style.maxWidth = '640px';
+    target.style.margin = '0 auto';
+  }
+  const restoreStyle = () => { target.setAttribute('style', prevStyle); };
   const runCapture = () => {
-    html2canvas(target, {backgroundColor: bg, scale: 2, useCORS: true, logging: false}).then(canvas => {
+    html2canvas(target, {backgroundColor: bg, scale: scale, useCORS: true, logging: false}).then(canvas => {
       restoreStyle();
       if(canvas.width === 0 || canvas.height === 0){
         alert('画像の生成に失敗しました（サイズが取得できませんでした）。印刷機能もお試しください。');
