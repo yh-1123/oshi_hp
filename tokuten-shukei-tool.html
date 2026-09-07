@@ -328,7 +328,7 @@
       <button class="btn-primary" onclick="handleRegister()">登録する</button>
       <button class="btn-secondary" onclick="loadSample()">サンプルデータを試す</button>
       <button class="btn-ghost" onclick="clearAll()">全データをクリア</button>
-      <span class="status-pill" id="statusPill">登録済み：5件</span>
+      <span class="status-pill" id="statusPill">登録済み：0件</span>
     </div>
     <div class="btn-row" style="margin-top:10px;padding-top:12px;border-top:1px dashed var(--line);">
       <button class="btn-secondary" onclick="exportBackupCSV()">CSVに書き出す（バックアップ）</button>
@@ -338,52 +338,12 @@
     <div class="note-box editable" id="step1-note">作業を中断するときは「CSVに書き出す」でファイルを保存しておくと、次にこのページを開いたときに「CSVから復元する」で続きから再開できます（このページ自体はデータを保存しません）。このツール以外で作ったCSVも、「日付」「会場」「部」「種別」「枚数」「メンバー」「作品」の見出し（列名）があれば取り込めます（「日付」「部」「枚数」は必須、それ以外は任意）。</div>
   </section>
 
-  <section class="card no-print" id="previewSection" style="display: block;">
+  <section class="card no-print" id="previewSection" style="display:none;">
     <p class="step-label"><span class="num">02</span>登録済みデータを確認</p>
     <h2 class="card-title">現在登録されている注文</h2>
-    <p class="card-desc" id="previewDesc">現在 5 件の商品行が登録されています。</p>
+    <p class="card-desc" id="previewDesc"></p>
     <div class="preview-scroll" id="previewTableWrap">
-      <table class="preview" id="previewTable"><tbody><tr><th>日付</th><th>会場</th><th>部</th><th>種別</th><th class="num">枚数</th><th>メンバー</th></tr><tr>
-      <td class="mono">9/13</td>
-      <td>幕張</td>
-      <td class="mono">7部</td>
-      <td><span class="chip" style="background:#E0233A">トーク会</span></td>
-      <td class="num mono">30</td>
-      <td>架空はな</td>
-      
-    </tr><tr>
-      <td class="mono">9/12</td>
-      <td>幕張</td>
-      <td class="mono">9部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td class="num mono">30</td>
-      <td>架空はな</td>
-      
-    </tr><tr>
-      <td class="mono">9/13</td>
-      <td>幕張</td>
-      <td class="mono">8部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td class="num mono">20</td>
-      <td>架空りん</td>
-      
-    </tr><tr>
-      <td class="mono">9/13</td>
-      <td>幕張</td>
-      <td class="mono">4部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td class="num mono">10</td>
-      <td>架空はな</td>
-      
-    </tr><tr>
-      <td class="mono">9/12</td>
-      <td>幕張</td>
-      <td class="mono">8部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td class="num mono">5</td>
-      <td>架空りん</td>
-      
-    </tr></tbody></table>
+      <table class="preview" id="previewTable"></table>
     </div>
     <div id="unparsedBox" style="display:none;" class="warn-box">
       <strong id="unparsedCount"></strong> 件、自動で読み取れなかった商品行があります。集計には含まれていません。
@@ -395,24 +355,14 @@
         <span class="year-panel-title">日付ごとの年（自動判定・修正可）</span>
         <span class="base-year-field">基準年：<input type="number" id="baseYearInput" onchange="updateBaseYear(this.value)"></span>
       </div>
-      <div id="dateYearList"><div class="year-row">
-      <span class="mono year-row-date">9/12</span>
-      <input type="number" class="year-input" value="2026" onchange="setYearOverride('9/12', this.value)">
-      <span class="chip-small chip-auto">自動</span>
-      
-    </div><div class="year-row">
-      <span class="mono year-row-date">9/13</span>
-      <input type="number" class="year-input" value="2026" onchange="setYearOverride('9/13', this.value)">
-      <span class="chip-small chip-auto">自動</span>
-      
-    </div></div>
+      <div id="dateYearList"></div>
       <div class="btn-row" style="margin-top:8px;">
         <button class="reset-link" onclick="resetAllYearOverrides()">すべて自動判定に戻す</button>
       </div>
     </div>
   </section>
 
-  <section class="card no-print" id="createSection" style="display: block;">
+  <section class="card no-print" id="createSection" style="display:none;">
     <p class="step-label"><span class="num">03</span>集計結果を作成</p>
     <h2 class="card-title">集計表・日程表を作成</h2>
     <p class="card-desc">登録内容を確認できたら、下のボタンで集計結果を作成します。データを追加・修正したときは、もう一度押すと最新の内容に更新されます。</p>
@@ -421,7 +371,7 @@
     </div>
   </section>
 
-  <div id="resultsSection" style="display: block;">
+  <div id="resultsSection" style="display:none;">
     <div class="control-panel no-print">
       <div class="control-row">
         <span class="control-label">配色</span>
@@ -454,58 +404,40 @@
         <div class="filter-body">
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_date" onclick="toggleMultiselect('date')">日付：すべて</button>
-          <div class="ms-panel" id="msPanel_date"><div class="ms-actions">
-    <button class="reset-link" onclick="setAllFilter('date','all')">すべて選択</button>
-    <button class="reset-link" onclick="setAllFilter('date','none')">選択解除</button>
-  </div><label class="ms-item"><input type="checkbox" data-value="2026-9-12" onchange="toggleFilterValue('date', this)"> 9/12</label><label class="ms-item"><input type="checkbox" data-value="2026-9-13" onchange="toggleFilterValue('date', this)"> 9/13</label></div>
+          <div class="ms-panel" id="msPanel_date"></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_work" onclick="toggleMultiselect('work')">作品：すべて</button>
-          <div class="ms-panel" id="msPanel_work"><div class="ms-actions">
-    <button class="reset-link" onclick="setAllFilter('work','all')">すべて選択</button>
-    <button class="reset-link" onclick="setAllFilter('work','none')">選択解除</button>
-  </div><label class="ms-item"><input type="checkbox" data-value="はじまりのうた" onchange="toggleFilterValue('work', this)"> はじまりのうた</label></div>
+          <div class="ms-panel" id="msPanel_work"></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_member" onclick="toggleMultiselect('member')">メンバー：すべて</button>
-          <div class="ms-panel" id="msPanel_member"><div class="ms-actions">
-    <button class="reset-link" onclick="setAllFilter('member','all')">すべて選択</button>
-    <button class="reset-link" onclick="setAllFilter('member','none')">選択解除</button>
-  </div><label class="ms-item"><input type="checkbox" data-value="架空はな" onchange="toggleFilterValue('member', this)"> 架空はな</label><label class="ms-item"><input type="checkbox" data-value="架空りん" onchange="toggleFilterValue('member', this)"> 架空りん</label></div>
+          <div class="ms-panel" id="msPanel_member"></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_venue" onclick="toggleMultiselect('venue')">会場：すべて</button>
-          <div class="ms-panel" id="msPanel_venue"><div class="ms-actions">
-    <button class="reset-link" onclick="setAllFilter('venue','all')">すべて選択</button>
-    <button class="reset-link" onclick="setAllFilter('venue','none')">選択解除</button>
-  </div><label class="ms-item"><input type="checkbox" data-value="幕張" onchange="toggleFilterValue('venue', this)"> 幕張</label></div>
+          <div class="ms-panel" id="msPanel_venue"></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_part" onclick="toggleMultiselect('part')">部：すべて</button>
-          <div class="ms-panel" id="msPanel_part"><div class="ms-actions">
-    <button class="reset-link" onclick="setAllFilter('part','all')">すべて選択</button>
-    <button class="reset-link" onclick="setAllFilter('part','none')">選択解除</button>
-  </div><label class="ms-item"><input type="checkbox" data-value="4" onchange="toggleFilterValue('part', this)"> 4部</label><label class="ms-item"><input type="checkbox" data-value="7" onchange="toggleFilterValue('part', this)"> 7部</label><label class="ms-item"><input type="checkbox" data-value="8" onchange="toggleFilterValue('part', this)"> 8部</label><label class="ms-item"><input type="checkbox" data-value="9" onchange="toggleFilterValue('part', this)"> 9部</label></div>
+          <div class="ms-panel" id="msPanel_part"></div>
         </div>
         <div class="multiselect">
           <button class="pill ms-toggle" id="msToggle_type" onclick="toggleMultiselect('type')">種別：すべて</button>
-          <div class="ms-panel" id="msPanel_type"><div class="ms-actions">
-    <button class="reset-link" onclick="setAllFilter('type','all')">すべて選択</button>
-    <button class="reset-link" onclick="setAllFilter('type','none')">選択解除</button>
-  </div><label class="ms-item"><input type="checkbox" data-value="トーク会" onchange="toggleFilterValue('type', this)"> トーク会</label><label class="ms-item"><input type="checkbox" data-value="握手会" onchange="toggleFilterValue('type', this)"> 握手会</label></div>
+          <div class="ms-panel" id="msPanel_type"></div>
         </div>
         <button class="reset-link" onclick="resetFilters()">絞り込みを解除</button>
         </div>
       </details>
       <div class="control-row">
         <span class="control-label">並び替え</span>
-        <select class="small" id="sortKey0" onchange="updateSortKey(0,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
+        <select class="small" id="sortKey0" onchange="updateSortKey(0,this.value)"></select>
         <span class="arrow-sep">→</span>
-        <select class="small" id="sortKey1" onchange="updateSortKey(1,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
+        <select class="small" id="sortKey1" onchange="updateSortKey(1,this.value)"></select>
         <span class="arrow-sep">→</span>
-        <select class="small" id="sortKey2" onchange="updateSortKey(2,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
+        <select class="small" id="sortKey2" onchange="updateSortKey(2,this.value)"></select>
         <span class="arrow-sep">→</span>
-        <select class="small" id="sortKey3" onchange="updateSortKey(3,this.value)"><option value="date">日付</option><option value="venue">会場</option><option value="part">部</option><option value="member">メンバー</option><option value="type">種別</option><option value="work">作品</option><option value="qty">枚数</option><option value="none">指定なし</option></select>
+        <select class="small" id="sortKey3" onchange="updateSortKey(3,this.value)"></select>
         <button class="pill" id="sortDirBtn" onclick="toggleSortDir()">↑ 昇順</button>
       </div>
       <div class="control-row">
@@ -514,59 +446,7 @@
       </div>
     </div>
     <div class="result-panel">
-      <div id="resultPanelContent">
-    <div class="ticket-divider no-print"></div>
-    <p class="result-heading">集計結果</p>
-    <p class="result-sub">複数のメンバー・作品が含まれています</p>
-    <div class="type-total-row"><span class="chip" style="background:#3D6E8C">握手会 65枚</span><span class="chip" style="background:#E0233A">トーク会 30枚</span></div>
-    <div id="captureArea" style=""><div class="table-scroll">
-    <table class="result">
-      <thead><tr><th>日付</th><th>会場</th><th>部</th><th>種別</th><th>メンバー</th><th class="num">枚数</th></tr></thead>
-      <tbody><tr>
-      <td class="mono">9/12</td>
-      
-      <td>幕張</td>
-      <td class="mono">8部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td>架空りん</td>
-      <td class="num mono">5枚</td>
-    </tr><tr>
-      <td class="mono">9/12</td>
-      
-      <td>幕張</td>
-      <td class="mono">9部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td>架空はな</td>
-      <td class="num mono">30枚</td>
-    </tr><tr>
-      <td class="mono">9/13</td>
-      
-      <td>幕張</td>
-      <td class="mono">4部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td>架空はな</td>
-      <td class="num mono">10枚</td>
-    </tr><tr>
-      <td class="mono">9/13</td>
-      
-      <td>幕張</td>
-      <td class="mono">7部</td>
-      <td><span class="chip" style="background:#E0233A">トーク会</span></td>
-      <td>架空はな</td>
-      <td class="num mono">30枚</td>
-    </tr><tr>
-      <td class="mono">9/13</td>
-      
-      <td>幕張</td>
-      <td class="mono">8部</td>
-      <td><span class="chip" style="background:#3D6E8C">握手会</span></td>
-      <td>架空りん</td>
-      <td class="num mono">20枚</td>
-    </tr></tbody>
-      <tfoot><tr><td colspan="5">合計</td><td class="num">95枚</td></tr></tfoot>
-    </table>
-  </div></div>
-  </div>
+      <div id="resultPanelContent"></div>
       <div class="table-actions no-print">
         <select class="ctrl-select" id="imageResolutionSelect" style="width:auto; min-width:190px;">
           <option value="device">画質：この画面の解像度のまま</option>
@@ -1185,15 +1065,15 @@ function renderStyleSimple(groups, multiYear, multiWork){
       ${multiWork ? `<td>${escapeHtml(g.work)}</td>` : ''}
       <td>${escapeHtml(g.venue)}</td>
       <td class="mono">${g.part}部</td>
-      <td><span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span></td>
       <td>${escapeHtml(g.artist)}</td>
+      <td><span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span></td>
       <td class="num mono">${qtyText(g.totalTickets)}</td>
     </tr>`;
   });
   const colCount = multiWork ? 6 : 5;
   return `<div class="table-scroll">
     <table class="result">
-      <thead><tr><th>日付</th>${multiWork ? '<th>作品</th>' : ''}<th>会場</th><th>部</th><th>種別</th><th>メンバー</th><th class="num">枚数</th></tr></thead>
+      <thead><tr><th>日付</th>${multiWork ? '<th>作品</th>' : ''}<th>会場</th><th>部</th><th>メンバー</th><th>種別</th><th class="num">枚数</th></tr></thead>
       <tbody>${rows}</tbody>
       <tfoot><tr><td colspan="${colCount}">合計</td><td class="num">${qtyText(totalTickets)}</td></tr></tfoot>
     </table>
@@ -1270,7 +1150,7 @@ function renderStyleTimeline(groups, multiYear, multiWork){
         }
         html += `<div class="timeline-item">
           <div class="ti-row">
-            <span class="ti-part"><span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span>　${escapeHtml(g.artist)}${multiWork ? `　${escapeHtml(g.work)}` : ''}</span>
+            <span class="ti-part">${escapeHtml(g.artist)}　<span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span>${multiWork ? `　${escapeHtml(g.work)}` : ''}</span>
             <span class="ti-qty">${qtyText(g.totalTickets)}</span>
           </div>
         </div>`;
