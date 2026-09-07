@@ -1082,6 +1082,51 @@
       "category": "YouTube"
     },
     {
+      "title": "メ～テレ「Digった!」",
+      "date": "2025-10-29",
+      "desc": "10:25",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "5",
+      "category": "テレビ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-10-22",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "4",
+      "category": "その他"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1+1は3じゃないよ!」",
+      "date": "2025-10-18",
+      "desc": "22:00～22:30",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "3",
+      "category": "ラジオ"
+    },
+    {
+      "title": "千成工業株式会社YouTube「ゆうねと千成工業のガチものづくり」",
+      "date": "2025-10-08",
+      "desc": "18:00",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "1",
+      "category": "その他"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2025-10-06",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-07",
+      "order": "0",
+      "category": "ラジオ"
+    },
+    {
       "title": "10チャンあたりま縁日 IN 大須",
       "date": "2025-09-14",
       "desc": "",
