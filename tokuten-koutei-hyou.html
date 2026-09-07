@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>特典会 工程表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #EAEFEA;
+    --surface: #F7FAF7;
+    --surface-2: #DEE7E0;
+    --line: #C7D2C9;
+    --accent: #A97D82;
+    --accent-dim: #D8C2C4;
+    --teal: #4F7C77;
+    --text: #33403A;
+    --text-dim: #758579;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    min-height:100vh;
+    padding:18px 14px 100px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .wrap{max-width:520px;margin:0 auto;}
+
+  header.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  header.top h1{
+    font-family:'Zen Kaku Gothic New', sans-serif;font-weight:700;font-size:20px;margin:0;
+    letter-spacing:.03em;color:var(--text);
+  }
+  .header-btns{display:flex;gap:8px;}
+  .icon-only-btn{
+    background:var(--surface);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:10px;padding:8px 11px;font-family:inherit;font-size:15px;cursor:pointer;
+  }
+  .icon-only-btn:active{border-color:var(--accent);color:var(--accent);}
+
+  .view-toggle{
+    display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;
+    padding:4px;margin-bottom:18px;
+  }
+  .view-toggle button{
+    flex:1;padding:9px 0;border:none;border-radius:999px;background:transparent;
+    color:var(--text-dim);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .view-toggle button.active{background:var(--accent);color:#fff;}
+
+  body.display-mode .edit-row,
+  body.display-mode .add-panel,
+  body.display-mode .add-block-btn,
+  body.display-mode .secondary-cta,
+  body.display-mode #pickedBanner,
+  body.display-mode .nav-chip-icon,
+  body.display-mode .nav-chip.add,
+  body.display-mode .part-pill.add{display:none !important;}
+  body.display-mode .section-label{display:none;}
+  body.display-mode .nav-chip{cursor:default;}
+
+  .tl-display-card{
+    flex:1;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .tl-display-name{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:21px;color:#4A3236;}
+  .tl-display-meta{font-size:13px;color:var(--text-dim);white-space:nowrap;}
+  .tl-ticket-badge{
+    flex-shrink:0;border:2px solid var(--accent);color:var(--accent);font-weight:700;
+    font-size:16px;border-radius:999px;padding:6px 14px;white-space:nowrap;
+  }
+
+  .section-label{font-size:11px;color:var(--text-dim);margin:0 0 6px 2px;font-weight:700;}
+
+  .parts-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:8px;padding-bottom:2px;}
+  .part-pill{
+    flex-shrink:0;background:var(--surface);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+  }
+  .part-pill.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .part-pill.add{border-style:dashed;color:var(--accent);}
+
+  .edit-row{display:flex;gap:8px;margin-bottom:14px;}
+  .edit-row input{flex:1;}
+  .edit-row input[type=time]{flex:0 0 100px;}
+  .edit-row button{
+    flex-shrink:0;background:var(--surface);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:9px;padding:0 12px;font-family:inherit;font-size:12px;cursor:pointer;
+  }
+  .edit-row button:disabled{opacity:.35;}
+  .edit-row button.danger{background:#B85C5C;border-color:#B85C5C;color:#fff;}
+
+  .nav-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px;align-items:center;}
+  .nav-chip{
+    flex-shrink:0;display:flex;align-items:center;gap:6px;
+    background:var(--surface);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:999px;padding:8px 10px 8px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+  }
+  .nav-chip span{pointer-events:none;}
+  .nav-chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .nav-chip.add{border-style:dashed;color:var(--accent);padding:8px 18px;}
+  .nav-chip-icon{
+    background:rgba(255,255,255,.28);border:none;color:inherit;border-radius:50%;
+    width:22px;height:22px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .nav-chip.editing{padding:4px 6px;background:var(--surface);border-color:var(--accent);}
+  .nav-chip.editing input{
+    border:none;background:transparent;font-size:13px;font-weight:700;color:var(--text);
+    padding:5px 6px;width:118px;
+  }
+
+  .add-panel{display:flex;gap:8px;margin-bottom:14px;}
+  .add-panel input{flex:1;}
+  .add-panel button{
+    flex-shrink:0;border-radius:9px;padding:0 14px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;
+  }
+  .add-panel .btn-confirm{background:var(--accent);color:#fff;border:none;}
+  .add-panel .btn-cancel{background:var(--surface);border:1px solid var(--line);color:var(--text-dim);}
+
+  .toast{
+    position:fixed;left:50%;bottom:96px;transform:translateX(-50%);
+    background:var(--text);color:#fff;padding:10px 18px;border-radius:999px;
+    font-size:13px;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;
+  }
+  .toast.show{opacity:1;}
+
+  .confirm-bar{
+    display:none;background:var(--surface-2);border:1px solid var(--accent);border-radius:9px;
+    padding:10px;margin-bottom:8px;
+  }
+  .confirm-bar.show{display:block;}
+  .confirm-bar p{font-size:12px;margin:0 0 8px;}
+  .confirm-bar .row{display:flex;gap:8px;}
+  .confirm-bar button{flex:1;border-radius:8px;padding:9px 0;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;}
+  .confirm-bar .yes{background:var(--accent);color:#fff;border:none;}
+  .confirm-bar .no{background:var(--surface);border:1px solid var(--line);color:var(--text-dim);}
+
+  input, select, textarea{
+    width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;padding:9px 10px;font-family:inherit;font-size:14px;
+  }
+  input:focus, select:focus, textarea:focus{outline:1px solid var(--accent);}
+
+  .chip-row{display:flex;gap:6px;overflow-x:auto;margin-top:6px;padding-bottom:2px;}
+  .chip{
+    flex-shrink:0;background:var(--surface-2);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:999px;padding:5px 12px;font-size:12px;white-space:nowrap;cursor:pointer;
+  }
+  .chip:active{border-color:var(--accent);color:var(--accent);}
+
+  .secondary-cta{
+    width:100%;padding:12px;border-radius:var(--radius);border:1px solid var(--line);
+    background:var(--surface);color:var(--teal);font-family:inherit;font-weight:700;font-size:13px;
+    cursor:pointer;margin-bottom:10px;
+  }
+  .secondary-cta:active{border-color:var(--teal);}
+
+  .timeline{margin-bottom:10px;}
+  .tl-row{display:flex;gap:12px;}
+  .tl-time-col{width:52px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+  .tl-time{font-size:11px;color:var(--accent);font-weight:700;font-family:'Zen Kaku Gothic New',sans-serif;margin-bottom:6px;white-space:nowrap;}
+  .tl-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+  .tl-linedown{flex:1;width:1px;background:var(--line);margin-top:2px;}
+
+  .tl-card{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 12px;margin-bottom:16px;}
+  .tl-card.picked{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+
+  .tl-card-head{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+  .handle-btn{
+    background:var(--surface-2);border:1px solid var(--line);color:var(--text-dim);border-radius:8px;
+    padding:6px 9px;font-size:14px;cursor:pointer;flex-shrink:0;
+  }
+  .handle-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .tl-card-head input[type=text]{font-size:15px;font-weight:700;flex:1;}
+  .icon-btn{
+    background:var(--surface-2);border:1px solid var(--line);color:var(--text-dim);font-size:13px;
+    padding:6px 9px;border-radius:8px;cursor:pointer;flex-shrink:0;
+  }
+  .icon-btn.del:active{color:#B85C5C;border-color:#B85C5C;}
+  .icon-btn.add-master:active{color:var(--teal);border-color:var(--teal);}
+
+  .block-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+  .block-grid .f label{font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;}
+  .custom-type-row{margin-top:6px;}
+  .custom-type-row label{font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;}
+
+  .dropzone{height:0;overflow:visible;position:relative;}
+  .dropzone-btn{display:none;}
+  .dropzone.show{height:38px;margin:-6px 0 6px;}
+  .dropzone.show .dropzone-btn{
+    display:block;width:100%;height:100%;border:1px dashed var(--accent);
+    background:rgba(169,125,130,.08);color:var(--accent);border-radius:9px;
+    font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+  }
+
+  .add-block-btn{
+    width:100%;padding:13px;border-radius:var(--radius);border:1px dashed var(--text-dim);
+    background:transparent;color:var(--teal);font-family:inherit;font-weight:700;font-size:14px;
+    cursor:pointer;margin-bottom:10px;
+  }
+  .break-add-btn{color:var(--text-dim);border-color:var(--text-dim);}
+
+  .break-dot{background:var(--text-dim);}
+  .tl-card.break-card{background:var(--surface-2);border-style:dashed;border-color:var(--text-dim);}
+  .tl-card.break-card input[type=text]{font-weight:500;color:var(--text-dim);}
+  .break-grid{grid-template-columns:1fr;max-width:160px;}
+  .tl-display-card.break-card{opacity:.85;border-style:dashed;border-color:var(--text-dim);}
+  .tl-display-card.break-card .tl-display-name{font-size:18px;font-weight:500;color:var(--text-dim);}
+
+  .picked-banner{
+    background:var(--surface-2);border:1px solid var(--accent);color:var(--accent);border-radius:9px;
+    padding:9px 12px;font-size:12px;font-weight:700;margin-bottom:14px;display:flex;
+    justify-content:space-between;align-items:center;
+  }
+  .picked-banner button{background:none;border:none;color:var(--text-dim);font-size:12px;font-family:inherit;cursor:pointer;}
+
+  .summary{
+    position:fixed;bottom:0;left:0;right:0;background:var(--surface-2);border-top:1px solid var(--line);
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+  .summary-inner{max-width:520px;margin:0 auto;display:flex;justify-content:center;gap:60px;}
+  .stat{text-align:center;}
+  .stat .val{font-size:15px;font-weight:700;color:var(--accent);font-family:'Zen Kaku Gothic New',sans-serif;}
+  .stat .lab{font-size:10px;color:var(--text-dim);}
+
+  .empty{text-align:center;color:var(--text-dim);font-size:13px;padding:30px 0;}
+  .empty-inline{color:var(--text-dim);font-size:12px;padding:8px 4px;white-space:nowrap;}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(30,38,34,.55);display:none;align-items:flex-end;z-index:50;}
+  .modal-backdrop.show{display:flex;}
+  .modal{
+    background:var(--surface);border-top:1px solid var(--line);border-radius:18px 18px 0 0;
+    width:100%;max-width:520px;margin:0 auto;padding:18px 16px calc(22px + env(safe-area-inset-bottom));
+    max-height:85vh;overflow-y:auto;
+  }
+  .modal h3{font-family:'Zen Kaku Gothic New',sans-serif;font-size:17px;margin:0 0 14px;}
+  .modal-section{margin-bottom:22px;}
+  .modal-section h4{font-size:12px;color:var(--text-dim);margin:0 0 8px;font-weight:700;}
+  .master-add-row{display:flex;gap:8px;margin-bottom:10px;}
+  .master-add-row input{flex:1;}
+  .master-add-row button{
+    background:var(--accent);color:#fff;border:none;border-radius:9px;padding:0 14px;
+    font-weight:700;font-family:inherit;font-size:13px;cursor:pointer;
+  }
+  .master-list{display:flex;flex-wrap:wrap;gap:6px;}
+  .master-list .chip{cursor:default;display:flex;align-items:center;gap:6px;}
+  .master-list .chip button{background:none;border:none;color:var(--text-dim);font-size:12px;cursor:pointer;padding:0;}
+  .modal-close{
+    width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:transparent;
+    color:var(--text-dim);font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;
+  }
+  .io-btn{
+    width:100%;padding:11px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);
+    color:var(--text);font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:8px;
+  }
+  .io-textarea{
+    width:100%;min-height:70px;background:var(--surface-2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;padding:8px;font-family:monospace;font-size:11px;margin-bottom:8px;
+  }
+  .io-hint{font-size:11px;color:var(--text-dim);margin:0 0 8px;}
+
+  .pattern-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .pattern-btn{
+    flex:1 1 calc(25% - 6px);min-width:70px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 4px;text-align:center;font-family:inherit;font-size:11px;color:var(--text-dim);cursor:pointer;
+  }
+  .pattern-btn.active{border-color:var(--accent);color:var(--accent);}
+  .pattern-swatch{width:100%;height:28px;border-radius:6px;margin-bottom:6px;}
+  .canvas-wrap{width:100%;border-radius:12px;overflow:hidden;margin-bottom:14px;border:1px solid var(--line);}
+  .canvas-wrap canvas{width:100%;display:block;}
+  .share-action-btn{
+    width:100%;padding:12px;border-radius:10px;border:none;background:var(--teal);color:#fff;
+    font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:8px;
+  }
+
+  .order-row{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:12px;
+    padding:10px;margin-bottom:10px;
+  }
+  .order-row-head{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+  .order-row-head input[type=text]{flex:1;}
+  .order-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+  .order-grid .f label{font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;}
+  .order-preview{font-size:12px;color:var(--teal);}
+  .order-add-row-btn{
+    width:100%;padding:11px;border-radius:9px;border:1px dashed var(--text-dim);background:transparent;
+    color:var(--teal);font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:12px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>特典会 工程表</h1>
+    <div class="header-btns">
+      <button class="icon-only-btn" id="shareBtnHeader" title="SNS用画像">🖼</button>
+      <button class="icon-only-btn" id="gearBtn" title="設定">⚙</button>
+    </div>
+  </header>
+
+  <div class="view-toggle">
+    <button id="modeEditBtn" class="active">登録</button>
+    <button id="modeDisplayBtn">表示</button>
+  </div>
+
+  <div class="section-label">日付</div>
+  <div class="nav-tabs" id="dateChips"></div>
+
+  <div class="section-label">部</div>
+  <div class="nav-tabs" id="partChips"></div>
+  <div class="edit-row">
+    <div style="flex:1;">
+      <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:5px;">開始時刻</label>
+      <input type="time" id="startTimeInput" value="12:00">
+    </div>
+  </div>
+
+  <div id="pickedBanner" class="picked-banner" style="display:none;">
+    <span id="pickedText"></span>
+    <button id="cancelPickBtn">キャンセル</button>
+  </div>
+
+  <div id="timelineArea"></div>
+
+  <button class="add-block-btn" id="addBlockBtn">＋ ブロックを追加</button>
+  <button class="add-block-btn break-add-btn" id="addBreakBtn">＋ その他の予定を追加</button>
+  <button class="secondary-cta" id="orderCreateBtnOpen">🧾 まとめてブロック作成</button>
+
+</div>
+
+<div class="summary">
+  <div class="summary-inner">
+    <div class="stat"><div class="val" id="sumTime">0分</div><div class="lab">合計時間</div></div>
+    <div class="stat"><div class="val" id="sumTickets">0枚</div><div class="lab">合計枚数</div></div>
+  </div>
+</div>
+
+<!-- 設定モーダル -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3>設定</h3>
+    <div class="modal-section">
+      <h4>メンバーマスタ</h4>
+      <div class="master-add-row">
+        <input type="text" id="newMemberInput" placeholder="メンバー名を追加">
+        <button id="addMemberBtn">追加</button>
+      </div>
+      <div class="master-list" id="memberMasterList"></div>
+    </div>
+    <div class="modal-section">
+      <h4>データの書き出し</h4>
+      <p class="io-hint">工程表・マスタ全体をファイルとして保存します。</p>
+      <button class="io-btn" id="exportBtn">JSONファイルを書き出す</button>
+    </div>
+    <div class="modal-section">
+      <h4>データの読み込み</h4>
+      <p class="io-hint">書き出したファイルを選択するか、JSONを貼り付けてください。現在のデータは上書きされます。</p>
+      <div class="confirm-bar" id="importConfirmBar">
+        <p>現在のデータを上書きします。よろしいですか？</p>
+        <div class="row">
+          <button class="yes" id="importConfirmYes">上書きする</button>
+          <button class="no" id="importConfirmNo">キャンセル</button>
+        </div>
+      </div>
+      <button class="io-btn" id="importFileBtn">ファイルを選択して読み込む</button>
+      <input type="file" id="importFileInput" accept="application/json,.json" style="display:none;">
+      <textarea class="io-textarea" id="importTextarea" placeholder="JSONを貼り付け"></textarea>
+      <button class="io-btn" id="importTextBtn">貼り付けた内容を読み込む</button>
+    </div>
+    <button class="modal-close" id="modalCloseBtn">閉じる</button>
+  </div>
+</div>
+
+<!-- SNS画像モーダル -->
+<div class="modal-backdrop" id="shareBackdrop">
+  <div class="modal">
+    <h3>SNS用画像を作成</h3>
+    <div class="pattern-row">
+      <button class="pattern-btn" data-pattern="timeline">
+        <div class="pattern-swatch" style="background:#F7FAF7;border:1px solid #C7D2C9;"></div>
+        タイムライン
+      </button>
+      <button class="pattern-btn" data-pattern="mono">
+        <div class="pattern-swatch" style="background:#1E1D24;"></div>
+        エレガント
+      </button>
+      <button class="pattern-btn" data-pattern="gradient">
+        <div class="pattern-swatch" style="background:linear-gradient(135deg,#FFD9C7,#D9CFFA 55%,#CDEEDD);"></div>
+        グラデーション
+      </button>
+      <button class="pattern-btn" data-pattern="retro">
+        <div class="pattern-swatch" style="background:#F3E7D0;border:1px solid #7A2E2E;"></div>
+        レトロ
+      </button>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="shareCanvas" width="1080" height="1080"></canvas>
+    </div>
+    <button class="share-action-btn" id="shareActionBtn">画像を保存 / シェア</button>
+    <button class="modal-close" id="shareCloseBtn">閉じる</button>
+  </div>
+</div>
+
+<!-- まとめてブロック作成モーダル -->
+<div class="modal-backdrop" id="orderBackdrop">
+  <div class="modal">
+    <h3>まとめてブロック作成</h3>
+    <p class="io-hint">CSVを読み込むか、メンバーごとの購入枚数と1回の訪問で使う枚数を入力すると、必要な数だけブロックに分配して作成します。</p>
+    <div class="modal-section">
+      <h4>CSVから読み込む</h4>
+      <p class="io-hint">形式: 1列目がメンバー名、2列目が枚数(例: しほ,10)。1行目は見出し行でも構いません。</p>
+      <button class="io-btn" id="orderCsvBtn">CSVファイルを選択</button>
+      <input type="file" id="orderCsvInput" accept=".csv,text/csv" style="display:none;">
+    </div>
+    <div id="orderRows"></div>
+    <button class="order-add-row-btn" id="orderAddRowBtn">＋ メンバーを追加</button>
+    <button class="io-btn" id="orderApplyBtn" style="background:var(--accent);color:#fff;">現在の部にブロックを追加</button>
+    <button class="modal-close" id="orderCloseBtn">閉じる</button>
+  </div>
+</div>
+
+<script>
+const TYPE_PRESETS = ['トーク会','握手会','2ショット会','その他'];
+
+let state = {
+  dates: [],
+  currentDateIndex: 0,
+  currentPartIndex: 0,
+  masters: { members: [] },
+  lastUsed: { date: null, startTime: '12:00' }
+};
+let pickedId = null;
+let currentPattern = 'timeline';
+let orderRows = [];
+let pendingDeleteDate = false, pendingDeleteDateTimer = null;
+let pendingDeletePart = false, pendingDeletePartTimer = null;
+let pendingImportParsed = null;
+let viewMode = 'edit';
+
+function showToast(msg){
+  let el = document.getElementById('toast');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.className = 'toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>{ el.classList.remove('show'); }, 2400);
+}
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function newBlock(kind){
+  if(kind==='break'){
+    return { id: uid(), kind:'break', label:'', duration:10 };
+  }
+  return { id: uid(), kind:'visit', member:'', type: TYPE_PRESETS[0], customType:'', lane:'', duration:10, tickets:1 };
+}
+function newPart(label, startTime){
+  return { id: uid(), label: label, startTime: startTime || '12:00', blocks: [newBlock()] };
+}
+function newDateEntry(dateStr){
+  return { id: uid(), date: dateStr || todayStr(), parts: [] };
+}
+
+async function loadState(){
+  try{
+    const res = await window.storage.get('itinerary-current', false);
+    if(res && res.value){
+      const parsed = JSON.parse(res.value);
+      if(parsed.dates && Array.isArray(parsed.dates) && parsed.dates.length){
+        state = Object.assign(state, parsed);
+      } else if(parsed.parts && Array.isArray(parsed.parts)){
+        state.dates = [{ id: uid(), date: todayStr(), parts: parsed.parts }];
+        state.currentDateIndex = 0;
+        state.currentPartIndex = parsed.currentPartIndex || 0;
+        state.masters = { members: (parsed.masters && parsed.masters.members) || [] };
+      } else if(parsed.blocks){
+        state.dates = [{ id: uid(), date: todayStr(), parts: [{id:uid(), label:'1部', startTime:parsed.startTime||'12:00', blocks:parsed.blocks}] }];
+        state.currentDateIndex = 0;
+        state.currentPartIndex = 0;
+        state.masters = { members: (parsed.masters && parsed.masters.members) || [] };
+      }
+    }
+  }catch(e){}
+  if(!state.masters) state.masters = { members: [] };
+  if(!state.lastUsed) state.lastUsed = { date: null, startTime: '12:00' };
+  if(!state.dates) state.dates = [];
+  if(state.currentDateIndex >= state.dates.length) state.currentDateIndex = 0;
+  if(hasDate() && state.currentPartIndex >= currentDate().parts.length) state.currentPartIndex = 0;
+}
+async function saveState(){
+  try{ await window.storage.set('itinerary-current', JSON.stringify(state), false); }
+  catch(e){ console.error('保存に失敗しました', e); }
+}
+
+function currentDate(){ return state.dates[state.currentDateIndex]; }
+function currentPart(){ return hasDate() ? currentDate().parts[state.currentPartIndex] : undefined; }
+function hasDate(){ return state.dates.length > 0; }
+function hasPart(){ return hasDate() && currentDate().parts.length > 0; }
+
+
+function escapeHtml(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtTime(mins){
+  if(mins===null || mins===undefined || isNaN(mins)) return '';
+  mins = ((Math.round(mins) % 1440) + 1440) % 1440;
+  const h = Math.floor(mins/60), m = mins%60;
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+}
+function fmtDurationMin(totalMin){
+  totalMin = Math.round(Number(totalMin)||0);
+  const h = Math.floor(totalMin/60), m = totalMin%60;
+  if(h>0) return h+'時間'+(m>0?m+'分':'');
+  return m+'分';
+}
+function fmtDateLabel(dateStr){
+  if(!dateStr) return '日付未設定';
+  const d = new Date(dateStr+'T00:00:00');
+  if(isNaN(d.getTime())) return dateStr;
+  const w = ['日','月','火','水','木','金','土'][d.getDay()];
+  return (d.getMonth()+1)+'/'+d.getDate()+'('+w+')';
+}
+function partStartMinutes(part){
+  if(!part.startTime) return null;
+  const [h,m] = part.startTime.split(':').map(Number);
+  if(isNaN(h) || isNaN(m)) return null;
+  return h*60+m;
+}
+function computePlannedStarts(part){
+  let t = partStartMinutes(part);
+  let known = t !== null;
+  return part.blocks.map(b=>{
+    const s = known ? t : null;
+    const dur = Number(b.duration);
+    if(known){
+      if(b.duration==='' || b.duration===null || b.duration===undefined || isNaN(dur)){
+        known = false;
+      } else {
+        t += dur;
+      }
+    }
+    return s;
+  });
+}
+function addToMaster(list, value){
+  value = (value||'').trim();
+  if(!value) return false;
+  if(!list.includes(value)){ list.push(value); return true; }
+  return false;
+}
+
+/* ---------------- RENDER ---------------- */
+
+function renderAll(){
+  renderDateTabs();
+  renderDateEdit();
+  renderPartTabs();
+  renderPartEdit();
+  renderTimeline();
+  renderSummary();
+  renderPickedBanner();
+}
+
+function setMode(m){
+  viewMode = m;
+  document.getElementById('modeEditBtn').classList.toggle('active', m==='edit');
+  document.getElementById('modeDisplayBtn').classList.toggle('active', m==='display');
+  document.body.classList.toggle('display-mode', m==='display');
+  pickedId = null;
+  renderAll();
+}
+document.getElementById('modeEditBtn').addEventListener('click', ()=> setMode('edit'));
+document.getElementById('modeDisplayBtn').addEventListener('click', ()=> setMode('display'));
+
+let editingDate = false;
+let editingPart = false;
+
+function renderDateTabs(){
+  const wrap = document.getElementById('dateChips');
+  wrap.innerHTML = '';
+  state.dates.forEach((d,i)=>{
+    const isActive = i === state.currentDateIndex;
+    const chip = document.createElement('div');
+    if(isActive && editingDate){
+      chip.className = 'nav-chip active editing';
+      chip.innerHTML = '<input type="date" id="dateEditInline">';
+      wrap.appendChild(chip);
+      const inp = chip.querySelector('input');
+      inp.value = d.date || todayStr();
+      let committed = false;
+      const commit = ()=>{
+        if(committed) return;
+        committed = true;
+        currentDate().date = inp.value || currentDate().date || todayStr();
+        state.lastUsed.date = currentDate().date;
+        editingDate = false;
+        saveState();
+        renderAll();
+      };
+      inp.addEventListener('change', commit);
+      inp.addEventListener('blur', ()=> setTimeout(commit, 120));
+      setTimeout(()=>{
+        inp.focus();
+        if(inp.showPicker){ try{ inp.showPicker(); }catch(e){} }
+      }, 0);
+      return;
+    }
+    chip.className = 'nav-chip' + (isActive ? ' active' : '');
+    const label = document.createElement('span');
+    label.textContent = fmtDateLabel(d.date);
+    chip.appendChild(label);
+    chip.addEventListener('click', ()=>{
+      if(isActive){
+        editingDate = true;
+        renderDateTabs();
+      } else {
+        state.currentDateIndex = i;
+        state.currentPartIndex = 0;
+        pickedId = null;
+        editingDate = false;
+        editingPart = false;
+        renderAll();
+      }
+    });
+    if(isActive && state.dates.length>1){
+      const del = document.createElement('button');
+      del.className = 'nav-chip-icon';
+      del.textContent = pendingDeleteDate ? '確定' : '✕';
+      del.title = '削除';
+      del.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        if(!pendingDeleteDate){
+          pendingDeleteDate = true;
+          clearTimeout(pendingDeleteDateTimer);
+          pendingDeleteDateTimer = setTimeout(()=>{ pendingDeleteDate=false; renderDateTabs(); }, 3000);
+          renderDateTabs();
+          return;
+        }
+        clearTimeout(pendingDeleteDateTimer);
+        pendingDeleteDate = false;
+        state.dates.splice(state.currentDateIndex,1);
+        state.currentDateIndex = Math.max(0, state.currentDateIndex-1);
+        state.currentPartIndex = 0;
+        pickedId = null;
+        saveState();
+        renderAll();
+        showToast('日付を削除しました');
+      });
+      chip.appendChild(del);
+    }
+    wrap.appendChild(chip);
+  });
+  const addChip = document.createElement('button');
+  addChip.className = 'nav-chip add';
+  addChip.textContent = '＋';
+  addChip.addEventListener('click', ()=>{
+    state.dates.push(newDateEntry(state.lastUsed.date || todayStr()));
+    state.currentDateIndex = state.dates.length-1;
+    state.currentPartIndex = 0;
+    pickedId = null;
+    editingDate = true;
+    saveState();
+    renderAll();
+  });
+  wrap.appendChild(addChip);
+  if(state.dates.length===0){
+    const hint = document.createElement('div');
+    hint.className = 'empty-inline';
+    hint.textContent = '＋ をタップして日付を追加してください';
+    wrap.appendChild(hint);
+  }
+}
+function renderDateEdit(){
+  pendingDeleteDate = false;
+  clearTimeout(pendingDeleteDateTimer);
+}
+
+function renderPartTabs(){
+  const wrap = document.getElementById('partChips');
+  wrap.innerHTML = '';
+  if(!hasDate()){
+    wrap.innerHTML = '<div class="empty-inline">先に日付を追加してください</div>';
+    return;
+  }
+  const parts = currentDate().parts;
+  parts.forEach((p,i)=>{
+    const isActive = i === state.currentPartIndex;
+    const chip = document.createElement('div');
+    if(isActive && editingPart){
+      chip.className = 'nav-chip active editing';
+      chip.innerHTML = '<input type="text" id="partEditInline">';
+      wrap.appendChild(chip);
+      const inp = chip.querySelector('input');
+      inp.value = p.label || (i+1)+'部';
+      let committed = false;
+      const commit = ()=>{
+        if(committed) return;
+        committed = true;
+        currentPart().label = inp.value.trim() || ((i+1)+'部');
+        editingPart = false;
+        saveState();
+        renderAll();
+      };
+      inp.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ inp.blur(); } });
+      inp.addEventListener('blur', ()=> setTimeout(commit, 120));
+      setTimeout(()=>{ inp.focus(); inp.select(); }, 0);
+      return;
+    }
+    chip.className = 'nav-chip' + (isActive ? ' active' : '');
+    const label = document.createElement('span');
+    label.textContent = p.label || (i+1)+'部';
+    chip.appendChild(label);
+    chip.addEventListener('click', ()=>{
+      if(isActive){
+        editingPart = true;
+        renderPartTabs();
+      } else {
+        state.currentPartIndex = i;
+        pickedId = null;
+        editingPart = false;
+        renderAll();
+      }
+    });
+    if(isActive && parts.length>1){
+      const del = document.createElement('button');
+      del.className = 'nav-chip-icon';
+      del.textContent = pendingDeletePart ? '確定' : '✕';
+      del.title = '削除';
+      del.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        if(!pendingDeletePart){
+          pendingDeletePart = true;
+          clearTimeout(pendingDeletePartTimer);
+          pendingDeletePartTimer = setTimeout(()=>{ pendingDeletePart=false; renderPartTabs(); }, 3000);
+          renderPartTabs();
+          return;
+        }
+        clearTimeout(pendingDeletePartTimer);
+        pendingDeletePart = false;
+        const parts2 = currentDate().parts;
+        parts2.splice(state.currentPartIndex,1);
+        state.currentPartIndex = Math.max(0, state.currentPartIndex-1);
+        pickedId = null;
+        saveState();
+        renderAll();
+        showToast('部を削除しました');
+      });
+      chip.appendChild(del);
+    }
+    wrap.appendChild(chip);
+  });
+  const addChip = document.createElement('button');
+  addChip.className = 'nav-chip add';
+  addChip.textContent = '＋';
+  addChip.addEventListener('click', ()=>{
+    const parts2 = currentDate().parts;
+    const suggested = (parts2.length+1)+'部';
+    const inheritedTime = parts2.length>0 ? parts2[parts2.length-1].startTime : state.lastUsed.startTime;
+    parts2.push(newPart(suggested, inheritedTime));
+    state.currentPartIndex = parts2.length-1;
+    pickedId = null;
+    editingPart = true;
+    saveState();
+    renderAll();
+  });
+  wrap.appendChild(addChip);
+  if(parts.length===0){
+    const hint = document.createElement('div');
+    hint.className = 'empty-inline';
+    hint.textContent = '＋ をタップして部を追加してください';
+    wrap.appendChild(hint);
+  }
+}
+function renderPartEdit(){
+  pendingDeletePart = false;
+  clearTimeout(pendingDeletePartTimer);
+  const row = document.getElementById('startTimeInput').closest('.edit-row');
+  if(!hasPart()){
+    row.style.display = 'none';
+    return;
+  }
+  row.style.display = '';
+  document.getElementById('startTimeInput').value = currentPart().startTime || '';
+}
+
+function renderSummary(){
+  if(!hasPart()){
+    document.getElementById('sumTime').textContent = '0分';
+    document.getElementById('sumTickets').textContent = '0枚';
+    return;
+  }
+  const part = currentPart();
+  const totalMin = part.blocks.reduce((a,b)=>a+(Number(b.duration)||0),0);
+  const totalTix = part.blocks.reduce((a,b)=>a+(Number(b.tickets)||0),0);
+  document.getElementById('sumTime').textContent = fmtDurationMin(totalMin);
+  document.getElementById('sumTickets').textContent = totalTix + '枚';
+}
+
+function renderPickedBanner(){
+  const banner = document.getElementById('pickedBanner');
+  if(pickedId && hasPart()){
+    const b = currentPart().blocks.find(x=>x.id===pickedId);
+    const label = b ? (b.kind==='break' ? (b.label||'その他の予定') : (b.member || '未入力ブロック')) : '未入力ブロック';
+    document.getElementById('pickedText').textContent =
+      '「' + label + '」を移動中 — 移動先をタップしてください';
+    banner.style.display = 'flex';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function renderTimeline(){
+  document.getElementById('addBlockBtn').style.display = hasPart() ? '' : 'none';
+  document.getElementById('addBreakBtn').style.display = hasPart() ? '' : 'none';
+  document.getElementById('orderCreateBtnOpen').style.display = hasPart() ? '' : 'none';
+  if(!hasPart()){
+    document.getElementById('timelineArea').innerHTML =
+      '<div class="empty">日付と部を追加すると、ここにブロックを追加できます</div>';
+    return;
+  }
+  if(viewMode==='display'){ renderTimelineDisplay(); return; }
+  renderTimelineEdit();
+}
+function renderTimelineDisplay(){
+  const part = currentPart();
+  const starts = computePlannedStarts(part);
+  const area = document.getElementById('timelineArea');
+  area.innerHTML = '';
+  if(part.blocks.length===0){
+    area.innerHTML = '<div class="empty">まだブロックがありません</div>';
+    return;
+  }
+  part.blocks.forEach((b,i)=>{
+    const row = document.createElement('div');
+    row.className = 'tl-row';
+    if(b.kind==='break'){
+      row.innerHTML =
+        '<div class="tl-time-col">' +
+          '<div class="tl-time">'+fmtTime(starts[i])+'</div>' +
+          '<div class="tl-dot break-dot"></div>' +
+          (i < part.blocks.length-1 ? '<div class="tl-linedown"></div>' : '') +
+        '</div>' +
+        '<div class="tl-display-card break-card">' +
+          '<div class="tl-display-name">'+(escapeHtml(b.label)||'その他の予定')+'</div>' +
+          '<div class="tl-display-meta">'+b.duration+'分</div>' +
+        '</div>';
+      area.appendChild(row);
+      return;
+    }
+    const typeLabel = b.type==='その他' ? (b.customType||'その他') : b.type;
+    const laneLabel = b.lane ? (escapeHtml(b.lane)+'レーン ・ ') : '';
+    row.innerHTML =
+      '<div class="tl-time-col">' +
+        '<div class="tl-time">'+fmtTime(starts[i])+'</div>' +
+        '<div class="tl-dot"></div>' +
+        (i < part.blocks.length-1 ? '<div class="tl-linedown"></div>' : '') +
+      '</div>' +
+      '<div class="tl-display-card">' +
+        '<div>' +
+          '<div class="tl-display-name">'+(escapeHtml(b.member)||'（未入力）')+'</div>' +
+          '<div class="tl-display-meta">'+laneLabel+typeLabel+'</div>' +
+        '</div>' +
+        '<div class="tl-ticket-badge">'+b.tickets+'枚</div>' +
+      '</div>';
+    area.appendChild(row);
+  });
+}
+function renderTimelineEdit(){
+  const part = currentPart();
+  const starts = computePlannedStarts(part);
+  const area = document.getElementById('timelineArea');
+  area.innerHTML = '';
+  if(part.blocks.length===0){
+    area.innerHTML = '<div class="empty">まだブロックがありません</div>';
+    return;
+  }
+  part.blocks.forEach((b, i)=>{
+    if(pickedId) area.appendChild(makeDropzone(i));
+    const row = document.createElement('div');
+    row.className = 'tl-row';
+    row.dataset.id = b.id;
+    const isPicked = b.id === pickedId;
+
+    if(b.kind==='break'){
+      row.innerHTML = `
+        <div class="tl-time-col">
+          <div class="tl-time">${fmtTime(starts[i])}</div>
+          <div class="tl-dot break-dot"></div>
+          ${i < part.blocks.length-1 ? '<div class="tl-linedown"></div>' : ''}
+        </div>
+        <div class="tl-card break-card ${isPicked?'picked':''}">
+          <div class="tl-card-head">
+            <button class="handle-btn ${isPicked?'active':''}" data-action="pick" data-id="${b.id}">⠿</button>
+            <input type="text" placeholder="休憩・移動など" value="${escapeHtml(b.label)}" data-field="label" data-id="${b.id}">
+            <button class="icon-btn del" data-action="del" data-id="${b.id}">✕</button>
+          </div>
+          <div class="block-grid break-grid">
+            <div class="f"><label>所要時間(分)</label>
+              <input type="number" min="1" step="1" value="${b.duration}" data-field="duration" data-id="${b.id}">
+            </div>
+          </div>
+        </div>
+      `;
+      area.appendChild(row);
+      return;
+    }
+
+    row.innerHTML = `
+      <div class="tl-time-col">
+        <div class="tl-time">${fmtTime(starts[i])}</div>
+        <div class="tl-dot"></div>
+        ${i < part.blocks.length-1 ? '<div class="tl-linedown"></div>' : ''}
+      </div>
+      <div class="tl-card ${isPicked?'picked':''}">
+        <div class="tl-card-head">
+          <button class="handle-btn ${isPicked?'active':''}" data-action="pick" data-id="${b.id}">⠿</button>
+          <input type="text" placeholder="メンバー名" value="${escapeHtml(b.member)}" data-field="member" data-id="${b.id}" autocomplete="off">
+          <button class="icon-btn add-master" data-action="addMemberMaster" data-id="${b.id}">＋</button>
+          <button class="icon-btn del" data-action="del" data-id="${b.id}">✕</button>
+        </div>
+        <div class="chip-row member-chips" data-id="${b.id}" style="display:none;"></div>
+        <div class="block-grid">
+          <div class="f"><label>種別</label>
+            <select data-field="type" data-id="${b.id}">
+              ${TYPE_PRESETS.map(t=>'<option '+(t===b.type?'selected':'')+'>'+t+'</option>').join('')}
+            </select>
+          </div>
+          <div class="f"><label>レーン</label>
+            <input type="number" min="0" step="1" placeholder="例）3" value="${escapeHtml(b.lane)}" data-field="lane" data-id="${b.id}">
+          </div>
+          <div class="f"><label>所要時間(分)</label>
+            <input type="number" min="1" step="1" value="${b.duration}" data-field="duration" data-id="${b.id}">
+          </div>
+          <div class="f"><label>配分枚数</label>
+            <input type="number" min="0" step="1" value="${b.tickets}" data-field="tickets" data-id="${b.id}">
+          </div>
+        </div>
+        ${b.type==='その他' ? '<div class="custom-type-row"><label>種別(自由入力)</label><input type="text" placeholder="例）撮影会" value="'+escapeHtml(b.customType)+'" data-field="customType" data-id="'+b.id+'"></div>' : ''}
+      </div>
+    `;
+    area.appendChild(row);
+    const memberChipRow = row.querySelector('.member-chips');
+    const memberInput = row.querySelector('[data-field="member"]');
+    memberInput.addEventListener('focus', ()=> toggleChipRow(memberChipRow, state.masters.members, memberInput, (val)=>{
+      memberInput.value = val;
+      const b2 = currentPart().blocks.find(x=>x.id===b.id);
+      if(b2){ b2.member = val; saveState(); }
+    }));
+    memberInput.addEventListener('input', ()=> toggleChipRow(memberChipRow, state.masters.members, memberInput, (val)=>{
+      memberInput.value = val;
+      const b2 = currentPart().blocks.find(x=>x.id===b.id);
+      if(b2){ b2.member = val; saveState(); }
+    }));
+    memberInput.addEventListener('blur', ()=>{
+      addToMaster(state.masters.members, memberInput.value);
+      saveState();
+      setTimeout(()=>{ memberChipRow.style.display='none'; }, 150);
+    });
+  });
+  if(pickedId) area.appendChild(makeDropzone(part.blocks.length));
+}
+
+function toggleChipRow(rowEl, masterList, inputEl, onSelect){
+  const q = inputEl.value.trim();
+  const items = masterList.filter(m => !q || m.includes(q)).slice(0,12);
+  if(items.length===0){ rowEl.style.display='none'; return; }
+  rowEl.innerHTML = items.map(m=>'<div class="chip" data-val="'+escapeHtml(m)+'">'+escapeHtml(m)+'</div>').join('');
+  rowEl.style.display = 'flex';
+  rowEl.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('mousedown', (e)=>e.preventDefault());
+    chip.addEventListener('click', ()=>{
+      onSelect(chip.dataset.val);
+      rowEl.style.display='none';
+    });
+  });
+}
+
+function makeDropzone(insertIndex){
+  const dz = document.createElement('div');
+  dz.className = 'dropzone show';
+  dz.innerHTML = '<button class="dropzone-btn" data-insert="'+insertIndex+'">ここに移動</button>';
+  dz.querySelector('button').addEventListener('click', ()=> movePickedTo(insertIndex));
+  return dz;
+}
+function movePickedTo(insertIndex){
+  const blocks = currentPart().blocks;
+  const fromIndex = blocks.findIndex(b=>b.id===pickedId);
+  if(fromIndex<0) return;
+  const [item] = blocks.splice(fromIndex,1);
+  let target = insertIndex;
+  if(fromIndex < insertIndex) target -= 1;
+  blocks.splice(target,0,item);
+  pickedId = null;
+  saveState();
+  renderAll();
+}
+
+/* ---------------- EVENTS: timeline ---------------- */
+
+document.getElementById('timelineArea').addEventListener('input', (e)=>{
+  const id = e.target.dataset.id, field = e.target.dataset.field;
+  if(!id || !field) return;
+  const b = currentPart().blocks.find(x=>x.id===id);
+  if(!b) return;
+  b[field] = e.target.value;
+  saveState();
+  renderSummary();
+  if(field==='duration'){
+    const starts = computePlannedStarts(currentPart());
+    document.querySelectorAll('.tl-row').forEach((row,i)=>{
+      const t = row.querySelector('.tl-time');
+      if(t) t.textContent = fmtTime(starts[i]);
+    });
+  }
+});
+document.getElementById('timelineArea').addEventListener('change', (e)=>{
+  if(e.target.dataset.field === 'type') renderTimeline();
+});
+document.getElementById('timelineArea').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const id = btn.dataset.id, action = btn.dataset.action;
+  if(action==='del'){
+    const blocks = currentPart().blocks;
+    const idx = blocks.findIndex(x=>x.id===id);
+    if(idx>=0) blocks.splice(idx,1);
+    if(pickedId===id) pickedId=null;
+    saveState();
+    renderAll();
+  } else if(action==='pick'){
+    pickedId = (pickedId===id) ? null : id;
+    renderAll();
+  } else if(action==='addMemberMaster'){
+    const input = document.querySelector('[data-field="member"][data-id="'+id+'"]');
+    if(input){
+      const added = addToMaster(state.masters.members, input.value);
+      saveState();
+      const original = btn.textContent;
+      btn.textContent = added ? '✓' : '済';
+      setTimeout(()=>{ btn.textContent = original; }, 900);
+    }
+  }
+});
+document.getElementById('cancelPickBtn').addEventListener('click', ()=>{ pickedId = null; renderAll(); });
+document.getElementById('addBlockBtn').addEventListener('click', ()=>{
+  currentPart().blocks.push(newBlock('visit'));
+  saveState();
+  renderAll();
+});
+document.getElementById('addBreakBtn').addEventListener('click', ()=>{
+  currentPart().blocks.push(newBlock('break'));
+  saveState();
+  renderAll();
+});
+
+/* ---------------- EVENTS: date / part edit ---------------- */
+
+document.getElementById('startTimeInput').addEventListener('change', (e)=>{
+  currentPart().startTime = e.target.value;
+  state.lastUsed.startTime = e.target.value;
+  saveState();
+  renderTimeline();
+  renderSummary();
+});
+
+/* ---------------- 設定モーダル ---------------- */
+
+function renderMasterModal(){
+  const mList = document.getElementById('memberMasterList');
+  mList.innerHTML = state.masters.members.length ? state.masters.members.map(m=>
+    '<div class="chip">'+escapeHtml(m)+' <button data-val="'+escapeHtml(m)+'">✕</button></div>'
+  ).join('') : '<div style="color:var(--text-dim);font-size:12px;">まだありません</div>';
+}
+document.getElementById('gearBtn').addEventListener('click', ()=>{
+  renderMasterModal();
+  hideImportConfirmBar();
+  document.getElementById('modalBackdrop').classList.add('show');
+});
+document.getElementById('modalCloseBtn').addEventListener('click', ()=>{
+  hideImportConfirmBar();
+  document.getElementById('modalBackdrop').classList.remove('show');
+});
+document.getElementById('modalBackdrop').addEventListener('click', (e)=>{
+  if(e.target.id==='modalBackdrop') document.getElementById('modalBackdrop').classList.remove('show');
+});
+document.getElementById('addMemberBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('newMemberInput');
+  addToMaster(state.masters.members, input.value);
+  input.value = '';
+  saveState();
+  renderMasterModal();
+});
+document.getElementById('memberMasterList').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  state.masters.members = state.masters.members.filter(m=>m!==btn.dataset.val);
+  saveState();
+  renderMasterModal();
+});
+
+/* ---------------- エクスポート / インポート ---------------- */
+
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const json = JSON.stringify(state, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'tokuten-koutei-hyou.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+});
+
+function requestImport(text){
+  let parsed;
+  try{ parsed = JSON.parse(text); }
+  catch(e){ showToast('JSONの読み込みに失敗しました'); return; }
+  if(!(parsed.dates && Array.isArray(parsed.dates) && parsed.dates.length) &&
+     !(parsed.parts && Array.isArray(parsed.parts)) &&
+     !parsed.blocks){
+    showToast('対応していない形式のJSONです');
+    return;
+  }
+  pendingImportParsed = parsed;
+  document.getElementById('importConfirmBar').classList.add('show');
+}
+function hideImportConfirmBar(){
+  pendingImportParsed = null;
+  document.getElementById('importConfirmBar').classList.remove('show');
+}
+document.getElementById('importConfirmYes').addEventListener('click', ()=>{
+  const parsed = pendingImportParsed;
+  if(!parsed) return;
+  if(parsed.dates && Array.isArray(parsed.dates) && parsed.dates.length){
+    state = { dates: parsed.dates, currentDateIndex:0, currentPartIndex:0, masters: parsed.masters || {members:[]} };
+  } else if(parsed.parts && Array.isArray(parsed.parts)){
+    state = { dates:[{id:uid(), date:todayStr(), parts:parsed.parts}], currentDateIndex:0, currentPartIndex:0, masters: parsed.masters || {members:[]} };
+  } else if(parsed.blocks){
+    state = { dates:[{id:uid(), date:todayStr(), parts:[{id:uid(),label:'1部',startTime:parsed.startTime||'12:00',blocks:parsed.blocks}]}], currentDateIndex:0, currentPartIndex:0, masters: parsed.masters || {members:[]} };
+  }
+  pickedId = null;
+  hideImportConfirmBar();
+  saveState();
+  renderAll();
+  document.getElementById('modalBackdrop').classList.remove('show');
+  showToast('読み込みました');
+});
+document.getElementById('importConfirmNo').addEventListener('click', hideImportConfirmBar);
+
+document.getElementById('importFileBtn').addEventListener('click', ()=>{
+  document.getElementById('importFileInput').click();
+});
+document.getElementById('importFileInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=> requestImport(reader.result);
+  reader.readAsText(file);
+  e.target.value = '';
+});
+document.getElementById('importTextBtn').addEventListener('click', ()=>{
+  const text = document.getElementById('importTextarea').value;
+  if(!text.trim()){ showToast('JSONを貼り付けてください'); return; }
+  requestImport(text);
+});
+
+/* ---------------- まとめてブロック作成 ---------------- */
+
+function newOrderRow(){ return { id: uid(), member:'', total:10, perVisit:10 }; }
+
+function splitTickets(total, perVisit){
+  total = Math.max(0, Math.round(Number(total)||0));
+  perVisit = Math.max(1, Math.round(Number(perVisit)||total||1));
+  const chunks = [];
+  let remaining = total;
+  while(remaining > 0){
+    const c = Math.min(perVisit, remaining);
+    chunks.push(c);
+    remaining -= c;
+  }
+  return chunks;
+}
+
+function renderOrderRows(){
+  const area = document.getElementById('orderRows');
+  area.innerHTML = '';
+  orderRows.forEach(row=>{
+    const chunks = splitTickets(row.total, row.perVisit);
+    const div = document.createElement('div');
+    div.className = 'order-row';
+    div.innerHTML = `
+      <div class="order-row-head">
+        <input type="text" placeholder="メンバー名" value="${escapeHtml(row.member)}" data-field="member" data-id="${row.id}" autocomplete="off">
+        <button class="icon-btn del" data-action="delRow" data-id="${row.id}">✕</button>
+      </div>
+      <div class="chip-row order-member-chips" data-id="${row.id}" style="display:none;"></div>
+      <div class="order-grid">
+        <div class="f"><label>購入枚数</label>
+          <input type="number" min="0" step="1" value="${row.total}" data-field="total" data-id="${row.id}">
+        </div>
+        <div class="f"><label>1回あたり枚数</label>
+          <input type="number" min="1" step="1" value="${row.perVisit}" data-field="perVisit" data-id="${row.id}">
+        </div>
+      </div>
+      <div class="order-preview">${row.member ? escapeHtml(row.member) : 'メンバー未入力'}: ${row.total}枚 → ${chunks.length>0 ? chunks.join('枚+')+'枚' : '0枚'} (${chunks.length}ブロック)</div>
+    `;
+    area.appendChild(div);
+    const chipRow = div.querySelector('.order-member-chips');
+    const memberInput = div.querySelector('[data-field="member"]');
+    memberInput.addEventListener('focus', ()=> toggleChipRow(chipRow, state.masters.members, memberInput, (val)=>{
+      memberInput.value = val; row.member = val; renderOrderRows();
+    }));
+    memberInput.addEventListener('input', ()=> toggleChipRow(chipRow, state.masters.members, memberInput, (val)=>{
+      memberInput.value = val; row.member = val; renderOrderRows();
+    }));
+    memberInput.addEventListener('blur', ()=>{ setTimeout(()=>{ chipRow.style.display='none'; }, 150); });
+  });
+}
+document.getElementById('orderRows').addEventListener('input', (e)=>{
+  const id = e.target.dataset.id, field = e.target.dataset.field;
+  if(!id || !field) return;
+  const row = orderRows.find(r=>r.id===id);
+  if(!row) return;
+  row[field] = e.target.value;
+  renderOrderRows();
+});
+document.getElementById('orderRows').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn || btn.dataset.action!=='delRow') return;
+  orderRows = orderRows.filter(r=>r.id!==btn.dataset.id);
+  renderOrderRows();
+});
+document.getElementById('orderAddRowBtn').addEventListener('click', ()=>{
+  orderRows.push(newOrderRow());
+  renderOrderRows();
+});
+function parseCSV(text){
+  const lines = text.split(/\r\n|\r|\n/).map(l=>l.trim()).filter(l=>l.length>0);
+  return lines.map(line=>{
+    const fields = [];
+    let cur = '', inQuotes = false;
+    for(let i=0;i<line.length;i++){
+      const c = line[i];
+      if(c === '"'){
+        if(inQuotes && line[i+1] === '"'){ cur += '"'; i++; }
+        else inQuotes = !inQuotes;
+      } else if(c === ',' && !inQuotes){
+        fields.push(cur); cur = '';
+      } else {
+        cur += c;
+      }
+    }
+    fields.push(cur);
+    return fields.map(f=>f.trim());
+  });
+}
+function importOrderCSV(text){
+  const rows = parseCSV(text);
+  if(rows.length===0){ showToast('CSVを読み込めませんでした'); return; }
+  let startIdx = 0;
+  const firstSecond = rows[0][1];
+  if(firstSecond !== undefined && isNaN(Number(firstSecond))) startIdx = 1;
+  const imported = [];
+  for(let i=startIdx;i<rows.length;i++){
+    const r = rows[i];
+    const member = (r[0]||'').trim();
+    const total = Math.max(0, Math.round(Number(r[1])||0));
+    if(!member || total<=0) continue;
+    imported.push({ id: uid(), member, total, perVisit: total });
+  }
+  if(imported.length===0){ showToast('メンバー名と枚数を読み取れませんでした'); return; }
+  orderRows = orderRows.concat(imported);
+  renderOrderRows();
+  showToast(imported.length+'件読み込みました');
+}
+document.getElementById('orderCsvBtn').addEventListener('click', ()=>{
+  document.getElementById('orderCsvInput').click();
+});
+document.getElementById('orderCsvInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=> importOrderCSV(reader.result);
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+document.getElementById('orderCreateBtnOpen').addEventListener('click', ()=>{
+  orderRows = [newOrderRow()];
+  renderOrderRows();
+  document.getElementById('orderBackdrop').classList.add('show');
+});
+document.getElementById('orderCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('orderBackdrop').classList.remove('show');
+});
+document.getElementById('orderBackdrop').addEventListener('click', (e)=>{
+  if(e.target.id==='orderBackdrop') document.getElementById('orderBackdrop').classList.remove('show');
+});
+document.getElementById('orderApplyBtn').addEventListener('click', ()=>{
+  let addedCount = 0;
+  orderRows.forEach(row=>{
+    const name = (row.member||'').trim();
+    if(!name || Number(row.total)<=0) return;
+    addToMaster(state.masters.members, name);
+    const chunks = splitTickets(row.total, row.perVisit);
+    chunks.forEach(c=>{
+      currentPart().blocks.push({ id: uid(), kind:'visit', member:name, type:TYPE_PRESETS[0], customType:'', lane:'', duration:10, tickets:c });
+      addedCount++;
+    });
+  });
+  if(addedCount===0){ showToast('メンバー名と購入枚数を入力してください'); return; }
+  saveState();
+  renderAll();
+  document.getElementById('orderBackdrop').classList.remove('show');
+});
+
+/* ---------------- SNSシェア画像 ---------------- */
+
+async function ensureFonts(){
+  try{
+    await Promise.all([
+      document.fonts.load('700 70px "Zen Kaku Gothic New"'),
+      document.fonts.load('700 44px "Zen Kaku Gothic New"'),
+      document.fonts.load('700 30px "Zen Kaku Gothic New"'),
+      document.fonts.load('400 26px "Zen Kaku Gothic New"'),
+      document.fonts.load('700 26px "Zen Kaku Gothic New"'),
+      document.fonts.load('700 22px "Zen Kaku Gothic New"'),
+    ]);
+  }catch(e){}
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function blockDisplayText(b){
+  if(b.kind==='break'){
+    return { name: b.label || 'その他の予定', meta: b.duration + '分', isOther:true, ticketText:'' };
+  }
+  const typeLabel = b.type==='その他' ? (b.customType||'その他') : b.type;
+  const laneLabel = b.lane ? (b.lane+'レーン　') : '';
+  return { name: b.member || '（未入力）', meta: laneLabel + typeLabel, isOther:false, ticketText: (b.tickets||0)+'枚' };
+}
+function drawTicketBadge(ctx, text, rightX, cy, accentColor, fontSize){
+  if(!text) return;
+  ctx.font = '700 '+fontSize+'px "Zen Kaku Gothic New"';
+  const padX = 16, h = fontSize + 18;
+  const w = ctx.measureText(text).width + padX*2;
+  const x = rightX - w;
+  roundRect(ctx, x, cy - h/2, w, h, h/2);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = accentColor;
+  ctx.stroke();
+  ctx.fillStyle = accentColor;
+  ctx.textAlign = 'center';
+  ctx.fillText(text, x + w/2, cy + fontSize*0.36);
+  ctx.textAlign = 'left';
+}
+function drawShareImage(pattern){
+  const canvas = document.getElementById('shareCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const part = currentPart();
+  const starts = computePlannedStarts(part);
+  const blocks = part.blocks.slice(0, 10);
+  const subtitle = fmtDateLabel(currentDate().date);
+  const totalTix = part.blocks.reduce((a,b)=>a+(Number(b.tickets)||0),0);
+
+  ctx.clearRect(0,0,W,H);
+  ctx.textBaseline = 'alphabetic';
+
+  if(pattern==='timeline'){
+    const TL_NAME = '#3D2A2D';
+    const TL_META = '#6E5A5D';
+    const TL_MUTED = '#8F787B';
+    const TL_LINE = '#D3C7C6';
+
+    ctx.fillStyle = '#FBFDFB';
+    ctx.fillRect(0,0,W,H);
+
+    ctx.fillStyle = TL_META;
+    ctx.font = '400 24px "Zen Kaku Gothic New"';
+    ctx.fillText(subtitle, 80, 98);
+    ctx.fillStyle = TL_NAME;
+    ctx.font = '700 48px "Zen Kaku Gothic New"';
+    ctx.fillText(part.label || '本日の予定', 80, 165);
+    ctx.strokeStyle = TL_LINE;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(80,205); ctx.lineTo(W-80,205); ctx.stroke();
+
+    const lineX = 122;
+    const top = 260, bottom = H-100;
+    const rowH = Math.min(100, (bottom-top)/Math.max(blocks.length,1));
+
+    ctx.strokeStyle = TL_LINE;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(lineX, top+6);
+    ctx.lineTo(lineX, top + rowH*(blocks.length-1) + 6);
+    ctx.stroke();
+
+    blocks.forEach((b,i)=>{
+      const y = top + rowH*i;
+      const dt = blockDisplayText(b);
+
+      ctx.fillStyle = '#A97D82';
+      ctx.font = '700 24px "Zen Kaku Gothic New"';
+      ctx.textAlign = 'right';
+      ctx.fillText(fmtTime(starts[i]), lineX-18, y+2);
+      ctx.textAlign = 'left';
+
+      if(dt.isOther){
+        ctx.strokeStyle = '#A97D82';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.arc(lineX, y+6, 8, 0, Math.PI*2); ctx.stroke();
+      } else {
+        ctx.fillStyle = '#A97D82';
+        ctx.beginPath(); ctx.arc(lineX, y+6, 8, 0, Math.PI*2); ctx.fill();
+      }
+
+      const cx = lineX + 42;
+      if(dt.isOther){
+        ctx.fillStyle = TL_MUTED;
+        ctx.font = '500 28px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, cx, y+16);
+        ctx.fillStyle = TL_MUTED;
+        ctx.font = '400 21px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, cx, y+48);
+      } else {
+        ctx.fillStyle = TL_NAME;
+        ctx.font = '700 36px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, cx, y+16);
+        ctx.fillStyle = TL_META;
+        ctx.font = '400 22px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, cx, y+48);
+        drawTicketBadge(ctx, dt.ticketText, W-70, y+8, '#A97D82', 26);
+      }
+
+      if(i < blocks.length-1){
+        const dividerOffset = Math.min(64, rowH-10);
+        ctx.strokeStyle = '#A8918D';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4,4]);
+        ctx.beginPath(); ctx.moveTo(cx, y+dividerOffset); ctx.lineTo(W-70, y+dividerOffset); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    });
+
+  } else if(pattern==='mono'){
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#201F26'); g.addColorStop(1,'#15141A');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    ctx.strokeStyle = 'rgba(201,162,39,.55)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(56,56,W-112,H-112);
+
+    ctx.fillStyle = '#C9A227';
+    ctx.font = '400 24px "Zen Kaku Gothic New"';
+    ctx.fillText(subtitle, 96, 150);
+    ctx.fillStyle = '#F4F0E6';
+    ctx.font = '700 54px "Zen Kaku Gothic New"';
+    ctx.fillText(part.label || '工程表', 94, 232);
+    ctx.strokeStyle = 'rgba(201,162,39,.7)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(96,285); ctx.lineTo(340,285); ctx.stroke();
+
+    const top = 330, bottom = H-120;
+    const rowH = Math.min(96, (bottom-top)/Math.max(blocks.length,1));
+    const timeColX = 96, dotX = 190, textX = 232;
+    if(blocks.length>1){
+      ctx.strokeStyle = 'rgba(244,240,230,.3)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(dotX, top + rowH*0.5);
+      ctx.lineTo(dotX, top + rowH*(blocks.length-1) + rowH*0.5);
+      ctx.stroke();
+    }
+    blocks.forEach((b,i)=>{
+      const cy = top + rowH*i + rowH*0.5;
+      const dt = blockDisplayText(b);
+      ctx.fillStyle = '#C9A227';
+      ctx.font = '700 24px "Zen Kaku Gothic New"';
+      ctx.textAlign = 'right';
+      ctx.fillText(fmtTime(starts[i]), timeColX, cy+8);
+      ctx.textAlign = 'left';
+
+      ctx.fillStyle = '#15141A';
+      ctx.beginPath(); ctx.arc(dotX, cy, 12, 0, Math.PI*2); ctx.fill();
+      if(dt.isOther){
+        ctx.strokeStyle = '#C9A227';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(dotX, cy, 8, 0, Math.PI*2); ctx.stroke();
+      } else {
+        ctx.fillStyle = '#C9A227';
+        ctx.beginPath(); ctx.arc(dotX, cy, 8, 0, Math.PI*2); ctx.fill();
+      }
+
+      if(dt.isOther){
+        ctx.fillStyle = 'rgba(244,240,230,.65)';
+        ctx.font = '500 27px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, textX, cy-6);
+        ctx.fillStyle = 'rgba(244,240,230,.5)';
+        ctx.font = '400 21px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, textX, cy+24);
+      } else {
+        ctx.fillStyle = '#F4F0E6';
+        ctx.font = '700 32px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, textX, cy-6);
+        ctx.fillStyle = 'rgba(244,240,230,.55)';
+        ctx.font = '400 21px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, textX, cy+24);
+        drawTicketBadge(ctx, dt.ticketText, W-96, cy, '#C9A227', 24);
+      }
+    });
+    ctx.fillStyle = 'rgba(244,240,230,.4)';
+    ctx.font = '400 20px "Zen Kaku Gothic New"';
+    ctx.textAlign = 'right';
+    ctx.fillText('特典会 工程表', W-96, H-90);
+    ctx.textAlign = 'left';
+
+  } else if(pattern==='gradient'){
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#FFD9C7'); g.addColorStop(.55,'#E7D3F5'); g.addColorStop(1,'#CDEEDD');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    try{
+      ctx.save();
+      ctx.filter = 'blur(70px)';
+      ctx.fillStyle = 'rgba(255,255,255,.55)';
+      ctx.beginPath(); ctx.arc(880,150,220,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,.4)';
+      ctx.beginPath(); ctx.arc(120,900,240,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    }catch(e){}
+
+    ctx.fillStyle = 'rgba(60,40,50,.65)';
+    ctx.font = '400 24px "Zen Kaku Gothic New"';
+    ctx.fillText(subtitle, 80, 120);
+    ctx.fillStyle = '#3A2E38';
+    ctx.font = '700 52px "Zen Kaku Gothic New"';
+    ctx.fillText(part.label || '本日の予定', 80, 185);
+
+    const ACCENT = '#7A4E56';
+    const top = 250, bottom = H-90;
+    const gap = 14;
+    const rowH = Math.min(104, (bottom-top)/Math.max(blocks.length,1) - gap);
+    const lineX = 96, cardLeft = 140;
+    if(blocks.length>1){
+      ctx.strokeStyle = 'rgba(60,40,50,.25)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(lineX, top+rowH/2);
+      ctx.lineTo(lineX, top+(rowH+gap)*(blocks.length-1)+rowH/2);
+      ctx.stroke();
+    }
+    blocks.forEach((b,i)=>{
+      const y = top + (rowH+gap)*i;
+      const cy = y + rowH/2;
+      const dt = blockDisplayText(b);
+
+      ctx.fillStyle = 'rgba(60,40,50,.55)';
+      ctx.font = '700 18px "Zen Kaku Gothic New"';
+      ctx.textAlign = 'center';
+      ctx.fillText(fmtTime(starts[i]), lineX, y-10);
+      ctx.textAlign = 'left';
+
+      ctx.fillStyle = '#FFFDF9';
+      ctx.beginPath(); ctx.arc(lineX, cy, 11, 0, Math.PI*2); ctx.fill();
+      if(dt.isOther){
+        ctx.strokeStyle = ACCENT;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(lineX, cy, 7, 0, Math.PI*2); ctx.stroke();
+      } else {
+        ctx.fillStyle = ACCENT;
+        ctx.beginPath(); ctx.arc(lineX, cy, 7, 0, Math.PI*2); ctx.fill();
+      }
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(60,40,50,.18)';
+      ctx.shadowBlur = 22;
+      ctx.shadowOffsetY = 8;
+      ctx.fillStyle = 'rgba(255,255,255,.62)';
+      roundRect(ctx, cardLeft, y, W-70-cardLeft, rowH, 26);
+      ctx.fill();
+      ctx.restore();
+
+      if(dt.isOther){
+        ctx.fillStyle = 'rgba(60,40,50,.6)';
+        ctx.font = '500 26px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, cardLeft+36, y+rowH*0.42);
+        ctx.fillStyle = 'rgba(60,40,50,.5)';
+        ctx.font = '400 20px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, cardLeft+36, y+rowH*0.72);
+      } else {
+        ctx.fillStyle = ACCENT;
+        ctx.font = '700 30px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, cardLeft+36, y+rowH*0.42);
+        ctx.fillStyle = 'rgba(60,40,50,.6)';
+        ctx.font = '400 21px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, cardLeft+36, y+rowH*0.72);
+        drawTicketBadge(ctx, dt.ticketText, W-70-24, y+rowH*0.5, ACCENT, 24);
+      }
+    });
+
+  } else { // retro
+    ctx.fillStyle = '#F3E7D0';
+    ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle = 'rgba(122,46,46,.12)';
+    ctx.lineWidth = 1;
+    for(let x=-H; x<W; x+=26){
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x+H,H); ctx.stroke();
+    }
+
+    const stubX = W-220;
+    ctx.setLineDash([10,10]);
+    ctx.strokeStyle = 'rgba(122,46,46,.5)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(stubX,40); ctx.lineTo(stubX,H-40); ctx.stroke();
+    ctx.setLineDash([]);
+    const perfR = 16;
+    ctx.fillStyle = '#F3E7D0';
+    for(let y=perfR; y<H; y+=perfR*2){
+      ctx.beginPath(); ctx.arc(stubX, y, perfR, 0, Math.PI*2); ctx.fill();
+    }
+
+    ctx.fillStyle = '#7A2E2E';
+    ctx.font = '400 24px "Zen Kaku Gothic New"';
+    ctx.fillText(subtitle, 70, 130);
+    ctx.fillStyle = '#4A2A20';
+    ctx.font = '700 52px "Zen Kaku Gothic New"';
+    ctx.fillText(part.label || '工程表', 68, 196);
+    ctx.strokeStyle = 'rgba(122,46,46,.4)';
+    ctx.beginPath(); ctx.moveTo(70,240); ctx.lineTo(stubX-40,240); ctx.stroke();
+
+    const top = 280, bottom = H-70;
+    const rowH = Math.min(96, (bottom-top)/Math.max(blocks.length,1));
+    const dotX = 96, textX = 140;
+    if(blocks.length>1){
+      ctx.strokeStyle = 'rgba(122,46,46,.35)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(dotX, top + rowH*0.5);
+      ctx.lineTo(dotX, top + rowH*(blocks.length-1) + rowH*0.5);
+      ctx.stroke();
+    }
+    blocks.forEach((b,i)=>{
+      const cy = top + rowH*i + rowH*0.5;
+      const dt = blockDisplayText(b);
+      ctx.fillStyle = '#7A2E2E';
+      ctx.font = '700 20px "Zen Kaku Gothic New"';
+      ctx.textAlign = 'center';
+      ctx.fillText(fmtTime(starts[i]), dotX, cy-24);
+      ctx.textAlign = 'left';
+
+      ctx.fillStyle = '#F3E7D0';
+      ctx.beginPath(); ctx.arc(dotX, cy, 10, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#7A2E2E';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(dotX, cy, 10, 0, Math.PI*2); ctx.stroke();
+      if(!dt.isOther){
+        ctx.fillStyle = '#7A2E2E';
+        ctx.beginPath(); ctx.arc(dotX, cy, 4, 0, Math.PI*2); ctx.fill();
+      }
+
+      if(dt.isOther){
+        ctx.fillStyle = 'rgba(58,35,24,.65)';
+        ctx.font = '500 26px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, textX, cy-2);
+        ctx.fillStyle = 'rgba(58,35,24,.5)';
+        ctx.font = '400 20px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, textX, cy+24);
+      } else {
+        ctx.fillStyle = '#3A2318';
+        ctx.font = '700 32px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.name, textX, cy-2);
+        ctx.fillStyle = '#7A5A4A';
+        ctx.font = '400 20px "Zen Kaku Gothic New"';
+        ctx.fillText(dt.meta, textX, cy+24);
+        drawTicketBadge(ctx, dt.ticketText, stubX-56, cy, '#7A2E2E', 22);
+      }
+    });
+
+    ctx.save();
+    ctx.translate(stubX+95, H/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillStyle = '#7A2E2E';
+    ctx.font = '700 30px "Zen Kaku Gothic New"';
+    ctx.textAlign = 'center';
+    ctx.fillText('特典会 工程表', 0, 0);
+    ctx.restore();
+
+    ctx.strokeStyle = '#7A2E2E';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(stubX+95, 190, 62, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(stubX+95, 190, 50, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = '#7A2E2E';
+    ctx.font = '700 44px "Zen Kaku Gothic New"';
+    ctx.textAlign = 'center';
+    ctx.fillText(String(totalTix), stubX+95, 200);
+    ctx.font = '400 18px "Zen Kaku Gothic New"';
+    ctx.fillText('枚', stubX+95, 228);
+    ctx.textAlign = 'left';
+  }
+}
+
+async function selectPattern(pattern){
+  currentPattern = pattern;
+  document.querySelectorAll('.pattern-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.pattern===pattern);
+  });
+  await ensureFonts();
+  drawShareImage(pattern);
+}
+document.querySelectorAll('.pattern-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> selectPattern(btn.dataset.pattern));
+});
+document.getElementById('shareBtnHeader').addEventListener('click', async ()=>{
+  if(!hasPart()){ showToast('先に日付・部・ブロックを追加してください'); return; }
+  document.getElementById('shareBackdrop').classList.add('show');
+  await selectPattern(currentPattern);
+});
+document.getElementById('shareCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('shareBackdrop').classList.remove('show');
+});
+document.getElementById('shareBackdrop').addEventListener('click', (e)=>{
+  if(e.target.id==='shareBackdrop') document.getElementById('shareBackdrop').classList.remove('show');
+});
+document.getElementById('shareActionBtn').addEventListener('click', async ()=>{
+  const canvas = document.getElementById('shareCanvas');
+  try{
+    const blob = await new Promise(res=>canvas.toBlob(res,'image/png'));
+    const file = new File([blob], 'tokuten-schedule.png', {type:'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:'特典会 工程表'});
+      return;
+    }
+  }catch(e){}
+  const link = document.createElement('a');
+  link.download = 'tokuten-schedule.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+
+/* ---------------- INIT ---------------- */
+
+(async function init(){
+  await loadState();
+  renderAll();
+})();
+</script>
+</body>
+</html>

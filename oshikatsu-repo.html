@@ -1,0 +1,3175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>推し活レポ帳</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --bg:#FFF1F6;
+    --bg-dot: #FFD9EA;
+    --card-bg:#FFFFFF;
+    --primary:#FF4FA0;
+    --primary-deep:#D6237A;
+    --purple:#9B6BFF;
+    --yellow:#FFD34D;
+    --text:#3B2A3A;
+    --text-soft:#8E7A8D;
+    --border-soft:#FFDCEE;
+    --bubble-me:#F1EFF3;
+    --bubble-idol:#FFFFFF;
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --shadow-card: 0 8px 24px rgba(214, 35, 122, 0.12);
+    --shadow-pop: 0 14px 34px rgba(155, 107, 255, 0.22);
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+
+  body{
+    margin:0; min-height:100vh; background-color: var(--bg);
+    background-image: radial-gradient(var(--bg-dot) 1.6px, transparent 1.6px);
+    background-size: 26px 26px;
+    font-family:'Zen Maru Gothic', sans-serif; color: var(--text);
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+  h1,h2,h3, .display{ font-family:'Mochiy Pop One', 'Zen Maru Gothic', sans-serif; font-weight:400; }
+
+  /* ---------- Header ---------- */
+  header.app-header{ padding: 28px 20px 20px; text-align:center; position:relative; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; letter-spacing:0.14em;
+    color: var(--primary-deep); background: #FFE1F0; padding:5px 14px; border-radius: 999px; font-weight:700;
+  }
+  header.app-header h1{
+    font-size: clamp(24px, 7vw, 34px); margin: 12px 0 6px; color: var(--primary-deep);
+    text-shadow: 2px 2px 0 #fff, 3px 3px 0 rgba(214,35,122,0.15);
+  }
+  header.app-header p{ margin:0; color: var(--text-soft); font-size:13px; }
+  .stat-pill{
+    margin-top:12px; display:inline-block; background: var(--card-bg);
+    border: 2px dashed var(--primary); color: var(--primary-deep);
+    font-weight:700; font-size:13px; padding:6px 16px; border-radius: 999px;
+  }
+  .header-links{ margin-top:10px; display:flex; gap:6px; justify-content:center; flex-wrap:wrap; font-size:12.5px; color:var(--text-soft); }
+  .menu-btn{
+    margin-top:12px; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
+    padding:10px 22px; font-size:13px; font-weight:700; color: var(--purple); cursor:pointer; min-height:42px;
+  }
+  .menu-row{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:none; border:none;
+    border-bottom:1px solid var(--border-soft); padding:15px 4px; font-size:14.5px; font-weight:700;
+    color: var(--text); cursor:pointer; min-height:48px;
+  }
+  .menu-row:last-child{ border-bottom:none; }
+  .storage-status{
+    margin-top:8px; display:inline-block; font-size:11.5px; font-weight:700; color:#B23E3E;
+    background:#FFF0EE; border:1.5px solid #F5C9C2; border-radius:999px; padding:5px 14px;
+  }
+  .app-toast{
+    position:fixed; left:50%; bottom:92px; transform:translateX(-50%); background:#3B2A3A; color:#fff;
+    padding:10px 18px; border-radius:999px; font-size:12.5px; font-weight:700; z-index:200;
+    box-shadow:0 8px 20px rgba(0,0,0,0.25); max-width:88vw; text-align:center; opacity:0; pointer-events:none;
+    transition: opacity .3s ease;
+  }
+  .app-toast.show{ opacity:1; }
+  .link-btn{ background:none; border:none; color: var(--purple); font-weight:700; font-size:12.5px; cursor:pointer; text-decoration:underline; padding:8px 2px; min-height:36px; }
+
+  /* ---------- Top controls ---------- */
+  .search-input{
+    display:block; width:100%; max-width:420px; margin:6px auto 12px;
+    border:2px solid var(--border-soft); border-radius:999px; padding:11px 18px;
+    font-size:16px; font-family:inherit; color: var(--text); background:#fff;
+  }
+  .search-input:focus{ outline:2px solid var(--primary); border-color: var(--primary); }
+
+  .control-row{ display:flex; gap:8px; max-width:420px; margin:0 auto 10px; }
+  .view-toggle{ display:flex; gap:8px; flex:1; }
+  .view-btn{
+    flex:1; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
+    padding:10px 6px; font-weight:700; font-size:12.5px; cursor:pointer; color: var(--text-soft); min-height:42px;
+  }
+  .view-btn.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE9F3; }
+  .filter-btn{
+    position:relative; flex:1; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
+    padding:10px 14px; font-weight:700; font-size:12.5px; cursor:pointer; color: var(--purple); min-height:42px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .filter-badge{
+    display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px;
+    background: var(--primary); color:#fff; border-radius:999px; font-size:10.5px; font-weight:900;
+    margin-left:4px; padding:0 5px;
+  }
+
+  .active-filters{ display:flex; gap:6px; flex-wrap:wrap; max-width:420px; margin:0 auto 14px; }
+  .active-filter-chip{
+    display:inline-flex; align-items:center; gap:5px; background:#FFE9F3; border:1.5px solid var(--primary);
+    color: var(--primary-deep); border-radius:999px; padding:8px 8px 8px 14px; font-size:12px; font-weight:700; cursor:pointer; min-height:36px;
+  }
+  .active-filter-chip .x{ font-size:13px; }
+
+  .filter-group{ margin-bottom:16px; }
+  .filter-group-label{ font-size:12px; font-weight:700; color: var(--text-soft); margin-bottom:6px; }
+  .filter-group .filter-chips{ padding:0 0 2px; }
+
+  .calendar-wrap{
+    max-width:420px; margin:0 auto 18px; background: var(--card-bg); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card); padding:16px;
+  }
+  .calendar-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .calendar-head button{ background:none; border:none; font-size:20px; color: var(--purple); cursor:pointer; padding:8px 16px; min-width:44px; min-height:44px; }
+  .calendar-head .cal-title{ font-weight:900; font-size:15px; }
+  .calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
+  .calendar-weekday{ font-size:11px; color: var(--text-soft); font-weight:700; padding:4px 0; }
+  .calendar-day{
+    position:relative; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-radius:10px; font-size:12.5px; cursor:pointer; color: var(--text); border:none; background:none; font-family:inherit;
+  }
+  .calendar-day.empty{ visibility:hidden; cursor:default; }
+  .calendar-day.has-reports{ background:#FFE9F3; font-weight:700; color: var(--primary-deep); }
+  .calendar-day.selected{ background: var(--primary); color:#fff; }
+  .calendar-day.today{ border: 2px solid var(--primary); }
+  .calendar-day .cal-dot{ width:5px; height:5px; border-radius:50%; background: var(--primary); margin-top:2px; }
+  .calendar-day.selected .cal-dot{ background:#fff; }
+  .calendar-clear{ text-align:center; margin-top:10px; }
+
+  /* ---------- Filter chips (used inside the filter modal) ---------- */
+  .sort-select{
+    flex:1; border:2px solid var(--border-soft); border-radius:999px; padding:9px 14px;
+    font-size:16px; font-family:inherit; color: var(--text); background:#fff;
+  }
+  #favOnlyChip.active{ border-color: var(--yellow); color:#A67C00; background:#FFF7DE; }
+  .filter-chips{ display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding: 4px 2px 16px; }
+  .filter-chip{
+    flex:0 0 auto; white-space:nowrap; border:2px solid var(--border-soft); background:#fff;
+    border-radius:999px; padding:9px 14px; font-size:12.5px; font-weight:700; color: var(--text-soft); cursor:pointer; min-height:38px;
+  }
+  .filter-chip.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE9F3; }
+
+  /* ---------- Grid ---------- */
+  main{ max-width: 1080px; margin:0 auto; padding: 10px 16px 40px; }
+  .grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+  .empty-state{ text-align:center; padding: 56px 20px; color: var(--text-soft); }
+  .empty-state .big-emoji{ font-size:50px; display:block; margin-bottom:10px;}
+  .empty-state button{ margin-top:16px; }
+
+  /* ---------- Card ---------- */
+  .card{
+    background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+    overflow:hidden; cursor:pointer; transition: transform .18s ease, box-shadow .18s ease;
+    display:flex; flex-direction:column; position:relative;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .card:hover{ transform: translateY(-5px) rotate(-0.4deg); box-shadow: var(--shadow-pop); }
+  }
+  .draft-badge{
+    position:absolute; top:8px; left:8px; z-index:2; background:#FFF7DE; border:1.5px solid #E8B923;
+    color:#8A6900; font-size:10.5px; font-weight:900; border-radius:999px; padding:4px 10px;
+  }
+  .draft-banner{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:0 20px 14px; padding:10px 14px;
+    background:#FFF7DE; border:1.5px solid #E8B923; border-radius: var(--radius-md);
+    color:#8A6900; font-size:12.5px; font-weight:700;
+  }
+  .fav-star{
+    position:absolute; top:8px; right:8px; z-index:2; background:#fff; border:none; border-radius:50%;
+    width:38px; height:38px; font-size:17px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.12);
+    display:flex; align-items:center; justify-content:center; opacity:0.6;
+  }
+  .fav-star.active{ opacity:1; }
+
+  .card-top{ padding: 20px 16px 0; text-align:center; }
+  .avatar{
+    width:66px; height:66px; border-radius:50%; overflow:hidden; margin:0 auto;
+    background: linear-gradient(135deg, #FFB6D5, #C9A8FF);
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+    border:3px solid #fff; box-shadow: 0 3px 10px rgba(214,35,122,.2);
+  }
+  .avatar img{ width:100%; height:100%; object-fit:cover; }
+  .idol-name-lg{ font-size:15px; font-weight:900; margin-top:8px; }
+  .meta-line{ font-size:11px; color: var(--text-soft); margin-top:2px; font-weight:700; }
+  .meta-line .count-badge{
+    display:inline-block; background: var(--bg); border:1px solid var(--border-soft);
+    border-radius:999px; padding:1px 8px; margin-left:6px; color: var(--primary-deep);
+  }
+  .extra-meta{ display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin-top:6px; }
+  .mini-tag{ font-size:10px; font-weight:700; color: var(--purple); background:#F5F0FF; border-radius:999px; padding:2px 8px; }
+
+  .ticket-divider{ position:relative; height: 20px; background: var(--card-bg); display:flex; align-items:center; margin-top:12px; }
+  .ticket-divider::before{ content:""; position:absolute; left:-10px; top:50%; width:20px; height:20px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
+  .ticket-divider::after{ content:""; position:absolute; right:-10px; top:50%; width:20px; height:20px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
+  .ticket-divider .dash-line{ width:100%; border-top: 2px dashed var(--border-soft); margin: 0 14px; }
+
+  .card-body{ padding: 4px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .chip-row{ display:flex; gap:6px; justify-content:center; flex-wrap:wrap; }
+  .type-chip{ font-size:11px; font-weight:700; color:#3A7CA5; background:#E8F4FF; border-radius:999px; padding:4px 10px; white-space:nowrap; }
+  .event-chip{
+    font-size:11px; color: var(--purple); font-weight:700;
+    background:#F5F0FF; border-radius:999px; padding:4px 12px;
+    max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+
+  .mini-thread{ display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mini-msg{ display:flex; align-items:center; gap:5px; max-width:92%; }
+  .mini-msg.idol{ align-self:flex-end; flex-direction:row-reverse; }
+  .mini-msg.me{ align-self:flex-start; }
+  .mini-msg.note{ align-self:center; max-width:96%; width:100%; }
+  .mini-avatar{ width:18px; height:18px; border-radius:50%; overflow:hidden; flex-shrink:0; background: linear-gradient(135deg, var(--primary), var(--purple)); }
+  .mini-avatar img{ width:100%; height:100%; object-fit:cover; }
+  .mini-bubble{ font-size:11.5px; line-height:1.4; padding: 5px 10px; border-radius: 12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .mini-msg.idol .mini-bubble{ background: var(--bubble-idol); border:1.5px solid var(--border-soft); color: var(--text); }
+  .mini-msg.me .mini-bubble{ background: var(--bubble-me); color: var(--text); }
+  .mini-note{ font-size:11px; font-style:italic; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%; }
+  .mini-note.me.feeling{ color:#B23E77; }
+  .mini-note.idol.feeling{ color:#6B4FA0; }
+  .mini-note.me.gesture{ color:#8A7350; }
+  .mini-note.idol.gesture{ color:#5A3F82; }
+  .mini-note.staff{ color:#5A5A66; font-weight:700; }
+  .mini-more{ font-size:11px; color: var(--text-soft); align-self:flex-end; }
+  .mini-empty{ font-size:12px; color: var(--text-soft); text-align:center; }
+
+  /* ---------- FAB ---------- */
+  .fab{
+    position:fixed; right:20px; bottom: calc(20px + env(safe-area-inset-bottom)); width:60px; height:60px; border-radius:50%;
+    background: linear-gradient(135deg, var(--primary), var(--purple)); color:#fff;
+    border:none; font-size:28px; box-shadow: var(--shadow-pop); cursor:pointer; z-index: 50;
+  }
+  @media (prefers-reduced-motion: no-preference){ .fab{ animation: pulse 2.6s ease-in-out infinite; } }
+  @keyframes pulse{ 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.06); } }
+
+  /* ---------- Buttons ---------- */
+  button{ font-family:'Zen Maru Gothic', sans-serif; }
+  .btn{ border:none; border-radius: 999px; padding: 12px 20px; font-weight:700; font-size:14px; cursor:pointer; min-height:44px; }
+  .btn-primary{ background: var(--primary); color:#fff; }
+  .btn-ghost{ background: #fff; color: var(--primary-deep); border:2px solid var(--primary); }
+  .btn-soft{ background: #FFE9F3; color: var(--primary-deep); }
+  .btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background: rgba(59,42,58,0.45);
+    display:none; align-items:flex-start; justify-content:center;
+    padding: 24px 14px; overflow-y:auto; -webkit-overflow-scrolling:touch; z-index: 100;
+  }
+  .overlay.open{ display:flex; }
+  #cropOverlay{ z-index: 150; }
+  .modal{
+    background: var(--card-bg); border-radius: var(--radius-lg); max-width: 480px; width:100%;
+    box-shadow: var(--shadow-pop); display:flex; flex-direction:column; max-height: 90vh;
+  }
+  @media (prefers-reduced-motion: no-preference){ .overlay.open .modal{ animation: pop-in .2s ease; } }
+  @keyframes pop-in{ from{ transform: scale(.94); opacity:0; } to{ transform: scale(1); opacity:1; } }
+
+  .modal-head{ display:flex; align-items:center; justify-content:space-between; padding: 18px 20px 6px; }
+  .modal-head h2{ margin:0; color: var(--primary-deep); font-size:19px; }
+  .close-x{ background:none; border:none; font-size:22px; color: var(--text-soft); cursor:pointer; padding:10px; min-width:44px; min-height:44px; }
+
+  .modal-scroll{ overflow-y:auto; -webkit-overflow-scrolling:touch; padding: 0 20px 14px; flex:1; }
+
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:12px; font-weight:700; color: var(--text-soft); margin-bottom:5px; }
+  .field input[type=text], .field input[type=date], .field input[type=number], .field select, .field textarea{
+    width:100%; border: 2px solid var(--border-soft); border-radius: var(--radius-md);
+    padding: 11px 12px; font-family: inherit; font-size:16px; color: var(--text); background:#fff;
+  }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline: 2px solid var(--primary); border-color: var(--primary); }
+
+  .two-col{ display:flex; gap:10px; }
+  .two-col .field{ flex:1; min-width:0; }
+  .three-col{ display:flex; gap:8px; flex-wrap:wrap; }
+  .three-col .field{ flex:1; min-width:96px; }
+
+  details.optional-fields{ border: 2px dashed var(--border-soft); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 14px; }
+  details.optional-fields summary{ cursor:pointer; font-size:13px; font-weight:700; color: var(--purple); list-style: none; }
+  details.optional-fields summary::-webkit-details-marker{ display:none; }
+  details.optional-fields summary::before{ content:"詳細を追加（会場・部数枚数・アイコン写真）"; }
+  details.optional-fields[open] summary::before{ content:"詳細を閉じる"; }
+  details.optional-fields .field{ margin-top:12px; }
+
+  .photo-input-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .photo-preview{ width:56px; height:56px; border-radius:12px; object-fit:cover; border: 2px solid var(--border-soft); display:none; }
+  .photo-edit-btn{ font-size:12px; font-weight:700; color: var(--purple); background:none; border:none; cursor:pointer; display:none; text-decoration:underline; }
+
+  /* ---------- Extra photos ---------- */
+  .extra-photo-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .extra-photo-thumb{ position:relative; width:56px; height:73px; border-radius:8px; overflow:hidden; border:2px solid var(--border-soft); }
+  .extra-photo-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .extra-photo-del{ position:absolute; top:1px; right:1px; width:26px; height:26px; border-radius:50%; background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:14px; line-height:26px; padding:0; cursor:pointer; }
+
+  /* ---------- Chat composer (dialogue input) ---------- */
+  .chat-section-label{ font-size:12px; font-weight:700; color: var(--text-soft); margin: 4px 0 8px; }
+
+  /* ---------- Form sections (add/edit report) ---------- */
+  .form-section{ background:#FFF8FB; border-radius: var(--radius-lg); padding:16px; margin-bottom:14px; }
+  .form-section-title{
+    display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
+    font-size:13.5px; font-weight:900; color: var(--primary-deep); margin-bottom:12px;
+  }
+  .form-section-title .link-btn{ font-size:11px; font-weight:700; }
+  .form-section-hint{ font-size:11.5px; color: var(--text-soft); margin: -6px 0 10px; line-height:1.5; }
+  .form-section .field:last-child{ margin-bottom:0; }
+  .composer-mini-label{ font-size:10.5px; font-weight:700; color: var(--text-soft); margin-bottom:4px; }
+  .chat-thread{ display:flex; flex-direction:column; gap:8px; padding: 12px; background: #FFF8FB; border-radius: var(--radius-md); min-height: 60px; margin-bottom: 10px; }
+  .chat-thread-empty{ font-size:12.5px; color: var(--text-soft); text-align:center; padding: 10px 0; }
+  .chat-msg{ display:flex; align-items:center; gap:6px; max-width:90%; }
+  .chat-msg.me{ align-self:flex-start; }
+  .chat-msg.idol{ align-self:flex-end; flex-direction:row-reverse; }
+  .chat-msg.note{ align-self:center; max-width:96%; width:100%; }
+  .chat-bubble{ padding: 9px 13px; border-radius: 16px; font-size:14px; line-height:1.45; word-break: break-word; }
+  .chat-msg.me .chat-bubble{ background: var(--bubble-me); color: var(--text); border-bottom-left-radius:4px; }
+  .chat-msg.idol .chat-bubble{ background: var(--bubble-idol); border:1.5px solid var(--border-soft); color: var(--text); border-bottom-right-radius:4px; }
+  .chat-note{ flex:1; font-size:12.5px; font-style:italic; text-align:center; padding: 6px 12px; border-radius:12px; border:1.5px dashed; }
+  .note-who{ font-style:normal; font-weight:900; }
+  .chat-note.me.feeling{ background:#FFEAF4; border-color:#FFB6D5; color:#B23E77; }
+  .chat-note.idol.feeling{ background:#F0EBFF; border-color:#C9A8FF; color:#6B4FA0; }
+  .chat-note.me.gesture{ background:#F3ECDF; border-color:#D8C9A8; color:#8A7350; }
+  .chat-note.idol.gesture{ background:#EAE3F7; border-color:#B8A0DE; color:#5A3F82; }
+  .chat-note.staff{ background:#EDEDF2; border-color:#B8B8C5; color:#4A4A58; font-weight:700; }
+  .chat-msg-del{ background:none; border:none; color: var(--text-soft); font-size:15px; cursor:pointer; min-width:30px; min-height:30px; flex-shrink:0; }
+
+  .composer{ position:sticky; bottom:0; background: var(--card-bg); padding-top: 10px; border-top: 2px dashed var(--border-soft); }
+  .who-type-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:8px; }
+  .who-type-row > div{ flex:1; min-width:150px; }
+  .who-toggle{ display:flex; gap:6px; }
+  .type-toggle{ display:flex; gap:6px; }
+  .who-btn, .type-btn{ flex:1; border-radius: 999px; border: 2px solid var(--border-soft); background:#fff; padding: 9px 3px; font-weight:700; font-size:11px; cursor:pointer; min-height:42px; }
+  .type-hint{ font-size:10.5px; color: var(--text-soft); margin: -2px 0 8px; line-height:1.4; display:none; }
+  .type-hint.show{ display:block; }
+  .phrase-toggle-row{ margin-bottom:6px; }
+  .phrase-toggle-btn{ background:none; border:none; color: var(--purple); font-weight:700; font-size:12px; cursor:pointer; padding:8px 2px; min-height:36px; }
+  .phrase-chips{ display:none; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:8px; }
+  .phrase-chips.show{ display:flex; }
+  .phrase-chip{
+    flex:0 0 auto; white-space:nowrap; border:1.5px solid var(--border-soft); background:#fff;
+    border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700; color: var(--purple); cursor:pointer;
+  }
+  .phrase-chip-add{ color: var(--text-soft); border-style:dashed; }
+  .who-btn.me.active{ background: var(--bubble-me); border-color: var(--purple); color: var(--purple); }
+  .who-btn.idol.active{ background: linear-gradient(135deg, var(--primary), var(--purple)); border-color: var(--primary); color:#fff; }
+  .who-btn.staff.active{ background:#E7E7EE; border-color:#8A8A9A; color:#4A4A58; }
+  .type-btn.talk.active{ background:#F1EFF3; border-color: var(--text-soft); color: var(--text); }
+  .type-btn.feeling.active{ background:#FFEAF4; border-color:#FFB6D5; color:#B23E77; }
+  .type-btn.gesture.active{ background:#F3ECDF; border-color:#D8C9A8; color:#8A7350; }
+  .composer-input-row{ display:flex; gap:8px; }
+  .composer-input-row input{ flex:1; border: 2px solid var(--border-soft); border-radius: 999px; padding: 11px 16px; font-size:16px; font-family: inherit; }
+  .composer-input-row input:focus{ outline: 2px solid var(--primary); border-color: var(--primary); }
+  .send-btn{ width:46px; height:46px; border-radius:50%; border:none; background: var(--primary); color:#fff; font-size:18px; cursor:pointer; flex-shrink:0; }
+
+  .modal-footer{ padding: 12px 20px calc(20px + env(safe-area-inset-bottom)); }
+
+  /* ---------- Crop modal ---------- */
+  .crop-stage{ position:relative; width:260px; height:260px; margin:0 auto; overflow:hidden; border-radius:16px; background:#111; touch-action:none; }
+  .crop-stage img{ position:absolute; user-select:none; -webkit-user-drag:none; cursor:grab; }
+  .crop-mask{ position:absolute; top:0; left:0; width:100%; height:100%; border-radius:50%; box-shadow: 0 0 0 9999px rgba(15,8,15,0.6); pointer-events:none; }
+  .crop-hint{ font-size:12px; color: var(--text-soft); text-align:center; margin: 12px 0 4px; }
+  .zoom-row{ display:flex; align-items:center; gap:10px; margin-top:14px; }
+  .zoom-row span{ font-size:16px; }
+  .zoom-row input[type=range]{ flex:1; accent-color: var(--primary); }
+
+  /* ---------- Master data modal ---------- */
+  .reference-row{ display:flex; align-items:center; gap:10px; padding:10px 4px; border-bottom:1px solid var(--border-soft); cursor:pointer; border-radius:10px; }
+  .reference-row-arrow{ color: var(--text-soft); font-size:18px; flex-shrink:0; }
+
+  /* ---------- CSV import / distribution ---------- */
+  .csv-table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:10px; border:1.5px solid var(--border-soft); }
+  .csv-table{ border-collapse:collapse; width:100%; font-size:12px; }
+  .csv-table th, .csv-table td{ padding:7px 9px; border-bottom:1px solid var(--border-soft); white-space:nowrap; text-align:left; }
+  .csv-table th{ background:#FFF8FB; }
+  .csv-table select{ font-size:16px; border:1.5px solid var(--border-soft); border-radius:6px; padding:5px 4px; font-family:inherit; background:#fff; max-width:120px; }
+  .csv-table td{ color: var(--text-soft); max-width:140px; overflow:hidden; text-overflow:ellipsis; }
+  .csv-dist-card{ background:#FFF8FB; border-radius:14px; padding:14px; margin-bottom:14px; }
+  .csv-dist-title{ font-weight:900; font-size:13.5px; margin-bottom:2px; }
+  .csv-dist-total{ font-size:12px; color: var(--text-soft); margin-bottom:10px; }
+  .csv-split-row{ display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .csv-split-row span{ font-size:12px; color: var(--text-soft); }
+  .csv-split-row input[type=number]{
+    width:60px; border:1.5px solid var(--border-soft); border-radius:8px; padding:8px 6px;
+    font-size:16px; font-family:inherit; text-align:center;
+  }
+  .csv-split-btn{ border:2px solid var(--border-soft); background:#fff; color: var(--purple); border-radius:999px; padding:10px 16px; font-size:12.5px; font-weight:700; cursor:pointer; min-height:40px; }
+  .csv-alloc-row{ display:flex; gap:6px; margin-bottom:8px; align-items:center; }
+  .csv-alloc-row input[type=text]{
+    flex:1; min-width:0; border:1.5px solid var(--border-soft); border-radius:8px; padding:9px 10px;
+    font-size:16px; font-family:inherit;
+  }
+  .csv-alloc-row input[type=number]{
+    width:64px; border:1.5px solid var(--border-soft); border-radius:8px; padding:9px 6px;
+    font-size:16px; font-family:inherit; text-align:center;
+  }
+  .reference-row:hover{ background:#FFF8FB; }
+  .reference-row-info{ flex:1; min-width:0; }
+  .reference-row-name{ font-weight:700; font-size:13.5px; }
+  .reference-row-sub{ font-size:11.5px; color: var(--text-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .master-row{ display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border-soft); }
+  .master-name{ flex:1; font-weight:700; font-size:13.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .master-cat-input{ width:112px; border:1.5px solid var(--border-soft); border-radius:8px; padding:6px 6px; font-size:16px; font-family:inherit; }
+  .master-del{ background:none; border:none; color: var(--text-soft); font-size:16px; cursor:pointer; min-width:36px; min-height:36px; flex-shrink:0; }
+  .master-add-row{ display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; }
+  .master-add-row input{ flex:1; min-width:90px; border:2px solid var(--border-soft); border-radius:10px; padding:9px 10px; font-size:16px; font-family:inherit; }
+
+  /* ---------- Stats dashboard ---------- */
+  .stats-summary-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
+  .stats-box{ background:#FFF8FB; border-radius:14px; padding:14px 6px; text-align:center; }
+  .stats-num{ font-size:22px; font-weight:400; color: var(--primary-deep); font-family:'Mochiy Pop One', sans-serif; }
+  .stats-label{ font-size:10.5px; color: var(--text-soft); margin-top:4px; }
+  .stats-section h3{ font-size:13px; color: var(--purple); margin:20px 0 10px; font-weight:900; }
+  .stat-bar-row{ display:flex; align-items:center; gap:8px; margin-bottom:9px; }
+  .stat-bar-label{ width:90px; flex-shrink:0; font-size:12px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .stat-bar-track{ flex:1; height:14px; background:#FFF1F6; border-radius:999px; overflow:hidden; }
+  .stat-bar-fill{ height:100%; background: linear-gradient(90deg, var(--primary), var(--purple)); border-radius:999px; }
+  .stat-bar-value{ width:30px; text-align:right; font-size:12px; font-weight:700; color: var(--text-soft); flex-shrink:0; }
+  .stats-month-bars{ display:flex; align-items:flex-end; gap:8px; justify-content:center; height:90px; padding-top:10px; margin-bottom:6px; }
+  .stats-month-col{ display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .stats-month-bar{ width:18px; min-height:3px; background: linear-gradient(180deg, var(--primary), var(--purple)); border-radius:6px 6px 0 0; }
+  .stats-month-num{ font-size:10px; font-weight:700; color: var(--text-soft); }
+  .stats-month-label{ font-size:10px; color: var(--text-soft); }
+
+  /* ---------- Style / tab switcher (shared look) ---------- */
+  .style-switch{ display:flex; gap:6px; padding: 4px 20px 2px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .style-btn{
+    flex:0 0 auto; white-space:nowrap; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
+    padding: 9px 13px; font-size:12.5px; font-weight:700; color: var(--text-soft); cursor:pointer; min-height:42px;
+  }
+  .style-btn.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE9F3; }
+
+  /* ---------- Share card (export target) ---------- */
+  .share-wrap{ display:flex; justify-content:center; margin: 16px 0 18px; }
+  .share-card{ width: 320px; overflow:hidden; }
+  .share-card-inner{ overflow:hidden; position:relative; padding-bottom: 18px; }
+
+  /* base (pop) look */
+  .share-card{ border-radius: 26px; padding: 6px; background: linear-gradient(135deg, var(--primary), var(--purple) 50%, var(--yellow)); }
+  .share-card-inner{ background: var(--card-bg); border-radius: 22px; }
+
+  .share-avatar-wrap{ display:flex; justify-content:center; padding-top:22px; }
+  .share-avatar{
+    width:92px; height:92px; border-radius:50%; overflow:hidden;
+    background: linear-gradient(135deg, #FFB6D5, #C9A8FF);
+    display:flex; align-items:center; justify-content:center; font-size:34px;
+    border:4px solid #fff; box-shadow: 0 4px 14px rgba(214,35,122,.25);
+  }
+  .share-avatar img{ width:100%; height:100%; object-fit:cover; }
+
+  .share-name{ text-align:center; font-size:19px; margin-top:10px; color: var(--text); }
+  .share-meta-row{ display:flex; justify-content:center; align-items:center; gap:12px; margin-top:5px; font-size:11.5px; color: var(--text-soft); font-weight:700; flex-wrap:wrap; }
+
+  .share-chip-row{ display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin:14px 24px 0; }
+  .share-type-chip{ font-size:12px; font-weight:700; padding:7px 14px; border-radius:999px; background:#E8F4FF; color:#3A7CA5; }
+  .share-event-chip{ font-size:12px; color: var(--purple); font-weight:700; background:#F5F0FF; border-radius:999px; padding:7px 14px; }
+
+  .share-extra-meta{ display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin: 10px 20px 0; }
+  .share-extra-tag{ font-size:10.5px; font-weight:700; color: var(--purple); background:#F5F0FF; border-radius:999px; padding:3px 10px; }
+
+  .share-ticket{ position:relative; margin: 16px 0 0; height:18px; }
+  .share-ticket::before{ content:""; position:absolute; left:-9px; top:50%; width:18px; height:18px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
+  .share-ticket::after{ content:""; position:absolute; right:-9px; top:50%; width:18px; height:18px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
+  .share-ticket .dash{ margin:0 16px; border-top:2px dashed var(--border-soft); }
+
+  .share-thread{ display:flex; flex-direction:column; gap:9px; margin: 14px 18px 4px; }
+  .share-msg-group{ display:flex; flex-direction:column; gap:3px; max-width:86%; }
+  .share-msg-group.idol{ align-self:flex-end; align-items:flex-end; }
+  .share-msg-group.me{ align-self:flex-start; align-items:flex-start; }
+  .share-speaker-label{ font-size:10px; font-weight:700; padding:0 4px; }
+  .share-speaker-label.idol{ color: var(--purple); }
+  .share-speaker-label.me{ color: var(--primary-deep); }
+  .share-msg{ display:flex; align-items:flex-end; gap:7px; }
+  .share-note{ align-self:center; text-align:center; font-size:11.5px; font-style:italic; padding:3px 14px; max-width:94%; }
+  .share-note-who{ font-style:normal; font-weight:900; }
+  .share-note.me.feeling{ color:#B23E77; }
+  .share-note.idol.feeling{ color:#6B4FA0; }
+  .share-note.me.gesture{ color:#8A7350; }
+  .share-note.idol.gesture{ color:#5A3F82; }
+  .share-note.staff{ color:#5A5A66; font-weight:700; }
+  .share-avatar-sm{ width:30px; height:30px; border-radius:50%; overflow:hidden; flex-shrink:0; background: linear-gradient(135deg, var(--primary), var(--purple)); display:flex; align-items:center; justify-content:center; font-size:13px; color:#fff; }
+  .share-avatar-sm img{ width:100%; height:100%; object-fit:cover; }
+  .share-bubble{ padding: 9px 13px; border-radius: 15px; font-size:12.5px; line-height:1.5; }
+  .share-bubble.idol{ background: var(--bubble-idol); border:1.5px solid var(--border-soft); color: var(--text); border-bottom-right-radius:4px; }
+  .share-bubble.me{ background: var(--bubble-me); color: var(--text); border-bottom-left-radius:4px; }
+
+  .share-extra-photos{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:16px 18px 4px; }
+  .share-extra-photo{ background:#fff; padding:4px 4px 9px; border-radius:4px; box-shadow:0 4px 10px rgba(0,0,0,0.15); width:62px; }
+  .share-extra-photo img{ width:100%; height:80px; object-fit:cover; border-radius:2px; display:block; }
+
+  .share-footer{ display:flex; align-items:center; justify-content:center; padding: 14px 18px 16px; }
+  .share-tag{ font-size:11px; color: var(--primary-deep); font-weight:700; }
+
+  /* ---- variant: simple (シンプル・上品) ---- */
+  .share-card--simple{ background:#FFFDF9; border:1px solid #E7E2DD; padding:0; border-radius:18px; }
+  .share-card--simple .share-card-inner{ background:transparent; border-radius:18px; }
+  .share-card--simple .share-avatar{ background:#EDE7DE; border:2px solid #C9A66B; box-shadow:none; width:82px; height:82px; }
+  .share-card--simple .share-name{ color:#2E2A28; font-weight:700; letter-spacing:0.04em; }
+  .share-card--simple .share-meta-row{ color:#8C8478; border-top:1px solid #EEE8DF; border-bottom:1px solid #EEE8DF; padding:8px 0; margin:12px 24px 0; }
+  .share-card--simple .share-type-chip{ background:transparent; color:#8C6E3B; border:1px solid #E7E2DD; }
+  .share-card--simple .share-event-chip{ background:transparent; color:#8C6E3B; border:1px solid #E7E2DD; }
+  .share-card--simple .share-extra-tag{ background:transparent; border:1px solid #E7E2DD; color:#8C6E3B; }
+  .share-card--simple .share-ticket::before, .share-card--simple .share-ticket::after{ display:none; }
+  .share-card--simple .share-ticket .dash{ border-top:1px solid #E7E2DD; margin:0 24px; }
+  .share-card--simple .share-bubble.idol{ background:#FBF7EE; border:1px solid #E7DCC5; color:#2E2A28; }
+  .share-card--simple .share-bubble.me{ background:#FFFFFF; border:1px solid #EDE7DE; color:#2E2A28; }
+  .share-card--simple .share-avatar-sm{ background:#EDE7DE; }
+  .share-card--simple .share-tag{ color:#9C9284; font-weight:500; }
+
+  /* ---- variant: magazine (雑誌風／明るめ) ---- */
+  .share-card--magazine{ background: linear-gradient(165deg,#F5E6D3,#EFD9C0); padding:0; border-radius:14px; border:1px solid #E3CBA8; }
+  .share-card--magazine .share-card-inner{ background:transparent; border-radius:14px; }
+  .share-card--magazine .share-avatar{ border:3px solid #FFFFFF; box-shadow:0 6px 16px rgba(92,42,58,0.22); background:#E8D3BC; }
+  .share-card--magazine .share-name{ color:#5C2A3A; letter-spacing:0.06em; }
+  .share-card--magazine .share-meta-row{ color:#8A6A55; }
+  .share-card--magazine .share-type-chip{ background:rgba(92,42,58,0.06); color:#5C2A3A; }
+  .share-card--magazine .share-event-chip{ background:rgba(92,42,58,0.07); color:#5C2A3A; border:1px solid #D8BFA0; }
+  .share-card--magazine .share-extra-tag{ background:rgba(92,42,58,0.06); color:#5C2A3A; }
+  .share-card--magazine .share-ticket::before, .share-card--magazine .share-ticket::after{ background:#F5E6D3; }
+  .share-card--magazine .share-ticket .dash{ border-top:1px dashed #C9A87F; }
+  .share-card--magazine .share-bubble.idol{ background:#FFFFFF; border:1px solid #E3CBA8; color:#3A2A20; }
+  .share-card--magazine .share-bubble.me{ background:rgba(92,42,58,0.07); color:#3A2A20; }
+  .share-card--magazine .share-avatar-sm{ background:#E8D3BC; }
+  .share-card--magazine .share-tag{ color:#8A6A55; }
+
+  /* ---- variant: pastel (パステル・y2k) ---- */
+  .share-card--pastel{ background: linear-gradient(135deg, #DCEBFF, #F3E0FF 50%, #FFE3F0); padding:8px; border-radius:24px; }
+  .share-card--pastel .share-card-inner{ background:#FFFFFF; border-radius:18px; }
+  .share-card--pastel .share-avatar-wrap{ padding-top:20px; }
+  .share-card--pastel .share-avatar{ border:6px solid #fff; box-shadow:0 4px 0 #fff, 0 8px 16px rgba(120,120,180,0.25); transform:rotate(-3deg); background:#EFEAFB; }
+  .share-card--pastel .share-name{ color:#6E63A6; }
+  .share-card--pastel .share-meta-row{ color:#8C86B8; }
+  .share-card--pastel .share-type-chip{ background:#EAF2FF; color:#3B3A5C; }
+  .share-card--pastel .share-event-chip{ background:#FFEAF4; color:#C15C93; border:1.5px dashed #FFC2DE; }
+  .share-card--pastel .share-extra-tag{ background:#F0EEFF; color:#6E63A6; }
+  .share-card--pastel .share-ticket::before, .share-card--pastel .share-ticket::after{ background:#FFFFFF; }
+  .share-card--pastel .share-ticket .dash{ border-top:2px dotted #D6D0FF; }
+  .share-card--pastel .share-bubble.idol{ background:#EAF2FF; color:#3B3A5C; }
+  .share-card--pastel .share-bubble.me{ background:#FFEAF4; color:#3B3A5C; }
+  .share-card--pastel .share-avatar-sm{ background:#EAF2FF; }
+  .share-card--pastel .share-tag{ color:#8C86B8; }
+
+  /* ---- variant: mono (モノトーン) ---- */
+  .share-card--mono{ background:#FFFFFF; border:2px solid #1A1A1A; padding:0; border-radius:6px; }
+  .share-card--mono .share-card-inner{ background:transparent; border-radius:6px; }
+  .share-card--mono .share-avatar{ border:2px solid #1A1A1A; filter:grayscale(1) contrast(1.05); background:#EDEDED; box-shadow:none; }
+  .share-card--mono .share-name{ color:#1A1A1A; font-weight:900; letter-spacing:0.03em; }
+  .share-card--mono .share-meta-row{ color:#555; border-top:1px solid #1A1A1A; border-bottom:1px solid #1A1A1A; padding:6px 0; margin:12px 22px 0; }
+  .share-card--mono .share-type-chip{ background:none; color:#1A1A1A; border:1px solid #1A1A1A; border-radius:4px; }
+  .share-card--mono .share-event-chip{ background:none; color:#1A1A1A; border:1px solid #1A1A1A; border-radius:4px; }
+  .share-card--mono .share-extra-tag{ background:none; color:#1A1A1A; border:1px solid #1A1A1A; border-radius:4px; }
+  .share-card--mono .share-ticket::before, .share-card--mono .share-ticket::after{ display:none; }
+  .share-card--mono .share-ticket .dash{ border-top:2px solid #1A1A1A; margin:0 22px; }
+  .share-card--mono .share-bubble.idol{ background:#1A1A1A; color:#fff; border-radius:2px; }
+  .share-card--mono .share-bubble.me{ background:#fff; color:#1A1A1A; border:1.5px solid #1A1A1A; border-radius:2px; }
+  .share-card--mono .share-avatar-sm{ background:#1A1A1A; }
+  .share-card--mono .share-tag{ color:#555; }
+  .share-card--mono .share-extra-photo img{ filter:grayscale(1); }
+
+  /* ---- variant: retro (レトロ・ヴィンテージポスター) ---- */
+  .share-card--retro{ background:#FFF8E7; border:3px solid #2B2B2B; padding:0; border-radius:10px; }
+  .share-card--retro .share-card-inner{ background:transparent; border-radius:10px; }
+  .share-card--retro .share-avatar{ border:3px solid #2B2B2B; box-shadow:4px 4px 0 #E8A33D; background:#FFE8B8; }
+  .share-card--retro .share-name{ color:#2B2B2B; font-size:20px; }
+  .share-card--retro .share-meta-row{ color:#6B5B3E; }
+  .share-card--retro .share-type-chip{ background:#2F9C95; color:#fff; border:2px solid #2B2B2B; border-radius:6px; }
+  .share-card--retro .share-event-chip{ background:#E8A33D; color:#2B2B2B; border:2px solid #2B2B2B; border-radius:6px; font-weight:900; }
+  .share-card--retro .share-extra-tag{ background:#FFE8B8; border:2px solid #2B2B2B; color:#2B2B2B; border-radius:6px; }
+  .share-card--retro .share-ticket::before, .share-card--retro .share-ticket::after{ display:none; }
+  .share-card--retro .share-ticket .dash{ border-top:3px dashed #2B2B2B; margin:0 20px; }
+  .share-card--retro .share-bubble.idol{ background:#fff; border:2px solid #2B2B2B; color:#2B2B2B; border-radius:4px; }
+  .share-card--retro .share-bubble.me{ background:#FFE8B8; border:2px solid #2B2B2B; color:#2B2B2B; border-radius:4px; }
+  .share-card--retro .share-avatar-sm{ background:#E8A33D; border:2px solid #2B2B2B; }
+  .share-card--retro .share-speaker-label.idol{ color:#2F9C95; font-weight:900; }
+  .share-card--retro .share-speaker-label.me{ color:#D46A2B; font-weight:900; }
+
+  /* ---- variant: summer (サマー・シトラス) ---- */
+  .share-card--summer{ background: linear-gradient(150deg,#FFE8D6,#FFF3E0); padding:8px; border-radius:24px; }
+  .share-card--summer .share-card-inner{ background:#FFFFFF; border-radius:18px; }
+  .share-card--summer .share-avatar{ border:4px solid #FF8A5B; box-shadow:0 4px 14px rgba(255,138,91,0.3); background:#FFEFE3; }
+  .share-card--summer .share-name{ color:#D9480F; }
+  .share-card--summer .share-meta-row{ color:#C77B4E; }
+  .share-card--summer .share-type-chip{ background:#E0F7F5; color:#12897A; }
+  .share-card--summer .share-event-chip{ background:#FFE8D6; color:#D9480F; }
+  .share-card--summer .share-extra-tag{ background:#E0F7F5; color:#12897A; }
+  .share-card--summer .share-ticket::before, .share-card--summer .share-ticket::after{ background:#FFFFFF; }
+  .share-card--summer .share-ticket .dash{ border-top:2px dashed #FFC49B; }
+  .share-card--summer .share-bubble.idol{ background:#E0F7F5; color:#12594F; }
+  .share-card--summer .share-bubble.me{ background:#FFE8D6; color:#8A3E14; }
+  .share-card--summer .share-avatar-sm{ background:#FFEFE3; }
+
+  /* ---- variant: wa (和風) ---- */
+  .share-card--wa{ background:#FBF6EC; border:2px solid #C1432B; padding:8px; border-radius:12px; }
+  .share-card--wa .share-card-inner{ background:transparent; border:1px solid #D8C9A0; border-radius:8px; }
+  .share-card--wa .share-avatar{ border:3px solid #C1432B; background:#F3E5D0; box-shadow:none; }
+  .share-card--wa .share-name{ color:#223A5E; letter-spacing:0.08em; font-weight:700; }
+  .share-card--wa .share-meta-row{ color:#7A6A50; }
+  .share-card--wa .share-type-chip{ background:#223A5E; color:#FBF6EC; border-radius:4px; }
+  .share-card--wa .share-event-chip{ background:#C1432B; color:#FBF6EC; border-radius:4px; font-weight:700; }
+  .share-card--wa .share-extra-tag{ background:#F3E5D0; border:1px solid #D8C9A0; color:#7A6A50; }
+  .share-card--wa .share-ticket::before, .share-card--wa .share-ticket::after{ display:none; }
+  .share-card--wa .share-ticket .dash{ border-top:2px solid #C1432B; margin:0 24px; }
+  .share-card--wa .share-bubble.idol{ background:#fff; border:1px solid #D8C9A0; color:#223A5E; }
+  .share-card--wa .share-bubble.me{ background:#F3E5D0; color:#223A5E; }
+  .share-card--wa .share-avatar-sm{ background:#F3E5D0; border:1px solid #C1432B; }
+  .share-card--wa .share-speaker-label.idol{ color:#C1432B; }
+  .share-card--wa .share-speaker-label.me{ color:#223A5E; }
+
+  /* ---- variant: jewel (ジュエル) ---- */
+  .share-card--jewel{ background: linear-gradient(135deg, #0F9B8E, #3B5FE0 50%, #8B3FD9); padding:6px; border-radius:24px; }
+  .share-card--jewel .share-card-inner{ background:#FFFFFF; border-radius:20px; }
+  .share-card--jewel .share-avatar{ border:4px solid #fff; box-shadow:0 4px 14px rgba(59,95,224,0.3); background: linear-gradient(135deg,#0F9B8E,#8B3FD9); }
+  .share-card--jewel .share-name{ color:#2A2A55; }
+  .share-card--jewel .share-meta-row{ color:#6B6B8C; }
+  .share-card--jewel .share-type-chip{ background:#E7F7F5; color:#0F9B8E; }
+  .share-card--jewel .share-event-chip{ background:#EDE9FB; color:#6A3FBE; }
+  .share-card--jewel .share-extra-tag{ background:#E7F0FF; color:#3B5FE0; }
+  .share-card--jewel .share-ticket::before, .share-card--jewel .share-ticket::after{ background:#FFFFFF; }
+  .share-card--jewel .share-ticket .dash{ border-top:2px dashed #C9C9F5; }
+  .share-card--jewel .share-bubble.idol{ background:#EDE9FB; color:#2A2A55; }
+  .share-card--jewel .share-bubble.me{ background:#E7F7F5; color:#2A2A55; }
+  .share-card--jewel .share-avatar-sm{ background: linear-gradient(135deg,#0F9B8E,#8B3FD9); }
+
+  /* ---- variant: elegant (エレガント・上品) ---- */
+  .share-card--elegant{ background: linear-gradient(160deg, #F7F3F5, #EFE7EA); border:1px solid #C9A66B; padding:10px; border-radius:20px; }
+  .share-card--elegant .share-card-inner{ background:transparent; border:1px solid #DCC9A0; border-radius:14px; }
+  .share-card--elegant .share-avatar{ border:2px solid #C9A66B; box-shadow:none; background:#EFE7EA; }
+  .share-card--elegant .share-name{ color:#4A3F45; font-weight:500; letter-spacing:0.12em; font-size:18px; }
+  .share-card--elegant .share-meta-row{ color:#9C8F94; border-top:1px solid #E3D6C8; border-bottom:1px solid #E3D6C8; padding:7px 0; margin:12px 22px 0; letter-spacing:0.03em; }
+  .share-card--elegant .share-chip-row{ margin:12px 22px 0; }
+  .share-card--elegant .share-type-chip{ background:none; border:none; padding:0; color:#4A3F45; font-weight:500; letter-spacing:0.04em; }
+  .share-card--elegant .share-event-chip{ background:none; border:none; padding:0; color:#4A3F45; font-weight:500; letter-spacing:0.02em; }
+  .share-card--elegant .share-event-chip::before{ content:"・"; margin-right:6px; color:#C9A66B; }
+  .share-card--elegant .share-extra-tag{ background:none; border:1px solid #DCC9A0; color:#9C8F94; }
+  .share-card--elegant .share-ticket::before, .share-card--elegant .share-ticket::after{ display:none; }
+  .share-card--elegant .share-ticket .dash{ border-top:1px solid #C9A66B; margin:0 26px; }
+  .share-card--elegant .share-bubble.idol{ background:#FBF3F0; border:1px solid #E3D6C8; color:#4A3F45; }
+  .share-card--elegant .share-bubble.me{ background:#FFFFFF; border:1px solid #EFE7EA; color:#4A3F45; }
+  .share-card--elegant .share-avatar-sm{ background:#EFE7EA; border:1px solid #C9A66B; }
+  .share-card--elegant .share-tag{ color:#9C8F94; font-weight:500; letter-spacing:0.04em; }
+  .share-card--elegant .share-speaker-label.idol{ color:#8A6A4A; }
+  .share-card--elegant .share-speaker-label.me{ color:#4A3F45; }
+
+  /* ---- variant: chic (シック・上品／クール) ---- */
+  .share-card--chic{ background: linear-gradient(160deg,#F5F6F8,#E9EBEF); border:1px solid #B8C2CC; padding:10px; border-radius:20px; }
+  .share-card--chic .share-card-inner{ background:transparent; border:1px solid #C9D2DA; border-radius:14px; }
+  .share-card--chic .share-avatar{ border:2px solid #8A98A8; box-shadow:none; background:#E9EBEF; }
+  .share-card--chic .share-name{ color:#2E3742; font-weight:500; letter-spacing:0.1em; font-size:18px; }
+  .share-card--chic .share-meta-row{ color:#8592A0; border-top:1px solid #DCE1E6; border-bottom:1px solid #DCE1E6; padding:7px 0; margin:12px 22px 0; letter-spacing:0.02em; }
+  .share-card--chic .share-chip-row{ margin:12px 22px 0; }
+  .share-card--chic .share-type-chip{ background:none; border:none; padding:0; color:#2E3742; font-weight:500; }
+  .share-card--chic .share-event-chip{ background:none; border:none; padding:0; color:#2E3742; font-weight:500; }
+  .share-card--chic .share-event-chip::before{ content:"・"; margin-right:6px; color:#8A98A8; }
+  .share-card--chic .share-extra-tag{ background:none; border:1px solid #C9D2DA; color:#8592A0; }
+  .share-card--chic .share-ticket::before, .share-card--chic .share-ticket::after{ display:none; }
+  .share-card--chic .share-ticket .dash{ border-top:1px solid #8A98A8; margin:0 26px; }
+  .share-card--chic .share-bubble.idol{ background:#EEF2F6; border:1px solid #DCE1E6; color:#2E3742; }
+  .share-card--chic .share-bubble.me{ background:#FFFFFF; border:1px solid #E9EBEF; color:#2E3742; }
+  .share-card--chic .share-avatar-sm{ background:#E9EBEF; border:1px solid #8A98A8; }
+  .share-card--chic .share-tag{ color:#8592A0; font-weight:500; }
+  .share-card--chic .share-speaker-label.idol{ color:#5A6B7A; }
+  .share-card--chic .share-speaker-label.me{ color:#2E3742; }
+
+  .detail-actions{ margin-top:6px; padding: 0 20px 20px; }
+  .detail-memo{
+    margin: 0 20px 16px; background:#FFF8FB; border:1.5px dashed var(--border-soft); border-radius: var(--radius-md);
+    padding:12px 14px; font-size:13px; line-height:1.6; color: var(--text); white-space:pre-wrap; word-break:break-word;
+  }
+  .detail-memo-label{ font-size:11px; font-weight:700; color: var(--text-soft); margin-bottom:4px; }
+
+  /* ---------- Mobile: full-screen modal for fast on-site input ---------- */
+  @media (max-width: 640px){
+    .overlay{ padding:0; align-items:stretch; }
+    .modal{ max-width:none !important; width:100%; height:100%; max-height:100vh; border-radius:0; }
+    .share-card{ width: 100%; max-width: 320px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <span class="eyebrow">💌 HANDSHAKE EVENT LOG</span>
+  <h1>推し活レポ帳</h1>
+  <p>会場でサクッと記録 → そのままSNS映えカードでシェア</p>
+  <div class="stat-pill" id="statPill">全 0 件のレポ</div>
+  <div class="storage-status" id="storageStatus" style="display:none;"></div>
+  <button type="button" class="menu-btn" onclick="openMenuModal()">☰ メニュー</button>
+  <input type="file" id="f-import" accept=".json,application/json" style="display:none;">
+</header>
+
+<main>
+  <input type="text" id="searchInput" class="search-input" placeholder="🔍 メンバー・日付・会場・トーク内容で検索">
+  <div class="control-row">
+    <div class="view-toggle">
+      <button type="button" class="view-btn active" id="viewGridBtn" onclick="setViewMode('grid')">📋 一覧</button>
+      <button type="button" class="view-btn" id="viewCalendarBtn" onclick="setViewMode('calendar')">📅 カレンダー</button>
+    </div>
+    <button type="button" class="filter-btn" onclick="openFilterModal()">
+      ⚙️ フィルター・並び替え<span class="filter-badge" id="filterBadge" style="display:none;">0</span>
+    </button>
+  </div>
+  <div class="active-filters" id="activeFilters" style="display:none;"></div>
+  <div class="calendar-wrap" id="calendarWrap" style="display:none;"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <span class="big-emoji">🎫💕</span>
+    まだレポがありません。<br>最初の握手会レポを追加してみましょう！
+    <div><button class="btn btn-primary" onclick="openAddModal()">＋ レポを追加</button></div>
+  </div>
+</main>
+
+<button class="fab" onclick="openAddModal()" aria-label="レポを追加">＋</button>
+
+<datalist id="idolList"></datalist>
+<datalist id="eventList"></datalist>
+<datalist id="venueList"></datalist>
+<datalist id="nicknameList"></datalist>
+
+<!-- Add / Edit modal -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="formTitle">レポを追加</h2>
+      <button class="close-x" onclick="closeFormModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div class="form-section">
+        <div class="form-section-title">
+          <span>📋 基本情報</span>
+          <button type="button" class="link-btn" onclick="openReferenceModal()">🔗 他のレポから引用</button>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label>メンバー名 / 推しの名前</label>
+            <input type="text" id="f-idol" list="idolList" placeholder="例）〇〇ちゃん" required>
+          </div>
+          <div class="field">
+            <label>日付</label>
+            <input type="date" id="f-date" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>種別</label>
+          <select id="f-eventType-select">
+            <option value="握手会">🤝 握手会</option>
+            <option value="トーク会">🎤 トーク会</option>
+            <option value="__custom__">その他（自由入力）</option>
+          </select>
+          <input type="text" id="f-eventType-custom" placeholder="種別を入力（例：チェキ会）" style="margin-top:8px; display:none;">
+        </div>
+
+        <div class="field" style="margin-bottom:0;">
+          <label>イベント名</label>
+          <input type="text" id="f-event" list="eventList" placeholder="例）6th Single 発売記念握手会" required>
+        </div>
+      </div>
+
+      <details class="optional-fields">
+        <summary></summary>
+        <div class="field">
+          <label>会場</label>
+          <input type="text" id="f-venue" list="venueList" placeholder="例）幕張メッセ">
+        </div>
+        <div class="three-col">
+          <div class="field">
+            <label>第◯部</label>
+            <input type="number" id="f-part" min="1" inputmode="numeric" placeholder="任意">
+          </div>
+          <div class="field">
+            <label>使用枚数</label>
+            <input type="number" id="f-sheets" min="1" inputmode="numeric" placeholder="任意">
+          </div>
+          <div class="field">
+            <label>周回数</label>
+            <input type="number" id="f-loops" min="1" inputmode="numeric" placeholder="任意">
+          </div>
+        </div>
+        <div class="field">
+          <label>推しのアイコン写真</label>
+          <div class="photo-input-row">
+            <input type="file" id="f-photo" accept="image/*">
+            <img id="photoPreview" class="photo-preview">
+            <button type="button" class="photo-edit-btn" id="photoEditBtn" onclick="reopenCrop()">位置を調整</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>📝 メモ（自分用・任意）</label>
+          <textarea id="f-memo" placeholder="次回話したいこと、気づいたことなど自由にメモできます（シェア画像には含まれません）"></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>📸 思い出フォト（チェキ・2ショットなど）</label>
+          <div class="extra-photo-row" id="extraPhotoRow"></div>
+          <input type="file" id="f-extra-photos" accept="image/*" multiple>
+        </div>
+      </details>
+
+      <div class="form-section">
+        <div class="form-section-title"><span>💬 トークの掛け合い</span></div>
+        <p class="form-section-hint">誰の発言／心情／仕草かを選んで、下の入力欄から追加していきます</p>
+        <div class="chat-thread" id="chatThread"></div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div style="padding: 0 20px;">
+        <div class="who-type-row">
+          <div>
+            <div class="composer-mini-label">誰が</div>
+            <div class="who-toggle">
+              <button type="button" class="who-btn me" id="whoMeBtn" onclick="setWho('me')">🙋 自分</button>
+              <button type="button" class="who-btn idol" id="whoIdolBtn" onclick="setWho('idol')">💖 推し</button>
+              <button type="button" class="who-btn staff" id="whoStaffBtn" onclick="setWho('staff')">🎽 スタッフ</button>
+            </div>
+          </div>
+          <div>
+            <div class="composer-mini-label">種類</div>
+            <div class="type-toggle">
+              <button type="button" class="type-btn talk" id="typeTalkBtn" onclick="setType('talk')">💬 発言</button>
+              <button type="button" class="type-btn feeling" id="typeFeelingBtn" onclick="setType('feeling')">💭 心情</button>
+              <button type="button" class="type-btn gesture" id="typeGestureBtn" onclick="setType('gesture')">👋 仕草</button>
+            </div>
+          </div>
+        </div>
+        <div class="type-hint" id="typeHint">💭心情＝気持ち・感情（例：照れる）／👋仕草＝しぐさ・行動（例：手を振る）</div>
+        <div class="phrase-toggle-row">
+          <button type="button" class="phrase-toggle-btn" id="phraseToggleBtn" onclick="togglePhraseChips()">💬 よく使うフレーズを表示</button>
+        </div>
+        <div class="phrase-chips" id="phraseChips"></div>
+        <div class="composer-input-row">
+          <input type="text" id="composerInput" placeholder="発言・心情・仕草を入力">
+          <button type="button" class="send-btn" onclick="addMessage()" aria-label="追加">＋</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" onclick="saveReport()">保存する</button>
+          <button type="button" class="btn btn-soft" onclick="saveReportAsDraft()">📝 下書き保存</button>
+          <button type="button" class="btn btn-ghost" onclick="closeFormModal()">キャンセル</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter & sort modal -->
+<div class="overlay" id="filterOverlay">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-head">
+      <h2>フィルター・並び替え</h2>
+      <button class="close-x" onclick="closeFilterModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div class="field">
+        <label>並び替え</label>
+        <select id="sortSelect" class="sort-select" style="width:100%;">
+          <option value="date_desc">新しい順</option>
+          <option value="date_asc">古い順</option>
+          <option value="idol">メンバー名順</option>
+          <option value="loops_desc">ループ数が多い順</option>
+        </select>
+      </div>
+      <div class="btn-row" style="margin-bottom:18px;">
+        <button type="button" class="filter-chip" id="favOnlyChip" onclick="toggleFavoritesOnly()">⭐️ お気に入りのみ</button>
+        <button type="button" class="filter-chip" id="draftOnlyChip" onclick="toggleDraftsOnly()">📝 下書きのみ</button>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-label">メンバー</div>
+        <div class="filter-chips" id="idolFilterChips" style="display:none;"></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-label">種別</div>
+        <div class="filter-chips" id="typeFilterChips" style="display:none;"></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-label">カテゴリ</div>
+        <div class="filter-chips" id="filterChips" style="display:none;"></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-label">期間</div>
+        <div class="two-col">
+          <div class="field"><label>から</label><input type="date" id="filterDateFrom"></div>
+          <div class="field"><label>まで</label><input type="date" id="filterDateTo"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-row">
+        <button type="button" class="btn btn-ghost" onclick="resetAllFilters()">すべて解除</button>
+        <button type="button" class="btn btn-primary" onclick="closeFilterModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Menu modal -->
+<div class="overlay" id="menuOverlay">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-head">
+      <h2>メニュー</h2>
+      <button class="close-x" onclick="closeMenuModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <button type="button" class="menu-row" onclick="closeMenuModal(); openStatsModal();">📊 <span>統計</span></button>
+      <button type="button" class="menu-row" onclick="closeMenuModal(); openCsvImportModal();">🧾 <span>注文履歴CSVから下書き作成</span></button>
+      <button type="button" class="menu-row" onclick="closeMenuModal(); openMasterModal();">🗂 <span>マスタ管理</span></button>
+      <button type="button" class="menu-row" onclick="closeMenuModal(); openProfileModal();">🙋 <span>自分のアイコン設定</span></button>
+      <button type="button" class="menu-row" onclick="closeMenuModal(); exportData();">📤 <span>エクスポート</span></button>
+      <button type="button" class="menu-row" onclick="closeMenuModal(); document.getElementById('f-import').click();">📥 <span>インポート</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- CSV order-history import modal -->
+<div class="overlay" id="csvImportOverlay">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-head">
+      <h2>注文履歴から下書き作成</h2>
+      <button class="close-x" onclick="closeCsvImportModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <p style="font-size:12px;color:var(--text-soft);margin:0 0 12px;">CSVを読み込むと、メンバーごとに枚数を分けてレポの下書き（トーク内容は空）をまとめて作成できます。</p>
+      <div class="field">
+        <label>CSVファイルを選択</label>
+        <input type="file" id="csvFileInput" accept=".csv,text/csv">
+      </div>
+      <div class="field">
+        <label>またはCSVを貼り付け</label>
+        <textarea id="csvPasteInput" placeholder="商品名,数量,注文日&#10;〇〇6th Single 握手会CD,5,2026/05/01" style="min-height:90px;"></textarea>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" onclick="parseCsvInput()">読み込む</button>
+      </div>
+
+      <div id="csvResultArea" style="display:none; margin-top:22px;">
+        <div class="chat-section-label">① 列の内容を確認</div>
+        <p style="font-size:11.5px;color:var(--text-soft);margin:0 0 8px;">自動で推測しています。違う場合はプルダウンで直してください。</p>
+        <div class="csv-table-scroll">
+          <table class="csv-table" id="csvTable"></table>
+        </div>
+
+        <div class="chat-section-label" style="margin-top:22px;">② メンバーに配分</div>
+        <p style="font-size:11.5px;color:var(--text-soft);margin:0 0 10px;">人数を入れて「均等に分割」を押すと、その人数分の枠が自動でできます。あとは名前を入力するだけでOKです。</p>
+        <div id="csvDistributionList"></div>
+      </div>
+    </div>
+    <div class="modal-footer" id="csvFooter" style="display:none;">
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" onclick="createDraftsFromCsv()">下書きを作成する</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Crop modal -->
+<div class="overlay" id="cropOverlay">
+  <div class="modal" style="max-width:340px;">
+    <div class="modal-head">
+      <h2 id="cropModalTitle">写真の位置を調整</h2>
+      <button class="close-x" onclick="cancelCrop()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div class="crop-stage" id="cropStage">
+        <img id="cropImgEl" alt="">
+        <div class="crop-mask"></div>
+      </div>
+      <div class="crop-hint">ドラッグで位置を移動できます</div>
+      <div class="zoom-row">
+        <span>🔍</span>
+        <input type="range" id="cropZoom" min="1" max="2.5" step="0.01" value="1">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" onclick="confirmCrop()">この位置で設定</button>
+        <button type="button" class="btn btn-ghost" onclick="cancelCrop()">キャンセル</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fan profile modal -->
+<div class="overlay" id="profileOverlay">
+  <div class="modal" style="max-width:340px;">
+    <div class="modal-head">
+      <h2>自分のアイコン写真</h2>
+      <button class="close-x" onclick="closeProfileModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div style="display:flex;justify-content:center;padding:14px 0 10px;">
+        <div class="avatar" id="fanProfilePreview" style="width:100px;height:100px;font-size:38px;"><span>🙋</span></div>
+      </div>
+      <div class="photo-input-row" style="justify-content:center;">
+        <input type="file" id="f-fan-photo" accept="image/*">
+      </div>
+      <p class="crop-hint">ここで設定した写真が、すべてのレポの「ファン」側アイコンとして使われます</p>
+      <div class="field" style="margin-top:16px;">
+        <label>ニックネーム</label>
+        <input type="text" id="f-fan-nickname" list="nicknameList" placeholder="例）まい（未設定の場合は「ファン」と表示されます）">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-row"><button type="button" class="btn btn-primary" onclick="closeProfileModal()">閉じる</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Reference (quote from another report) modal -->
+<div class="overlay" id="referenceOverlay">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-head">
+      <h2>他のレポから引用</h2>
+      <button class="close-x" onclick="closeReferenceModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div id="referenceListSection">
+        <input type="text" id="referenceSearch" class="search-input" style="margin:0 0 12px;" placeholder="🔍 メンバー・イベント・会場で検索">
+        <p style="font-size:12px;color:var(--text-soft);margin:0 0 10px;">レポをタップするとプレビューが見られます。メンバー・イベント・会場・種別・部数枚数・アイコン写真だけをコピーします（トーク内容・メモはコピーされません）。</p>
+        <div id="referenceList"></div>
+      </div>
+      <div id="referencePreviewSection" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats modal -->
+<div class="overlay" id="statsOverlay">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-head">
+      <h2>📊 統計</h2>
+      <button class="close-x" onclick="closeStatsModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll" id="statsContent"></div>
+  </div>
+</div>
+
+<!-- Master data modal -->
+<div class="overlay" id="masterOverlay">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-head">
+      <h2>マスタ管理</h2>
+      <button class="close-x" onclick="closeMasterModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div class="style-switch" id="masterTabs">
+        <button type="button" class="style-btn active" data-tab="idols" onclick="setMasterTab('idols')">メンバー</button>
+        <button type="button" class="style-btn" data-tab="events" onclick="setMasterTab('events')">イベント</button>
+        <button type="button" class="style-btn" data-tab="venues" onclick="setMasterTab('venues')">会場</button>
+        <button type="button" class="style-btn" data-tab="nicknames" onclick="setMasterTab('nicknames')">ニックネーム</button>
+        <button type="button" class="style-btn" data-tab="phrases" onclick="setMasterTab('phrases')">フレーズ</button>
+      </div>
+      <p style="font-size:12px;color:var(--text-soft);margin:12px 0 4px;">カテゴリを入れておくと、一覧画面の絞り込みチップに使えます（グループ名やツアー名、エリアなど自由に）。</p>
+      <div id="masterList"></div>
+      <div class="master-add-row">
+        <input type="text" id="masterNewName" placeholder="名称">
+        <input type="text" id="masterNewCategory" placeholder="カテゴリ（任意）">
+        <button type="button" class="btn btn-primary" onclick="addMasterEntry()">＋追加</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail / share modal -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal" style="max-height:92vh;">
+    <div class="modal-head">
+      <h2>レポの詳細</h2>
+      <button class="close-x" onclick="closeDetailModal()" aria-label="閉じる">✕</button>
+    </div>
+    <div class="modal-scroll">
+      <div class="draft-banner" id="detailDraftBanner" style="display:none;">
+        📝 これは下書きです
+        <button type="button" class="btn btn-soft" style="margin-left:auto;" onclick="markReportComplete()">✅ 完成としてマーク</button>
+      </div>
+      <div class="style-switch" id="styleSwitch">
+        <button type="button" class="style-btn" data-style="pop" onclick="setShareStyle('pop')">🩷 ポップ</button>
+        <button type="button" class="style-btn" data-style="simple" onclick="setShareStyle('simple')">🤍 シンプル</button>
+        <button type="button" class="style-btn" data-style="elegant" onclick="setShareStyle('elegant')">✨ エレガント</button>
+        <button type="button" class="style-btn" data-style="chic" onclick="setShareStyle('chic')">🩶 シック</button>
+        <button type="button" class="style-btn" data-style="magazine" onclick="setShareStyle('magazine')">📰 マガジン</button>
+        <button type="button" class="style-btn" data-style="pastel" onclick="setShareStyle('pastel')">🩵 パステル</button>
+        <button type="button" class="style-btn" data-style="mono" onclick="setShareStyle('mono')">⚫️ モノトーン</button>
+        <button type="button" class="style-btn" data-style="retro" onclick="setShareStyle('retro')">📻 レトロ</button>
+        <button type="button" class="style-btn" data-style="summer" onclick="setShareStyle('summer')">🍧 サマー</button>
+        <button type="button" class="style-btn" data-style="wa" onclick="setShareStyle('wa')">🎐 和風</button>
+        <button type="button" class="style-btn" data-style="jewel" onclick="setShareStyle('jewel')">💎 ジュエル</button>
+      </div>
+      <div class="share-wrap">
+        <div class="share-card" id="shareCardRender"></div>
+      </div>
+      <div class="detail-memo" id="detailMemo" style="display:none;"></div>
+    </div>
+    <div class="btn-row detail-actions">
+      <button class="btn btn-soft" id="detailFavBtn" onclick="toggleFavoriteFromDetail()">⭐️ お気に入り</button>
+      <button class="btn btn-primary" onclick="downloadShareImage()">📸 画像で保存</button>
+      <button class="btn btn-soft" onclick="duplicateFromDetail()">📋 複製して追加</button>
+      <button class="btn btn-soft" onclick="editFromDetail()">編集</button>
+      <button class="btn btn-ghost" onclick="deleteFromDetail()">削除</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const AVATAR_FALLBACK = '🎤';
+const FAN_FALLBACK = '🙋';
+
+let reports = [];
+let masterData = { idols: [], events: [], venues: [], nicknames: [], phrases: [] };
+let myProfile = { photo: null };
+let editingId = null;
+let pendingPhoto = null;
+let pendingExtraPhotos = [];
+let detailReportId = null;
+let draftMessages = [];
+let composerWho = 'me';
+let composerType = 'talk';
+let currentShareStyle = 'pop';
+let currentMasterTab = 'idols';
+let activeCategoryFilter = null;
+let activeTypeFilter = null;
+let activeIdolFilter = null;
+let filterDateFrom = '';
+let filterDateTo = '';
+let searchQuery = '';
+let cropTarget = 'idol';
+let cropShape = 'circle';
+let sortMode = 'date_desc';
+let favoritesOnly = false;
+let draftsOnly = false;
+let viewMode = 'grid';
+let calendarYear = null;
+let calendarMonth = null;
+let calendarSelectedDate = null;
+
+/* ---------- Crop state ---------- */
+let cropState = null;
+let cropDragging = false;
+let cropDragStartX = 0, cropDragStartY = 0, cropStartOffsetX = 0, cropStartOffsetY = 0;
+
+function uid(){
+  return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+function sleep(ms){ return new Promise(res => setTimeout(res, ms)); }
+
+/* ---------- Storage: everything lives under ONE key to avoid rate-limit
+   issues from firing several storage calls back-to-back, and to keep
+   reports/master/profile in a single consistent snapshot. ---------- */
+async function saveJson(key, payload){
+  try{
+    const ok = await window.storage.set(key, payload, false);
+    if(ok) return true;
+  }catch(e){ console.error('save attempt 1 failed', key, e); }
+  await sleep(600);
+  try{
+    const ok2 = await window.storage.set(key, payload, false);
+    if(ok2) return true;
+  }catch(e){ console.error('save attempt 2 failed', key, e); }
+  await sleep(600);
+  try{
+    const check = await window.storage.get(key, false);
+    if(check && check.value === payload) return true;
+  }catch(e){ /* fall through */ }
+  return false;
+}
+
+function showToast(msg){
+  let toast = document.getElementById('toast');
+  if(!toast){
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.style.cssText = 'position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#3B2A3A;color:#fff;padding:10px 18px;border-radius:999px;font-size:12.5px;font-weight:700;z-index:300;box-shadow:0 6px 18px rgba(0,0,0,0.25);max-width:88vw;text-align:center;opacity:0;transition:opacity .3s;pointer-events:none;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+}
+
+let storageOk = true;
+function updateStorageStatus(ok){
+  const wasOk = storageOk;
+  storageOk = ok;
+  const el = document.getElementById('storageStatus');
+  if(!el) return;
+  if(ok){
+    el.style.display = 'none';
+  }else{
+    el.textContent = '⚠️ 端末への自動保存が不安定です（このタブを閉じるまでは操作できます）';
+    el.style.display = 'inline-block';
+    // Only interrupt with a toast the first time it happens — after that,
+    // the quiet badge above is enough, so we don't nag on every action.
+    if(wasOk) showToast('⚠️ 自動保存が不安定なようです。上のステータス表示をご確認ください。');
+  }
+}
+
+async function saveAppData(){
+  const payload = JSON.stringify({ reports, master: masterData, profile: myProfile });
+  const ok = await saveJson('app-data', payload);
+  // Data always stays usable in memory for the rest of this session either
+  // way, so we surface a quiet status badge instead of a blocking alert.
+  updateStorageStatus(ok);
+  return ok;
+}
+
+async function loadAppData(){
+  let loaded = false;
+  try{
+    const res = await window.storage.get('app-data', false);
+    if(res){
+      const parsed = JSON.parse(res.value);
+      reports = Array.isArray(parsed.reports) ? parsed.reports : [];
+      masterData = (parsed.master && typeof parsed.master === 'object') ? parsed.master : { idols: [], events: [], venues: [] };
+      myProfile = (parsed.profile && typeof parsed.profile === 'object') ? parsed.profile : { photo: null };
+      loaded = true;
+    }
+  }catch(e){ /* no data yet, or a fetch error — fall through */ }
+
+  if(!loaded){
+    // try to migrate from an earlier version that used separate keys
+    try{
+      const oldReports = await window.storage.get('reports-data', false);
+      if(oldReports){ reports = JSON.parse(oldReports.value) || []; }
+    }catch(e){ /* ignore */ }
+    try{
+      const oldMaster = await window.storage.get('master-data', false);
+      if(oldMaster){ masterData = JSON.parse(oldMaster.value) || masterData; }
+    }catch(e){ /* ignore */ }
+    if(reports.length || masterData.idols.length || masterData.events.length || masterData.venues.length){
+      await saveAppData();
+    }
+  }
+
+  if(!Array.isArray(masterData.idols)) masterData.idols = [];
+  if(!Array.isArray(masterData.events)) masterData.events = [];
+  if(!Array.isArray(masterData.venues)) masterData.venues = [];
+  if(!Array.isArray(masterData.nicknames)) masterData.nicknames = [];
+  let phrasesSeeded = false;
+  if(masterData.phrases === undefined){
+    masterData.phrases = ['ありがとうございました！','よろしくお願いします！','頑張ってください！','また会いに来ます！','可愛かったです！'].map(name => ({name, category: ''}));
+    phrasesSeeded = true;
+  }else if(!Array.isArray(masterData.phrases)){
+    masterData.phrases = [];
+  }
+  if(!myProfile || typeof myProfile !== 'object') myProfile = { photo: null };
+
+  reports.forEach(r => {
+    if(!Array.isArray(r.messages)){
+      r.messages = r.talk ? [{speaker:'me', text: r.talk}] : [];
+    }
+    r.messages.forEach(m => {
+      if(m.speaker === 'note' || m.speaker === 'feeling') m.speaker = 'me-feeling';
+      else if(m.speaker === 'gesture') m.speaker = 'me-gesture';
+    });
+    if(!r.eventType) r.eventType = '握手会';
+    if(!Array.isArray(r.extraPhotos)) r.extraPhotos = [];
+    if(typeof r.favorite !== 'boolean') r.favorite = false;
+    if(typeof r.isDraft !== 'boolean') r.isDraft = false;
+  });
+
+  renderDatalists();
+  renderFanProfilePreview();
+  renderPhraseChips();
+  render();
+  renderFilterChips();
+  renderTypeFilterChips();
+  renderIdolFilterChips();
+  if(phrasesSeeded) saveAppData();
+}
+
+/* ---------- Helpers ---------- */
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+function fmtDate(d){
+  if(!d) return '';
+  const [y,m,day] = d.split('-');
+  return `${y}.${m}.${day}`;
+}
+
+function countForIdol(name){
+  const key = (name || '').trim();
+  return reports.filter(x => (x.idol || '').trim() === key).length;
+}
+
+function getTypeIcon(type){
+  if(type === '握手会') return '🤝';
+  if(type === 'トーク会') return '🎤';
+  return '🎫';
+}
+
+function buildExtraTags(r){
+  const tags = [];
+  if(r.part) tags.push(`第${r.part}部`);
+  if(r.sheets) tags.push(`${r.sheets}枚`);
+  if(r.loops) tags.push(`${r.loops}ループ`);
+  if(r.extraPhotos && r.extraPhotos.length) tags.push(`📸${r.extraPhotos.length}`);
+  if(r.memo && r.memo.trim()) tags.push(`📝メモあり`);
+  return tags;
+}
+
+function parseSpeaker(s){
+  if(s === 'me' || s === 'idol' || s === 'staff') return { who: s, type: 'talk' };
+  const idx = s.indexOf('-');
+  if(idx === -1) return { who: 'me', type: 'feeling' };
+  return { who: s.slice(0, idx), type: s.slice(idx + 1) };
+}
+
+function getIdolNameForComposer(){
+  const v = document.getElementById('f-idol').value.trim();
+  return v || '推し';
+}
+
+/* ---------- Master data ---------- */
+function renderDatalists(){
+  document.getElementById('idolList').innerHTML = masterData.idols.map(e => `<option value="${escapeHtml(e.name)}">`).join('');
+  document.getElementById('eventList').innerHTML = masterData.events.map(e => `<option value="${escapeHtml(e.name)}">`).join('');
+  document.getElementById('venueList').innerHTML = masterData.venues.map(e => `<option value="${escapeHtml(e.name)}">`).join('');
+  document.getElementById('nicknameList').innerHTML = (masterData.nicknames || []).map(e => `<option value="${escapeHtml(e.name)}">`).join('');
+  renderPhraseChips();
+}
+
+function ensureMaster(type, name){
+  const key = (name || '').trim();
+  if(!key) return;
+  const list = masterData[type];
+  if(!list.some(e => e.name.trim() === key)){
+    list.push({name: key, category: ''});
+  }
+}
+
+function findCategory(type, name){
+  const key = (name || '').trim();
+  const found = (masterData[type] || []).find(e => e.name.trim() === key);
+  return found ? found.category : '';
+}
+
+function getAllCategories(){
+  const set = new Set();
+  ['idols','events','venues'].forEach(t => (masterData[t] || []).forEach(e => { if(e.category) set.add(e.category); }));
+  return [...set];
+}
+
+function categoryMatches(r, cat){
+  return findCategory('idols', r.idol) === cat || findCategory('events', r.event) === cat || findCategory('venues', r.venue) === cat;
+}
+
+function renderFilterChips(){
+  const wrap = document.getElementById('filterChips');
+  const cats = getAllCategories();
+  if(cats.length === 0){ wrap.innerHTML = ''; wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  const allBtn = `<button type="button" class="filter-chip ${!activeCategoryFilter ? 'active' : ''}" onclick="setCategoryFilter(null)">すべて</button>`;
+  const catBtns = cats.map(c => `<button type="button" class="filter-chip ${activeCategoryFilter === c ? 'active' : ''}" onclick="setCategoryFilter('${escapeHtml(c).replace(/'/g,"&#39;")}')">${escapeHtml(c)}</button>`).join('');
+  wrap.innerHTML = allBtn + catBtns;
+}
+
+function setCategoryFilter(cat){
+  activeCategoryFilter = cat;
+  renderFilterChips();
+  render();
+}
+
+function getAllEventTypes(){
+  const set = new Set();
+  reports.forEach(r => { if(r.eventType) set.add(r.eventType); });
+  return [...set];
+}
+
+function renderTypeFilterChips(){
+  const wrap = document.getElementById('typeFilterChips');
+  const types = getAllEventTypes();
+  if(types.length <= 1){ wrap.innerHTML = ''; wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  const allBtn = `<button type="button" class="filter-chip ${!activeTypeFilter ? 'active' : ''}" onclick="setTypeFilter(null)">すべて</button>`;
+  const typeBtns = types.map(t => `<button type="button" class="filter-chip ${activeTypeFilter === t ? 'active' : ''}" onclick="setTypeFilter('${escapeHtml(t).replace(/'/g,"&#39;")}')">${getTypeIcon(t)} ${escapeHtml(t)}</button>`).join('');
+  wrap.innerHTML = allBtn + typeBtns;
+}
+
+function setTypeFilter(type){
+  activeTypeFilter = type;
+  renderTypeFilterChips();
+  render();
+}
+
+function getAllIdolsInReports(){
+  const set = new Set();
+  reports.forEach(r => { if(r.idol && r.idol !== '（メンバー名未入力）') set.add(r.idol.trim()); });
+  return [...set].sort((a,b) => a.localeCompare(b, 'ja'));
+}
+
+function renderIdolFilterChips(){
+  const wrap = document.getElementById('idolFilterChips');
+  const idols = getAllIdolsInReports();
+  if(idols.length <= 1){ wrap.innerHTML = ''; wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  const allBtn = `<button type="button" class="filter-chip ${!activeIdolFilter ? 'active' : ''}" onclick="setIdolFilter(null)">すべて</button>`;
+  const idolBtns = idols.map(name => `<button type="button" class="filter-chip ${activeIdolFilter === name ? 'active' : ''}" onclick="setIdolFilter('${escapeHtml(name).replace(/'/g,"&#39;")}')">${escapeHtml(name)}</button>`).join('');
+  wrap.innerHTML = allBtn + idolBtns;
+}
+
+function setIdolFilter(name){
+  activeIdolFilter = name;
+  renderIdolFilterChips();
+  render();
+}
+
+function clearDateFilter(){
+  filterDateFrom = '';
+  filterDateTo = '';
+  calendarSelectedDate = null;
+  document.getElementById('filterDateFrom').value = '';
+  document.getElementById('filterDateTo').value = '';
+  if(viewMode === 'calendar') renderCalendar();
+  render();
+}
+
+/* ---------- Filter modal / active filter summary ---------- */
+function openFilterModal(){
+  document.getElementById('filterOverlay').classList.add('open');
+}
+function closeFilterModal(){
+  document.getElementById('filterOverlay').classList.remove('open');
+}
+
+function resetAllFilters(){
+  activeIdolFilter = null;
+  activeTypeFilter = null;
+  activeCategoryFilter = null;
+  favoritesOnly = false;
+  draftsOnly = false;
+  sortMode = 'date_desc';
+  document.getElementById('sortSelect').value = 'date_desc';
+  document.getElementById('favOnlyChip').classList.remove('active');
+  document.getElementById('draftOnlyChip').classList.remove('active');
+  renderIdolFilterChips();
+  renderTypeFilterChips();
+  renderFilterChips();
+  clearDateFilter();
+}
+
+function getActiveFilterCount(){
+  let n = 0;
+  if(activeIdolFilter) n++;
+  if(activeTypeFilter) n++;
+  if(activeCategoryFilter) n++;
+  if(filterDateFrom || filterDateTo) n++;
+  if(favoritesOnly) n++;
+  if(draftsOnly) n++;
+  return n;
+}
+
+function updateFilterBadge(){
+  const badge = document.getElementById('filterBadge');
+  if(!badge) return;
+  const count = getActiveFilterCount();
+  if(count > 0){
+    badge.textContent = count;
+    badge.style.display = 'inline-flex';
+  }else{
+    badge.style.display = 'none';
+  }
+}
+
+function renderActiveFilterSummary(){
+  const wrap = document.getElementById('activeFilters');
+  if(!wrap) return;
+  const chips = [];
+  if(activeIdolFilter){
+    chips.push(`<button type="button" class="active-filter-chip" onclick="setIdolFilter(null)">👤 ${escapeHtml(activeIdolFilter)} <span class="x">✕</span></button>`);
+  }
+  if(activeTypeFilter){
+    chips.push(`<button type="button" class="active-filter-chip" onclick="setTypeFilter(null)">${getTypeIcon(activeTypeFilter)} ${escapeHtml(activeTypeFilter)} <span class="x">✕</span></button>`);
+  }
+  if(activeCategoryFilter){
+    chips.push(`<button type="button" class="active-filter-chip" onclick="setCategoryFilter(null)">🏷 ${escapeHtml(activeCategoryFilter)} <span class="x">✕</span></button>`);
+  }
+  if(filterDateFrom || filterDateTo){
+    const label = (filterDateFrom && filterDateTo && filterDateFrom === filterDateTo)
+      ? fmtDate(filterDateFrom)
+      : `${filterDateFrom ? fmtDate(filterDateFrom) : ''}〜${filterDateTo ? fmtDate(filterDateTo) : ''}`;
+    chips.push(`<button type="button" class="active-filter-chip" onclick="clearDateFilter()">📅 ${label} <span class="x">✕</span></button>`);
+  }
+  if(favoritesOnly){
+    chips.push(`<button type="button" class="active-filter-chip" onclick="toggleFavoritesOnly()">⭐️ お気に入りのみ <span class="x">✕</span></button>`);
+  }
+  if(draftsOnly){
+    chips.push(`<button type="button" class="active-filter-chip" onclick="toggleDraftsOnly()">📝 下書きのみ <span class="x">✕</span></button>`);
+  }
+  if(chips.length === 0){
+    wrap.innerHTML = '';
+    wrap.style.display = 'none';
+  }else{
+    wrap.style.display = 'flex';
+    wrap.innerHTML = chips.join('');
+  }
+}
+
+/* ---------- Grid rendering ---------- */
+function render(){
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyState');
+  let sorted = [...reports];
+  if(activeCategoryFilter){
+    sorted = sorted.filter(r => categoryMatches(r, activeCategoryFilter));
+  }
+  if(activeIdolFilter){
+    sorted = sorted.filter(r => (r.idol || '').trim() === activeIdolFilter);
+  }
+  if(activeTypeFilter){
+    sorted = sorted.filter(r => r.eventType === activeTypeFilter);
+  }
+  if(filterDateFrom){
+    sorted = sorted.filter(r => (r.date || '') >= filterDateFrom);
+  }
+  if(filterDateTo){
+    sorted = sorted.filter(r => (r.date || '') <= filterDateTo);
+  }
+  if(favoritesOnly){
+    sorted = sorted.filter(r => r.favorite);
+  }
+  if(draftsOnly){
+    sorted = sorted.filter(r => r.isDraft);
+  }
+  if(viewMode === 'calendar' && calendarSelectedDate){
+    sorted = sorted.filter(r => r.date === calendarSelectedDate);
+  }
+  if(searchQuery){
+    sorted = sorted.filter(r =>
+      (r.idol || '').toLowerCase().includes(searchQuery) ||
+      (r.venue || '').toLowerCase().includes(searchQuery) ||
+      (r.event || '').toLowerCase().includes(searchQuery) ||
+      (r.date || '').includes(searchQuery) ||
+      fmtDate(r.date).includes(searchQuery) ||
+      (r.messages || []).some(m => (m.text || '').toLowerCase().includes(searchQuery))
+    );
+  }
+
+  sorted.sort((a,b) => {
+    if(sortMode === 'date_asc'){
+      return (a.date||'').localeCompare(b.date||'') || (a.createdAt||0)-(b.createdAt||0);
+    }
+    if(sortMode === 'idol'){
+      return (a.idol||'').localeCompare(b.idol||'', 'ja') || (b.date||'').localeCompare(a.date||'');
+    }
+    if(sortMode === 'loops_desc'){
+      return (b.loops||0)-(a.loops||0) || (b.date||'').localeCompare(a.date||'');
+    }
+    // date_desc (default)
+    return (b.date||'').localeCompare(a.date||'') || (b.createdAt||0)-(a.createdAt||0);
+  });
+
+  document.getElementById('statPill').textContent = `全 ${reports.length} 件のレポ`;
+  updateFilterBadge();
+  renderActiveFilterSummary();
+
+  if(sorted.length === 0){
+    grid.innerHTML = '';
+    if(reports.length > 0){
+      empty.innerHTML = '<span class="big-emoji">🔍</span>条件に一致するレポが見つかりませんでした。';
+    }else{
+      empty.innerHTML = '<span class="big-emoji">🎫💕</span>まだレポがありません。<br>最初の握手会レポを追加してみましょう！<div><button class="btn btn-primary" onclick="openAddModal()">＋ レポを追加</button></div>';
+    }
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = sorted.map(r => {
+    const msgs = r.messages || [];
+    const preview = msgs.slice(0,2).map(m => {
+      const {who, type} = parseSpeaker(m.speaker);
+      if(who === 'staff'){
+        const icon = type === 'talk' ? '🎽' : (type === 'feeling' ? '💭' : '👋');
+        return `<div class="mini-msg note"><div class="mini-note staff">${icon} スタッフ：${escapeHtml(m.text)}</div></div>`;
+      }
+      if(type !== 'talk'){
+        const icon = type === 'feeling' ? '💭' : '👋';
+        return `<div class="mini-msg note"><div class="mini-note ${who} ${type}">${icon} ${escapeHtml(m.text)}</div></div>`;
+      }
+      const avatarHtml = who === 'idol'
+        ? `<div class="mini-avatar">${r.photo ? `<img src="${r.photo}" alt="">` : ''}</div>`
+        : `<div class="mini-avatar">${myProfile.photo ? `<img src="${myProfile.photo}" alt="">` : ''}</div>`;
+      return `
+      <div class="mini-msg ${who}">
+        ${avatarHtml}
+        <div class="mini-bubble">${escapeHtml(m.text)}</div>
+      </div>`;
+    }).join('');
+    const more = msgs.length > 2 ? `<div class="mini-more">…他${msgs.length - 2}件</div>` : '';
+    const count = countForIdol(r.idol);
+    const extraTags = buildExtraTags(r);
+    const extraMetaHtml = extraTags.length
+      ? `<div class="extra-meta">${extraTags.map(t => `<span class="mini-tag">${t}</span>`).join('')}</div>` : '';
+    return `
+    <div class="card" onclick="openDetail('${r.id}')">
+      ${r.isDraft ? `<span class="draft-badge">📝 下書き</span>` : ''}
+      <button type="button" class="fav-star ${r.favorite ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${r.id}')" aria-label="お気に入り">${r.favorite ? '⭐️' : '☆'}</button>
+      <div class="card-top">
+        <div class="avatar">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+        <div class="idol-name-lg">${escapeHtml(r.idol)}</div>
+        <div class="meta-line">${fmtDate(r.date)}<span class="count-badge">🎫 ${count}</span></div>
+        ${extraMetaHtml}
+      </div>
+      <div class="ticket-divider"><div class="dash-line"></div></div>
+      <div class="card-body">
+        <div class="chip-row">
+          <span class="type-chip">${getTypeIcon(r.eventType)} ${escapeHtml(r.eventType)}</span>
+          <span class="event-chip">${escapeHtml(r.event)}</span>
+        </div>
+        <div class="mini-thread">${preview || '<div class="mini-empty">（トーク未入力）</div>'}${more}</div>
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+/* ---------- Favorites / sort / view mode / calendar ---------- */
+function toggleFavorite(id){
+  const r = reports.find(x => x.id === id);
+  if(!r) return;
+  r.favorite = !r.favorite;
+  saveAppData();
+  render();
+}
+
+function toggleFavoriteFromDetail(){
+  toggleFavorite(detailReportId);
+  updateDetailFavButton();
+}
+
+function updateDetailFavButton(){
+  const r = reports.find(x => x.id === detailReportId);
+  const btn = document.getElementById('detailFavBtn');
+  if(!r || !btn) return;
+  btn.textContent = r.favorite ? '⭐️ お気に入り解除' : '☆ お気に入りに追加';
+}
+
+function toggleFavoritesOnly(){
+  favoritesOnly = !favoritesOnly;
+  document.getElementById('favOnlyChip').classList.toggle('active', favoritesOnly);
+  render();
+}
+
+function toggleDraftsOnly(){
+  draftsOnly = !draftsOnly;
+  document.getElementById('draftOnlyChip').classList.toggle('active', draftsOnly);
+  render();
+}
+
+document.getElementById('sortSelect').addEventListener('change', function(){
+  sortMode = this.value;
+  render();
+});
+
+function setViewMode(mode){
+  viewMode = mode;
+  document.getElementById('viewGridBtn').classList.toggle('active', mode === 'grid');
+  document.getElementById('viewCalendarBtn').classList.toggle('active', mode === 'calendar');
+  document.getElementById('calendarWrap').style.display = mode === 'calendar' ? 'block' : 'none';
+  document.getElementById('grid').style.display = mode === 'calendar' ? 'none' : 'grid';
+  if(mode === 'calendar'){
+    if(calendarYear === null){
+      const today = new Date();
+      calendarYear = today.getFullYear();
+      calendarMonth = today.getMonth();
+    }
+    renderCalendar();
+  }else{
+    render();
+  }
+}
+
+function shiftCalendarMonth(delta){
+  calendarMonth += delta;
+  if(calendarMonth < 0){ calendarMonth = 11; calendarYear--; }
+  if(calendarMonth > 11){ calendarMonth = 0; calendarYear++; }
+  renderCalendar();
+}
+
+function selectCalendarDate(dateStr){
+  if(calendarSelectedDate === dateStr){
+    clearCalendarSelection();
+    return;
+  }
+  calendarSelectedDate = dateStr;
+  filterDateFrom = dateStr;
+  filterDateTo = dateStr;
+  document.getElementById('filterDateFrom').value = dateStr;
+  document.getElementById('filterDateTo').value = dateStr;
+  renderCalendar();
+  setViewMode('grid');
+}
+
+function clearCalendarSelection(){
+  calendarSelectedDate = null;
+  filterDateFrom = '';
+  filterDateTo = '';
+  document.getElementById('filterDateFrom').value = '';
+  document.getElementById('filterDateTo').value = '';
+  renderCalendar();
+  render();
+}
+
+function renderCalendar(){
+  const wrap = document.getElementById('calendarWrap');
+  const year = calendarYear;
+  const month = calendarMonth;
+  const firstDay = new Date(year, month, 1);
+  const startWeekday = firstDay.getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const todayStr = new Date().toISOString().slice(0,10);
+
+  const byDate = {};
+  reports.forEach(r => {
+    if(!r.date) return;
+    byDate[r.date] = (byDate[r.date] || 0) + 1;
+  });
+
+  let cells = '';
+  for(let i = 0; i < startWeekday; i++){ cells += '<div class="calendar-day empty"></div>'; }
+  for(let d = 1; d <= daysInMonth; d++){
+    const dateStr = `${year}-${String(month + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const count = byDate[dateStr] || 0;
+    const classes = ['calendar-day'];
+    if(count > 0) classes.push('has-reports');
+    if(dateStr === calendarSelectedDate) classes.push('selected');
+    if(dateStr === todayStr) classes.push('today');
+    cells += `<div class="${classes.join(' ')}" onclick="selectCalendarDate('${dateStr}')">
+      <span>${d}</span>
+      ${count > 0 ? `<span class="cal-dot"></span>` : ''}
+    </div>`;
+  }
+
+  wrap.innerHTML = `
+    <div class="calendar-head">
+      <button type="button" onclick="shiftCalendarMonth(-1)">◀</button>
+      <span class="cal-title">${year}年${month + 1}月</span>
+      <button type="button" onclick="shiftCalendarMonth(1)">▶</button>
+    </div>
+    <div class="calendar-grid">
+      <div class="calendar-weekday">日</div><div class="calendar-weekday">月</div><div class="calendar-weekday">火</div>
+      <div class="calendar-weekday">水</div><div class="calendar-weekday">木</div><div class="calendar-weekday">金</div><div class="calendar-weekday">土</div>
+      ${cells}
+    </div>
+    ${calendarSelectedDate ? `<div class="calendar-clear"><button type="button" class="link-btn" onclick="clearCalendarSelection()">${fmtDate(calendarSelectedDate)}の絞り込みを解除</button></div>` : ''}
+  `;
+}
+
+/* ---------- Composer ---------- */
+function setWho(who){
+  composerWho = who;
+  document.getElementById('whoMeBtn').classList.toggle('active', who === 'me');
+  document.getElementById('whoIdolBtn').classList.toggle('active', who === 'idol');
+  document.getElementById('whoStaffBtn').classList.toggle('active', who === 'staff');
+}
+
+function setType(type){
+  composerType = type;
+  document.getElementById('typeTalkBtn').classList.toggle('active', type === 'talk');
+  document.getElementById('typeFeelingBtn').classList.toggle('active', type === 'feeling');
+  document.getElementById('typeGestureBtn').classList.toggle('active', type === 'gesture');
+  document.getElementById('typeHint').classList.toggle('show', type === 'feeling' || type === 'gesture');
+}
+
+function togglePhraseChips(){
+  const chips = document.getElementById('phraseChips');
+  const btn = document.getElementById('phraseToggleBtn');
+  const showing = chips.classList.toggle('show');
+  btn.textContent = showing ? '💬 よく使うフレーズを閉じる' : '💬 よく使うフレーズを表示';
+}
+
+function resetPhraseChipsCollapse(){
+  const chips = document.getElementById('phraseChips');
+  const btn = document.getElementById('phraseToggleBtn');
+  if(chips) chips.classList.remove('show');
+  if(btn) btn.textContent = '💬 よく使うフレーズを表示';
+}
+
+function renderChatThread(){
+  const wrap = document.getElementById('chatThread');
+  if(draftMessages.length === 0){
+    wrap.innerHTML = `<div class="chat-thread-empty">「自分/推し/スタッフ」＋「発言・心情・仕草」を選んで下の欄から追加していきましょう</div>`;
+    return;
+  }
+  wrap.innerHTML = draftMessages.map((m, i) => {
+    const {who, type} = parseSpeaker(m.speaker);
+    if(who === 'staff'){
+      const icon = type === 'talk' ? '🎽' : (type === 'feeling' ? '💭' : '👋');
+      return `
+        <div class="chat-msg note">
+          <div class="chat-note staff"><span class="note-who">スタッフ</span> ${icon} ${escapeHtml(m.text)}</div>
+          <button type="button" class="chat-msg-del" onclick="removeMessage(${i})" aria-label="削除">✕</button>
+        </div>`;
+    }
+    if(type !== 'talk'){
+      const icon = type === 'feeling' ? '💭' : '👋';
+      const whoLabel = who === 'me' ? getFanLabel() : getIdolNameForComposer();
+      return `
+        <div class="chat-msg note">
+          <div class="chat-note ${who} ${type}"><span class="note-who">${escapeHtml(whoLabel)}</span> ${icon} ${escapeHtml(m.text)}</div>
+          <button type="button" class="chat-msg-del" onclick="removeMessage(${i})" aria-label="削除">✕</button>
+        </div>`;
+    }
+    return `
+    <div class="chat-msg ${who}">
+      <div class="chat-bubble">${escapeHtml(m.text)}</div>
+      <button type="button" class="chat-msg-del" onclick="removeMessage(${i})" aria-label="削除">✕</button>
+    </div>
+  `;
+  }).join('');
+}
+
+function addMessage(){
+  const input = document.getElementById('composerInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const speaker = composerType === 'talk' ? composerWho : (composerWho + '-' + composerType);
+  draftMessages.push({speaker, text});
+  input.value = '';
+  if(composerType === 'talk'){
+    setWho(composerWho === 'me' ? 'idol' : 'me');
+  }else{
+    setType('talk');
+  }
+  renderChatThread();
+  input.focus();
+}
+
+function renderPhraseChips(){
+  const wrap = document.getElementById('phraseChips');
+  if(!wrap) return;
+  const phrases = masterData.phrases || [];
+  if(phrases.length === 0){
+    wrap.innerHTML = '<div class="mini-empty" style="width:100%;padding:6px 0;">まだフレーズがありません。<button type="button" class="link-btn" onclick="openPhraseMasterFromComposer()">＋ 追加する</button></div>';
+  }else{
+    wrap.innerHTML = phrases.map(p => `<button type="button" class="phrase-chip" onclick="addPhraseMessage('${escapeHtml(p.name).replace(/'/g,"&#39;")}')">${escapeHtml(p.name)}</button>`).join('');
+  }
+}
+
+function openPhraseMasterFromComposer(){
+  openMasterModal();
+  setMasterTab('phrases');
+}
+
+function addPhraseMessage(text){
+  if(!text) return;
+  const speaker = composerType === 'talk' ? composerWho : (composerWho + '-' + composerType);
+  draftMessages.push({speaker, text});
+  if(composerType === 'talk'){
+    setWho(composerWho === 'me' ? 'idol' : 'me');
+  }else{
+    setType('talk');
+  }
+  renderChatThread();
+}
+
+function removeMessage(index){
+  draftMessages.splice(index, 1);
+  renderChatThread();
+}
+
+document.getElementById('composerInput').addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    addMessage();
+  }
+});
+
+/* ---------- Event type select ---------- */
+function applyEventType(value){
+  const select = document.getElementById('f-eventType-select');
+  const custom = document.getElementById('f-eventType-custom');
+  if(value === '握手会' || value === 'トーク会'){
+    select.value = value;
+    custom.style.display = 'none';
+    custom.value = '';
+  }else{
+    select.value = '__custom__';
+    custom.style.display = 'block';
+    custom.value = value || '';
+  }
+}
+
+document.getElementById('f-eventType-select').addEventListener('change', function(){
+  const custom = document.getElementById('f-eventType-custom');
+  if(this.value === '__custom__'){
+    custom.style.display = 'block';
+    custom.focus();
+  }else{
+    custom.style.display = 'none';
+    custom.value = '';
+  }
+});
+
+/* ---------- Add / edit modal ---------- */
+function openAddModal(){
+  editingId = null;
+  pendingPhoto = null;
+  pendingExtraPhotos = [];
+  extraPhotoQueue = [];
+  draftMessages = [];
+
+  const today = new Date().toISOString().slice(0,10);
+  const latest = [...reports].sort((a,b)=> (b.createdAt||0)-(a.createdAt||0))[0];
+  const sameDay = latest && latest.date === today;
+
+  document.getElementById('formTitle').textContent = 'レポを追加';
+  document.getElementById('f-idol').value = '';
+  document.getElementById('f-event').value = sameDay ? latest.event : '';
+  document.getElementById('f-venue').value = sameDay ? (latest.venue || '') : '';
+  document.getElementById('f-date').value = today;
+  applyEventType(sameDay ? latest.eventType : '握手会');
+  document.getElementById('f-part').value = '';
+  document.getElementById('f-sheets').value = '';
+  document.getElementById('f-loops').value = '';
+  document.getElementById('f-memo').value = '';
+  document.getElementById('f-photo').value = '';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoEditBtn').style.display = 'none';
+  document.getElementById('f-extra-photos').value = '';
+  document.getElementById('composerInput').value = '';
+
+  renderExtraPhotoRow();
+  resetPhraseChipsCollapse();
+  setWho('me');
+  setType('talk');
+  renderChatThread();
+  document.getElementById('formOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('f-idol').focus(), 50);
+}
+
+function openEditModal(id){
+  const r = reports.find(x => x.id === id);
+  if(!r) return;
+  editingId = id;
+  pendingPhoto = r.photo || null;
+  pendingExtraPhotos = [...(r.extraPhotos || [])];
+  extraPhotoQueue = [];
+  draftMessages = (r.messages || []).map(m => ({...m}));
+
+  document.getElementById('formTitle').textContent = 'レポを編集';
+  document.getElementById('f-idol').value = (r.idol === '（メンバー名未入力）') ? '' : r.idol;
+  document.getElementById('f-event').value = (r.event === '（イベント名未入力）') ? '' : r.event;
+  document.getElementById('f-venue').value = r.venue || '';
+  document.getElementById('f-date').value = r.date;
+  applyEventType(r.eventType);
+  document.getElementById('f-part').value = r.part || '';
+  document.getElementById('f-sheets').value = r.sheets || '';
+  document.getElementById('f-loops').value = r.loops || '';
+  document.getElementById('f-memo').value = r.memo || '';
+  document.getElementById('f-photo').value = '';
+  document.getElementById('f-extra-photos').value = '';
+  const preview = document.getElementById('photoPreview');
+  const editBtn = document.getElementById('photoEditBtn');
+  if(r.photo){ preview.src = r.photo; preview.style.display = 'inline-block'; editBtn.style.display = 'inline-block'; }
+  else{ preview.style.display = 'none'; editBtn.style.display = 'none'; }
+
+  renderExtraPhotoRow();
+  resetPhraseChipsCollapse();
+  const lastDialogue = [...draftMessages].reverse().map(m => parseSpeaker(m.speaker)).find(p => p.type === 'talk' && (p.who === 'me' || p.who === 'idol'));
+  setWho(lastDialogue && lastDialogue.who === 'me' ? 'idol' : 'me');
+  setType('talk');
+  renderChatThread();
+  document.getElementById('formOverlay').classList.add('open');
+}
+
+function closeFormModal(){
+  document.getElementById('formOverlay').classList.remove('open');
+}
+
+/* ---------- Duplicate (copy everything except the talk content) ---------- */
+function duplicateReport(id){
+  const r = reports.find(x => x.id === id);
+  if(!r) return;
+  closeDetailModal();
+  openAddModal();
+  document.getElementById('f-idol').value = r.idol;
+  document.getElementById('f-event').value = r.event;
+  document.getElementById('f-venue').value = r.venue || '';
+  document.getElementById('f-date').value = r.date;
+  applyEventType(r.eventType);
+  document.getElementById('f-part').value = r.part || '';
+  document.getElementById('f-sheets').value = r.sheets || '';
+  document.getElementById('f-loops').value = r.loops || '';
+  pendingPhoto = r.photo || null;
+  const preview = document.getElementById('photoPreview');
+  const editBtn = document.getElementById('photoEditBtn');
+  if(pendingPhoto){ preview.src = pendingPhoto; preview.style.display = 'inline-block'; editBtn.style.display = 'inline-block'; }
+  setTimeout(() => document.getElementById('composerInput').focus(), 60);
+}
+
+function duplicateFromDetail(){
+  duplicateReport(detailReportId);
+}
+
+/* ---------- Quote / reference fields from another report (content excluded) ---------- */
+function openReferenceModal(){
+  document.getElementById('referenceSearch').value = '';
+  backToReferenceList();
+  renderReferenceList('');
+  document.getElementById('referenceOverlay').classList.add('open');
+}
+function closeReferenceModal(){
+  document.getElementById('referenceOverlay').classList.remove('open');
+}
+document.getElementById('referenceSearch').addEventListener('input', function(){
+  renderReferenceList(this.value.trim().toLowerCase());
+});
+function renderReferenceList(query){
+  const wrap = document.getElementById('referenceList');
+  let list = [...reports].sort((a,b)=> (b.date||'').localeCompare(a.date||'') || (b.createdAt||0)-(a.createdAt||0));
+  if(editingId) list = list.filter(r => r.id !== editingId);
+  if(query){
+    list = list.filter(r =>
+      (r.idol || '').toLowerCase().includes(query) ||
+      (r.event || '').toLowerCase().includes(query) ||
+      (r.venue || '').toLowerCase().includes(query)
+    );
+  }
+  if(list.length === 0){
+    wrap.innerHTML = '<div class="mini-empty" style="padding:20px 0;">見つかりませんでした</div>';
+    return;
+  }
+  wrap.innerHTML = list.map(r => `
+    <div class="reference-row" onclick="showReferencePreview('${r.id}')">
+      <div class="avatar" style="width:40px;height:40px;font-size:16px;">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+      <div class="reference-row-info">
+        <div class="reference-row-name">${escapeHtml(r.idol)}</div>
+        <div class="reference-row-sub">${fmtDate(r.date)} ・ ${escapeHtml(r.event)}</div>
+      </div>
+      <span class="reference-row-arrow">›</span>
+    </div>
+  `).join('');
+}
+
+function buildReadOnlyThreadHtml(r){
+  const msgs = r.messages || [];
+  if(msgs.length === 0){
+    return '<div class="mini-empty" style="padding:14px 0;">トークの入力はありません</div>';
+  }
+  return msgs.map(m => {
+    const {who, type} = parseSpeaker(m.speaker);
+    if(who === 'staff'){
+      const icon = type === 'talk' ? '🎽' : (type === 'feeling' ? '💭' : '👋');
+      return `<div class="chat-msg note"><div class="chat-note staff"><span class="note-who">スタッフ</span> ${icon} ${escapeHtml(m.text)}</div></div>`;
+    }
+    if(type !== 'talk'){
+      const icon = type === 'feeling' ? '💭' : '👋';
+      const whoLabel = who === 'me' ? getFanLabel() : (r.idol || 'アイドル');
+      return `<div class="chat-msg note"><div class="chat-note ${who} ${type}"><span class="note-who">${escapeHtml(whoLabel)}</span> ${icon} ${escapeHtml(m.text)}</div></div>`;
+    }
+    return `<div class="chat-msg ${who}"><div class="chat-bubble">${escapeHtml(m.text)}</div></div>`;
+  }).join('');
+}
+
+function showReferencePreview(id){
+  const r = reports.find(x => x.id === id);
+  if(!r) return;
+  const extraTags = buildExtraTags(r).filter(t => t !== '📝メモあり' && !t.startsWith('📸'));
+  const listSection = document.getElementById('referenceListSection');
+  const previewSection = document.getElementById('referencePreviewSection');
+  listSection.style.display = 'none';
+  previewSection.style.display = 'block';
+  previewSection.innerHTML = `
+    <button type="button" class="link-btn" style="margin-bottom:14px;" onclick="backToReferenceList()">← 一覧に戻る</button>
+    <div class="avatar" style="width:72px;height:72px;font-size:28px;margin:0 auto;">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+    <div style="text-align:center;font-weight:900;font-size:15px;margin-top:8px;">${escapeHtml(r.idol)}</div>
+    <div style="text-align:center;font-size:12px;color:var(--text-soft);margin-top:2px;">${fmtDate(r.date)}${r.venue ? ' ・ ' + escapeHtml(r.venue) : ''}</div>
+    <div class="chip-row" style="margin-top:10px;">
+      <span class="type-chip">${getTypeIcon(r.eventType)} ${escapeHtml(r.eventType)}</span>
+      <span class="event-chip">${escapeHtml(r.event)}</span>
+    </div>
+    ${extraTags.length ? `<div class="extra-meta">${extraTags.map(t => `<span class="mini-tag">${t}</span>`).join('')}</div>` : ''}
+    <div class="chat-section-label" style="margin-top:16px;">💬 トークのプレビュー</div>
+    <div class="chat-thread" style="max-height:220px; overflow-y:auto;">${buildReadOnlyThreadHtml(r)}</div>
+    <div class="btn-row" style="margin-top:16px;">
+      <button type="button" class="btn btn-primary" onclick="applyReference('${r.id}')">この内容を引用する</button>
+      <button type="button" class="btn btn-ghost" onclick="backToReferenceList()">キャンセル</button>
+    </div>
+  `;
+}
+
+function backToReferenceList(){
+  document.getElementById('referenceListSection').style.display = 'block';
+  document.getElementById('referencePreviewSection').style.display = 'none';
+  document.getElementById('referencePreviewSection').innerHTML = '';
+}
+
+function applyReference(id){
+  const r = reports.find(x => x.id === id);
+  if(!r) return;
+  document.getElementById('f-idol').value = r.idol;
+  document.getElementById('f-event').value = r.event;
+  document.getElementById('f-venue').value = r.venue || '';
+  applyEventType(r.eventType);
+  document.getElementById('f-part').value = r.part || '';
+  document.getElementById('f-sheets').value = r.sheets || '';
+  document.getElementById('f-loops').value = r.loops || '';
+  pendingPhoto = r.photo || null;
+  const preview = document.getElementById('photoPreview');
+  const editBtn = document.getElementById('photoEditBtn');
+  if(pendingPhoto){ preview.src = pendingPhoto; preview.style.display = 'inline-block'; editBtn.style.display = 'inline-block'; }
+  else{ preview.style.display = 'none'; editBtn.style.display = 'none'; }
+  closeReferenceModal();
+}
+
+/* ---------- Avatar photo + crop (shared by idol photo and fan profile photo) ---------- */
+document.getElementById('f-photo').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => openCropModal(ev.target.result, 'idol');
+  reader.onerror = () => alert('画像の読み込みに失敗しました。');
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('f-fan-photo').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => openCropModal(ev.target.result, 'fan');
+  reader.onerror = () => alert('画像の読み込みに失敗しました。');
+  reader.readAsDataURL(file);
+});
+
+function reopenCrop(){
+  if(!pendingPhoto) return;
+  openCropModal(pendingPhoto, 'idol');
+}
+
+function openCropModal(dataUrl, target, shape){
+  cropTarget = target || 'idol';
+  cropShape = shape || 'circle';
+  const stageW = 260;
+  const stageH = cropShape === 'rect' ? 340 : 260;
+  const stage = document.getElementById('cropStage');
+  const mask = stage.querySelector('.crop-mask');
+  stage.style.width = stageW + 'px';
+  stage.style.height = stageH + 'px';
+  mask.style.borderRadius = cropShape === 'rect' ? '14px' : '50%';
+
+  const titleEl = document.getElementById('cropModalTitle');
+  titleEl.textContent = cropTarget === 'extra' ? '思い出フォトの位置を調整' : '写真の位置を調整';
+
+  const img = document.getElementById('cropImgEl');
+  img.onload = () => {
+    const baseScale = Math.max(stageW / img.naturalWidth, stageH / img.naturalHeight);
+    cropState = {
+      img, stageW, stageH, baseScale, extraScale: 1, offsetX: 0, offsetY: 0,
+      naturalW: img.naturalWidth, naturalH: img.naturalHeight
+    };
+    document.getElementById('cropZoom').value = 1;
+    updateCropTransform();
+  };
+  img.src = dataUrl;
+  document.getElementById('cropOverlay').classList.add('open');
+}
+
+function updateCropTransform(){
+  if(!cropState) return;
+  const { img, baseScale, extraScale, stageW, stageH, naturalW, naturalH } = cropState;
+  const scale = baseScale * extraScale;
+  const dispW = naturalW * scale;
+  const dispH = naturalH * scale;
+  const maxOffsetX = Math.max(0, (dispW - stageW) / 2);
+  const maxOffsetY = Math.max(0, (dispH - stageH) / 2);
+  cropState.offsetX = Math.min(maxOffsetX, Math.max(-maxOffsetX, cropState.offsetX));
+  cropState.offsetY = Math.min(maxOffsetY, Math.max(-maxOffsetY, cropState.offsetY));
+  img.style.width = dispW + 'px';
+  img.style.height = dispH + 'px';
+  img.style.left = (stageW / 2 - dispW / 2 + cropState.offsetX) + 'px';
+  img.style.top = (stageH / 2 - dispH / 2 + cropState.offsetY) + 'px';
+  cropState.scale = scale;
+  cropState.dispW = dispW;
+  cropState.dispH = dispH;
+}
+
+const cropStageEl = document.getElementById('cropStage');
+cropStageEl.addEventListener('pointerdown', e => {
+  if(!cropState) return;
+  cropDragging = true;
+  cropDragStartX = e.clientX;
+  cropDragStartY = e.clientY;
+  cropStartOffsetX = cropState.offsetX;
+  cropStartOffsetY = cropState.offsetY;
+  cropStageEl.setPointerCapture(e.pointerId);
+});
+cropStageEl.addEventListener('pointermove', e => {
+  if(!cropDragging || !cropState) return;
+  cropState.offsetX = cropStartOffsetX + (e.clientX - cropDragStartX);
+  cropState.offsetY = cropStartOffsetY + (e.clientY - cropDragStartY);
+  updateCropTransform();
+});
+['pointerup','pointercancel'].forEach(evt => cropStageEl.addEventListener(evt, () => { cropDragging = false; }));
+
+document.getElementById('cropZoom').addEventListener('input', e => {
+  if(!cropState) return;
+  cropState.extraScale = parseFloat(e.target.value);
+  updateCropTransform();
+});
+
+function confirmCrop(){
+  if(!cropState){ closeCropModal(); return; }
+  const { img, scale, stageW, stageH, dispW, dispH, offsetX, offsetY } = cropState;
+  const imgLeft = stageW / 2 - dispW / 2 + offsetX;
+  const imgTop = stageH / 2 - dispH / 2 + offsetY;
+  const srcX = -imgLeft / scale;
+  const srcY = -imgTop / scale;
+  const srcW = stageW / scale;
+  const srcH = stageH / scale;
+  const outW = 320;
+  const outH = Math.round(outW * stageH / stageW);
+  const canvas = document.createElement('canvas');
+  canvas.width = outW;
+  canvas.height = outH;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+  if(cropTarget === 'fan'){
+    myProfile.photo = dataUrl;
+    renderFanProfilePreview();
+    saveAppData();
+  }else if(cropTarget === 'extra'){
+    pendingExtraPhotos.push(dataUrl);
+    renderExtraPhotoRow();
+  }else{
+    pendingPhoto = dataUrl;
+    const preview = document.getElementById('photoPreview');
+    preview.src = dataUrl;
+    preview.style.display = 'inline-block';
+    document.getElementById('photoEditBtn').style.display = 'inline-block';
+  }
+  closeCropModal();
+  if(cropTarget === 'extra') processNextExtraPhoto();
+}
+
+function cancelCrop(){
+  const wasExtra = cropTarget === 'extra';
+  closeCropModal();
+  if(wasExtra) processNextExtraPhoto();
+}
+
+function closeCropModal(){
+  document.getElementById('cropOverlay').classList.remove('open');
+  cropState = null;
+  document.getElementById('f-photo').value = '';
+  document.getElementById('f-fan-photo').value = '';
+}
+
+/* ---------- Fan profile modal ---------- */
+function openProfileModal(){
+  renderFanProfilePreview();
+  document.getElementById('f-fan-nickname').value = myProfile.nickname || '';
+  document.getElementById('profileOverlay').classList.add('open');
+}
+function closeProfileModal(){
+  document.getElementById('profileOverlay').classList.remove('open');
+}
+function renderFanProfilePreview(){
+  const el = document.getElementById('fanProfilePreview');
+  if(!el) return;
+  el.innerHTML = myProfile.photo ? `<img src="${myProfile.photo}" alt="">` : `<span>${FAN_FALLBACK}</span>`;
+}
+function getFanLabel(){
+  return (myProfile.nickname && myProfile.nickname.trim()) || 'ファン';
+}
+document.getElementById('f-fan-nickname').addEventListener('change', function(){
+  myProfile.nickname = this.value.trim();
+  ensureMaster('nicknames', myProfile.nickname);
+  saveAppData();
+  renderDatalists();
+});
+
+/* ---------- Extra keepsake photos (cheki / 2-shot etc.) ---------- */
+let extraPhotoQueue = [];
+
+function readFileAsDataUrl(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById('f-extra-photos').addEventListener('change', function(e){
+  const files = Array.from(e.target.files || []);
+  if(files.length === 0) return;
+  Promise.all(files.map(f => readFileAsDataUrl(f))).then(dataUrls => {
+    extraPhotoQueue.push(...dataUrls);
+    e.target.value = '';
+    processNextExtraPhoto();
+  }).catch(() => alert('画像の読み込みに失敗しました。'));
+});
+
+function processNextExtraPhoto(){
+  if(extraPhotoQueue.length === 0) return;
+  const next = extraPhotoQueue.shift();
+  openCropModal(next, 'extra', 'rect');
+}
+
+function renderExtraPhotoRow(){
+  const wrap = document.getElementById('extraPhotoRow');
+  wrap.innerHTML = pendingExtraPhotos.map((p, i) => `
+    <div class="extra-photo-thumb">
+      <img src="${p}" alt="">
+      <button type="button" class="extra-photo-del" onclick="removeExtraPhoto(${i})" aria-label="削除">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeExtraPhoto(i){
+  pendingExtraPhotos.splice(i, 1);
+  renderExtraPhotoRow();
+}
+
+/* ---------- Save report ---------- */
+async function saveReport(){
+  await performSaveReport(false);
+}
+
+async function saveReportAsDraft(){
+  await performSaveReport(true);
+}
+
+async function performSaveReport(isDraft){
+  const leftover = document.getElementById('composerInput').value.trim();
+  if(leftover) addMessage();
+
+  let idol = document.getElementById('f-idol').value.trim();
+  let event = document.getElementById('f-event').value.trim();
+  const venue = document.getElementById('f-venue').value.trim();
+  let date = document.getElementById('f-date').value;
+  const typeSelectVal = document.getElementById('f-eventType-select').value;
+  const typeCustomVal = document.getElementById('f-eventType-custom').value.trim();
+  const eventType = typeSelectVal === '__custom__' ? (typeCustomVal || 'その他') : typeSelectVal;
+  const partVal = document.getElementById('f-part').value.trim();
+  const sheetsVal = document.getElementById('f-sheets').value.trim();
+  const loopsVal = document.getElementById('f-loops').value.trim();
+  const part = partVal ? Number(partVal) : null;
+  const sheets = sheetsVal ? Number(sheetsVal) : null;
+  const loops = loopsVal ? Number(loopsVal) : null;
+  const memo = document.getElementById('f-memo').value.trim();
+  const rawIdol = idol;
+  const rawEvent = event;
+  const rawVenue = venue;
+
+  if(isDraft){
+    // Drafts can be saved with minimal info — just fill in sensible placeholders
+    // so the card still displays something meaningful until it's finished.
+    if(!idol) idol = '（メンバー名未入力）';
+    if(!event) event = '（イベント名未入力）';
+    if(!date) date = new Date().toISOString().slice(0,10);
+  }else{
+    if(!idol || !event || !date){
+      alert('メンバー名・イベント名・日付は必須です。');
+      return;
+    }
+    if(draftMessages.length === 0){
+      if(!confirm('トークが1件も入力されていません。このまま保存しますか？')) return;
+    }
+  }
+
+  if(editingId){
+    const r = reports.find(x => x.id === editingId);
+    Object.assign(r, {idol, event, venue, date, eventType, part, sheets, loops, memo, isDraft, photo: pendingPhoto, extraPhotos: pendingExtraPhotos, messages: draftMessages});
+  }else{
+    reports.push({
+      id: uid(), idol, event, venue, date, eventType, part, sheets, loops, memo, isDraft,
+      photo: pendingPhoto, extraPhotos: pendingExtraPhotos, messages: draftMessages, createdAt: Date.now()
+    });
+  }
+
+  ensureMaster('idols', rawIdol);
+  ensureMaster('events', rawEvent);
+  ensureMaster('venues', rawVenue);
+
+  await saveAppData();
+  render();
+  renderFilterChips();
+  renderTypeFilterChips();
+  renderIdolFilterChips();
+  closeFormModal();
+}
+
+/* ---------- Detail / share ---------- */
+function openDetail(id){
+  detailReportId = id;
+  currentShareStyle = 'pop';
+  document.querySelectorAll('#styleSwitch .style-btn').forEach(b => b.classList.toggle('active', b.dataset.style === 'pop'));
+  const r = reports.find(x => x.id === id);
+  if(!r) return;
+  renderShareCard(r);
+  updateDetailFavButton();
+  document.getElementById('detailDraftBanner').style.display = r.isDraft ? 'flex' : 'none';
+  const memoEl = document.getElementById('detailMemo');
+  if(r.memo && r.memo.trim()){
+    memoEl.innerHTML = `<div class="detail-memo-label">📝 メモ（自分用）</div>${escapeHtml(r.memo)}`;
+    memoEl.style.display = 'block';
+  }else{
+    memoEl.style.display = 'none';
+  }
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function markReportComplete(){
+  const r = reports.find(x => x.id === detailReportId);
+  if(!r) return;
+  r.isDraft = false;
+  saveAppData();
+  render();
+  renderFilterChips();
+  renderTypeFilterChips();
+  renderIdolFilterChips();
+  document.getElementById('detailDraftBanner').style.display = 'none';
+}
+
+function closeDetailModal(){
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+function setShareStyle(style){
+  currentShareStyle = style;
+  document.querySelectorAll('#styleSwitch .style-btn').forEach(b => b.classList.toggle('active', b.dataset.style === style));
+  const r = reports.find(x => x.id === detailReportId);
+  if(r) renderShareCard(r);
+}
+
+function renderShareCard(r){
+  const el = document.getElementById('shareCardRender');
+  el.className = 'share-card share-card--' + currentShareStyle;
+  el.innerHTML = buildShareCardHtml(r);
+}
+
+function buildShareCardHtml(r){
+  const msgs = r.messages || [];
+  const extraTags = [];
+  if(r.part) extraTags.push(`第${r.part}部`);
+  if(r.sheets) extraTags.push(`${r.sheets}枚`);
+  if(r.loops) extraTags.push(`${r.loops}ループ`);
+
+  let lastDialogueWho = null;
+  const thread = msgs.map(m => {
+    const {who, type} = parseSpeaker(m.speaker);
+    if(who === 'staff'){
+      const icon = type === 'talk' ? '🎽' : (type === 'feeling' ? '💭' : '👋');
+      lastDialogueWho = null;
+      return `<div class="share-note staff">${icon} スタッフ：${escapeHtml(m.text)}</div>`;
+    }
+    if(type !== 'talk'){
+      const icon = type === 'feeling' ? '💭' : '👋';
+      const whoLabel = who === 'me' ? getFanLabel() : (r.idol || 'アイドル');
+      return `<div class="share-note ${who} ${type}"><span class="share-note-who">${escapeHtml(whoLabel)}</span> ${icon} ${escapeHtml(m.text)}</div>`;
+    }
+    const isNewSpeaker = who !== lastDialogueWho;
+    lastDialogueWho = who;
+    if(who === 'idol'){
+      return `
+        <div class="share-msg-group idol">
+          ${isNewSpeaker ? `<div class="share-speaker-label idol">${escapeHtml(r.idol) || 'アイドル'}</div>` : ''}
+          <div class="share-msg idol">
+            <div class="share-bubble idol">${escapeHtml(m.text)}</div>
+            <div class="share-avatar-sm">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+          </div>
+        </div>`;
+    }
+    return `
+        <div class="share-msg-group me">
+          ${isNewSpeaker ? `<div class="share-speaker-label me">${escapeHtml(getFanLabel())}</div>` : ''}
+          <div class="share-msg me">
+            <div class="share-avatar-sm">${myProfile.photo ? `<img src="${myProfile.photo}" alt="">` : `<span>${FAN_FALLBACK}</span>`}</div>
+            <div class="share-bubble me">${escapeHtml(m.text)}</div>
+          </div>
+        </div>`;
+  }).join('');
+
+  const extraPhotosHtml = (r.extraPhotos && r.extraPhotos.length)
+    ? `<div class="share-extra-photos">${r.extraPhotos.map((p, i) => `<div class="share-extra-photo" style="transform:rotate(${i % 2 === 0 ? -4 : 4}deg)"><img src="${p}" alt=""></div>`).join('')}</div>`
+    : '';
+
+  return `
+    <div class="share-card-inner">
+      <div class="share-avatar-wrap">
+        <div class="share-avatar">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+      </div>
+      <div class="share-name display">${escapeHtml(r.idol)}</div>
+      <div class="share-meta-row">
+        <span>${fmtDate(r.date)}${r.venue ? ' ・ ' + escapeHtml(r.venue) : ''}</span>
+      </div>
+      <div class="share-chip-row">
+        <span class="share-type-chip">${getTypeIcon(r.eventType)} ${escapeHtml(r.eventType)}</span>
+        <span class="share-event-chip">${escapeHtml(r.event)}</span>
+      </div>
+      ${extraTags.length ? `<div class="share-extra-meta">${extraTags.map(t => `<span class="share-extra-tag">${t}</span>`).join('')}</div>` : ''}
+      <div class="share-ticket"><div class="dash"></div></div>
+      <div class="share-thread">${thread || '<div style="text-align:center;font-size:12px;color:var(--text-soft);">（トーク未入力）</div>'}</div>
+      ${extraPhotosHtml}
+    </div>
+  `;
+}
+
+async function downloadShareImage(){
+  if(typeof html2canvas === 'undefined'){
+    alert('画像生成ライブラリの読み込みに失敗しました。通信環境をご確認のうえ再度お試しください。');
+    return;
+  }
+  const target = document.getElementById('shareCardRender');
+  const bgMap = { pop: '#FFF1F6', simple: '#FFFDF9', elegant: '#F7F3F5', chic: '#F5F6F8', magazine: '#F5E6D3', pastel: '#DCEBFF', mono: '#FFFFFF', retro: '#FFF8E7', summer: '#FFE8D6', wa: '#FBF6EC', jewel: '#FFFFFF' };
+  try{
+    const canvas = await html2canvas(target, {scale: 3, backgroundColor: bgMap[currentShareStyle] || '#FFF1F6'});
+    const link = document.createElement('a');
+    link.download = `oshikatsu-repo-${detailReportId}-${currentShareStyle}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }catch(e){
+    console.error(e);
+    alert('画像の書き出しに失敗しました。');
+  }
+}
+
+function editFromDetail(){
+  const id = detailReportId;
+  closeDetailModal();
+  openEditModal(id);
+}
+
+async function deleteFromDetail(){
+  if(!confirm('このレポを削除しますか？この操作は取り消せません。')) return;
+  reports = reports.filter(x => x.id !== detailReportId);
+  await saveAppData();
+  render();
+  renderFilterChips();
+  renderTypeFilterChips();
+  renderIdolFilterChips();
+  closeDetailModal();
+}
+
+/* ---------- Master data modal ---------- */
+/* ---------- Stats dashboard ---------- */
+function openMenuModal(){
+  document.getElementById('menuOverlay').classList.add('open');
+}
+function closeMenuModal(){
+  document.getElementById('menuOverlay').classList.remove('open');
+}
+
+function openStatsModal(){
+  renderStats();
+  document.getElementById('statsOverlay').classList.add('open');
+}
+function closeStatsModal(){
+  document.getElementById('statsOverlay').classList.remove('open');
+}
+
+function renderStats(){
+  const wrap = document.getElementById('statsContent');
+  if(reports.length === 0){
+    wrap.innerHTML = '<div class="mini-empty" style="padding:30px 0;">まだレポがありません</div>';
+    return;
+  }
+
+  const idolCounts = {};
+  reports.forEach(r => { const k = (r.idol || '').trim(); if(k) idolCounts[k] = (idolCounts[k] || 0) + 1; });
+  const ranking = Object.entries(idolCounts).sort((a,b) => b[1]-a[1]).slice(0, 8);
+  const maxCount = ranking.length ? ranking[0][1] : 1;
+
+  const now = new Date();
+  const months = [];
+  for(let i = 5; i >= 0; i--){
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label: `${d.getMonth()+1}月` });
+  }
+  const monthCounts = {};
+  months.forEach(m => monthCounts[m.key] = 0);
+  reports.forEach(r => {
+    if(!r.date) return;
+    const ym = r.date.slice(0,7);
+    if(monthCounts[ym] !== undefined) monthCounts[ym]++;
+  });
+  const maxMonthCount = Math.max(1, ...Object.values(monthCounts));
+
+  const typeCounts = {};
+  reports.forEach(r => { const t = r.eventType || '握手会'; typeCounts[t] = (typeCounts[t] || 0) + 1; });
+
+  const totalSheets = reports.reduce((s,r) => s + (r.sheets || 0), 0);
+  const totalLoops = reports.reduce((s,r) => s + (r.loops || 0), 0);
+  const favCount = reports.filter(r => r.favorite).length;
+
+  wrap.innerHTML = `
+    <div class="stats-summary-grid">
+      <div class="stats-box"><div class="stats-num">${reports.length}</div><div class="stats-label">総レポ数</div></div>
+      <div class="stats-box"><div class="stats-num">${Object.keys(idolCounts).length}</div><div class="stats-label">出会ったメンバー</div></div>
+      <div class="stats-box"><div class="stats-num">${favCount}</div><div class="stats-label">お気に入り</div></div>
+      <div class="stats-box"><div class="stats-num">${totalSheets}</div><div class="stats-label">合計枚数</div></div>
+      <div class="stats-box"><div class="stats-num">${totalLoops}</div><div class="stats-label">合計ループ</div></div>
+      <div class="stats-box"><div class="stats-num">${Object.keys(typeCounts).length}</div><div class="stats-label">種別の数</div></div>
+    </div>
+
+    <div class="stats-section">
+      <h3>🏆 メンバー別ランキング</h3>
+      ${ranking.map(([name,count],i) => `
+        <div class="stat-bar-row">
+          <div class="stat-bar-label">${i+1}. ${escapeHtml(name)}</div>
+          <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${(count/maxCount*100)}%;"></div></div>
+          <div class="stat-bar-value">${count}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="stats-section">
+      <h3>📅 月別レポ数</h3>
+      <div class="stats-month-bars">
+        ${months.map(m => `
+          <div class="stats-month-col">
+            <div class="stats-month-num">${monthCounts[m.key]}</div>
+            <div class="stats-month-bar" style="height:${Math.max(3, (monthCounts[m.key]/maxMonthCount*70))}px;"></div>
+            <div class="stats-month-label">${m.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <h3>🎫 種別の内訳</h3>
+      <div class="extra-meta" style="justify-content:flex-start;">
+        ${Object.entries(typeCounts).map(([t,c]) => `<span class="mini-tag">${getTypeIcon(t)} ${escapeHtml(t)}：${c}件</span>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function openMasterModal(){
+  currentMasterTab = 'idols';
+  updateMasterTabButtons();
+  renderMasterList();
+  updateMasterAddPlaceholders();
+  document.getElementById('masterOverlay').classList.add('open');
+}
+
+function closeMasterModal(){
+  document.getElementById('masterOverlay').classList.remove('open');
+}
+
+function setMasterTab(tab){
+  currentMasterTab = tab;
+  updateMasterTabButtons();
+  renderMasterList();
+  updateMasterAddPlaceholders();
+}
+
+function updateMasterAddPlaceholders(){
+  const nameInput = document.getElementById('masterNewName');
+  const catInput = document.getElementById('masterNewCategory');
+  if(currentMasterTab === 'phrases'){
+    nameInput.placeholder = 'フレーズ（例：ありがとうございました！）';
+    catInput.placeholder = 'タグ（任意・未使用でもOK）';
+  }else{
+    nameInput.placeholder = '名称';
+    catInput.placeholder = 'カテゴリ（任意）';
+  }
+}
+
+function updateMasterTabButtons(){
+  document.querySelectorAll('#masterTabs .style-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === currentMasterTab));
+}
+
+function renderMasterList(){
+  const list = masterData[currentMasterTab];
+  const wrap = document.getElementById('masterList');
+  if(list.length === 0){
+    wrap.innerHTML = '<div class="mini-empty" style="padding:16px 0;">まだ登録がありません</div>';
+    return;
+  }
+  wrap.innerHTML = list.map((e, i) => `
+    <div class="master-row">
+      <span class="master-name">${escapeHtml(e.name)}</span>
+      <input type="text" class="master-cat-input" value="${escapeHtml(e.category || '')}" placeholder="カテゴリ" onchange="updateMasterCategory(${i}, this.value)">
+      <button type="button" class="master-del" onclick="deleteMasterEntry(${i})" aria-label="削除">✕</button>
+    </div>
+  `).join('');
+}
+
+function updateMasterCategory(index, value){
+  masterData[currentMasterTab][index].category = value.trim();
+  saveAppData();
+  renderFilterChips();
+}
+
+function deleteMasterEntry(index){
+  masterData[currentMasterTab].splice(index, 1);
+  saveAppData();
+  renderMasterList();
+  renderFilterChips();
+  renderDatalists();
+}
+
+function addMasterEntry(){
+  const nameInput = document.getElementById('masterNewName');
+  const catInput = document.getElementById('masterNewCategory');
+  const name = nameInput.value.trim();
+  if(!name) return;
+  masterData[currentMasterTab].push({name, category: catInput.value.trim()});
+  nameInput.value = '';
+  catInput.value = '';
+  saveAppData();
+  renderMasterList();
+  renderFilterChips();
+  renderDatalists();
+}
+
+/* ---------- Init ---------- */
+document.getElementById('searchInput').addEventListener('input', function(){
+  searchQuery = this.value.trim().toLowerCase();
+  render();
+});
+
+document.getElementById('filterDateFrom').addEventListener('change', function(){
+  filterDateFrom = this.value;
+  render();
+});
+document.getElementById('filterDateTo').addEventListener('change', function(){
+  filterDateTo = this.value;
+  render();
+});
+
+/* ---------- Export / Import ---------- */
+function exportData(){
+  const payload = JSON.stringify({ reports, master: masterData, profile: myProfile, exportedAt: new Date().toISOString() }, null, 2);
+  const blob = new Blob([payload], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `oshikatsu-repo-backup-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+document.getElementById('f-import').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(file) importData(file);
+  e.target.value = '';
+});
+
+async function importData(file){
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    let parsed;
+    try{
+      parsed = JSON.parse(e.target.result);
+    }catch(err){
+      alert('ファイルの読み込みに失敗しました。正しいバックアップファイル（.json）かご確認ください。');
+      return;
+    }
+
+    const importedReports = Array.isArray(parsed.reports) ? parsed.reports : [];
+    const importedMaster = parsed.master || {};
+    const importedProfile = parsed.profile || {};
+
+    const existingIds = new Set(reports.map(r => r.id));
+    let addedCount = 0;
+    importedReports.forEach(r => {
+      if(r && r.id && !existingIds.has(r.id)){
+        if(!Array.isArray(r.messages)) r.messages = [];
+        if(!r.eventType) r.eventType = '握手会';
+        if(!Array.isArray(r.extraPhotos)) r.extraPhotos = [];
+        reports.push(r);
+        existingIds.add(r.id);
+        addedCount++;
+      }
+    });
+
+    ['idols','events','venues','nicknames'].forEach(t => {
+      (importedMaster[t] || []).forEach(entry => {
+        if(entry && entry.name) ensureMaster(t, entry.name);
+      });
+    });
+
+    if(!myProfile.photo && importedProfile.photo) myProfile.photo = importedProfile.photo;
+    if(!myProfile.nickname && importedProfile.nickname) myProfile.nickname = importedProfile.nickname;
+
+    await saveAppData();
+    renderDatalists();
+    renderFanProfilePreview();
+    render();
+    renderFilterChips();
+    renderTypeFilterChips();
+    renderIdolFilterChips();
+    alert(`✅ ${addedCount}件のレポを取り込みました。（すでにあるレポは重複しないようスキップしています）`);
+  };
+  reader.onerror = () => alert('ファイルの読み込みに失敗しました。');
+  reader.readAsText(file);
+}
+
+/* ---------- CSV order-history import & distribution ---------- */
+let csvHeaders = [];
+let csvRawRows = [];
+let csvColRoles = [];
+let csvParsedItems = [];
+let csvDistributions = [];
+
+function openCsvImportModal(){
+  csvHeaders = [];
+  csvRawRows = [];
+  csvColRoles = [];
+  csvParsedItems = [];
+  csvDistributions = [];
+  document.getElementById('csvFileInput').value = '';
+  document.getElementById('csvPasteInput').value = '';
+  document.getElementById('csvResultArea').style.display = 'none';
+  document.getElementById('csvFooter').style.display = 'none';
+  document.getElementById('csvImportOverlay').classList.add('open');
+}
+function closeCsvImportModal(){
+  document.getElementById('csvImportOverlay').classList.remove('open');
+}
+
+document.getElementById('csvFileInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('csvPasteInput').value = ev.target.result;
+    parseCsvInput();
+  };
+  reader.onerror = () => alert('CSVファイルの読み込みに失敗しました。');
+  reader.readAsText(file, 'utf-8');
+});
+
+function parseCsvText(text){
+  const rows = [];
+  let cur = '';
+  let row = [];
+  let inQuotes = false;
+  for(let i = 0; i < text.length; i++){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ cur += '"'; i++; }
+        else{ inQuotes = false; }
+      }else{ cur += c; }
+    }else{
+      if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(cur); cur = ''; }
+      else if(c === '\n' || c === '\r'){
+        if(c === '\r' && text[i+1] === '\n') i++;
+        row.push(cur); cur = '';
+        if(row.some(v => v.trim() !== '')) rows.push(row);
+        row = [];
+      }else{ cur += c; }
+    }
+  }
+  if(cur !== '' || row.length > 0){ row.push(cur); if(row.some(v => v.trim() !== '')) rows.push(row); }
+  return rows;
+}
+
+function normalizeDateStr(s){
+  if(!s) return '';
+  let str = String(s).trim();
+  // full-width digits/symbols → half-width
+  str = str.replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0));
+  str = str.replace(/／/g, '/').replace(/－/g, '-').replace(/．/g, '.').replace(/：/g, ':');
+
+  // yyyy/m/d, yyyy-m-d, yyyy.m.d, yyyy年m月d日 (with or without trailing time)
+  let m = str.match(/(\d{4})[\/\-\.年](\d{1,2})[\/\-\.月](\d{1,2})/);
+  if(m) return `${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
+
+  // yyyymmdd (8 digits, no separators)
+  m = str.match(/^(\d{4})(\d{2})(\d{2})/);
+  if(m) return `${m[1]}-${m[2]}-${m[3]}`;
+
+  // m/d/yyyy or d/m/yyyy — year comes last
+  m = str.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
+  if(m) return `${m[3]}-${String(m[1]).padStart(2,'0')}-${String(m[2]).padStart(2,'0')}`;
+
+  // yy/m/d (2-digit year, assume 2000s)
+  m = str.match(/^(\d{2})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/);
+  if(m) return `20${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
+
+  // fall back to the browser's own date parser as a last resort
+  const parsed = new Date(str);
+  if(!isNaN(parsed.getTime()) && str.match(/\d{4}/)){
+    return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
+  }
+  return '';
+}
+
+function combineYmd(y, m, d){
+  const clean = v => String(v || '').trim()
+    .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+    .replace(/[年月日]/g, '');
+  const yy = clean(y);
+  const mm = clean(m);
+  const dd = clean(d);
+  if(!yy || !mm || !dd) return '';
+  const yNum = yy.length <= 2 ? ('20' + yy.padStart(2,'0')) : yy.padStart(4,'0');
+  return `${yNum}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}`;
+}
+
+function parseQty(s){
+  if(!s) return 1;
+  let str = String(s).trim();
+  str = str.replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0));
+  str = str.replace(/,/g, '');
+  const m = str.match(/\d+/);
+  return m ? parseInt(m[0], 10) : 1;
+}
+
+function parseCsvInput(){
+  const text = document.getElementById('csvPasteInput').value.trim();
+  if(!text){ alert('CSVファイルを選択するか、内容を貼り付けてください。'); return; }
+  const rows = parseCsvText(text);
+  if(rows.length < 2){
+    alert('データが見つかりませんでした。1行目に列名、2行目以降にデータが必要です。');
+    return;
+  }
+  csvHeaders = rows[0].map(h => h.trim());
+  csvRawRows = rows.slice(1);
+  if(csvRawRows.length === 0){
+    alert('データ行が見つかりませんでした。');
+    return;
+  }
+
+  // best-guess a role for each column
+  const guessRole = h => {
+    const s = (h || '').trim();
+    if(s === '年') return 'year';
+    if(s === '月') return 'month';
+    if(s === '日') return 'day';
+    if(['商品','タイトル','イベント','品名'].some(k => s.includes(k))) return 'event';
+    if(['数量','枚数','個数'].some(k => s.includes(k))) return 'qty';
+    if(['日付','注文日','購入日'].some(k => s.includes(k))) return 'date';
+    if(['会場','開催'].some(k => s.includes(k))) return 'venue';
+    return '';
+  };
+  csvColRoles = csvHeaders.map(guessRole);
+  // ensure at least an event column and a qty column are picked so the
+  // preview isn't empty even when header names don't match our guesses
+  if(!csvColRoles.includes('event') && csvHeaders.length > 0) csvColRoles[0] = 'event';
+  if(!csvColRoles.includes('qty')){
+    const looksNumeric = v => {
+      const cleaned = String(v || '').trim().replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0)).replace(/,/g,'').replace(/枚|個|点/g,'');
+      return cleaned !== '' && /^\d+$/.test(cleaned);
+    };
+    const sampleRows = csvRawRows.slice(0, 5);
+    let numericIdx = -1;
+    for(let i = 0; i < csvHeaders.length; i++){
+      if(csvColRoles[i] === 'event') continue;
+      if(sampleRows.length > 0 && sampleRows.every(r => looksNumeric(r[i]))){
+        numericIdx = i;
+        break;
+      }
+    }
+    if(numericIdx >= 0) csvColRoles[numericIdx] = 'qty';
+  }
+
+  renderCsvTable();
+  recomputeCsvItems();
+  document.getElementById('csvResultArea').style.display = 'block';
+  document.getElementById('csvFooter').style.display = 'block';
+}
+
+const CSV_ROLE_LABELS = {
+  '': '使わない',
+  event: '商品名/イベント名',
+  qty: '数量',
+  date: '日付（任意）',
+  year: '年（日付を年月日で分ける場合）',
+  month: '月（日付を年月日で分ける場合）',
+  day: '日（日付を年月日で分ける場合）',
+  venue: '会場（任意）',
+  idol: 'メンバー名（任意）',
+  type: '種別（任意）',
+  part: '部（任意）'
+};
+
+function renderCsvTable(){
+  const table = document.getElementById('csvTable');
+  const sampleRows = csvRawRows.slice(0, 4);
+  const headHtml = '<tr>' + csvHeaders.map((h, i) => `
+    <th>
+      <select onchange="setCsvColRole(${i}, this.value)">
+        ${Object.keys(CSV_ROLE_LABELS).map(role => `<option value="${role}" ${csvColRoles[i] === role ? 'selected' : ''}>${CSV_ROLE_LABELS[role]}</option>`).join('')}
+      </select>
+      <div style="font-size:10px;color:var(--text-soft);margin-top:3px;">${escapeHtml(h || `列${i+1}`)}</div>
+    </th>`).join('') + '</tr>';
+  const bodyHtml = sampleRows.map(row => '<tr>' + row.map(cell => `<td>${escapeHtml(cell)}</td>`).join('') + '</tr>').join('');
+  table.innerHTML = `<thead>${headHtml}</thead><tbody>${bodyHtml}</tbody>`;
+}
+
+function setCsvColRole(index, role){
+  // a role can only be used for one column at a time
+  if(role !== ''){
+    csvColRoles = csvColRoles.map((r, i) => (i === index ? role : (r === role ? '' : r)));
+  }else{
+    csvColRoles[index] = '';
+  }
+  renderCsvTable();
+  recomputeCsvItems();
+}
+
+function recomputeCsvItems(){
+  const eventIdx = csvColRoles.indexOf('event');
+  const qtyIdx = csvColRoles.indexOf('qty');
+  const dateIdx = csvColRoles.indexOf('date');
+  const yearIdx = csvColRoles.indexOf('year');
+  const monthIdx = csvColRoles.indexOf('month');
+  const dayIdx = csvColRoles.indexOf('day');
+  const venueIdx = csvColRoles.indexOf('venue');
+  const idolIdx = csvColRoles.indexOf('idol');
+  const typeIdx = csvColRoles.indexOf('type');
+  const partIdx = csvColRoles.indexOf('part');
+  const useSplitDate = yearIdx >= 0 && monthIdx >= 0 && dayIdx >= 0;
+
+  if(eventIdx === -1){
+    csvParsedItems = [];
+    csvDistributions = [];
+    renderCsvDistributionUI();
+    return;
+  }
+
+  csvParsedItems = csvRawRows.map((row, i) => ({
+    id: 'csvrow' + i,
+    event: (row[eventIdx] || '').trim(),
+    qty: qtyIdx >= 0 ? parseQty(row[qtyIdx]) : 1,
+    date: useSplitDate ? combineYmd(row[yearIdx], row[monthIdx], row[dayIdx]) : (dateIdx >= 0 ? normalizeDateStr(row[dateIdx]) : ''),
+    venue: venueIdx >= 0 ? (row[venueIdx] || '').trim() : '',
+    idol: idolIdx >= 0 ? (row[idolIdx] || '').trim() : '',
+    eventType: typeIdx >= 0 ? (row[typeIdx] || '').trim() : '',
+    part: partIdx >= 0 ? (row[partIdx] || '').trim() : ''
+  })).filter(item => item.event);
+
+  csvDistributions = csvParsedItems.map(item => ({ itemId: item.id, allocations: [{name: item.idol || '', count: item.qty}] }));
+  renderCsvDistributionUI();
+}
+
+function renderCsvDistributionUI(){
+  const wrap = document.getElementById('csvDistributionList');
+  if(csvParsedItems.length === 0){
+    wrap.innerHTML = '<div class="mini-empty" style="padding:16px 0;">「商品名/イベント名」の列を選択すると、ここに配分先を追加できます。</div>';
+    return;
+  }
+  const qtyColSet = csvColRoles.includes('qty');
+  const warningHtml = qtyColSet ? '' : `
+    <div class="draft-banner" style="margin:0 0 14px;">
+      ⚠️ 「数量」の列が選択されていないため、すべて1枚として計算されています。上の表のプルダウンで数量の列を選んでください。
+    </div>`;
+  wrap.innerHTML = warningHtml + csvDistributions.map((dist, di) => {
+    const item = csvParsedItems.find(i => i.id === dist.itemId);
+    const allocated = dist.allocations.reduce((s,a) => s + (Number(a.count) || 0), 0);
+    const remaining = item.qty - allocated;
+    const remainColor = remaining === 0 ? '#12897A' : (remaining < 0 ? '#D6237A' : 'var(--text-soft)');
+    return `
+      <div class="csv-dist-card">
+        <div class="csv-dist-title">${escapeHtml(item.event)}</div>
+        <div class="csv-dist-total">合計 ${item.qty}枚${item.date ? ' ・ ' + fmtDate(item.date) : ''}　残り <span style="color:${remainColor};font-weight:900;">${remaining}枚</span></div>
+        <div class="csv-split-row">
+          <span>何人で分ける？</span>
+          <input type="number" id="csvSplitN-${di}" min="1" max="${item.qty}" placeholder="人数">
+          <button type="button" class="csv-split-btn" onclick="quickSplitCsvItem(${di})">均等に分割</button>
+        </div>
+        ${dist.allocations.map((a, ai) => `
+          <div class="csv-alloc-row">
+            <input type="text" list="idolList" placeholder="メンバー名" value="${escapeHtml(a.name)}" onchange="updateCsvAlloc(${di},${ai},'name',this.value)">
+            <input type="number" min="0" value="${a.count}" onchange="updateCsvAlloc(${di},${ai},'count',this.value)">
+            <button type="button" class="master-del" onclick="removeCsvAllocRow(${di},${ai})" aria-label="削除">✕</button>
+          </div>
+        `).join('')}
+        <button type="button" class="link-btn" onclick="addCsvAllocRow(${di})">＋ 配分先を追加</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function quickSplitCsvItem(di){
+  const input = document.getElementById('csvSplitN-' + di);
+  const n = parseInt(input.value, 10);
+  if(!n || n < 1){ alert('分ける人数を入力してください。'); return; }
+  const item = csvParsedItems.find(i => i.id === csvDistributions[di].itemId);
+  const base = Math.floor(item.qty / n);
+  const remainder = item.qty % n;
+  const existingNames = csvDistributions[di].allocations.map(a => a.name);
+  const allocations = [];
+  for(let k = 0; k < n; k++){
+    allocations.push({ name: existingNames[k] || '', count: base + (k < remainder ? 1 : 0) });
+  }
+  csvDistributions[di].allocations = allocations;
+  renderCsvDistributionUI();
+}
+
+function updateCsvAlloc(di, ai, field, value){
+  const alloc = csvDistributions[di].allocations[ai];
+  if(field === 'name') alloc.name = value;
+  else alloc.count = value === '' ? 0 : Number(value);
+  renderCsvDistributionUI();
+}
+
+function addCsvAllocRow(di){
+  const item = csvParsedItems.find(i => i.id === csvDistributions[di].itemId);
+  const allocated = csvDistributions[di].allocations.reduce((s,a) => s + (Number(a.count) || 0), 0);
+  const remaining = Math.max(0, item.qty - allocated);
+  csvDistributions[di].allocations.push({name: '', count: remaining});
+  renderCsvDistributionUI();
+}
+
+function removeCsvAllocRow(di, ai){
+  csvDistributions[di].allocations.splice(ai, 1);
+  if(csvDistributions[di].allocations.length === 0) csvDistributions[di].allocations.push({name: '', count: 0});
+  renderCsvDistributionUI();
+}
+
+async function createDraftsFromCsv(){
+  let created = 0;
+  csvDistributions.forEach(dist => {
+    const item = csvParsedItems.find(i => i.id === dist.itemId);
+    dist.allocations.forEach(a => {
+      const name = (a.name || '').trim();
+      const count = Number(a.count) || 0;
+      if(!name || count <= 0) return;
+      reports.push({
+        id: uid(), idol: name, event: item.event, venue: item.venue || '',
+        date: item.date || new Date().toISOString().slice(0,10),
+        eventType: item.eventType || '握手会',
+        part: item.part ? (parseInt(item.part, 10) || null) : null,
+        sheets: count, loops: null, memo: '', isDraft: true,
+        photo: null, extraPhotos: [], messages: [], favorite: false, createdAt: Date.now()
+      });
+      ensureMaster('idols', name);
+      ensureMaster('events', item.event);
+      if(item.venue) ensureMaster('venues', item.venue);
+      created++;
+    });
+  });
+
+  if(created === 0){
+    alert('配分先が設定されていません。メンバー名と枚数を入力してください。');
+    return;
+  }
+
+  await saveAppData();
+  renderDatalists();
+  render();
+  renderFilterChips();
+  renderTypeFilterChips();
+  renderIdolFilterChips();
+  closeCsvImportModal();
+  alert(`✅ ${created}件の下書きレポを作成しました。各レポを開いてトーク内容を追加してください。`);
+}
+
+async function init(){
+  applyEventType('握手会');
+  setWho('me');
+  setType('talk');
+  renderChatThread();
+  renderExtraPhotoRow();
+  await loadAppData();
+}
+init();
+</script>
+
+</body>
+</html>

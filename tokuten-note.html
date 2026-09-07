@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>推し活ネタ帳</title>
+<style>
+  html, body{ margin:0; padding:0; background:#f7f2ec; }
+  :root{
+    --bg:#f7f2ec;
+    --card:#fffdfa;
+    --card2:#f2ece2;
+    --line:#e5dccb;
+    --text:#463f4a;
+    --dim:#948a97;
+    --accent:#e3a869;
+    --accent-soft:#f3ddbb;
+    --danger:#d98a86;
+  }
+  *{box-sizing:border-box;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+  .app{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Hiragino Sans","Yu Gothic","Segoe UI",system-ui,sans-serif;
+    min-height:100%;
+    padding:18px 14px 96px;
+    border-radius:12px;
+  }
+  .app *{ font-family:inherit; }
+  .header{ text-align:center; margin-bottom:14px; }
+  .header h1{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:.05em;
+    margin:0 0 3px;
+    color:#c98a56;
+  }
+  .header p{ margin:0; color:var(--dim); font-size:11px; }
+
+  .toolbar{
+    max-width:820px;
+    margin:0 auto 10px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .search-box{
+    flex:1;
+    min-width:0;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:8px 12px;
+    color:var(--text);
+    font-size:13px;
+  }
+  .search-box:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+  .icon-btn{
+    background:var(--card);
+    border:1px solid var(--line);
+    color:var(--text);
+    border-radius:10px;
+    padding:8px 12px;
+    cursor:pointer;
+    font-size:12.5px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .icon-btn:hover{ background:var(--card2); }
+  .menu-wrap{ position:relative; flex-shrink:0; }
+  .menu-popover{
+    position:absolute; right:0; top:calc(100% + 6px);
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(70,63,74,.15);
+    padding:6px;
+    z-index:80;
+    min-width:190px;
+  }
+  .menu-popover button{
+    display:block; width:100%; text-align:left;
+    background:none; border:none; padding:9px 10px; border-radius:8px;
+    font-size:13px; color:var(--text); cursor:pointer;
+  }
+  .menu-popover button:hover{ background:var(--card2); }
+
+  .filters-row{
+    max-width:820px;
+    margin:0 auto 8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:center;
+  }
+  .sort-hint{ font-size:11px; color:var(--dim); max-width:820px; margin:0 auto 8px; }
+  .chip{
+    padding:5px 11px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--dim);
+    font-size:11.5px;
+    cursor:pointer;
+    white-space:nowrap;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .chip.active{ color:#5c4a30; font-weight:700; border-color:transparent; background:var(--accent-soft) !important; }
+  .chip-dot{ width:8px; height:8px; min-width:8px; min-height:8px; border-radius:50%; display:inline-block; flex-shrink:0; }
+  .select-bar{
+    max-width:820px;
+    margin:0 auto 10px;
+    background:var(--accent-soft);
+    border-radius:10px;
+    padding:7px 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:12px;
+    color:#6b4c26;
+    flex-wrap:wrap;
+  }
+  .select-bar button{
+    border:none; background:#fff; color:#6b4c26; padding:5px 10px; border-radius:8px; font-size:12px; cursor:pointer;
+  }
+
+  /* Filter panel */
+  .filter-panel{
+    max-width:820px;
+    margin:0 auto 12px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+  }
+  .filter-panel h3{ font-size:11px; color:var(--dim); margin:14px 0 6px; font-weight:700; }
+  .filter-panel h3:first-child{ margin-top:0; }
+  .filter-panel > hr{ border:none; border-top:1px solid var(--line); margin:14px 0; }
+  .row2{ display:flex; gap:10px; flex-wrap:wrap; }
+  .row2 > div{ flex:1; min-width:110px; }
+  .field label{ display:block; font-size:10.5px; color:var(--dim); margin-bottom:3px; }
+  .field input[type="text"], .field input[type="date"]{
+    width:100%;
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--text);
+    padding:6px 9px;
+    font-size:13px;
+  }
+  .fp-countdown{
+    align-self:flex-end;
+    background:var(--accent-soft);
+    color:#8a5a28;
+    border-radius:999px;
+    padding:6px 12px;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+    margin-bottom:2px;
+  }
+  .checkbox-row{ display:flex; flex-wrap:wrap; gap:12px; font-size:12.5px; }
+  .checkbox-row label, .checkbox-inline{ display:flex; align-items:center; gap:5px; cursor:pointer; }
+  .checkbox-inline{ font-size:12.5px; margin-top:6px; }
+  .checkbox-row input, .checkbox-inline input{ accent-color:var(--accent); }
+  .filter-panel .modal-actions{ margin-top:14px; }
+  .fp-archive-btn{
+    margin-top:8px; background:var(--card2); border:1px solid var(--line); color:var(--text);
+    padding:6px 12px; border-radius:8px; font-size:11.5px; cursor:pointer;
+  }
+
+  /* Notes grid */
+  .grid{
+    max-width:820px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:12px;
+  }
+  .empty{
+    max-width:820px;
+    margin:36px auto;
+    text-align:center;
+    color:var(--dim);
+    font-size:13px;
+    line-height:1.8;
+  }
+  .note-card{
+    background:var(--card);
+    border-radius:14px;
+    padding:12px 13px;
+    position:relative;
+    border-left:5px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+    transition:opacity .15s;
+    box-shadow:0 1px 3px rgba(70,63,74,.05);
+    cursor:pointer;
+  }
+  .note-card.used{ opacity:.6; }
+  .note-card.dragging{ opacity:.4; }
+  .note-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .note-meta{ display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+  .note-member{ font-size:12px; font-weight:700; color:#8a7f8d; }
+  .note-date{ font-size:10.5px; color:var(--dim); }
+  .type-badge{
+    font-size:10px; background:var(--accent-soft); color:#8a5a28;
+    padding:2px 8px; border-radius:999px; font-weight:700;
+  }
+  .note-actions{ display:flex; gap:3px; flex-shrink:0; align-items:center; }
+  .note-actions button{
+    background:none; border:none; cursor:pointer;
+    color:var(--dim); font-size:15px; padding:2px 3px;
+    line-height:1;
+  }
+  .note-actions button.on{ color:var(--accent); }
+  .note-select-cb{ width:16px; height:16px; accent-color:var(--accent); margin-top:1px; }
+  .drag-handle{
+    cursor:grab; touch-action:none; color:var(--dim); font-size:14px;
+    padding:2px 5px; margin:-2px -2px -2px -5px;
+  }
+  .note-text{
+    font-size:13.5px;
+    line-height:1.55;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .note-text.used-text{ text-decoration:line-through; text-decoration-color:var(--line); }
+  .note-charcount{ font-size:10px; color:var(--dim); }
+  .note-created{ font-size:10px; color:var(--dim); }
+  .note-tags{ display:flex; flex-wrap:wrap; gap:5px; }
+  .tag-pill{
+    font-size:10px;
+    background:var(--card2);
+    color:var(--dim);
+    padding:3px 8px;
+    border-radius:999px;
+  }
+  .note-images{ display:flex; gap:6px; flex-wrap:wrap; }
+  .note-images img{
+    width:52px; height:52px; object-fit:cover; border-radius:8px;
+    cursor:pointer; border:1px solid var(--line);
+  }
+  .reaction-add-btn{
+    background:none; border:none; color:var(--dim); font-size:11.5px; cursor:pointer;
+    padding:2px 0; text-align:left; text-decoration:underline dotted;
+  }
+  .reaction-collapsed{
+    font-size:11.5px; color:#6b6070; background:var(--card2);
+    padding:5px 9px; border-radius:8px; cursor:pointer;
+  }
+  .reaction-box textarea{
+    width:100%;
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--text);
+    font-size:12px;
+    padding:7px 9px;
+    resize:vertical;
+    min-height:36px;
+  }
+  .note-hidden-badge{ font-size:10px; color:var(--dim); background:var(--card2); padding:2px 7px; border-radius:999px; }
+  .note-foot{ display:flex; justify-content:flex-end; }
+  .used-toggle{
+    font-size:11px;
+    display:flex; align-items:center; gap:5px;
+    color:var(--dim);
+    cursor:pointer;
+    user-select:none;
+  }
+  .used-toggle input{ accent-color:var(--accent); }
+
+  /* FAB */
+  .fab{
+    position:fixed;
+    right:22px; bottom:22px;
+    width:54px; height:54px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    font-size:26px;
+    font-weight:900;
+    border:none;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(200,140,70,.4);
+    z-index:50;
+  }
+  .fab:focus-visible, .icon-btn:focus-visible, .chip:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* Modal */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(70,63,74,.35);
+    display:flex; align-items:flex-end;
+    justify-content:center;
+    z-index:100;
+  }
+  @media (min-width:600px){ .overlay{ align-items:center; } }
+  .modal{
+    background:var(--bg);
+    border:1px solid var(--line);
+    width:100%;
+    max-width:460px;
+    max-height:88vh;
+    overflow-y:auto;
+    border-radius:18px 18px 0 0;
+    padding:18px;
+  }
+  @media (min-width:600px){ .modal{ border-radius:18px; } }
+  .modal h2{ font-size:15px; margin:0 0 12px; color:#5c4a30; }
+  .modal h3{ font-size:12px; margin:16px 0 8px; color:var(--dim); }
+  .field{ margin-bottom:12px; }
+  .field label{ display:block; font-size:11px; color:var(--dim); margin-bottom:5px; }
+  .field label .char-hint{ color:var(--dim); font-weight:400; }
+  .field input[type="text"], .field input[type="date"], .field textarea, .field select{
+    width:100%;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:9px;
+    color:var(--text);
+    padding:8px 10px;
+    font-size:14px;
+  }
+  .field textarea{ min-height:70px; resize:vertical; }
+  .field-hint{ font-size:10px; color:var(--dim); margin-top:4px; }
+  .tag-suggest-row{ display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+  .tag-suggest-chip{
+    font-size:10.5px; background:var(--card2); color:var(--dim);
+    padding:3px 9px; border-radius:999px; cursor:pointer; border:1px solid var(--line);
+  }
+  .tag-suggest-chip:hover{ background:var(--accent-soft); color:#5c4a30; }
+  .swatch-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .swatch{
+    width:24px; height:24px; border-radius:50%;
+    cursor:pointer; border:2px solid transparent;
+  }
+  .swatch.sel{ border-color:var(--text); }
+  .inline-add-member{
+    margin-top:8px; padding:10px; background:var(--card2); border-radius:10px;
+  }
+  .img-upload-preview{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .img-upload-preview .thumb{ position:relative; width:60px; height:60px; }
+  .img-upload-preview img{ width:60px; height:60px; object-fit:cover; border-radius:8px; }
+  .img-upload-preview .rm{
+    position:absolute; top:-6px; right:-6px;
+    width:18px; height:18px; border-radius:50%;
+    background:var(--danger); color:#fff; border:none;
+    font-size:11px; cursor:pointer; line-height:1;
+  }
+  .modal-actions{ display:flex; gap:8px; margin-top:16px; }
+  .btn{
+    flex:1;
+    padding:11px;
+    border-radius:10px;
+    border:none;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .btn-primary{ background:var(--accent); color:#fff; }
+  .btn-secondary{ background:var(--card2); color:var(--text); }
+  .member-manage-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+  .member-manage-item{ display:flex; align-items:center; gap:8px; background:var(--card); padding:7px 10px; border-radius:9px; border:1px solid var(--line); }
+  .member-manage-item span{ flex:1; font-size:13px; }
+  .member-manage-item .chip-dot{ flex:0 0 8px; width:8px; height:8px; }
+  .member-manage-item button{ background:none; border:none; color:var(--dim); cursor:pointer; }
+  .img-viewer{
+    position:fixed; inset:0; background:rgba(30,26,32,.85);
+    display:flex; align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .img-viewer img{ max-width:100%; max-height:100%; border-radius:10px; }
+  .io-list{ max-height:170px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; padding:8px; margin-top:6px; }
+  .io-item{ display:flex; align-items:center; gap:8px; padding:5px 2px; font-size:12px; }
+  .io-item input{ accent-color:var(--accent); }
+  .io-item .snippet{ color:var(--dim); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .radio-row{ display:flex; gap:14px; font-size:12.5px; margin-top:6px; color:var(--text); }
+  .radio-row label{ display:flex; align-items:center; gap:5px; cursor:pointer; }
+  .result-msg{ font-size:12px; color:#5c7d5a; margin-top:8px; }
+
+  /* Preview inside note modal */
+  .preview-section{ margin-top:18px; }
+  .preview-label{ font-size:11px; color:var(--dim); margin-bottom:6px; font-weight:700; }
+  .preview-wrap .note-card{ cursor:default; }
+  .preview-empty{ font-size:12px; color:var(--dim); background:var(--card2); border-radius:10px; padding:14px; text-align:center; }
+
+  /* Detail modal */
+  .detail-text{ font-size:16px; line-height:1.7; white-space:pre-wrap; word-break:break-word; margin-top:10px; }
+  .detail-images img{ width:88px; height:88px; object-fit:cover; border-radius:10px; cursor:pointer; border:1px solid var(--line); }
+  .tree-parent-link{ font-size:11.5px; color:var(--dim); cursor:pointer; text-decoration:underline dotted; margin-top:3px; }
+
+  /* Tree views */
+  .tree-wrap{ max-width:820px; margin:0 auto; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px; }
+  .tree-row, .group-row{ display:flex; align-items:center; gap:7px; padding:7px 6px; border-radius:8px; cursor:pointer; }
+  .tree-row:hover, .group-row:hover{ background:var(--card2); }
+  .tree-toggle{ background:none; border:none; color:var(--dim); font-size:10px; width:16px; flex-shrink:0; cursor:pointer; padding:0; }
+  .tree-toggle-spacer{ display:inline-block; width:16px; flex-shrink:0; }
+  .tree-dot{ width:8px; height:8px; min-width:8px; min-height:8px; border-radius:50%; flex-shrink:0; }
+  .tree-text{ font-size:13px; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tree-text.used-text{ text-decoration:line-through; color:var(--dim); }
+  .tree-addchild{
+    background:none; border:1px solid var(--line); color:var(--dim); font-size:10px;
+    padding:2px 7px; border-radius:999px; cursor:pointer; flex-shrink:0;
+  }
+  .tree-addchild:hover{ background:var(--accent-soft); color:#5c4a30; }
+  .group-node{ margin-bottom:2px; }
+  .group-label{ font-size:12.5px; font-weight:700; color:var(--text); }
+  .group-count{ font-size:10.5px; color:var(--dim); margin-left:auto; flex-shrink:0; }
+  .group-leaf{ display:flex; align-items:center; gap:7px; padding:6px 6px; border-radius:8px; cursor:pointer; }
+  .group-leaf:hover{ background:var(--card2); }
+
+  /* Custom confirm / toast (avoid relying on native confirm()/alert(), which can be blocked in some embedded/standalone contexts) */
+  .toast{
+    position:fixed; left:50%; bottom:90px; transform:translateX(-50%);
+    background:#463f4a; color:#fff; padding:10px 18px; border-radius:999px;
+    font-size:12.5px; box-shadow:0 4px 14px rgba(0,0,0,.25); z-index:300;
+    max-width:85%; text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<div id="root" class="app"></div>
+
+<script>
+(function(){
+  const PENLIGHT_COLORS = ["#f7b8cf","#a9d8e6","#f5e6a3","#c9b6e4","#b3e0c5","#f6c9a0","#d8d3e0","#f0a8a0"];
+  const TYPE_PRESETS = ["トーク会","握手会","2ショット会","1ショット会"];
+  let notes = [];
+  let settings = { eventName:"", eventDate:"", venue:"", members:[], eventHistory:[] };
+  let ui = {
+    search:"",
+    searchFields:{ text:true, tags:true, member:true, reaction:true },
+    filterMember:null,
+    filterTag:null,
+    filterType:null,
+    favoriteOnly:false,
+    dateFrom:"",
+    dateTo:"",
+    showHidden:false,
+    searchIncludeHidden:false,
+    sortMode:'auto', // 'auto' | 'manual'
+    viewMode:'grid', // 'grid' | 'notetree' | 'grouptree'
+    treeCollapsed:new Set(),
+    groupCollapsed:new Set(),
+    filterPanelOpen:false,
+    menuOpen:false,
+    openReactions:new Set(),
+    modal:null, // 'note' | 'members' | 'io' | 'history' | 'detail' | null
+    editingId:null,
+    isDuplicate:false,
+    detailId:null,
+    formDraft:null,
+    viewerImg:null,
+    selectMode:false,
+    selectedIds:new Set(),
+    newMemberColor: PENLIGHT_COLORS[0],
+    ioSelected:new Set(),
+    ioReplace:false,
+    ioMsg:"",
+    confirmState:null,
+    toastMsg:null
+  };
+  let loaded = false;
+  let toastTimer = null;
+
+  function askConfirm(message, onConfirm){
+    ui.confirmState = { message, onConfirm };
+    render();
+  }
+  function showToast(msg){
+    ui.toastMsg = msg;
+    render();
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>{ ui.toastMsg = null; render(); }, 2600);
+  }
+
+  function todayStr(){
+    const d = new Date();
+    const p = n=>String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+  }
+
+  const STORAGE_KEY_NOTES = 'tokutennote_notes';
+  const STORAGE_KEY_SETTINGS = 'tokutennote_settings';
+
+  async function loadAll(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY_NOTES);
+      notes = raw ? JSON.parse(raw) : [];
+    }catch(e){ notes = []; }
+    try{
+      const raw2 = localStorage.getItem(STORAGE_KEY_SETTINGS);
+      settings = raw2 ? Object.assign({eventName:"",eventDate:"",venue:"",members:[],eventHistory:[]}, JSON.parse(raw2)) : settings;
+      if(!Array.isArray(settings.eventHistory)) settings.eventHistory = [];
+    }catch(e){ /* defaults */ }
+    loaded = true;
+    render();
+  }
+
+  async function saveNotes(){
+    // defer the actual (potentially slow, especially with images) write to the next tick
+    // so the UI update the caller is about to show isn't blocked waiting on it
+    setTimeout(()=>{
+      try{ localStorage.setItem(STORAGE_KEY_NOTES, JSON.stringify(notes)); }
+      catch(e){
+        console.error('save notes failed', e);
+        showToast('保存に失敗しました。端末の空き容量か画像の量を確認してください');
+      }
+    }, 0);
+  }
+  async function saveSettings(){
+    setTimeout(()=>{
+      try{ localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings)); }
+      catch(e){ console.error('save settings failed', e); }
+    }, 0);
+  }
+
+  function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+  function nextOrder(){
+    return notes.reduce((m,n)=>Math.max(m, n.order||0), 0) + 1;
+  }
+
+  function memberColor(name){
+    const m = settings.members.find(m=>m.name===name);
+    return m ? m.color : "#e5dccb";
+  }
+
+  function fmtDate(dateStr){
+    if(!dateStr) return "";
+    const [y,m,d] = dateStr.split("-");
+    return `${Number(m)}/${Number(d)}`;
+  }
+
+  function fmtCreatedAt(ts){
+    if(!ts) return "";
+    const d = new Date(ts);
+    const p = n=>String(n).padStart(2,'0');
+    return `${d.getFullYear()}/${p(d.getMonth()+1)}/${p(d.getDate())}`;
+  }
+
+  function daysUntil(dateStr){
+    if(!dateStr) return null;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const target = new Date(dateStr+"T00:00:00");
+    return Math.round((target-today)/86400000);
+  }
+
+  function countdownBadge(){
+    const days = daysUntil(settings.eventDate);
+    if(days === null) return null;
+    if(days > 0) return `あと${days}日`;
+    if(days === 0) return `本日開催`;
+    return `${-days}日経過`;
+  }
+
+  function eventSummaryLine(){
+    const parts = [];
+    if(settings.eventName) parts.push(settings.eventName);
+    if(settings.venue) parts.push(settings.venue);
+    if(settings.eventDate) parts.push(fmtDate(settings.eventDate));
+    if(parts.length===0) return "話したいことを忘れる前にメモ";
+    const badge = countdownBadge();
+    return parts.join(" ・ ") + (badge? `（🎫 ${badge}）` : "");
+  }
+
+  // Japanese speech is roughly 5-6 characters per second at a natural pace
+  function charEstimate(text){
+    const len = (text||"").length;
+    if(len===0) return "";
+    const sec = Math.max(1, Math.round(len/6));
+    return `${len}字 ・ 目安${sec}秒`;
+  }
+
+  function compressImage(file){
+    return new Promise((resolve,reject)=>{
+      const reader = new FileReader();
+      reader.onload = e=>{
+        const img = new Image();
+        img.onload = ()=>{
+          const maxW = 480;
+          const scale = Math.min(1, maxW/img.width);
+          const w = Math.round(img.width*scale), h = Math.round(img.height*scale);
+          const canvas = document.createElement('canvas');
+          canvas.width=w; canvas.height=h;
+          canvas.getContext('2d').drawImage(img,0,0,w,h);
+          resolve(canvas.toDataURL('image/jpeg',0.62));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function esc(s){
+    const d = document.createElement('div'); d.textContent = s==null?"":s; return d.innerHTML;
+  }
+
+  function allTags(){
+    const set = new Set();
+    notes.forEach(n=> (n.tags||[]).forEach(t=>set.add(t)));
+    return Array.from(set);
+  }
+  function allTypes(){
+    const set = new Set();
+    notes.forEach(n=>{ if(n.eventType) set.add(n.eventType); });
+    return Array.from(set);
+  }
+
+  function childrenOf(id){ return notes.filter(n=>n.parentId===id); }
+  function getDescendantIds(id){
+    const result = new Set();
+    const stack = [id];
+    while(stack.length){
+      const cur = stack.pop();
+      notes.forEach(n=>{ if(n.parentId===cur && !result.has(n.id)){ result.add(n.id); stack.push(n.id); } });
+    }
+    return result;
+  }
+  function noteLabel(n){
+    return (n.member? n.member+'：':'') + (n.text? n.text.slice(0,30) : '(画像のみ)');
+  }
+
+  function hasActiveQuery(){
+    return !!ui.search.trim() || !!ui.filterMember || !!ui.filterTag || !!ui.filterType || ui.favoriteOnly || !!ui.dateFrom || !!ui.dateTo;
+  }
+
+  function filteredNotes(){
+    let list = notes.slice();
+    const includeUsed = ui.showHidden || (hasActiveQuery() && ui.searchIncludeHidden);
+    if(!includeUsed) list = list.filter(n=>!n.used);
+    if(ui.filterMember) list = list.filter(n=>n.member===ui.filterMember);
+    if(ui.filterTag) list = list.filter(n=> (n.tags||[]).includes(ui.filterTag));
+    if(ui.filterType) list = list.filter(n=> n.eventType===ui.filterType);
+    if(ui.favoriteOnly) list = list.filter(n=>n.favorite);
+    if(ui.dateFrom) list = list.filter(n=> n.date && n.date >= ui.dateFrom);
+    if(ui.dateTo) list = list.filter(n=> n.date && n.date <= ui.dateTo);
+    if(ui.search.trim()){
+      const q = ui.search.trim().toLowerCase();
+      const f = ui.searchFields;
+      list = list.filter(n=>
+        (f.text && (n.text||"").toLowerCase().includes(q)) ||
+        (f.reaction && (n.reaction||"").toLowerCase().includes(q)) ||
+        (f.member && (n.member||"").toLowerCase().includes(q)) ||
+        (f.tags && (n.tags||[]).some(t=>t.toLowerCase().includes(q)))
+      );
+    }
+    list.sort((a,b)=>{
+      if(!!a.used !== !!b.used) return a.used? 1:-1;
+      if(ui.sortMode==='manual'){
+        return (a.order||0) - (b.order||0);
+      }
+      if(!!a.favorite !== !!b.favorite) return a.favorite? -1:1;
+      return b.createdAt - a.createdAt;
+    });
+    return list;
+  }
+
+  function refreshAfterNoteChange(){
+    if(ui.modal) render(); else updateGrid();
+  }
+
+  function reorderNotes(draggedId, targetId){
+    const list = filteredNotes();
+    const draggedIdx = list.findIndex(n=>n.id===draggedId);
+    const targetIdx = list.findIndex(n=>n.id===targetId);
+    if(draggedIdx===-1 || targetIdx===-1 || draggedIdx===targetIdx) return;
+    const [moved] = list.splice(draggedIdx,1);
+    list.splice(targetIdx,0,moved);
+    list.forEach((n,i)=>{ n.order = i; });
+    saveNotes();
+    updateGrid();
+  }
+
+  function blankFormDraft(){
+    return {
+      member: settings.members[0]? settings.members[0].name : "",
+      date: settings.eventDate || todayStr(),
+      tags:"", text:"", images:[], favorite:false,
+      showAddMember:false, newMemberName:"",
+      eventType:"", showCustomType:false, customEventType:"",
+      createdAt:null, parentId:null
+    };
+  }
+
+  function openNewNoteModal(){
+    ui.modal = 'note';
+    ui.editingId = null;
+    ui.isDuplicate = false;
+    ui.formDraft = blankFormDraft();
+    ui.newMemberColor = PENLIGHT_COLORS[0];
+    render();
+  }
+  function openNewChildNoteModal(parentId){
+    ui.modal = 'note';
+    ui.editingId = null;
+    ui.isDuplicate = false;
+    ui.formDraft = blankFormDraft();
+    ui.formDraft.parentId = parentId;
+    ui.newMemberColor = PENLIGHT_COLORS[0];
+    render();
+  }
+  function openEditNoteModal(id){
+    const n = notes.find(x=>x.id===id);
+    if(!n) return;
+    ui.modal = 'note';
+    ui.editingId = id;
+    ui.isDuplicate = false;
+    const isPreset = n.eventType && TYPE_PRESETS.includes(n.eventType);
+    ui.formDraft = {
+      member:n.member, date:n.date||todayStr(), tags:(n.tags||[]).join(", "), text:n.text,
+      images:(n.images||[]).slice(), favorite:!!n.favorite, showAddMember:false, newMemberName:"",
+      eventType: isPreset? n.eventType : "",
+      showCustomType: !!(n.eventType && !isPreset),
+      customEventType: (n.eventType && !isPreset) ? n.eventType : "",
+      createdAt: n.createdAt, parentId: n.parentId || null
+    };
+    render();
+  }
+  function duplicateNoteToForm(id){
+    const n = notes.find(x=>x.id===id);
+    if(!n) return;
+    ui.modal = 'note';
+    ui.editingId = null;
+    ui.isDuplicate = true;
+    const isPreset = n.eventType && TYPE_PRESETS.includes(n.eventType);
+    ui.formDraft = {
+      member:n.member, date:n.date||settings.eventDate||todayStr(), tags:(n.tags||[]).join(", "), text:n.text,
+      images:(n.images||[]).slice(), favorite:false, showAddMember:false, newMemberName:"",
+      eventType: isPreset? n.eventType : "",
+      showCustomType: !!(n.eventType && !isPreset),
+      customEventType: (n.eventType && !isPreset) ? n.eventType : "",
+      createdAt:null, parentId: n.parentId || null
+    };
+    ui.newMemberColor = PENLIGHT_COLORS[0];
+    render();
+  }
+  function closeModal(){ ui.modal=null; ui.editingId=null; ui.isDuplicate=false; ui.detailId=null; ui.formDraft=null; ui.ioMsg=""; render(); }
+
+  function openNoteDetail(id){ ui.modal='detail'; ui.detailId=id; render(); }
+
+  async function submitNoteForm(){
+    const d = ui.formDraft;
+    if(!d.text.trim() && d.images.length===0){ showToast("メモか画像を入力してください"); return; }
+    let memberName = d.member;
+    if(d.showAddMember && d.newMemberName.trim()){
+      const nm = d.newMemberName.trim();
+      if(!settings.members.some(m=>m.name===nm)){
+        settings.members.push({name:nm, color:ui.newMemberColor});
+        await saveSettings();
+      }
+      memberName = nm;
+    }
+    const tags = d.tags.split(",").map(t=>t.trim()).filter(Boolean);
+    const eventType = d.showCustomType ? d.customEventType.trim() : d.eventType;
+    if(ui.editingId){
+      const n = notes.find(x=>x.id===ui.editingId);
+      Object.assign(n, { member:memberName, date:d.date, tags, text:d.text, images:d.images, favorite:d.favorite, eventType, parentId: d.parentId || null });
+    } else {
+      notes.push({
+        id: uid(), member:memberName, date:d.date, tags, text:d.text, images:d.images,
+        favorite:d.favorite, used:false, reaction:"", createdAt: Date.now(), order: nextOrder(), eventType,
+        parentId: d.parentId || null
+      });
+    }
+    await saveNotes();
+    closeModal();
+  }
+
+  function deleteNote(id){
+    const kids = childrenOf(id);
+    const msg = kids.length ? `このネタを削除しますか？（子メモ${kids.length}件はトップレベルに移動します）` : "このネタを削除しますか？";
+    askConfirm(msg, async ()=>{
+      notes.forEach(n=>{ if(n.parentId===id) n.parentId = null; });
+      notes = notes.filter(n=>n.id!==id);
+      ui.openReactions.delete(id);
+      await saveNotes();
+      if(ui.modal==='detail' && ui.detailId===id) closeModal(); else render();
+    });
+  }
+  async function toggleUsed(id){
+    const n = notes.find(x=>x.id===id); n.used = !n.used; await saveNotes(); refreshAfterNoteChange();
+  }
+  async function toggleFavorite(id){
+    const n = notes.find(x=>x.id===id); n.favorite = !n.favorite; await saveNotes(); refreshAfterNoteChange();
+  }
+  async function updateReaction(id, val){
+    const n = notes.find(x=>x.id===id); if(n) n.reaction = val; await saveNotes();
+  }
+  function openReaction(id){ ui.openReactions.add(id); updateGrid(); const el=document.querySelector(`[data-reaction="${id}"]`); if(el) el.focus(); }
+  function closeReactionAndSave(id, val){ updateReaction(id, val); ui.openReactions.delete(id); updateGrid(); }
+
+  function openMembersModal(){ ui.modal='members'; ui.newMemberColor=PENLIGHT_COLORS[0]; render(); }
+  async function addMember(name, color){
+    if(!name.trim()) return;
+    if(settings.members.some(m=>m.name===name.trim())){ showToast("同じ名前のメンバーがいます"); return; }
+    settings.members.push({name:name.trim(), color});
+    await saveSettings(); render();
+  }
+  function removeMember(name){
+    askConfirm(name+" を削除しますか？（ネタは残ります）", async ()=>{
+      settings.members = settings.members.filter(m=>m.name!==name);
+      await saveSettings(); render();
+    });
+  }
+
+  async function onEventFieldChange(field, val){
+    settings[field] = val; await saveSettings(); render();
+  }
+
+  async function archiveCurrentEvent(){
+    if(!settings.eventName && !settings.venue && !settings.eventDate){ showToast("保存する予定の情報がありません"); return; }
+    settings.eventHistory.unshift({ id: uid(), eventName:settings.eventName, venue:settings.venue, eventDate:settings.eventDate });
+    settings.eventName = ""; settings.venue = ""; settings.eventDate = "";
+    await saveSettings();
+    render();
+  }
+  async function deleteHistoryEntry(id){
+    settings.eventHistory = settings.eventHistory.filter(h=>h.id!==id);
+    await saveSettings(); render();
+  }
+
+  function toggleSelectMode(){
+    ui.selectMode = !ui.selectMode;
+    ui.selectedIds = new Set();
+    ui.menuOpen = false;
+    render();
+  }
+  function toggleSelectNote(id){
+    if(ui.selectedIds.has(id)) ui.selectedIds.delete(id); else ui.selectedIds.add(id);
+    render();
+  }
+  function selectAllVisible(){
+    filteredNotes().forEach(n=>ui.selectedIds.add(n.id));
+    render();
+  }
+  function clearSelection(){ ui.selectedIds = new Set(); render(); }
+
+  function downloadJSON(obj, filename){
+    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  }
+
+  function exportNotes(idsOrNull){
+    const targetNotes = idsOrNull ? notes.filter(n=>idsOrNull.has(n.id)) : notes;
+    if(targetNotes.length===0){ showToast("書き出すネタがありません"); return; }
+    const usedMemberNames = new Set(targetNotes.map(n=>n.member).filter(Boolean));
+    const payload = {
+      type: "tokuten-note-export",
+      exportedAt: new Date().toISOString(),
+      settings: { members: settings.members.filter(m=>usedMemberNames.has(m.name)) },
+      notes: targetNotes
+    };
+    const d = new Date();
+    const p = n=>String(n).padStart(2,'0');
+    downloadJSON(payload, `tokuten-note_${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}.json`);
+  }
+
+  async function handleImportFiles(fileList){
+    const files = Array.from(fileList);
+    let importedNotes = [];
+    let importedMembers = [];
+    let failCount = 0;
+    for(const f of files){
+      try{
+        const text = await f.text();
+        const parsed = JSON.parse(text);
+        if(Array.isArray(parsed)){
+          importedNotes = importedNotes.concat(parsed);
+        } else if(parsed && Array.isArray(parsed.notes)){
+          importedNotes = importedNotes.concat(parsed.notes);
+          if(parsed.settings && Array.isArray(parsed.settings.members)){
+            importedMembers = importedMembers.concat(parsed.settings.members);
+          }
+        } else {
+          failCount++;
+        }
+      }catch(e){ failCount++; }
+    }
+    importedMembers.forEach(m=>{
+      if(m && m.name && !settings.members.some(x=>x.name===m.name)){
+        settings.members.push({name:m.name, color:m.color||PENLIGHT_COLORS[0]});
+      }
+    });
+    const existingIds = new Set(notes.map(n=>n.id));
+    let baseOrder = nextOrder();
+    const idMap = {};
+    const cleaned = importedNotes.map((n,i)=>{
+      let id = n.id;
+      if(!id || existingIds.has(id)) id = uid();
+      existingIds.add(id);
+      if(n.id) idMap[n.id] = id;
+      return {
+        id,
+        member: n.member || "",
+        date: n.date || "",
+        tags: Array.isArray(n.tags) ? n.tags : [],
+        text: n.text || "",
+        images: Array.isArray(n.images) ? n.images : [],
+        favorite: !!n.favorite,
+        used: !!n.used,
+        reaction: n.reaction || "",
+        createdAt: n.createdAt || Date.now(),
+        order: typeof n.order === 'number' ? n.order : baseOrder + i,
+        eventType: n.eventType || "",
+        parentId: n.parentId || null
+      };
+    });
+    // remap parent references to their (possibly regenerated) new ids; drop references that don't resolve
+    const validIds = new Set([...notes.map(n=>n.id), ...cleaned.map(n=>n.id)]);
+    cleaned.forEach(n=>{
+      if(n.parentId){
+        const mapped = idMap[n.parentId] || n.parentId;
+        n.parentId = validIds.has(mapped) ? mapped : null;
+      }
+    });
+
+    if(ui.ioReplace){
+      notes = cleaned;
+    } else {
+      notes = notes.concat(cleaned);
+    }
+    await saveSettings();
+    await saveNotes();
+    ui.ioMsg = `${cleaned.length}件読み込みました${failCount? `（${failCount}件は読み込めませんでした）`:''}`;
+    render();
+  }
+
+  /* ---------- shared card renderer ---------- */
+  function renderNoteCard(n, opts){
+    opts = opts || {};
+    const preview = !!opts.preview;
+    const draggable = !preview && ui.sortMode==='manual' && !ui.selectMode;
+    const reactionHtml = preview ? '' : (
+      ui.openReactions.has(n.id)
+        ? `<div class="reaction-box">
+             <textarea data-reaction="${n.id}" placeholder="盛り上がった話題など">${esc(n.reaction)}</textarea>
+           </div>`
+        : (n.reaction && n.reaction.trim()
+            ? `<div class="reaction-collapsed" data-reactopen="${n.id}">💬 ${esc(n.reaction.slice(0,36))}${n.reaction.length>36?'…':''}</div>`
+            : `<button class="reaction-add-btn" data-reactopen="${n.id}">＋ 反応メモ</button>`)
+    );
+    return `
+      <div class="note-card ${n.used?'used':''}" style="border-left-color:${memberColor(n.member)}" ${preview?'':`data-cardid="${n.id}"`}>
+        <div class="note-top">
+          <div style="display:flex;align-items:flex-start;gap:6px;">
+            ${draggable? `<span class="drag-handle" data-draghandle="${n.id}">⋮⋮</span>`:''}
+            ${(ui.selectMode && !preview)? `<input type="checkbox" class="note-select-cb" data-select="${n.id}" ${ui.selectedIds.has(n.id)?'checked':''}/>`:''}
+            <div class="note-meta">
+              ${n.member? `<span class="note-member">${esc(n.member)}</span>`:''}
+              ${n.date? `<span class="note-date">${esc(fmtDate(n.date))}</span>`:''}
+              ${n.eventType? `<span class="type-badge">${esc(n.eventType)}</span>`:''}
+            </div>
+          </div>
+          ${preview ? '' : `
+          <div class="note-actions">
+            ${n.used? `<span class="note-hidden-badge">話した済み</span>`:''}
+            <button data-fav="${n.id}" class="${n.favorite?'on':''}" title="お気に入り">${n.favorite?'★':'☆'}</button>
+            <button data-dup="${n.id}" title="複製">📋</button>
+            <button data-edit="${n.id}" title="編集">✎</button>
+            <button data-del="${n.id}" title="削除">🗑</button>
+          </div>`}
+        </div>
+        ${(!preview && n.parentId)? (()=>{ const p = notes.find(x=>x.id===n.parentId); return p? `<div class="tree-parent-link" data-cardid="${p.id}">↳ 親：${esc(noteLabel(p))}</div>` : ''; })() : ''}
+        ${(!preview && childrenOf(n.id).length)? `<div class="tree-parent-link" data-cardid="${n.id}">🌿 子メモ ${childrenOf(n.id).length}件</div>` : ''}
+        <div class="note-text ${n.used?'used-text':''}">${esc(n.text)}</div>
+        ${n.text? `<div class="note-charcount">${charEstimate(n.text)}</div>` : ''}
+        ${(n.tags&&n.tags.length)? `<div class="note-tags">${n.tags.map(t=>`<span class="tag-pill">#${esc(t)}</span>`).join('')}</div>`:''}
+        ${(n.images&&n.images.length)? `<div class="note-images">${n.images.map((src,i)=>`<img src="${src}" ${preview?'':`data-view="${n.id}:${i}"`}/>`).join('')}</div>`:''}
+        ${reactionHtml}
+        ${preview? '' : `<div class="note-foot"><label class="used-toggle"><input type="checkbox" data-used="${n.id}" ${n.used?'checked':''}/> 話した</label></div>`}
+      </div>`;
+  }
+
+  /* ---------- grid-only partial render (search box element is never rebuilt, so IME composition is never interrupted) ---------- */
+  function emptyMessageHtml(){
+    const msg = notes.length===0
+      ? "まだネタがありません。＋から書いてみましょう。"
+      : "ネタが見つかりません。条件を見直すか、＋から追加してください。";
+    return `<div class="empty">${msg}</div>`;
+  }
+
+  function renderGridHtml(list){
+    if(list.length===0) return emptyMessageHtml();
+    return `<div class="grid">${list.map(n=>renderNoteCard(n)).join('')}</div>`;
+  }
+
+  function viewModeLabel(m){
+    return m==='grid' ? 'カード' : (m==='notetree' ? 'メモのツリー' : '分類ツリー');
+  }
+
+  /* ---------- A: parent/child note tree ---------- */
+  function buildNoteTree(list){
+    const ids = new Set(list.map(n=>n.id));
+    const byParent = {};
+    list.forEach(n=>{
+      const key = (n.parentId && ids.has(n.parentId)) ? n.parentId : '__root__';
+      if(!byParent[key]) byParent[key] = [];
+      byParent[key].push(n);
+    });
+    return byParent;
+  }
+  function renderTreeNode(n, byParent, depth){
+    const kids = byParent[n.id] || [];
+    const hasKids = kids.length>0;
+    const collapsed = ui.treeCollapsed.has(n.id);
+    return `<div class="tree-node" style="margin-left:${depth*18}px;">
+      <div class="tree-row" data-cardid="${n.id}">
+        ${hasKids? `<button class="tree-toggle" data-treetoggle="${n.id}">${collapsed?'▸':'▾'}</button>` : `<span class="tree-toggle-spacer"></span>`}
+        <span class="tree-dot" style="background:${memberColor(n.member)}"></span>
+        <span class="tree-text ${n.used?'used-text':''}">${esc(n.text? n.text.slice(0,60)+(n.text.length>60?'…':'') : '(画像のみ)')}</span>
+        ${n.member? `<span class="note-member">${esc(n.member)}</span>`:''}
+        ${n.favorite? '<span style="color:var(--accent);">★</span>':''}
+        <button class="tree-addchild" data-addchild="${n.id}">＋子</button>
+      </div>
+      ${hasKids && !collapsed ? kids.map(c=>renderTreeNode(c, byParent, depth+1)).join('') : ''}
+    </div>`;
+  }
+  function renderNoteTreeHtml(list){
+    if(list.length===0) return emptyMessageHtml();
+    const byParent = buildNoteTree(list);
+    const roots = byParent['__root__'] || [];
+    if(roots.length===0) return emptyMessageHtml();
+    return `<div class="tree-wrap">${roots.map(n=>renderTreeNode(n, byParent, 0)).join('')}</div>`;
+  }
+
+  /* ---------- B: member / type hierarchy ---------- */
+  function buildGroupTree(list){
+    const groups = {};
+    list.forEach(n=>{
+      const mKey = n.member || '__none__';
+      if(!groups[mKey]) groups[mKey] = { label: n.member || 'メンバー未設定', color: n.member? memberColor(n.member) : '#e5dccb', types:{} };
+      const tKey = n.eventType || '__none__';
+      if(!groups[mKey].types[tKey]) groups[mKey].types[tKey] = { label: n.eventType || '種別未設定', notes:[] };
+      groups[mKey].types[tKey].notes.push(n);
+    });
+    return groups;
+  }
+  function renderGroupTreeHtml(list){
+    if(list.length===0) return emptyMessageHtml();
+    const groups = buildGroupTree(list);
+    const memberOrder = settings.members.map(m=>m.name).filter(name=>groups[name]);
+    const otherKeys = Object.keys(groups).filter(k=> k!=='__none__' && !memberOrder.includes(k));
+    const orderedKeys = [...memberOrder, ...otherKeys, ...(groups['__none__']? ['__none__']:[])];
+    return `<div class="tree-wrap">${orderedKeys.map(mKey=>{
+      const g = groups[mKey];
+      const gCollapsed = ui.groupCollapsed.has('m:'+mKey);
+      const total = Object.values(g.types).reduce((s,t)=>s+t.notes.length,0);
+      const typeKeys = Object.keys(g.types);
+      return `<div class="group-node">
+        <div class="group-row" data-grouptoggle="m:${esc(mKey)}">
+          <button class="tree-toggle">${gCollapsed?'▸':'▾'}</button>
+          <span class="chip-dot" style="background:${g.color}"></span>
+          <span class="group-label">${esc(g.label)}</span>
+          <span class="group-count">${total}件</span>
+        </div>
+        ${!gCollapsed? typeKeys.map(tKey=>{
+          const t = g.types[tKey];
+          const groupKey = 't:'+mKey+'|'+tKey;
+          const tCollapsed = ui.groupCollapsed.has(groupKey);
+          return `<div class="group-node" style="margin-left:20px;">
+            <div class="group-row" data-grouptoggle="${esc(groupKey)}">
+              <button class="tree-toggle">${tCollapsed?'▸':'▾'}</button>
+              <span class="type-badge">${esc(t.label)}</span>
+              <span class="group-count">${t.notes.length}件</span>
+            </div>
+            ${!tCollapsed? `<div style="margin-left:20px;">${t.notes.map(n=>`
+              <div class="group-leaf" data-cardid="${n.id}">
+                <span class="tree-dot" style="background:${memberColor(n.member)}"></span>
+                <span class="tree-text ${n.used?'used-text':''}">${esc(n.text? n.text.slice(0,60)+(n.text.length>60?'…':'') : '(画像のみ)')}</span>
+                ${n.favorite? '<span style="color:var(--accent);">★</span>':''}
+              </div>`).join('')}</div>` : ''}
+          </div>`;
+        }).join('') : ''}
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  function renderMainHtml(list){
+    if(ui.viewMode==='notetree') return renderNoteTreeHtml(list);
+    if(ui.viewMode==='grouptree') return renderGroupTreeHtml(list);
+    return renderGridHtml(list);
+  }
+
+  function bindGridEvents(){
+    document.querySelectorAll('[data-fav]').forEach(el=> el.onclick = (e)=>{ e.stopPropagation(); toggleFavorite(el.getAttribute('data-fav')); });
+    document.querySelectorAll('[data-dup]').forEach(el=> el.onclick = (e)=>{ e.stopPropagation(); duplicateNoteToForm(el.getAttribute('data-dup')); });
+    document.querySelectorAll('[data-edit]').forEach(el=> el.onclick = (e)=>{ e.stopPropagation(); openEditNoteModal(el.getAttribute('data-edit')); });
+    document.querySelectorAll('[data-del]').forEach(el=> el.onclick = (e)=>{ e.stopPropagation(); deleteNote(el.getAttribute('data-del')); });
+    document.querySelectorAll('[data-used]').forEach(el=> el.onchange = ()=>toggleUsed(el.getAttribute('data-used')));
+    document.querySelectorAll('[data-reactopen]').forEach(el=>{
+      el.onclick = (e)=>{ e.stopPropagation(); openReaction(el.getAttribute('data-reactopen')); };
+    });
+    document.querySelectorAll('[data-reaction]').forEach(el=>{
+      el.onclick = e=>e.stopPropagation();
+      el.onblur = ()=>closeReactionAndSave(el.getAttribute('data-reaction'), el.value);
+    });
+    document.querySelectorAll('[data-view]').forEach(el=>{
+      el.onclick = (e)=>{ e.stopPropagation(); ui.viewerImg = el.src; render(); };
+    });
+    document.querySelectorAll('[data-select]').forEach(el=>{
+      el.onclick = e=>e.stopPropagation();
+      el.onchange = ()=> toggleSelectNote(el.getAttribute('data-select'));
+    });
+    // tap a card (outside of its buttons/inputs) to open the enlarged preview
+    document.querySelectorAll('[data-cardid]').forEach(el=>{
+      el.onclick = (e)=>{
+        if(e.target.closest('button, input, textarea, img, .drag-handle')) return;
+        openNoteDetail(el.getAttribute('data-cardid'));
+      };
+    });
+    // drag-to-reorder (pointer events so it works with touch and mouse alike)
+    document.querySelectorAll('[data-draghandle]').forEach(handle=>{
+      handle.onpointerdown = (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const id = handle.getAttribute('data-draghandle');
+        const card = handle.closest('.note-card');
+        if(card) card.classList.add('dragging');
+        const onMove = (ev)=>{ ev.preventDefault(); };
+        const onUp = (ev)=>{
+          if(card) card.classList.remove('dragging');
+          const el = document.elementFromPoint(ev.clientX, ev.clientY);
+          const targetCard = el && el.closest('[data-cardid]');
+          if(targetCard){
+            const targetId = targetCard.getAttribute('data-cardid');
+            if(targetId && targetId !== id) reorderNotes(id, targetId);
+          }
+          document.removeEventListener('pointermove', onMove);
+          document.removeEventListener('pointerup', onUp);
+        };
+        document.addEventListener('pointermove', onMove, {passive:false});
+        document.addEventListener('pointerup', onUp, {once:true});
+      };
+    });
+    // note-tree: expand/collapse and add-child
+    document.querySelectorAll('[data-treetoggle]').forEach(el=>{
+      el.onclick = (e)=>{
+        e.stopPropagation();
+        const id = el.getAttribute('data-treetoggle');
+        if(ui.treeCollapsed.has(id)) ui.treeCollapsed.delete(id); else ui.treeCollapsed.add(id);
+        updateGrid();
+      };
+    });
+    document.querySelectorAll('[data-addchild]').forEach(el=>{
+      el.onclick = (e)=>{ e.stopPropagation(); openNewChildNoteModal(el.getAttribute('data-addchild')); };
+    });
+    // group-tree: expand/collapse
+    document.querySelectorAll('[data-grouptoggle]').forEach(el=>{
+      el.onclick = (e)=>{
+        e.stopPropagation();
+        const key = el.getAttribute('data-grouptoggle');
+        if(ui.groupCollapsed.has(key)) ui.groupCollapsed.delete(key); else ui.groupCollapsed.add(key);
+        updateGrid();
+      };
+    });
+  }
+
+  function updateGrid(){
+    const gridWrap = document.getElementById('notesGrid');
+    if(!gridWrap) { render(); return; }
+    gridWrap.innerHTML = renderMainHtml(filteredNotes());
+    bindGridEvents();
+  }
+
+  /* ---------- full render ---------- */
+  function render(){
+    const root = document.getElementById('root');
+    if(!loaded){ root.innerHTML = '<p style="text-align:center;color:var(--dim);padding:40px 0;">読み込み中...</p>'; return; }
+
+    const tags = allTags();
+    const types = allTypes();
+    const list = filteredNotes();
+    const activeQuery = hasActiveQuery();
+
+    root.innerHTML = `
+      <div class="header">
+        <h1>推し活ネタ帳</h1>
+        <p>${esc(eventSummaryLine())}</p>
+      </div>
+
+      <div class="toolbar">
+        <input class="search-box" id="searchInput" type="text" placeholder="ネタ・タグ・反応メモを検索" value="${esc(ui.search)}"/>
+        <button class="icon-btn" id="filterPanelBtn">🔍 検索条件${activeQuery? ' •':''}</button>
+        <div class="menu-wrap">
+          <button class="icon-btn" id="menuBtn">⋯</button>
+          ${ui.menuOpen? `
+          <div class="menu-popover" id="menuPopover">
+            <button id="menuMembers">👥 メンバー管理</button>
+            <button id="menuIo">📤 書き出し・読み込み</button>
+            <button id="menuHistory">📚 イベント履歴</button>
+            <button id="menuView">🗂 表示：${viewModeLabel(ui.viewMode)}</button>
+            <button id="menuSort">🔀 並び替え：${ui.sortMode==='manual'?'手動':'自動'}</button>
+            <button id="menuSelect">${ui.selectMode? '☑ 選択を終了':'☑ 複数選択'}</button>
+          </div>` : ''}
+        </div>
+      </div>
+
+      ${ui.filterPanelOpen ? renderFilterPanel() : ''}
+
+      ${ui.selectMode ? `
+      <div class="select-bar">
+        <span>${ui.selectedIds.size}件選択中</span>
+        <button id="selAllBtn">表示中を全選択</button>
+        <button id="selClearBtn">選択解除</button>
+        <button id="selExportBtn">選択分を書き出す</button>
+      </div>` : ''}
+
+      ${(ui.viewMode==='grid' && ui.sortMode==='manual') ? `<div class="sort-hint">☰ ハンドルをドラッグして順番を入れ替えられます</div>` : ''}
+      ${ui.viewMode==='notetree' ? `<div class="sort-hint">▾ をタップして子メモの開閉、＋子でメモをぶら下げられます</div>` : ''}
+
+      <div class="filters-row" id="memberFilters">
+        <span class="chip ${ui.filterMember===null?'active':''}" data-member="">すべて</span>
+        ${settings.members.map(m=>`
+          <span class="chip ${ui.filterMember===m.name?'active':''}" data-member="${esc(m.name)}">
+            <span class="chip-dot" style="background:${m.color}"></span>${esc(m.name)}
+          </span>`).join('')}
+      </div>
+      ${types.length? `<div class="filters-row" id="typeFilters">
+        <span class="chip ${ui.filterType===null?'active':''}" data-type="">種別:すべて</span>
+        ${types.map(t=>`<span class="chip ${ui.filterType===t?'active':''}" data-type="${esc(t)}">${esc(t)}</span>`).join('')}
+      </div>` : ''}
+      ${tags.length? `<div class="filters-row" id="tagFilters">
+        <span class="chip ${ui.filterTag===null?'active':''}" data-tag=""># すべて</span>
+        ${tags.map(t=>`<span class="chip ${ui.filterTag===t?'active':''}" data-tag="${esc(t)}">#${esc(t)}</span>`).join('')}
+      </div>` : ''}
+
+      <div id="notesGrid">${renderMainHtml(list)}</div>
+
+      <button class="fab" id="fabAdd" title="ネタを追加">＋</button>
+
+      ${ui.modal==='note' ? renderNoteModal() : ''}
+      ${ui.modal==='members' ? renderMembersModal() : ''}
+      ${ui.modal==='io' ? renderIoModal() : ''}
+      ${ui.modal==='history' ? renderHistoryModal() : ''}
+      ${ui.modal==='detail' ? renderDetailModal() : ''}
+      ${ui.viewerImg ? `<div class="img-viewer" id="imgViewerClose"><img src="${ui.viewerImg}"/></div>` : ''}
+      ${ui.confirmState ? renderConfirmModal() : ''}
+      ${ui.toastMsg ? `<div class="toast">${esc(ui.toastMsg)}</div>` : ''}
+    `;
+
+    bindEvents();
+  }
+
+  function renderFilterPanel(){
+    const f = ui.searchFields;
+    const badge = countdownBadge();
+    return `
+    <div class="filter-panel" id="filterPanel">
+      <h3>🎫 イベント情報</h3>
+      <div class="row2">
+        <div class="field"><label>イベント名</label><input type="text" id="eventNameInput" placeholder="〇〇単独握手会" value="${esc(settings.eventName)}"/></div>
+        <div class="field"><label>会場</label><input type="text" id="eventVenueInput" placeholder="〇〇ホール" value="${esc(settings.venue)}"/></div>
+      </div>
+      <div class="row2">
+        <div class="field" style="max-width:160px;"><label>開催日</label><input type="date" id="eventDateInput" value="${esc(settings.eventDate)}"/></div>
+        ${badge? `<div class="fp-countdown">🎫 ${badge}</div>` : ''}
+      </div>
+      <button class="fp-archive-btn" id="archiveEventBtn">この予定を履歴に保存して次の予定を入力する</button>
+
+      <hr/>
+      <h3>検索対象</h3>
+      <div class="checkbox-row">
+        <label><input type="checkbox" id="sfText" ${f.text?'checked':''}/> 本文</label>
+        <label><input type="checkbox" id="sfTags" ${f.tags?'checked':''}/> タグ</label>
+        <label><input type="checkbox" id="sfMember" ${f.member?'checked':''}/> メンバー</label>
+        <label><input type="checkbox" id="sfReaction" ${f.reaction?'checked':''}/> 反応メモ</label>
+      </div>
+
+      <h3>開催日で絞り込み</h3>
+      <div class="row2">
+        <div class="field"><label>開始日</label><input type="date" id="dateFromInput" value="${esc(ui.dateFrom)}"/></div>
+        <div class="field"><label>終了日</label><input type="date" id="dateToInput" value="${esc(ui.dateTo)}"/></div>
+      </div>
+
+      <h3>話した済みのネタ</h3>
+      <label class="checkbox-inline"><input type="checkbox" id="showHiddenChk" ${ui.showHidden?'checked':''}/> 一覧にも表示する</label><br/>
+      <label class="checkbox-inline"><input type="checkbox" id="searchIncludeHiddenChk" ${ui.searchIncludeHidden?'checked':''}/> 検索時は対象に含める</label>
+
+      <hr/>
+      <label class="checkbox-inline"><input type="checkbox" id="favOnlyChk" ${ui.favoriteOnly?'checked':''}/> お気に入りのみ表示</label>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="resetFiltersBtn">条件をリセット</button>
+      </div>
+    </div>`;
+  }
+
+  function currentDraftAsNote(){
+    const d = ui.formDraft;
+    return {
+      member: d.showAddMember ? d.newMemberName.trim() : d.member,
+      date: d.date,
+      tags: d.tags.split(",").map(t=>t.trim()).filter(Boolean),
+      text: d.text,
+      images: d.images,
+      favorite: d.favorite,
+      used:false,
+      reaction:"",
+      eventType: d.showCustomType ? d.customEventType.trim() : d.eventType
+    };
+  }
+  function updateNotePreview(){
+    const box = document.getElementById('notePreviewCard');
+    if(!box) return;
+    const n = currentDraftAsNote();
+    if(!n.text.trim() && n.images.length===0){
+      box.innerHTML = `<div class="preview-empty">メモか画像を入力するとここに表示されます</div>`;
+    } else {
+      box.innerHTML = renderNoteCard(n, {preview:true});
+    }
+    const cc = document.getElementById('formTextCount');
+    if(cc) cc.textContent = charEstimate(ui.formDraft.text);
+  }
+
+  function renderNoteModal(){
+    const d = ui.formDraft;
+    const tags = allTags();
+    const heading = ui.editingId ? 'ネタを編集' : (ui.isDuplicate ? 'ネタを複製' : '新しいネタ');
+    return `
+    <div class="overlay" id="noteOverlay">
+      <div class="modal" id="noteModalBox">
+        <h2>${heading}</h2>
+        <div class="row2">
+          <div class="field">
+            <label>メンバー</label>
+            <select id="formMember">
+              <option value="">選択なし</option>
+              ${settings.members.map(m=>`<option value="${esc(m.name)}" ${d.member===m.name?'selected':''}>${esc(m.name)}</option>`).join('')}
+              <option value="__new__" ${d.showAddMember?'selected':''}>＋ 新しいメンバーを追加...</option>
+            </select>
+          </div>
+          <div class="field" style="max-width:150px;">
+            <label>開催日</label>
+            <input type="date" id="formDate" value="${esc(d.date)}"/>
+          </div>
+        </div>
+        ${d.showAddMember? `
+        <div class="inline-add-member" id="inlineAddMember">
+          <label style="font-size:11px;color:var(--dim);display:block;margin-bottom:5px;">名前とカラー</label>
+          <input type="text" id="newMemberNameInline" placeholder="推しの名前" value="${esc(d.newMemberName)}"/>
+          <div class="swatch-row" id="swatchRowInline">
+            ${PENLIGHT_COLORS.map((c,i)=>`<span class="swatch ${c===ui.newMemberColor?'sel':''}" data-color="${c}" style="background:${c}"></span>`).join('')}
+          </div>
+        </div>` : ''}
+        <div class="field">
+          <label>種別</label>
+          <select id="formType">
+            <option value="">選択なし</option>
+            ${TYPE_PRESETS.map(t=>`<option value="${t}" ${(!d.showCustomType && d.eventType===t)?'selected':''}>${t}</option>`).join('')}
+            <option value="__other__" ${d.showCustomType?'selected':''}>その他（自由入力）</option>
+          </select>
+          ${d.showCustomType? `<input type="text" id="formCustomType" placeholder="例：ミニライブ" value="${esc(d.customEventType)}" style="margin-top:6px;"/>` : ''}
+        </div>
+        ${d.createdAt? `<div class="field-hint">作成日：${esc(fmtCreatedAt(d.createdAt))}</div>` : ''}
+        <div class="field">
+          <label>親メモ（任意・ツリー化）</label>
+          <select id="formParent">
+            <option value="">なし（トップレベル）</option>
+            ${notes.filter(n=> !(ui.editingId && (n.id===ui.editingId || getDescendantIds(ui.editingId).has(n.id)))).map(n=>`<option value="${n.id}" ${d.parentId===n.id?'selected':''}>${esc(noteLabel(n))}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label>メモ <span class="char-hint" id="formTextCount">${charEstimate(d.text)}</span></label>
+          <textarea id="formText" placeholder="例：先週のライブのMCで話してた〇〇について感想を伝える">${esc(d.text)}</textarea>
+        </div>
+        <div class="field">
+          <label>タグ（カンマ区切り）</label>
+          <input type="text" id="formTags" placeholder="例：新曲, 私服, 誕生日" value="${esc(d.tags)}"/>
+          ${tags.length? `<div class="tag-suggest-row" id="tagSuggestRow">${tags.map(t=>`<span class="tag-suggest-chip" data-suggesttag="${esc(t)}">#${esc(t)}</span>`).join('')}</div>` : ''}
+        </div>
+        <div class="field">
+          <label>画像</label>
+          <input type="file" id="formImages" accept="image/*" multiple/>
+          <div class="img-upload-preview" id="imgPreview">
+            ${d.images.map((src,i)=>`<div class="thumb"><img src="${src}"/><button class="rm" data-rmimg="${i}">×</button></div>`).join('')}
+          </div>
+        </div>
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" id="formFav" ${d.favorite?'checked':''}/> お気に入りに入れる
+          </label>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-label">プレビュー</div>
+          <div class="preview-wrap" id="notePreviewCard"></div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="cancelNote">キャンセル</button>
+          <button class="btn btn-primary" id="saveNote">保存</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderMembersModal(){
+    return `
+    <div class="overlay" id="membersOverlay">
+      <div class="modal" id="membersModalBox">
+        <h2>メンバー管理</h2>
+        <div class="member-manage-list">
+          ${settings.members.length===0? '<p style="color:var(--dim);font-size:12px;">まだメンバーがいません</p>' : settings.members.map(m=>`
+            <div class="member-manage-item">
+              <span class="chip-dot" style="background:${m.color}"></span>
+              <span>${esc(m.name)}</span>
+              <button data-rmmember="${esc(m.name)}">削除</button>
+            </div>
+          `).join('')}
+        </div>
+        <div class="field">
+          <label>新しいメンバー名</label>
+          <input type="text" id="newMemberName" placeholder="例：〇〇（推しの名前）"/>
+          <div class="swatch-row" id="swatchRow">
+            ${PENLIGHT_COLORS.map((c,i)=>`<span class="swatch ${i===0?'sel':''}" data-color="${c}" style="background:${c}"></span>`).join('')}
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="closeMembers">閉じる</button>
+          <button class="btn btn-primary" id="addMemberBtn">追加</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderIoModal(){
+    const list = filteredNotes();
+    return `
+    <div class="overlay" id="ioOverlay">
+      <div class="modal" id="ioModalBox">
+        <h2>書き出し / 読み込み</h2>
+
+        <h3>📤 書き出し</h3>
+        <div class="field" style="margin-bottom:8px;">
+          <label style="display:block;margin-bottom:6px;">チェックしたネタを書き出します（未選択で全件）</label>
+          <div class="io-list">
+            ${list.length===0? '<p style="color:var(--dim);font-size:12px;">ネタがありません</p>' : list.map(n=>`
+              <div class="io-item">
+                <input type="checkbox" data-iosel="${n.id}" ${ui.ioSelected.has(n.id)?'checked':''}/>
+                <span>${n.member? esc(n.member)+'：':''}</span>
+                <span class="snippet">${esc((n.text||'(画像のみ)').slice(0,30))}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="exportAllBtn">すべて書き出す</button>
+          <button class="btn btn-primary" id="exportSelBtn">選択分を書き出す</button>
+        </div>
+
+        <h3>📥 読み込み</h3>
+        <div class="field">
+          <label>ファイルを選ぶ（.json・複数可）</label>
+          <input type="file" id="importFiles" accept=".json,application/json" multiple/>
+          <div class="radio-row">
+            <label><input type="radio" name="ioMode" value="add" ${!ui.ioReplace?'checked':''}/> 既存に追加</label>
+            <label><input type="radio" name="ioMode" value="replace" ${ui.ioReplace?'checked':''}/> 全部置き換え</label>
+          </div>
+        </div>
+        ${ui.ioMsg? `<div class="result-msg">${esc(ui.ioMsg)}</div>`:''}
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="closeIo">閉じる</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderConfirmModal(){
+    return `
+    <div class="overlay" id="confirmOverlay">
+      <div class="modal" id="confirmModalBox" style="max-width:340px;">
+        <div style="font-size:14px;line-height:1.6;margin-bottom:4px;">${esc(ui.confirmState.message)}</div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="confirmCancelBtn">キャンセル</button>
+          <button class="btn btn-primary" id="confirmOkBtn">OK</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderHistoryModal(){
+    const hist = settings.eventHistory || [];
+    return `
+    <div class="overlay" id="historyOverlay">
+      <div class="modal" id="historyModalBox">
+        <h2>イベント履歴</h2>
+        <div class="member-manage-list">
+          ${hist.length===0? '<p style="color:var(--dim);font-size:12px;">履歴はまだありません</p>' : hist.map(h=>{
+            const parts = [h.eventName, h.venue, h.eventDate? fmtDate(h.eventDate)+'開催':''].filter(Boolean);
+            return `<div class="member-manage-item">
+              <span>${esc(parts.join(' ・ ') || '(名称未設定)')}</span>
+              <button data-rmhistory="${h.id}">削除</button>
+            </div>`;
+          }).join('')}
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="closeHistory">閉じる</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderDetailModal(){
+    const n = notes.find(x=>x.id===ui.detailId);
+    if(!n) return '';
+    return `
+    <div class="overlay" id="detailOverlay">
+      <div class="modal" id="detailModalBox">
+        <div class="note-top">
+          <div class="note-meta">
+            ${n.member? `<span class="note-member">${esc(n.member)}</span>`:''}
+            ${n.date? `<span class="note-date">${esc(fmtDate(n.date))}</span>`:''}
+            ${n.eventType? `<span class="type-badge">${esc(n.eventType)}</span>`:''}
+          </div>
+          <div class="note-actions" style="font-size:19px;">
+            ${n.used? `<span class="note-hidden-badge">話した済み</span>`:''}
+            <button data-fav="${n.id}" class="${n.favorite?'on':''}" title="お気に入り">${n.favorite?'★':'☆'}</button>
+          </div>
+        </div>
+        ${(()=>{ if(!n.parentId) return ''; const p = notes.find(x=>x.id===n.parentId); return p? `<div class="tree-parent-link" data-cardid="${p.id}">↳ 親メモ：${esc(noteLabel(p))}</div>` : ''; })()}
+        <div class="detail-text">${esc(n.text)}</div>
+        ${n.text? `<div class="note-charcount" style="margin-top:6px;">${charEstimate(n.text)}</div>`:''}
+        ${(n.tags&&n.tags.length)? `<div class="note-tags" style="margin-top:8px;">${n.tags.map(t=>`<span class="tag-pill">#${esc(t)}</span>`).join('')}</div>`:''}
+        ${(n.images&&n.images.length)? `<div class="note-images detail-images" style="margin-top:10px;">${n.images.map((src,i)=>`<img src="${src}" data-view="${n.id}:${i}"/>`).join('')}</div>`:''}
+        ${n.reaction? `<div style="margin-top:12px;"><div class="reaction-label" style="font-size:11px;color:var(--dim);margin-bottom:4px;">反応メモ</div><div style="font-size:13px;">${esc(n.reaction)}</div></div>`:''}
+        ${(()=>{ const kids = childrenOf(n.id); if(!kids.length) return ''; return `<div style="margin-top:12px;"><div class="reaction-label" style="font-size:11px;color:var(--dim);margin-bottom:4px;">子メモ（${kids.length}件）</div>${kids.map(k=>`<div class="tree-parent-link" data-cardid="${k.id}">・${esc(noteLabel(k))}</div>`).join('')}</div>`; })()}
+        <div class="note-created" style="margin-top:10px;">作成日：${esc(fmtCreatedAt(n.createdAt))}</div>
+        <label class="used-toggle" style="margin-top:8px;"><input type="checkbox" data-used="${n.id}" ${n.used?'checked':''}/> 話した</label>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="detailAddChildBtn">＋子メモ</button>
+          <button class="btn btn-secondary" id="detailDupBtn">複製</button>
+          <button class="btn btn-secondary" id="detailEditBtn">編集</button>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="detailCloseBtn">閉じる</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function bindEvents(){
+    const $ = sel => document.getElementById(sel);
+
+    // search box: only ever triggers the notesGrid partial update, never a full page re-render,
+    // so the input element itself is never rebuilt mid-keystroke (this is what fixes IME composition)
+    const si = $('searchInput');
+    if(si){
+      si.oninput = e=>{ ui.search = e.target.value; updateGrid(); };
+    }
+
+    const fpb = $('filterPanelBtn'); if(fpb) fpb.onclick = ()=>{ ui.filterPanelOpen = !ui.filterPanelOpen; render(); };
+
+    const menuBtn = $('menuBtn');
+    if(menuBtn){
+      menuBtn.onclick = (e)=>{ e.stopPropagation(); ui.menuOpen = !ui.menuOpen; render(); };
+    }
+    if(ui.menuOpen){
+      document.addEventListener('click', function closeMenuOnce(){
+        ui.menuOpen = false; render();
+        document.removeEventListener('click', closeMenuOnce);
+      }, {once:true});
+      const mp = $('menuPopover'); if(mp) mp.onclick = e=>e.stopPropagation();
+      const mMembers = $('menuMembers'); if(mMembers) mMembers.onclick = ()=>{ ui.menuOpen=false; openMembersModal(); };
+      const mIo = $('menuIo'); if(mIo) mIo.onclick = ()=>{ ui.menuOpen=false; ui.modal='io'; ui.ioSelected=new Set(); ui.ioMsg=""; render(); };
+      const mHistory = $('menuHistory'); if(mHistory) mHistory.onclick = ()=>{ ui.menuOpen=false; ui.modal='history'; render(); };
+      const mView = $('menuView'); if(mView) mView.onclick = ()=>{
+        ui.menuOpen=false;
+        const order=['grid','notetree','grouptree'];
+        ui.viewMode = order[(order.indexOf(ui.viewMode)+1)%order.length];
+        render();
+      };
+      const mSort = $('menuSort'); if(mSort) mSort.onclick = ()=>{ ui.menuOpen=false; ui.sortMode = ui.sortMode==='manual' ? 'auto' : 'manual'; render(); };
+      const mSelect = $('menuSelect'); if(mSelect) mSelect.onclick = toggleSelectMode;
+    }
+
+    const fab = $('fabAdd'); if(fab) fab.onclick = openNewNoteModal;
+
+    // filter panel
+    const fp = $('filterPanel');
+    if(fp){
+      $('eventNameInput').onchange = e=>onEventFieldChange('eventName', e.target.value);
+      $('eventVenueInput').onchange = e=>onEventFieldChange('venue', e.target.value);
+      $('eventDateInput').onchange = e=>onEventFieldChange('eventDate', e.target.value);
+      $('archiveEventBtn').onclick = archiveCurrentEvent;
+      $('sfText').onchange = e=>{ ui.searchFields.text = e.target.checked; updateGrid(); };
+      $('sfTags').onchange = e=>{ ui.searchFields.tags = e.target.checked; updateGrid(); };
+      $('sfMember').onchange = e=>{ ui.searchFields.member = e.target.checked; updateGrid(); };
+      $('sfReaction').onchange = e=>{ ui.searchFields.reaction = e.target.checked; updateGrid(); };
+      $('dateFromInput').onchange = e=>{ ui.dateFrom = e.target.value; render(); };
+      $('dateToInput').onchange = e=>{ ui.dateTo = e.target.value; render(); };
+      $('showHiddenChk').onchange = e=>{ ui.showHidden = e.target.checked; render(); };
+      $('searchIncludeHiddenChk').onchange = e=>{ ui.searchIncludeHidden = e.target.checked; updateGrid(); };
+      $('favOnlyChk').onchange = e=>{ ui.favoriteOnly = e.target.checked; render(); };
+      $('resetFiltersBtn').onclick = ()=>{
+        ui.search=""; ui.filterMember=null; ui.filterTag=null; ui.filterType=null; ui.favoriteOnly=false;
+        ui.dateFrom=""; ui.dateTo=""; ui.searchIncludeHidden=false;
+        ui.searchFields = { text:true, tags:true, member:true, reaction:true };
+        render();
+      };
+    }
+
+    const selAll = $('selAllBtn'); if(selAll) selAll.onclick = selectAllVisible;
+    const selClear = $('selClearBtn'); if(selClear) selClear.onclick = clearSelection;
+    const selExport = $('selExportBtn'); if(selExport) selExport.onclick = ()=>{
+      if(ui.selectedIds.size===0){ showToast("ネタを選択してください"); return; }
+      exportNotes(ui.selectedIds);
+    };
+
+    const mf = $('memberFilters');
+    if(mf) mf.querySelectorAll('[data-member]').forEach(el=>{
+      el.onclick = ()=>{ const v = el.getAttribute('data-member'); ui.filterMember = v||null; render(); };
+    });
+    const tyf = $('typeFilters');
+    if(tyf) tyf.querySelectorAll('[data-type]').forEach(el=>{
+      el.onclick = ()=>{ const v = el.getAttribute('data-type'); ui.filterType = v||null; render(); };
+    });
+    const tf = $('tagFilters');
+    if(tf) tf.querySelectorAll('[data-tag]').forEach(el=>{
+      el.onclick = ()=>{ const v = el.getAttribute('data-tag'); ui.filterTag = v||null; render(); };
+    });
+
+    bindGridEvents();
+
+    const iv = $('imgViewerClose'); if(iv) iv.onclick = ()=>{ ui.viewerImg=null; render(); };
+
+    // custom confirm modal
+    const confirmOverlay = $('confirmOverlay');
+    if(confirmOverlay){
+      confirmOverlay.onclick = (e)=>{ if(e.target.id==='confirmOverlay'){ ui.confirmState=null; render(); } };
+      $('confirmCancelBtn').onclick = ()=>{ ui.confirmState=null; render(); };
+      $('confirmOkBtn').onclick = ()=>{
+        const cb = ui.confirmState && ui.confirmState.onConfirm;
+        ui.confirmState = null;
+        render();
+        if(cb) cb();
+      };
+    }
+
+    // Note modal
+    const noteOverlay = $('noteOverlay');
+    if(noteOverlay){
+      noteOverlay.onclick = (e)=>{ if(e.target.id==='noteOverlay') closeModal(); };
+      $('cancelNote').onclick = closeModal;
+      $('saveNote').onclick = submitNoteForm;
+      $('formMember').onchange = e=>{
+        if(e.target.value === '__new__'){ ui.formDraft.showAddMember = true; ui.formDraft.member=''; }
+        else { ui.formDraft.showAddMember = false; ui.formDraft.member = e.target.value; }
+        render();
+      };
+      $('formDate').onchange = e=>{ ui.formDraft.date = e.target.value; updateNotePreview(); };
+      $('formType').onchange = e=>{
+        if(e.target.value === '__other__'){ ui.formDraft.showCustomType = true; ui.formDraft.eventType=''; }
+        else { ui.formDraft.showCustomType = false; ui.formDraft.eventType = e.target.value; ui.formDraft.customEventType=''; }
+        render();
+      };
+      const fct = $('formCustomType'); if(fct) fct.oninput = e=>{ ui.formDraft.customEventType = e.target.value; updateNotePreview(); };
+      const fpar = $('formParent'); if(fpar) fpar.onchange = e=>{ ui.formDraft.parentId = e.target.value || null; };
+      const nmi = $('newMemberNameInline'); if(nmi) nmi.oninput = e=>{ ui.formDraft.newMemberName = e.target.value; updateNotePreview(); };
+      const swi = $('swatchRowInline');
+      if(swi) swi.querySelectorAll('.swatch').forEach(sw=>{
+        sw.onclick = ()=>{ ui.newMemberColor = sw.getAttribute('data-color'); render(); };
+      });
+      $('formText').oninput = e=>{ ui.formDraft.text = e.target.value; updateNotePreview(); };
+      $('formTags').oninput = e=>{ ui.formDraft.tags = e.target.value; updateNotePreview(); };
+      document.querySelectorAll('[data-suggesttag]').forEach(el=>{
+        el.onclick = ()=>{
+          const t = el.getAttribute('data-suggesttag');
+          const current = ui.formDraft.tags.split(",").map(s=>s.trim()).filter(Boolean);
+          if(!current.includes(t)) current.push(t);
+          ui.formDraft.tags = current.join(", ");
+          $('formTags').value = ui.formDraft.tags;
+          updateNotePreview();
+        };
+      });
+      $('formFav').onchange = e=>{ ui.formDraft.favorite = e.target.checked; updateNotePreview(); };
+      $('formImages').onchange = async (e)=>{
+        const files = Array.from(e.target.files);
+        for(const f of files){
+          try{ const data = await compressImage(f); ui.formDraft.images.push(data); }catch(err){}
+        }
+        render();
+      };
+      document.querySelectorAll('[data-rmimg]').forEach(el=>{
+        el.onclick = ()=>{ ui.formDraft.images.splice(Number(el.getAttribute('data-rmimg')),1); render(); };
+      });
+      updateNotePreview();
+    }
+
+    // Members modal
+    const membersOverlay = $('membersOverlay');
+    if(membersOverlay){
+      membersOverlay.onclick = (e)=>{ if(e.target.id==='membersOverlay'){ ui.modal=null; render(); } };
+      $('closeMembers').onclick = ()=>{ ui.modal=null; render(); };
+      document.querySelectorAll('#swatchRow .swatch').forEach(sw=>{
+        sw.onclick = ()=>{
+          ui.newMemberColor = sw.getAttribute('data-color');
+          document.querySelectorAll('#swatchRow .swatch').forEach(s=>s.classList.remove('sel'));
+          sw.classList.add('sel');
+        };
+      });
+      $('addMemberBtn').onclick = ()=>{
+        const nameInput = $('newMemberName');
+        addMember(nameInput.value, ui.newMemberColor);
+      };
+      document.querySelectorAll('[data-rmmember]').forEach(el=>{
+        el.onclick = ()=> removeMember(el.getAttribute('data-rmmember'));
+      });
+    }
+
+    // IO modal
+    const ioOverlay = $('ioOverlay');
+    if(ioOverlay){
+      ioOverlay.onclick = (e)=>{ if(e.target.id==='ioOverlay') closeModal(); };
+      $('closeIo').onclick = closeModal;
+      document.querySelectorAll('[data-iosel]').forEach(el=>{
+        el.onchange = ()=>{
+          const id = el.getAttribute('data-iosel');
+          if(el.checked) ui.ioSelected.add(id); else ui.ioSelected.delete(id);
+        };
+      });
+      $('exportAllBtn').onclick = ()=> exportNotes(null);
+      $('exportSelBtn').onclick = ()=>{
+        if(ui.ioSelected.size===0){ exportNotes(null); }
+        else exportNotes(ui.ioSelected);
+      };
+      document.querySelectorAll('input[name="ioMode"]').forEach(r=>{
+        r.onchange = ()=>{ ui.ioReplace = (r.value==='replace' && r.checked); };
+      });
+      $('importFiles').onchange = (e)=>{
+        if(e.target.files.length===0) return;
+        const files = e.target.files;
+        if(ui.ioReplace){
+          askConfirm("既存データを置き換えます。よろしいですか？", ()=> handleImportFiles(files));
+        } else {
+          handleImportFiles(files);
+        }
+      };
+    }
+
+    // History modal
+    const historyOverlay = $('historyOverlay');
+    if(historyOverlay){
+      historyOverlay.onclick = (e)=>{ if(e.target.id==='historyOverlay') closeModal(); };
+      $('closeHistory').onclick = closeModal;
+      document.querySelectorAll('[data-rmhistory]').forEach(el=>{
+        el.onclick = ()=> deleteHistoryEntry(el.getAttribute('data-rmhistory'));
+      });
+    }
+
+    // Detail modal
+    const detailOverlay = $('detailOverlay');
+    if(detailOverlay){
+      detailOverlay.onclick = (e)=>{ if(e.target.id==='detailOverlay') closeModal(); };
+      $('detailCloseBtn').onclick = closeModal;
+      $('detailEditBtn').onclick = ()=>{ const id = ui.detailId; closeModal(); openEditNoteModal(id); };
+      $('detailDupBtn').onclick = ()=>{ const id = ui.detailId; closeModal(); duplicateNoteToForm(id); };
+      $('detailAddChildBtn').onclick = ()=>{ const id = ui.detailId; closeModal(); openNewChildNoteModal(id); };
+    }
+  }
+
+  loadAll();
+})();
+</script>
+
+</body>
+</html>

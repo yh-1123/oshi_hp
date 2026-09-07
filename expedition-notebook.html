@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遠征手帳</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap');
+
+  :root{
+    --bg: #23252b;
+    --panel: #2b2e35;
+    --panel-alt: #313440;
+    --accent: #d1a057;
+    --accent-2: #7fa89d;
+    --text: #ddd8cd;
+    --text-muted: #98948c;
+    --border: #3a3d47;
+    --danger: #c17c72;
+    --accent-ink: #2a1f10;
+    --font-display: 'Space Grotesk', 'IBM Plex Sans JP', sans-serif;
+    --font-body: 'IBM Plex Sans JP', sans-serif;
+  }
+
+  body[data-theme="light"]{
+    --bg: #f7f5f0;
+    --panel: #ffffff;
+    --panel-alt: #efece2;
+    --accent: #a8722a;
+    --accent-2: #3f7d70;
+    --text: #2b2925;
+    --text-muted: #756f64;
+    --border: #ddd6c7;
+    --danger: #b1493f;
+    --accent-ink: #fdf6ea;
+  }
+
+  body{ transition: background-color .15s ease, color .15s ease; }
+
+  .app-topbar{ display:flex; justify-content:flex-end; margin-bottom: 10px; }
+  .theme-toggle{
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--panel); border: 1px solid var(--border); color: var(--text);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size: 15px;
+  }
+  .theme-toggle:hover{ border-color: var(--accent); }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #app{
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 18px 80px;
+  }
+
+  .board-header{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .board-title{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+  .board-title span{ color: var(--accent); }
+  .board-sub{
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .btn{
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .btn:hover{ border-color: var(--accent); }
+  .btn-primary{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+  .btn-primary:hover{ opacity: .9; border-color: var(--accent); }
+  .btn-danger{ color: var(--danger); border-color: var(--border); background: transparent; }
+  .btn-danger:hover{ border-color: var(--danger); }
+  .btn-ghost{ background: transparent; }
+  .btn-block{ width: 100%; }
+  .btn-sm{ padding: 6px 10px; font-size: 13px; }
+
+  .add-trip-row{ margin-bottom: 20px; }
+
+  .trip-group-label{
+    font-family: var(--font-display); font-size: 12px; font-weight: 600; color: var(--text-muted);
+    margin: 18px 0 6px;
+  }
+  .trip-group-label:first-child{ margin-top: 0; }
+  .past-toggle{ margin-top: 14px; font-size: 13px; }
+
+  .trip-list{ display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .trip-row{
+    display: grid; grid-template-columns: 78px 1fr auto; gap: 14px; align-items: center;
+    padding: 14px 4px; border-bottom: 1px solid var(--border); cursor: pointer;
+    background: transparent; transition: background .15s ease;
+  }
+  .trip-row:hover{ background: var(--panel-alt); }
+  .trip-date{
+    font-family: var(--font-display); font-weight: 600; color: var(--accent);
+    font-size: 15px; font-variant-numeric: tabular-nums; line-height: 1.3;
+  }
+  .trip-date small{ display:block; color: var(--text-muted); font-family: var(--font-body); font-weight: 400; font-size: 11px; }
+  .trip-name{ font-size: 15px; font-weight: 500; }
+  .trip-meta{ font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .trip-arrow{ color: var(--text-muted); font-size: 18px; }
+  .trip-row-actions{ display:flex; align-items:center; gap: 8px; }
+  .trip-row-delete{
+    background:none; border:none; color: var(--text-muted); cursor:pointer;
+    font-size: 15px; padding: 4px;
+  }
+  .trip-row-delete:hover{ color: var(--danger); }
+
+  .empty-state{ padding: 40px 10px; text-align: center; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid var(--border); }
+
+  .form-card{ background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 18px; margin-bottom: 20px; }
+  .field{ margin-bottom: 12px; }
+  .field label{ display:block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
+  .field input, .field select{
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 10px; border-radius: 4px; font-family: var(--font-body); font-size: 14px;
+  }
+  .field input:focus, .field select:focus{ outline: none; border-color: var(--accent); }
+  .field-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-actions{ display:flex; gap: 8px; margin-top: 16px; }
+
+  .back-link{
+    background:none; border:none; color: var(--text-muted); font-family: var(--font-body); font-size: 13px;
+    cursor:pointer; padding: 0 0 16px; display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{ color: var(--text); }
+
+  .trip-title-block{ margin-bottom: 22px; }
+  .trip-title-block h1{ font-family: var(--font-display); font-size: 24px; margin: 0 0 4px; }
+  .trip-title-block .range{ color: var(--text-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+  .section{ margin-bottom: 26px; }
+  .section-head{ display:flex; align-items:center; justify-content: space-between; margin-bottom: 10px; }
+  .section-head h2{ font-family: var(--font-display); font-size: 15px; font-weight: 600; margin: 0; display:flex; align-items:center; gap:8px; }
+
+  .ticket-flex{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    background: var(--panel); border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  }
+  .ticket-flex .stub{ padding: 14px; position: relative; border-right: 1px dashed var(--border); border-bottom: 1px dashed var(--border); }
+  .ticket-flex .stub:last-child{ border-right: none; }
+  .ticket-flex .stub-label{ font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 8px; font-family: var(--font-display); }
+  .leg-line .line{ font-size: 13.5px; margin-bottom: 4px; }
+  .leg-line .line.method{ font-weight: 500; }
+  .leg-line .line.route{ color: var(--text-muted); }
+  .leg-line .line.time{ font-variant-numeric: tabular-nums; font-family: var(--font-display); font-size: 15px; margin: 4px 0; }
+  .leg-line .line.platform{ color: var(--text-muted); font-size: 12.5px; }
+  .leg-line .line.fare{ color: var(--accent-2); font-size: 12.5px; }
+  .leg-line .line.note{ color: var(--text-muted); font-size: 12px; margin-top: 4px; }
+  .leg-divider{ border-top: 1px dashed var(--border); margin: 10px 0; }
+  .stub-empty{ color: var(--text-muted); font-size: 13px; }
+
+  @media (max-width: 480px){
+    .ticket-flex{ grid-template-columns: 1fr; }
+    .ticket-flex .stub{ border-right: none; }
+  }
+
+  .transport-group-head{ display:flex; align-items:center; gap: 8px; margin-bottom: 10px; }
+  .group-name-input{
+    flex: 1; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 10px; border-radius: 4px; font-family: var(--font-display); font-size: 14px; font-weight: 600;
+  }
+  .group-name-input:focus{ outline: none; border-color: var(--accent); }
+
+  .transport-group-col{ min-width: 0; }
+
+  .transport-edit-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  @media (max-width: 480px){ .transport-edit-grid{ grid-template-columns: 1fr; } }
+  .col-label{ font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+  .leg-card{ border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 10px; background: var(--panel-alt); }
+  .leg-card-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px; }
+  .leg-num{ width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; display:flex; align-items:center; justify-content:center; font-family: var(--font-display); }
+  .leg-remove{ background:none; border:none; color: var(--text-muted); cursor:pointer; font-size: 14px; padding: 2px 4px; }
+  .leg-remove:hover{ color: var(--danger); }
+  .leg-empty-note{ color: var(--text-muted); font-size: 13px; margin-bottom: 8px; }
+  .image-zone{
+    width: 100%; text-align:center; font-size: 12px; color: var(--text-muted);
+    background: var(--bg); border: 1px dashed var(--border); border-radius: 4px;
+    padding: 10px; cursor: pointer; margin-top: 4px; font-family: var(--font-body);
+  }
+  .image-zone::placeholder{ color: var(--text-muted); }
+  .image-zone:hover, .image-zone:focus{ border-color: var(--accent); color: var(--text); outline: none; }
+  .image-zone:disabled{ opacity: .6; cursor: default; }
+  .leg-thumb-wrap{ margin-top: 8px; }
+  .leg-thumb{
+    display:block; width: 100%; max-height: 160px; object-fit: cover;
+    border-radius: 4px; border: 1px solid var(--border); cursor: pointer; margin-bottom: 6px;
+  }
+  .leg-thumb.small{ max-height: 90px; margin-top: 6px; }
+  .image-modal-backdrop{
+    position: fixed; inset: 0; background: rgba(15,16,20,.82);
+    display:flex; align-items:center; justify-content:center; z-index: 1000; padding: 24px;
+  }
+  .image-modal-backdrop img{ max-width: 100%; max-height: 80vh; border-radius: 6px; }
+  .image-modal-close{
+    position: absolute; top: 20px; right: 20px; background: var(--panel); color: var(--text);
+    border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; cursor: pointer;
+    font-family: var(--font-body); font-size: 13px;
+  }
+
+  .dialog-backdrop{
+    position: fixed; inset: 0; background: rgba(15,16,20,.75);
+    display:flex; align-items:center; justify-content:center; z-index: 1100; padding: 20px;
+  }
+  .dialog-box{
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px; max-width: 360px; width: 100%; max-height: 85vh; overflow-y: auto;
+  }
+  .dialog-message{ font-size: 14px; color: var(--text); margin-bottom: 14px; line-height: 1.6; }
+  .dialog-input{
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 10px; border-radius: 4px; font-family: var(--font-body); font-size: 14px; margin-bottom: 14px;
+  }
+  .dialog-input:focus{ outline: none; border-color: var(--accent); }
+  .dialog-actions{ display:flex; justify-content:flex-end; gap: 8px; flex-wrap: wrap; }
+
+  .lodging-card{ background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+  .lodging-card .name{ font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .lodging-card .row{ font-size: 13.5px; color: var(--text-muted); margin-bottom: 3px; }
+  .lodging-card .row b{ color: var(--text); font-weight: 500; }
+  .lodging-card .note{ margin-top: 8px; font-size: 13px; color: var(--text-muted); }
+  .place-map-wrap{ margin-top: 12px; }
+  .place-map{
+    width: 100%; height: 180px; border: 1px solid var(--border); border-radius: 6px;
+    filter: grayscale(0.15) contrast(1.05);
+  }
+  .place-map-link{
+    display:inline-block; margin-top: 8px; font-size: 12.5px; color: var(--accent-2);
+    text-decoration: none;
+  }
+  .place-map-link:hover{ text-decoration: underline; }
+  .lodging-empty{ background: var(--panel); border: 1px dashed var(--border); border-radius: 6px; padding: 16px; color: var(--text-muted); font-size: 13.5px; text-align:center; }
+
+  .packing-progress{
+    font-family: var(--font-display); font-size: 12px; font-weight: 600; color: var(--accent-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .packing-list{ display:flex; flex-direction:column; }
+  .packing-item{
+    display:flex; align-items:center; justify-content:space-between; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .packing-item:last-child{ border-bottom: none; }
+  .packing-item-label{ display:flex; align-items:center; gap: 10px; cursor:pointer; flex: 1; }
+  .packing-item-label input[type=checkbox]{ width: 17px; height: 17px; accent-color: var(--accent); flex-shrink: 0; }
+  .packing-text{ font-size: 14px; }
+  .packing-text.checked{ color: var(--text-muted); text-decoration: line-through; }
+
+  .add-schedule-row2{ display:grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 10px; }
+
+  .timeline{ position: relative; margin-bottom: 4px; }
+  .timeline::before{
+    content:''; position:absolute; left: 61px; top: 6px; bottom: 6px; width: 2px; background: var(--border);
+  }
+  .schedule-item{
+    position: relative; display:grid; grid-template-columns: 52px 18px 1fr auto;
+    align-items: center; gap: 0; padding: 9px 0;
+  }
+  .schedule-time{
+    font-family: var(--font-display); font-variant-numeric: tabular-nums; color: var(--accent);
+    font-size: 13px; font-weight: 600; text-align: right; padding-right: 8px;
+  }
+  .schedule-dot-col{ display:flex; justify-content:center; z-index: 1; }
+  .schedule-dot{ width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+  .schedule-label{ font-size: 14px; padding-left: 10px; cursor: pointer; }
+  .schedule-label:hover{ color: var(--accent-2); }
+  .schedule-del{
+    background:none; border:none; border-left: 1px solid var(--border); color: var(--text-muted);
+    cursor:pointer; font-size: 15px; padding: 4px 4px 4px 12px; margin-left: 8px;
+  }
+  .schedule-del:hover{ color: var(--danger); }
+  .schedule-empty{ color: var(--text-muted); font-size: 13.5px; padding: 10px 0; }
+  .schedule-day-label{
+    font-family: var(--font-display); font-size: 12px; font-weight: 600; color: var(--text-muted);
+    margin: 14px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+  }
+  .schedule-day-label:first-child{ margin-top: 0; }
+
+  .schedule-item-editing{
+    position: relative; z-index: 2;
+    background: var(--panel-alt); border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px; margin: 6px 0;
+  }
+  .sched-edit-row{ display:grid; grid-template-columns: 1fr 2fr; gap: 8px; margin-bottom: 8px; }
+  .sched-edit-row:first-child:not(:last-child){ grid-template-columns: 1fr; }
+  .sched-edit-row select, .sched-edit-row input{
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 9px; border-radius: 4px; font-family: var(--font-body); font-size: 14px;
+  }
+  .sched-edit-row select:focus, .sched-edit-row input:focus{ outline: none; border-color: var(--accent); }
+  .schedule-edit-actions{ display:flex; gap: 8px; }
+
+  .add-schedule-daterow{ margin-top: 12px; }
+  .add-schedule-daterow select{
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 10px; border-radius: 4px; font-family: var(--font-body); font-size: 14px;
+  }
+  .add-schedule-daterow select:focus{ outline: none; border-color: var(--accent); }
+
+  .add-schedule-row{ display:grid; grid-template-columns: 100px 1fr auto; gap: 8px; margin-top: 10px; }
+
+  .suggestion-block{ margin-top: 14px; }
+  .suggestion-label{ font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap: 6px; }
+  .chip{
+    background: var(--panel-alt); border: 1px solid var(--border); color: var(--text);
+    font-size: 12px; padding: 6px 10px; border-radius: 14px; cursor: pointer;
+    font-family: var(--font-body); font-variant-numeric: tabular-nums;
+  }
+  .chip:hover{ border-color: var(--accent-2); color: var(--accent-2); }
+  .template-manager{ margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .template-chip{ display:inline-flex; align-items:center; gap: 5px; }
+  .chip-del{ background:none; border:none; color: var(--text-muted); cursor:pointer; font-size: 11px; padding: 0; }
+  .chip-del:hover{ color: var(--danger); }
+  .template-save-field{ display:flex; flex-direction:column; justify-content:flex-end; }
+  .template-preview-modal-box{ max-width: 380px; }
+  .template-preview-modal-header{
+    display:flex; align-items:flex-start; justify-content:space-between; gap: 10px; margin-bottom: 14px;
+  }
+  .template-preview-modal-title{
+    font-family: var(--font-display); font-size: 16px; font-weight: 600;
+    color: var(--accent); margin-bottom: 14px;
+  }
+  .template-preview-modal-header .template-preview-modal-title{ margin-bottom: 0; }
+  .template-preview-modal-tools{ display:flex; gap: 14px; flex-shrink: 0; }
+  .icon-btn{
+    background: none; border: 1px solid var(--border); border-radius: 4px;
+    width: 32px; height: 32px; display:flex; align-items:center; justify-content:center;
+    cursor: pointer; font-size: 14px; color: var(--text-muted); padding: 0;
+  }
+  .icon-btn:hover{ border-color: var(--accent); color: var(--text); }
+  .icon-btn.danger{ border-color: var(--danger); color: var(--danger); opacity: .75; }
+  .icon-btn.danger:hover{ opacity: 1; }
+  .template-preview-modal-body{
+    background: var(--panel-alt); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px; margin-bottom: 16px;
+  }
+  .tpm-row{ display:flex; align-items:center; gap: 10px; font-size: 14px; padding: 5px 0; }
+  .tpm-row + .tpm-row{ border-top: 1px dashed var(--border); }
+  .tpm-icon{ font-size: 15px; width: 20px; text-align:center; flex-shrink:0; }
+  .tpm-empty{ color: var(--text-muted); font-size: 13px; text-align:center; }
+
+  .edit-toggle{ background:none; border:none; color: var(--text-muted); font-size: 12px; cursor:pointer; text-decoration: underline; text-underline-offset: 2px; }
+  .edit-toggle:hover{ color: var(--text); }
+
+  .danger-zone{ margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--border); text-align:right; }
+
+  .loading{ color: var(--text-muted); font-size: 14px; padding: 30px 4px; }
+
+  .detail-toolbar{ display:flex; justify-content:flex-end; margin-bottom: 14px; }
+
+  .print-check-list{ margin-bottom: 16px; }
+  .print-check-row{
+    display:flex; align-items:center; gap: 10px; padding: 8px 0; font-size: 14px; cursor:pointer;
+    border-bottom: 1px solid var(--border);
+  }
+  .print-check-row:last-child{ border-bottom: none; }
+  .print-check-row input[type=checkbox]{ width: 17px; height: 17px; accent-color: var(--accent); flex-shrink: 0; }
+
+  #printArea{ display:none; }
+
+  @media print{
+    body *{ visibility: hidden; }
+    #printArea, #printArea *{ visibility: visible; }
+    #printArea{ display:block; position:absolute; top:0; left:0; width:100%; }
+    .theme-toggle{ display:none !important; }
+  }
+
+  .print-doc{ color:#111; background:#fff; font-family: sans-serif; padding: 10px; }
+  .print-doc h1{ font-size: 20px; margin: 0 0 4px; }
+  .print-doc .print-range{ color:#555; margin-bottom: 18px; font-size: 13px; }
+  .print-doc h2{ font-size: 15px; margin: 20px 0 8px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+  .print-doc h3{ font-size: 13px; margin: 10px 0 6px; color:#333; }
+  .print-doc .print-block{ margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
+  .print-doc .print-img{ max-width: 260px; max-height: 220px; margin-top: 6px; border: 1px solid #ccc; display:block; }
+  .print-doc .print-timeline{ position: relative; margin: 6px 0 14px; }
+  .print-doc .print-timeline::before{
+    content:''; position:absolute; left: 51px; top: 4px; bottom: 4px; width: 1px; background: #999;
+  }
+  .print-doc .print-sched-row{
+    position: relative; display:grid; grid-template-columns: 44px 14px 1fr;
+    align-items:start; gap: 0; padding: 4px 0;
+  }
+  .print-doc .print-sched-time{ font-weight: 600; font-size: 12px; text-align:right; padding-right: 8px; color:#333; }
+  .print-doc .print-sched-dot-col{ display:flex; justify-content:center; }
+  .print-doc .print-sched-dot{ width: 7px; height: 7px; border-radius: 50%; background: #333; margin-top: 4px; }
+  .print-doc .print-sched-label{ font-size: 13px; padding-left: 8px; color:#111; }
+  .print-doc .print-packing{ padding-left: 20px; font-size: 13px; margin: 4px 0; }
+  .print-doc .print-leg-label{ font-weight: 600; font-size: 12px; color:#777; margin-bottom: 2px; }
+
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">読み込み中…</div></div>
+<div id="printArea" class="print-area"></div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'expedition:trips';
+  var TEMPLATES_KEY = 'expedition:templates';
+  var PACKING_TEMPLATES_KEY = 'expedition:packingTemplates';
+  var THEME_KEY = 'expedition:theme';
+  var TRANSPORT_METHODS = ['新幹線','飛行機','特急','在来線','地下鉄','高速バス','夜行バス','自動車','タクシー','フェリー','徒歩'];
+  var state = {
+    view: 'list', trips: [], currentId: null, showNewForm: false,
+    editingTransport: false, editingLodging: false, editingVenue: false, transportDraft: null,
+    imageProcessingLeg: null, viewingImage: null, templates: [], modal: null,
+    templatePreview: null, editingScheduleId: null, lastScheduleDate: {},
+    packingTemplates: [], showPastTrips: false, theme: 'dark',
+    printModalOpen: false,
+    printSelection: { venue: true, transport: true, lodging: true, schedule: true, packing: true },
+    packingTemplatePreview: null
+  };
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+  function esc(s){
+    if(s === undefined || s === null) return '';
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function fmtDate(d){
+    if(!d) return '';
+    var parts = d.split('-');
+    if(parts.length !== 3) return d;
+    return parts[1] + '/' + parts[2];
+  }
+  function fmtDateFull(d){
+    if(!d) return '';
+    var parts = d.split('-');
+    if(parts.length !== 3) return d;
+    return parts[0] + '/' + parts[1] + '/' + parts[2];
+  }
+  function fmtWeekday(d){
+    if(!d) return '';
+    var dt = new Date(d + 'T00:00:00');
+    if(isNaN(dt)) return '';
+    var w = ['日','月','火','水','木','金','土'];
+    return w[dt.getDay()] + '曜';
+  }
+
+  function dateRange(start, end){
+    var dates = [];
+    if(!start) return dates;
+    var cur = new Date(start + 'T00:00:00');
+    var last = new Date((end || start) + 'T00:00:00');
+    if(isNaN(cur) || isNaN(last)) return dates;
+    var guard = 0;
+    while(cur <= last && guard < 60){
+      dates.push(cur.toISOString().slice(0,10));
+      cur.setDate(cur.getDate() + 1);
+      guard++;
+    }
+    return dates;
+  }
+
+  function todayDateString(){
+    var d = new Date();
+    var m = ('0' + (d.getMonth() + 1)).slice(-2);
+    var day = ('0' + d.getDate()).slice(-2);
+    return d.getFullYear() + '-' + m + '-' + day;
+  }
+
+  function newLeg(){
+    return { id: uid(), method:'', methodOther:'', date:'', departureTime:'', arrivalTime:'', platform:'', from:'', to:'', fare:'', note:'', image: null };
+  }
+
+  function newGroup(name){
+    return { id: uid(), name: name || '新しい区間', legs: [] };
+  }
+
+  function emptyTrip(){
+    return {
+      id: uid(), name: '', startDate: '', endDate: '',
+      transport: { groups: [ newGroup('往路'), newGroup('復路') ] },
+      venue: { name: '', address: '', note: '' },
+      lodging: { name:'', checkin:'', checkout:'', address:'', note:'' },
+      schedule: [],
+      packingList: []
+    };
+  }
+
+  function migrateLeg(oldLeg){
+    if(!oldLeg) return null;
+    var hasData = oldLeg.method || oldLeg.time || oldLeg.departureTime || oldLeg.date || oldLeg.from || oldLeg.to || oldLeg.note;
+    if(!hasData) return null;
+    var known = TRANSPORT_METHODS.indexOf(oldLeg.method) !== -1;
+    return {
+      id: uid(),
+      method: known ? oldLeg.method : (oldLeg.method ? 'その他' : ''),
+      methodOther: known ? '' : (oldLeg.method || ''),
+      date: oldLeg.date || '',
+      departureTime: oldLeg.departureTime || oldLeg.time || '',
+      arrivalTime: oldLeg.arrivalTime || '',
+      platform: oldLeg.platform || '',
+      from: oldLeg.from || '', to: oldLeg.to || '',
+      fare: oldLeg.fare || '', note: oldLeg.note || '',
+      image: oldLeg.image || null
+    };
+  }
+
+  function migrateTrip(t){
+    if(!t.transport){
+      t.transport = { groups: [ newGroup('往路'), newGroup('復路') ] };
+    } else if(t.transport.groups && Array.isArray(t.transport.groups)){
+      t.transport.groups.forEach(function(g){
+        g.legs = (g.legs || []).map(function(l){ return migrateLeg(l) || l; });
+      });
+    } else if(!Array.isArray(t.transport.outbound)){
+      // very old single-object schema (pre multi-leg)
+      var ob = migrateLeg(t.transport.outbound);
+      var rt = migrateLeg(t.transport.ret);
+      t.transport = { groups: [
+        { id: uid(), name: '往路', legs: ob ? [ob] : [] },
+        { id: uid(), name: '復路', legs: rt ? [rt] : [] }
+      ] };
+    } else {
+      // outbound/ret array schema
+      var obLegs = t.transport.outbound.map(function(l){ return migrateLeg(l) || l; });
+      var rtLegs = (t.transport.ret || []).map(function(l){ return migrateLeg(l) || l; });
+      t.transport = { groups: [
+        { id: uid(), name: '往路', legs: obLegs },
+        { id: uid(), name: '復路', legs: rtLegs }
+      ] };
+    }
+    if(!t.venue) t.venue = { name: '', address: '', note: '' };
+    if(!t.packingList) t.packingList = [];
+    return t;
+  }
+
+  function getTrip(id){
+    for(var i=0;i<state.trips.length;i++){ if(state.trips[i].id === id) return state.trips[i]; }
+    return null;
+  }
+
+  function sortedTrips(){
+    return state.trips.slice().sort(function(a,b){ return (a.startDate||'').localeCompare(b.startDate||''); });
+  }
+
+  async function load(){
+    try{
+      var res = await window.storage.get(STORAGE_KEY, false);
+      state.trips = res && res.value ? JSON.parse(res.value) : [];
+    }catch(e){
+      state.trips = [];
+    }
+    state.trips.forEach(migrateTrip);
+    try{
+      var tres = await window.storage.get(TEMPLATES_KEY, false);
+      state.templates = tres && tres.value ? JSON.parse(tres.value) : [];
+    }catch(e){
+      state.templates = [];
+    }
+    try{
+      var pres = await window.storage.get(PACKING_TEMPLATES_KEY, false);
+      state.packingTemplates = pres && pres.value ? JSON.parse(pres.value) : [];
+    }catch(e){
+      state.packingTemplates = [];
+    }
+    try{
+      var thres = await window.storage.get(THEME_KEY, false);
+      state.theme = (thres && thres.value === 'light') ? 'light' : 'dark';
+    }catch(e){
+      state.theme = 'dark';
+    }
+    render();
+  }
+
+  async function save(){
+    try{
+      await window.storage.set(STORAGE_KEY, JSON.stringify(state.trips), false);
+    }catch(e){
+      console.error('保存に失敗しました', e);
+    }
+  }
+
+  async function saveTemplates(){
+    try{
+      await window.storage.set(TEMPLATES_KEY, JSON.stringify(state.templates), false);
+    }catch(e){
+      console.error('テンプレートの保存に失敗しました', e);
+    }
+  }
+
+  async function savePackingTemplates(){
+    try{
+      await window.storage.set(PACKING_TEMPLATES_KEY, JSON.stringify(state.packingTemplates), false);
+    }catch(e){
+      console.error('持ち物テンプレートの保存に失敗しました', e);
+    }
+  }
+
+  async function saveTheme(){
+    try{
+      await window.storage.set(THEME_KEY, state.theme, false);
+    }catch(e){
+      console.error('テーマの保存に失敗しました', e);
+    }
+  }
+
+  function applyTheme(){
+    document.body.setAttribute('data-theme', state.theme);
+  }
+
+  function showAlert(message){
+    state.modal = { type: 'alert', message: message };
+    render();
+  }
+  function showConfirm(message, onYes){
+    state.modal = { type: 'confirm', message: message, onYes: onYes };
+    render();
+  }
+  function showPrompt(message, defaultValue, onSubmit){
+    state.modal = { type: 'prompt', message: message, defaultValue: defaultValue || '', onSubmit: onSubmit };
+    render();
+  }
+
+  function renderModal(){
+    var m = state.modal;
+    if(!m) return '';
+    if(m.type === 'alert'){
+      return '<div class="dialog-backdrop" id="dlgBackdrop"><div class="dialog-box">' +
+        '<div class="dialog-message">'+esc(m.message)+'</div>' +
+        '<div class="dialog-actions"><button class="btn btn-primary btn-sm" id="dlgOk">OK</button></div>' +
+      '</div></div>';
+    }
+    if(m.type === 'confirm'){
+      return '<div class="dialog-backdrop" id="dlgBackdrop"><div class="dialog-box">' +
+        '<div class="dialog-message">'+esc(m.message)+'</div>' +
+        '<div class="dialog-actions"><button class="btn btn-ghost btn-sm" id="dlgCancel">キャンセル</button><button class="btn btn-danger btn-sm" id="dlgConfirm">削除する</button></div>' +
+      '</div></div>';
+    }
+    if(m.type === 'prompt'){
+      return '<div class="dialog-backdrop" id="dlgBackdrop"><div class="dialog-box">' +
+        '<div class="dialog-message">'+esc(m.message)+'</div>' +
+        '<input type="text" class="dialog-input" id="dlgInput" value="'+esc(m.defaultValue)+'">' +
+        '<div class="dialog-actions"><button class="btn btn-ghost btn-sm" id="dlgCancel">キャンセル</button><button class="btn btn-primary btn-sm" id="dlgSubmit">保存</button></div>' +
+      '</div></div>';
+    }
+    return '';
+  }
+
+  function bindModal(){
+    var m = state.modal;
+    if(!m) return;
+    var backdrop = document.getElementById('dlgBackdrop');
+    if(m.type === 'alert'){
+      var okBtn = document.getElementById('dlgOk');
+      if(okBtn) okBtn.addEventListener('click', function(){ state.modal = null; render(); });
+    } else if(m.type === 'confirm'){
+      var cancelBtn = document.getElementById('dlgCancel');
+      var confirmBtn = document.getElementById('dlgConfirm');
+      if(cancelBtn) cancelBtn.addEventListener('click', function(){ state.modal = null; render(); });
+      if(confirmBtn) confirmBtn.addEventListener('click', function(){
+        var cb = m.onYes;
+        state.modal = null;
+        render();
+        if(cb) cb();
+      });
+    } else if(m.type === 'prompt'){
+      var input = document.getElementById('dlgInput');
+      var cancelBtn2 = document.getElementById('dlgCancel');
+      var submitBtn = document.getElementById('dlgSubmit');
+      if(input){ input.focus(); input.select(); }
+      if(cancelBtn2) cancelBtn2.addEventListener('click', function(){ state.modal = null; render(); });
+      var doSubmit = function(){
+        var val = input ? input.value.trim() : '';
+        var cb = m.onSubmit;
+        state.modal = null;
+        render();
+        if(val && cb) cb(val);
+      };
+      if(submitBtn) submitBtn.addEventListener('click', doSubmit);
+      if(input) input.addEventListener('keydown', function(e){ if(e.key === 'Enter') doSubmit(); });
+    }
+    if(backdrop) backdrop.addEventListener('click', function(e){ if(e.target === backdrop){ state.modal = null; render(); } });
+  }
+
+  function reverseLeg(leg){
+    return {
+      id: uid(), method: leg.method, methodOther: leg.methodOther,
+      date: '', departureTime: '', arrivalTime: '', platform: leg.platform,
+      from: leg.to, to: leg.from, fare: leg.fare, note: '', image: null
+    };
+  }
+
+  function cloneLegsWithNewIds(legs){
+    return (legs || []).map(function(l){
+      var c = JSON.parse(JSON.stringify(l));
+      c.id = uid();
+      return c;
+    });
+  }
+
+  function transitSearchUrl(leg){
+    var params = [];
+    function add(k, v){ if(v) params.push(k + '=' + encodeURIComponent(v)); }
+    add('from', leg.from);
+    add('to', leg.to);
+    if(leg.date){
+      var dp = leg.date.split('-');
+      add('y', dp[0]); add('m', dp[1]); add('d', dp[2]);
+    }
+    if(leg.departureTime){
+      var tp = leg.departureTime.split(':');
+      add('hh', tp[0]);
+      if(tp[1] && tp[1].length === 2){ add('m1', tp[1].charAt(0)); add('m2', tp[1].charAt(1)); }
+    }
+    params.push('type=1');
+    return 'https://transit.yahoo.co.jp/search/result?' + params.join('&');
+  }
+
+  function fileToResizedDataUrl(file){
+    return new Promise(function(resolve, reject){
+      if(!file){ reject(new Error('画像ファイルが取得できませんでした')); return; }
+      var reader = new FileReader();
+      reader.onload = function(){
+        var img = new Image();
+        img.onload = function(){
+          var maxDim = 1000;
+          var w = img.width, h = img.height;
+          if(w > maxDim || h > maxDim){
+            if(w > h){ h = Math.round(h * maxDim / w); w = maxDim; }
+            else { w = Math.round(w * maxDim / h); h = maxDim; }
+          }
+          var canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.75));
+        };
+        img.onerror = function(){ reject(new Error('画像の読み込みに失敗しました')); };
+        img.src = reader.result;
+      };
+      reader.onerror = function(){ reject(new Error('ファイルの読み込みに失敗しました')); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function findGroupInDraft(groupId){
+    if(!state.transportDraft) return null;
+    return state.transportDraft.groups.filter(function(g){ return g.id === groupId; })[0] || null;
+  }
+
+  async function attachImageToLeg(groupId, legId, file){
+    if(!file || !state.transportDraft) return;
+    syncTransportDraftFromDOM();
+    state.imageProcessingLeg = legId;
+    render();
+    try{
+      var dataUrl = await fileToResizedDataUrl(file);
+      var grp = findGroupInDraft(groupId);
+      var leg = grp ? grp.legs.filter(function(l){ return l.id === legId; })[0] : null;
+      if(leg) leg.image = dataUrl;
+    }catch(e){
+      console.error('image attach failed:', e);
+      showAlert('画像の読み込みに失敗しました。別の画像でお試しください。');
+    }
+    state.imageProcessingLeg = null;
+    render();
+  }
+
+  function getLegById(legId){
+    if(state.transportDraft){
+      for(var i=0;i<state.transportDraft.groups.length;i++){
+        var found = state.transportDraft.groups[i].legs.filter(function(l){ return l.id === legId; })[0];
+        if(found) return found;
+      }
+    }
+    var t = getTrip(state.currentId);
+    if(t && t.transport.groups){
+      for(var j=0;j<t.transport.groups.length;j++){
+        var found2 = t.transport.groups[j].legs.filter(function(l){ return l.id === legId; })[0];
+        if(found2) return found2;
+      }
+    }
+    return null;
+  }
+
+  function syncTransportDraftFromDOM(){
+    if(!state.transportDraft) return;
+    state.transportDraft.groups.forEach(function(grp){
+      var nameEl = document.getElementById('group-name-' + grp.id);
+      if(nameEl) grp.name = nameEl.value;
+      grp.legs.forEach(function(leg){
+        var m = document.getElementById('leg-method-' + leg.id);
+        if(!m) return;
+        leg.method = m.value;
+        var mo = document.getElementById('leg-methodOther-' + leg.id);
+        if(mo) leg.methodOther = mo.value;
+        var d = document.getElementById('leg-date-' + leg.id); if(d) leg.date = d.value;
+        var dep = document.getElementById('leg-dep-' + leg.id); if(dep) leg.departureTime = dep.value;
+        var arr = document.getElementById('leg-arr-' + leg.id); if(arr) leg.arrivalTime = arr.value;
+        var pf = document.getElementById('leg-platform-' + leg.id); if(pf) leg.platform = pf.value;
+        var f = document.getElementById('leg-from-' + leg.id); if(f) leg.from = f.value;
+        var to = document.getElementById('leg-to-' + leg.id); if(to) leg.to = to.value;
+        var fare = document.getElementById('leg-fare-' + leg.id); if(fare) leg.fare = fare.value;
+        var note = document.getElementById('leg-note-' + leg.id); if(note) leg.note = note.value;
+      });
+    });
+  }
+
+  function renderTemplatePreviewModal(){
+    if(!state.templatePreview) return '';
+    var tpl = state.templates.filter(function(tp){ return tp.id === state.templatePreview.templateId; })[0];
+    if(!tpl) return '';
+
+    if(state.templatePreview.mode === 'edit'){
+      var d = state.templatePreview.draft;
+      var isOther = d.method === 'その他';
+      var methodOpts = TRANSPORT_METHODS.map(function(m){
+        return '<option value="'+m+'"'+(d.method===m?' selected':'')+'>'+m+'</option>';
+      }).join('');
+      return '' +
+        '<div class="dialog-backdrop" id="tplPreviewBackdrop">' +
+          '<div class="dialog-box template-preview-modal-box">' +
+            '<div class="template-preview-modal-title">✏️ テンプレートを編集</div>' +
+            '<div class="field"><label>テンプレート名</label><input type="text" id="tpl-edit-label" value="'+esc(d.label)+'"></div>' +
+            '<div class="field"><label>交通手段</label><select id="tpl-edit-method">' +
+              '<option value=""'+(!d.method?' selected':'')+'>選択してください</option>' +
+              methodOpts +
+              '<option value="その他"'+(isOther?' selected':'')+'>その他(自由入力)</option>' +
+            '</select></div>' +
+            (isOther ? '<div class="field"><label>手段(自由入力)</label><input type="text" id="tpl-edit-methodOther" value="'+esc(d.methodOther)+'"></div>' : '') +
+            '<div class="field-row">' +
+              '<div class="field"><label>出発地</label><input type="text" id="tpl-edit-from" value="'+esc(d.from)+'"></div>' +
+              '<div class="field"><label>到着地</label><input type="text" id="tpl-edit-to" value="'+esc(d.to)+'"></div>' +
+            '</div>' +
+            '<div class="field-row">' +
+              '<div class="field"><label>乗り場</label><input type="text" id="tpl-edit-platform" value="'+esc(d.platform)+'"></div>' +
+              '<div class="field"><label>金額</label><input type="text" id="tpl-edit-fare" value="'+esc(d.fare)+'"></div>' +
+            '</div>' +
+            '<div class="dialog-actions">' +
+              '<button class="btn btn-ghost btn-sm" id="tplEditCancel">戻る</button>' +
+              '<button class="btn btn-primary btn-sm" id="tplEditSave">保存</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    var methodLabel = tpl.method === 'その他' ? (tpl.methodOther || 'その他') : tpl.method;
+    return '' +
+      '<div class="dialog-backdrop" id="tplPreviewBackdrop">' +
+        '<div class="dialog-box template-preview-modal-box">' +
+          '<div class="template-preview-modal-header">' +
+            '<div class="template-preview-modal-title">📌 '+esc(tpl.label)+'</div>' +
+            '<div class="template-preview-modal-tools">' +
+              '<button type="button" class="icon-btn" id="tplPreviewEdit" title="編集">✏️</button>' +
+              '<button type="button" class="icon-btn danger" id="tplPreviewDelete" title="削除">🗑</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="template-preview-modal-body">' +
+            (methodLabel ? '<div class="tpm-row"><span class="tpm-icon">🚃</span><span>'+esc(methodLabel)+'</span></div>' : '') +
+            ((tpl.from||tpl.to) ? '<div class="tpm-row"><span class="tpm-icon">📍</span><span>'+esc(tpl.from)+' → '+esc(tpl.to)+'</span></div>' : '') +
+            (tpl.platform ? '<div class="tpm-row"><span class="tpm-icon">🚏</span><span>'+esc(tpl.platform)+'</span></div>' : '') +
+            (tpl.fare ? '<div class="tpm-row"><span class="tpm-icon">💴</span><span>'+esc(tpl.fare)+'</span></div>' : '') +
+            (!methodLabel && !tpl.from && !tpl.to && !tpl.platform && !tpl.fare ? '<div class="tpm-empty">内容がありません</div>' : '') +
+          '</div>' +
+          '<div class="dialog-actions">' +
+            '<button class="btn btn-ghost btn-sm" id="tplPreviewCancel">キャンセル</button>' +
+            '<button class="btn btn-primary btn-sm" id="tplPreviewApply">この内容を反映</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function syncTemplateDraftFromDOM(){
+    var d = state.templatePreview && state.templatePreview.draft;
+    if(!d) return;
+    var el;
+    el = document.getElementById('tpl-edit-label'); if(el) d.label = el.value;
+    el = document.getElementById('tpl-edit-method'); if(el) d.method = el.value;
+    el = document.getElementById('tpl-edit-methodOther'); if(el) d.methodOther = el.value;
+    el = document.getElementById('tpl-edit-from'); if(el) d.from = el.value;
+    el = document.getElementById('tpl-edit-to'); if(el) d.to = el.value;
+    el = document.getElementById('tpl-edit-platform'); if(el) d.platform = el.value;
+    el = document.getElementById('tpl-edit-fare'); if(el) d.fare = el.value;
+  }
+
+  function bindTemplatePreviewModal(){
+    if(!state.templatePreview) return;
+    var legKey = state.templatePreview.legKey;
+    var backdrop = document.getElementById('tplPreviewBackdrop');
+    var close = function(){ state.templatePreview = null; render(); };
+    if(backdrop) backdrop.addEventListener('click', function(e){ if(e.target === backdrop) close(); });
+
+    if(state.templatePreview.mode === 'edit'){
+      var methodSel = document.getElementById('tpl-edit-method');
+      if(methodSel) methodSel.addEventListener('change', function(){
+        syncTemplateDraftFromDOM();
+        render();
+      });
+      var cancelEditBtn = document.getElementById('tplEditCancel');
+      if(cancelEditBtn) cancelEditBtn.addEventListener('click', function(){
+        state.templatePreview.mode = 'view';
+        state.templatePreview.draft = null;
+        render();
+      });
+      var saveEditBtn = document.getElementById('tplEditSave');
+      if(saveEditBtn) saveEditBtn.addEventListener('click', function(){
+        syncTemplateDraftFromDOM();
+        var d = state.templatePreview.draft;
+        if(!d.label || !d.label.trim()){
+          showAlert('テンプレート名を入力してください。');
+          return;
+        }
+        var tpl = state.templates.filter(function(tp){ return tp.id === d.id; })[0];
+        if(tpl){
+          tpl.label = d.label.trim(); tpl.method = d.method; tpl.methodOther = d.methodOther;
+          tpl.from = d.from; tpl.to = d.to; tpl.platform = d.platform; tpl.fare = d.fare;
+          saveTemplates();
+        }
+        state.templatePreview.mode = 'view';
+        state.templatePreview.draft = null;
+        render();
+      });
+      return;
+    }
+
+    var cancelBtn = document.getElementById('tplPreviewCancel');
+    var applyBtn = document.getElementById('tplPreviewApply');
+    var editBtn = document.getElementById('tplPreviewEdit');
+    var deleteBtn = document.getElementById('tplPreviewDelete');
+    if(cancelBtn) cancelBtn.addEventListener('click', close);
+    if(applyBtn) applyBtn.addEventListener('click', function(){
+      var parts = legKey.split(':');
+      var tpl = state.templates.filter(function(tp){ return tp.id === state.templatePreview.templateId; })[0];
+      var leg = state.transportDraft ? state.transportDraft[parts[0]].filter(function(l){ return l.id === parts[1]; })[0] : null;
+      if(tpl && leg){
+        leg.method = tpl.method; leg.methodOther = tpl.methodOther;
+        leg.from = tpl.from; leg.to = tpl.to;
+        leg.platform = tpl.platform; leg.fare = tpl.fare;
+      }
+      state.templatePreview = null;
+      render();
+    });
+    if(editBtn) editBtn.addEventListener('click', function(){
+      var tpl = state.templates.filter(function(tp){ return tp.id === state.templatePreview.templateId; })[0];
+      if(!tpl) return;
+      state.templatePreview.mode = 'edit';
+      state.templatePreview.draft = JSON.parse(JSON.stringify(tpl));
+      render();
+    });
+    if(deleteBtn) deleteBtn.addEventListener('click', function(){
+      var tplId = state.templatePreview.templateId;
+      showConfirm('このテンプレートを削除しますか?', function(){
+        state.templates = state.templates.filter(function(tp){ return tp.id !== tplId; });
+        saveTemplates();
+        state.templatePreview = null;
+        render();
+      });
+    });
+  }
+
+  function buildPrintLegHtml(leg, idx, total){
+    var methodLabel = leg.method === 'その他' ? (leg.methodOther || 'その他') : leg.method;
+    var timeStr = (leg.departureTime ? leg.departureTime + '発' : '') + (leg.arrivalTime ? ' → ' + leg.arrivalTime + '着' : '');
+    var html = '<div class="print-block">';
+    if(total > 1) html += '<div class="print-leg-label">区間'+(idx+1)+'</div>';
+    if(methodLabel) html += '<div><b>'+esc(methodLabel)+'</b></div>';
+    if(leg.date || timeStr) html += '<div>'+esc((fmtDateFull(leg.date) + ' ' + timeStr).trim())+'</div>';
+    if(leg.from || leg.to) html += '<div>'+esc(leg.from)+' → '+esc(leg.to)+'</div>';
+    if(leg.platform) html += '<div>乗り場: '+esc(leg.platform)+'</div>';
+    if(leg.fare) html += '<div>'+esc(leg.fare)+'</div>';
+    if(leg.note) html += '<div>'+esc(leg.note)+'</div>';
+    if(leg.image) html += '<img class="print-img" src="'+leg.image+'" alt="添付画像">';
+    html += '</div>';
+    return html;
+  }
+
+  function buildPrintHtml(t, sel){
+    var range = t.endDate && t.endDate !== t.startDate
+      ? fmtDateFull(t.startDate) + ' 〜 ' + fmtDateFull(t.endDate)
+      : fmtDateFull(t.startDate);
+    var html = '<div class="print-doc">';
+    html += '<h1>'+esc(t.name || '(無題の遠征)')+'</h1>';
+    html += '<div class="print-range">'+esc(range)+'</div>';
+
+    if(sel.venue){
+      var v = t.venue || {};
+      if(v.name || v.address || v.note){
+        html += '<h2>📍 会場情報</h2><div class="print-block">';
+        if(v.name) html += '<div><b>'+esc(v.name)+'</b></div>';
+        if(v.address) html += '<div>'+esc(v.address)+'</div>';
+        if(v.note) html += '<div>'+esc(v.note)+'</div>';
+        html += '</div>';
+      }
+    }
+
+    if(sel.transport){
+      var groups = (t.transport.groups || []).filter(function(g){ return g.legs && g.legs.length; });
+      if(groups.length){
+        html += '<h2>🚃 交通</h2>';
+        groups.forEach(function(g){
+          html += '<h3>'+esc(g.name)+'</h3>';
+          g.legs.forEach(function(leg, idx){ html += buildPrintLegHtml(leg, idx, g.legs.length); });
+        });
+      }
+    }
+
+    if(sel.lodging){
+      var l = t.lodging || {};
+      if(l.name || l.checkin || l.checkout || l.address || l.note){
+        html += '<h2>🏨 宿泊先</h2><div class="print-block">';
+        if(l.name) html += '<div><b>'+esc(l.name)+'</b></div>';
+        if(l.checkin || l.checkout) html += '<div>チェックイン '+esc(fmtDateFull(l.checkin))+(l.checkout ? '　チェックアウト '+esc(fmtDateFull(l.checkout)) : '')+'</div>';
+        if(l.address) html += '<div>'+esc(l.address)+'</div>';
+        if(l.note) html += '<div>'+esc(l.note)+'</div>';
+        html += '</div>';
+      }
+    }
+
+    if(sel.schedule){
+      var items = (t.schedule || []).slice().sort(function(a,b){
+        var da = a.date||'', db = b.date||'';
+        if(da !== db) return da.localeCompare(db);
+        return (a.time||'').localeCompare(b.time||'');
+      });
+      if(items.length){
+        html += '<h2>🕐 タイムスケジュール</h2>';
+        var lastDate = null;
+        var timelineOpen = false;
+        items.forEach(function(it){
+          if(it.date && it.date !== lastDate){
+            if(timelineOpen){ html += '</div>'; timelineOpen = false; }
+            html += '<h3>'+esc(fmtDateFull(it.date))+'('+esc(fmtWeekday(it.date))+')</h3>';
+          }
+          if(!timelineOpen){ html += '<div class="print-timeline">'; timelineOpen = true; }
+          lastDate = it.date;
+          html += '' +
+            '<div class="print-sched-row">' +
+              '<div class="print-sched-time">'+esc(it.time)+'</div>' +
+              '<div class="print-sched-dot-col"><span class="print-sched-dot"></span></div>' +
+              '<div class="print-sched-label">'+esc(it.label)+'</div>' +
+            '</div>';
+        });
+        if(timelineOpen) html += '</div>';
+      }
+    }
+
+    if(sel.packing){
+      var pl = t.packingList || [];
+      if(pl.length){
+        html += '<h2>🎒 持ち物チェックリスト</h2><ul class="print-packing">';
+        pl.forEach(function(it){
+          html += '<li>'+(it.checked ? '☑' : '☐')+' '+esc(it.label)+'</li>';
+        });
+        html += '</ul>';
+      }
+    }
+
+    html += '</div>';
+    return html;
+  }
+
+  function renderPackingTemplateModal(){
+    if(!state.packingTemplatePreview) return '';
+    var tpl = state.packingTemplates.filter(function(tp){ return tp.id === state.packingTemplatePreview.id; })[0];
+    if(!tpl) return '';
+    var itemsHtml = tpl.items.map(function(label){
+      return '<div class="tpm-row"><span class="tpm-icon">🎒</span><span>'+esc(label)+'</span></div>';
+    }).join('');
+    return '' +
+      '<div class="dialog-backdrop" id="packTplBackdrop">' +
+        '<div class="dialog-box template-preview-modal-box">' +
+          '<div class="template-preview-modal-header">' +
+            '<div class="template-preview-modal-title">📦 '+esc(tpl.name)+'</div>' +
+            '<div class="template-preview-modal-tools">' +
+              '<button type="button" class="icon-btn danger" id="packTplDelete" title="このセットを削除">🗑</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="template-preview-modal-body">'+itemsHtml+'</div>' +
+          '<div class="dialog-actions">' +
+            '<button class="btn btn-ghost btn-sm" id="packTplCancel">キャンセル</button>' +
+            '<button class="btn btn-primary btn-sm" id="packTplApply">リストに追加</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function bindPackingTemplateModal(){
+    if(!state.packingTemplatePreview) return;
+    var backdrop = document.getElementById('packTplBackdrop');
+    var close = function(){ state.packingTemplatePreview = null; render(); };
+    if(backdrop) backdrop.addEventListener('click', function(e){ if(e.target === backdrop) close(); });
+
+    var cancelBtn = document.getElementById('packTplCancel');
+    if(cancelBtn) cancelBtn.addEventListener('click', close);
+
+    var applyBtn = document.getElementById('packTplApply');
+    if(applyBtn) applyBtn.addEventListener('click', function(){
+      var tpl = state.packingTemplates.filter(function(tp){ return tp.id === state.packingTemplatePreview.id; })[0];
+      var t = getTrip(state.currentId);
+      if(tpl && t){
+        var existingLabels = {};
+        t.packingList.forEach(function(it){ existingLabels[it.label] = true; });
+        tpl.items.forEach(function(label){
+          if(!existingLabels[label]){
+            t.packingList.push({ id: uid(), label: label, checked: false });
+            existingLabels[label] = true;
+          }
+        });
+        save();
+      }
+      state.packingTemplatePreview = null;
+      render();
+    });
+
+    var deleteBtn = document.getElementById('packTplDelete');
+    if(deleteBtn) deleteBtn.addEventListener('click', function(){
+      var tplId = state.packingTemplatePreview.id;
+      showConfirm('この持ち物セットを削除しますか?', function(){
+        state.packingTemplates = state.packingTemplates.filter(function(tp){ return tp.id !== tplId; });
+        savePackingTemplates();
+        state.packingTemplatePreview = null;
+        render();
+      });
+    });
+  }
+
+  function renderPrintModal(){
+    if(!state.printModalOpen) return '';
+    var sel = state.printSelection;
+    var opts = [
+      { key: 'venue', label: '📍 会場情報' },
+      { key: 'transport', label: '🚃 交通' },
+      { key: 'lodging', label: '🏨 宿泊先' },
+      { key: 'schedule', label: '🕐 タイムスケジュール' },
+      { key: 'packing', label: '🎒 持ち物チェックリスト' }
+    ];
+    var rows = opts.map(function(o){
+      return '<label class="print-check-row"><input type="checkbox" data-print-toggle="'+o.key+'" '+(sel[o.key] ? 'checked' : '')+'> '+o.label+'</label>';
+    }).join('');
+    return '' +
+      '<div class="dialog-backdrop" id="printModalBackdrop">' +
+        '<div class="dialog-box">' +
+          '<div class="dialog-message">出力する項目を選んでください</div>' +
+          '<div class="print-check-list">'+rows+'</div>' +
+          '<div class="dialog-actions">' +
+            '<button class="btn btn-ghost btn-sm" id="printModalCancel">キャンセル</button>' +
+            '<button class="btn btn-ghost btn-sm" id="printModalSaveImage">🖼 画像として保存</button>' +
+            '<button class="btn btn-primary btn-sm" id="printModalGo">🖨 印刷する</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function exportAsImage(t, sel){
+    var html = buildPrintHtml(t, sel);
+    var printArea = document.getElementById('printArea');
+    if(!printArea) return;
+    printArea.innerHTML = html;
+    printArea.style.display = 'block';
+    printArea.style.position = 'fixed';
+    printArea.style.left = '-9999px';
+    printArea.style.top = '0';
+    printArea.style.width = '480px';
+    printArea.style.background = '#fff';
+
+    function resetArea(){
+      printArea.style.display = 'none';
+      printArea.style.position = '';
+      printArea.style.left = '';
+      printArea.style.top = '';
+      printArea.style.width = '';
+      printArea.style.background = '';
+    }
+
+    html2canvas(printArea, { backgroundColor: '#ffffff', scale: 2, useCORS: true }).then(function(canvas){
+      resetArea();
+      canvas.toBlob(function(blob){
+        if(!blob){ showAlert('画像の生成に失敗しました。'); return; }
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = (t.name || '遠征情報') + '.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      });
+    }).catch(function(e){
+      console.error('画像出力に失敗しました:', e);
+      resetArea();
+      showAlert('画像の生成に失敗しました。ネット接続をご確認のうえ、もう一度お試しください。');
+    });
+  }
+
+  function bindPrintModal(){
+    if(!state.printModalOpen) return;
+    var backdrop = document.getElementById('printModalBackdrop');
+    if(backdrop) backdrop.addEventListener('click', function(e){ if(e.target === backdrop){ state.printModalOpen = false; render(); } });
+
+    document.querySelectorAll('[data-print-toggle]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        state.printSelection[cb.getAttribute('data-print-toggle')] = cb.checked;
+      });
+    });
+
+    var cancelBtn = document.getElementById('printModalCancel');
+    if(cancelBtn) cancelBtn.addEventListener('click', function(){ state.printModalOpen = false; render(); });
+
+    var goBtn = document.getElementById('printModalGo');
+    if(goBtn) goBtn.addEventListener('click', function(){
+      var t = getTrip(state.currentId);
+      if(!t) return;
+      var html = buildPrintHtml(t, state.printSelection);
+      var printArea = document.getElementById('printArea');
+      if(printArea) printArea.innerHTML = html;
+      state.printModalOpen = false;
+      render();
+      requestAnimationFrame(function(){ window.print(); });
+    });
+
+    var saveImageBtn = document.getElementById('printModalSaveImage');
+    if(saveImageBtn) saveImageBtn.addEventListener('click', function(){
+      var t = getTrip(state.currentId);
+      if(!t) return;
+      if(typeof html2canvas === 'undefined'){
+        showAlert('画像出力の準備がまだ完了していません。数秒待ってからもう一度お試しください。');
+        return;
+      }
+      var sel = state.printSelection;
+      state.printModalOpen = false;
+      render();
+      exportAsImage(t, sel);
+    });
+  }
+
+  function render(){
+    applyTheme();
+    var app = document.getElementById('app');
+    var mainHtml = state.view === 'list' ? renderList() : renderDetail(getTrip(state.currentId));
+    var modalHtml = state.viewingImage
+      ? '<div class="image-modal-backdrop" id="imgModalBackdrop"><img src="'+state.viewingImage+'" alt="拡大画像"><button class="image-modal-close" id="imgModalClose">✕ 閉じる</button></div>'
+      : '';
+    var themeIcon = state.theme === 'light' ? '🌙' : '☀️';
+    var themeTitle = state.theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え';
+    var themeToggleHtml = '<div class="app-topbar"><button type="button" class="theme-toggle" id="themeToggle" title="'+themeTitle+'">'+themeIcon+'</button></div>';
+    app.innerHTML = themeToggleHtml + mainHtml + modalHtml + renderTemplatePreviewModal() + renderPackingTemplateModal() + renderPrintModal() + renderModal();
+    bindEvents();
+    var themeToggleBtn = document.getElementById('themeToggle');
+    if(themeToggleBtn) themeToggleBtn.addEventListener('click', function(){
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      saveTheme();
+      render();
+    });
+    if(state.viewingImage){
+      var backdrop = document.getElementById('imgModalBackdrop');
+      var closeBtn = document.getElementById('imgModalClose');
+      if(backdrop) backdrop.addEventListener('click', function(e){ if(e.target === backdrop){ state.viewingImage = null; render(); } });
+      if(closeBtn) closeBtn.addEventListener('click', function(){ state.viewingImage = null; render(); });
+    }
+    bindModal();
+    bindTemplatePreviewModal();
+    bindPrintModal();
+    bindPackingTemplateModal();
+  }
+
+  function tripRowHtml(t){
+    return '' +
+      '<div class="trip-row" data-open="'+t.id+'">' +
+        '<div class="trip-date">'+esc(fmtDate(t.startDate))+'<small>'+esc(fmtWeekday(t.startDate))+'</small></div>' +
+        '<div>' +
+          '<div class="trip-name">'+esc(t.name || '(無題の遠征)')+'</div>' +
+          '<div class="trip-meta">'+esc(fmtDateFull(t.startDate))+(t.endDate && t.endDate !== t.startDate ? ' 〜 '+esc(fmtDate(t.endDate)) : '')+'</div>' +
+        '</div>' +
+        '<div class="trip-row-actions">' +
+          '<button class="trip-row-delete" data-quick-delete="'+t.id+'" title="削除">🗑</button>' +
+          '<span class="trip-arrow">›</span>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function tripEndKey(t){ return t.endDate || t.startDate || '9999-99-99'; }
+
+  function renderList(){
+    var trips = sortedTrips();
+    var today = todayDateString();
+    var upcoming = trips.filter(function(t){ return tripEndKey(t) >= today; });
+    var past = trips.filter(function(t){ return tripEndKey(t) < today; }).slice().reverse();
+
+    var listBlock;
+    if(!trips.length){
+      listBlock = '<div class="trip-list"><div class="empty-state">まだ遠征が登録されていません。<br>下のボタンから最初の遠征を登録しましょう。</div></div>';
+    } else {
+      var upcomingHtml = '<div class="trip-group-label">これから</div>' + (upcoming.length
+        ? '<div class="trip-list">'+upcoming.map(tripRowHtml).join('')+'</div>'
+        : '<div class="trip-list"><div class="empty-state">予定されている遠征はありません</div></div>');
+
+      var pastHtml = '';
+      if(past.length){
+        if(state.showPastTrips){
+          pastHtml = '<div class="trip-group-label">過去の遠征</div>' +
+            '<div class="trip-list">'+past.map(tripRowHtml).join('')+'</div>' +
+            '<button type="button" class="btn btn-ghost btn-block past-toggle" id="btn-hide-past">過去の遠征を隠す</button>';
+        } else {
+          pastHtml = '<button type="button" class="btn btn-ghost btn-block past-toggle" id="btn-show-past">過去の遠征を表示('+past.length+'件)</button>';
+        }
+      }
+      listBlock = upcomingHtml + pastHtml;
+    }
+
+    var newForm = state.showNewForm ? '' +
+      '<div class="form-card" id="newTripForm">' +
+        '<div class="field"><label>遠征名(イベント名など)</label><input type="text" id="f-name" placeholder="例:○○ツアー大阪公演"></div>' +
+        '<div class="field-row">' +
+          '<div class="field"><label>開始日</label><input type="date" id="f-start"></div>' +
+          '<div class="field"><label>終了日</label><input type="date" id="f-end"></div>' +
+        '</div>' +
+        (trips.length ? '' +
+          '<div class="field"><label>前回の遠征をコピー(任意・交通/宿泊/持ち物)</label>' +
+            '<select id="f-copyfrom"><option value="">コピーしない</option>' +
+            trips.slice().reverse().map(function(tr){ return '<option value="'+tr.id+'">'+esc(tr.name || '(無題の遠征)')+'</option>'; }).join('') +
+            '</select></div>' : '') +
+        '<div class="form-actions">' +
+          '<button class="btn btn-primary" id="btn-create">登録する</button>' +
+          '<button class="btn btn-ghost" id="btn-cancel-new">キャンセル</button>' +
+        '</div>' +
+      '</div>' : '';
+
+    var addRow = state.showNewForm ? '' :
+      '<div class="add-trip-row"><button class="btn btn-primary btn-block" id="btn-show-new">+ 新しい遠征を登録</button></div>';
+
+    return '' +
+      '<div class="board-header">' +
+        '<h1 class="board-title">遠征<span>手帳</span></h1>' +
+        '<div class="board-sub">'+trips.length+'件登録中</div>' +
+      '</div>' +
+      newForm + addRow + listBlock;
+  }
+
+  function legReadBlock(leg, idx, total){
+    var methodLabel = leg.method === 'その他' ? (leg.methodOther || 'その他') : leg.method;
+    var numPrefix = total > 1 ? (idx+1)+'. ' : '';
+    var timeStr = '';
+    if(leg.departureTime || leg.arrivalTime){
+      timeStr = (leg.departureTime ? leg.departureTime + '発' : '') + (leg.arrivalTime ? ' → ' + leg.arrivalTime + '着' : '');
+    }
+    return '<div class="leg-line">' +
+      (methodLabel ? '<div class="line method">'+esc(numPrefix + methodLabel)+'</div>' : '') +
+      ((leg.date || timeStr) ? '<div class="line time">'+esc((fmtDate(leg.date)+' '+timeStr).trim())+'</div>' : '') +
+      ((leg.from || leg.to) ? '<div class="line route">'+esc(leg.from)+' → '+esc(leg.to)+'</div>' : '') +
+      (leg.platform ? '<div class="line platform">乗り場: '+esc(leg.platform)+'</div>' : '') +
+      (leg.fare ? '<div class="line fare">'+esc(leg.fare)+'</div>' : '') +
+      (leg.note ? '<div class="line note">'+esc(leg.note)+'</div>' : '') +
+      (leg.image ? '<img class="leg-thumb small" src="'+leg.image+'" data-viewimage="'+leg.id+'" alt="添付画像">' : '') +
+    '</div>';
+  }
+
+  function stubReadBlock(legs, label, cls){
+    if(!legs || !legs.length){
+      return '<div class="stub '+cls+'"><div class="stub-label">'+label+'</div><div class="stub-empty">未登録</div></div>';
+    }
+    var body = legs.map(function(leg, idx){ return legReadBlock(leg, idx, legs.length); }).join('<div class="leg-divider"></div>');
+    return '<div class="stub '+cls+'"><div class="stub-label">'+label+'</div>'+body+'</div>';
+  }
+
+  function methodSelectHtml(leg){
+    var opts = TRANSPORT_METHODS.map(function(m){
+      return '<option value="'+m+'"'+(leg.method===m?' selected':'')+'>'+m+'</option>';
+    }).join('');
+    return '<select id="leg-method-'+leg.id+'" class="leg-method-select">' +
+        '<option value=""'+(!leg.method?' selected':'')+'>選択してください</option>' +
+        opts +
+        '<option value="その他"'+(leg.method==='その他'?' selected':'')+'>その他(自由入力)</option>' +
+      '</select>';
+  }
+
+  function legEditBlock(groupId, leg, idx){
+    var isOther = leg.method === 'その他';
+    var isLoading = state.imageProcessingLeg === leg.id;
+    var legKey = groupId + ':' + leg.id;
+    return '' +
+      '<div class="leg-card">' +
+        '<div class="leg-card-head">' +
+          '<span class="leg-num">'+(idx+1)+'</span>' +
+          '<button class="leg-remove" data-remove-leg="'+legKey+'" title="この区間を削除">✕ 削除</button>' +
+        '</div>' +
+        '<div class="field"><label>交通手段</label>'+methodSelectHtml(leg)+'</div>' +
+        (isOther ? '<div class="field"><label>手段(自由入力)</label><input type="text" id="leg-methodOther-'+leg.id+'" value="'+esc(leg.methodOther)+'" placeholder="例:自転車"></div>' : '') +
+        '<div class="field-row">' +
+          '<div class="field"><label>日付</label><input type="date" id="leg-date-'+leg.id+'" value="'+esc(leg.date)+'"></div>' +
+          '<div class="field"><label>乗り場</label><input type="text" id="leg-platform-'+leg.id+'" value="'+esc(leg.platform)+'" placeholder="例:3番のりば/22番ゲート"></div>' +
+        '</div>' +
+        '<div class="field-row">' +
+          '<div class="field"><label>出発地</label><input type="text" id="leg-from-'+leg.id+'" value="'+esc(leg.from)+'"></div>' +
+          '<div class="field"><label>到着地</label><input type="text" id="leg-to-'+leg.id+'" value="'+esc(leg.to)+'"></div>' +
+        '</div>' +
+        '<div class="field-row">' +
+          '<div class="field"><label>出発時刻</label><input type="time" id="leg-dep-'+leg.id+'" value="'+esc(leg.departureTime)+'"></div>' +
+          '<div class="field"><label>到着時刻</label><input type="time" id="leg-arr-'+leg.id+'" value="'+esc(leg.arrivalTime)+'"></div>' +
+        '</div>' +
+        '<div class="field-row">' +
+          '<div class="field"><label>金額</label><input type="text" id="leg-fare-'+leg.id+'" value="'+esc(leg.fare)+'" placeholder="例:13,870円"></div>' +
+          '<div class="field"><label>メモ</label><input type="text" id="leg-note-'+leg.id+'" value="'+esc(leg.note)+'" placeholder="座席番号など"></div>' +
+        '</div>' +
+        '<div class="field-row">' +
+          '<div class="field"><label>テンプレートから入力</label><select class="template-apply" data-templateapply="'+legKey+'">' +
+            '<option value="">選択してください</option>' +
+            state.templates.map(function(tpl){
+              var isSel = state.templatePreview && state.templatePreview.legKey === legKey && state.templatePreview.templateId === tpl.id;
+              return '<option value="'+tpl.id+'"'+(isSel?' selected':'')+'>'+esc(tpl.label)+'</option>';
+            }).join('') +
+          '</select></div>' +
+          '<div class="field template-save-field"><label>&nbsp;</label><button type="button" class="btn btn-sm btn-ghost btn-block" data-savetemplate="'+legKey+'">この内容をテンプレート保存</button></div>' +
+        '</div>' +
+        '<button type="button" class="btn btn-sm btn-ghost btn-block" data-transitlink="'+legKey+'" style="margin-bottom:10px;">🔍 乗換案内でこの区間を調べる</button>' +
+        '<input type="text" class="image-zone" id="imgz-'+leg.id+'" data-imagezone="'+legKey+'" value="" ' +
+          (isLoading ? 'disabled' : '') +
+          ' placeholder="'+(isLoading ? '読み込み中…' : (leg.image ? '📷 別の画像に差し替えるにはここに貼り付け/クリック' : '📷 Ctrl+Vで貼り付け / クリックして画像を選択'))+'">' +
+        (leg.image ? '' +
+          '<div class="leg-thumb-wrap">' +
+            '<img class="leg-thumb" src="'+leg.image+'" data-viewimage="'+leg.id+'" alt="添付画像">' +
+            '<button class="btn btn-sm btn-ghost" data-remove-image="'+legKey+'">画像を削除</button>' +
+          '</div>' : '') +
+        '<input type="file" accept="image/*" style="display:none" id="leg-file-'+leg.id+'" data-filefor="'+legKey+'">' +
+      '</div>';
+  }
+
+  function transportGroupEditBlock(group, allGroups){
+    var legs = group.legs;
+    var legsHtml = legs.map(function(leg, idx){ return legEditBlock(group.id, leg, idx); }).join('');
+    if(!legs.length) legsHtml = '<div class="leg-empty-note">区間がまだありません</div>';
+    var otherGroups = allGroups.filter(function(g){ return g.id !== group.id; });
+    var reverseRow = otherGroups.length ? '' +
+      '<div class="field-row">' +
+        '<div class="field"><label>&nbsp;</label><select id="reverse-src-'+group.id+'">' +
+          otherGroups.map(function(g){ return '<option value="'+g.id+'">'+esc(g.name)+'</option>'; }).join('') +
+        '</select></div>' +
+        '<div class="field"><label>&nbsp;</label><button type="button" class="btn btn-sm btn-ghost btn-block" data-reverse-into="'+group.id+'">↺ 反転してコピー</button></div>' +
+      '</div>' : '';
+    return '' +
+      '<div class="transport-group-col">' +
+        '<div class="transport-group-head">' +
+          '<input type="text" class="group-name-input" id="group-name-'+group.id+'" value="'+esc(group.name)+'" placeholder="区間グループ名">' +
+          (allGroups.length > 1 ? '<button type="button" class="leg-remove" data-remove-group="'+group.id+'" title="このグループを削除">✕</button>' : '') +
+        '</div>' +
+        legsHtml +
+        '<button class="btn btn-sm btn-ghost" data-addleg="'+group.id+'">+ 乗り換えを追加</button>' +
+        reverseRow +
+      '</div>';
+  }
+
+  function renderTransportSection(t){
+    if(state.editingTransport){
+      var groups = state.transportDraft.groups;
+      return '' +
+        '<div class="section">' +
+          '<div class="section-head"><h2>🚃 交通</h2></div>' +
+          '<div class="form-card">' +
+            '<div class="transport-edit-grid">' +
+              groups.map(function(g){ return transportGroupEditBlock(g, groups); }).join('') +
+            '</div>' +
+            '<button type="button" class="btn btn-sm btn-ghost btn-block" id="btn-add-group" style="margin-top:4px;">+ 区間グループを追加</button>' +
+            '<div class="form-actions">' +
+              '<button class="btn btn-primary" id="btn-save-transport">保存</button>' +
+              '<button class="btn btn-ghost" id="btn-cancel-transport">キャンセル</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    var groups2 = t.transport.groups || [];
+    var stubsHtml = groups2.map(function(g){
+      var cls = g.legs.length ? '' : 'empty';
+      return stubReadBlock(g.legs, g.name, cls);
+    }).join('');
+    return '' +
+      '<div class="section">' +
+        '<div class="section-head"><h2>🚃 交通</h2><button class="edit-toggle" id="btn-edit-transport">編集</button></div>' +
+        '<div class="ticket-flex">' + stubsHtml + '</div>' +
+      '</div>';
+  }
+
+  function buildMapHtml(query){
+    if(!query) return '';
+    var encoded = encodeURIComponent(query);
+    return '' +
+      '<div class="place-map-wrap">' +
+        '<iframe class="place-map" src="https://www.google.com/maps?q='+encoded+'&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>' +
+        '<a class="place-map-link" href="https://www.google.com/maps/search/?api=1&query='+encoded+'" target="_blank" rel="noopener">🗺 Googleマップで開く</a>' +
+      '</div>';
+  }
+
+  function renderVenueSection(t){
+    var v = t.venue || { name:'', address:'', note:'' };
+    if(state.editingVenue){
+      return '' +
+        '<div class="section">' +
+          '<div class="section-head"><h2>📍 会場情報</h2></div>' +
+          '<div class="form-card">' +
+            '<div class="field"><label>会場名</label><input type="text" id="v-name" value="'+esc(v.name)+'" placeholder="例:横浜アリーナ"></div>' +
+            '<div class="field"><label>住所</label><input type="text" id="v-address" value="'+esc(v.address)+'"></div>' +
+            '<div class="field"><label>アクセスメモ</label><input type="text" id="v-note" value="'+esc(v.note)+'" placeholder="最寄り駅から徒歩10分 など"></div>' +
+            '<div class="form-actions">' +
+              '<button class="btn btn-primary" id="btn-save-venue">保存</button>' +
+              '<button class="btn btn-ghost" id="btn-cancel-venue">キャンセル</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    var hasData = v.name || v.address || v.note;
+    var mapHtml = buildMapHtml(v.address || v.name || '');
+    var body = hasData ? '' +
+      '<div class="lodging-card">' +
+        (v.name ? '<div class="name">'+esc(v.name)+'</div>' : '') +
+        (v.address ? '<div class="row">'+esc(v.address)+'</div>' : '') +
+        (v.note ? '<div class="note">'+esc(v.note)+'</div>' : '') +
+        mapHtml +
+      '</div>' : '<div class="lodging-empty">まだ会場情報が登録されていません</div>';
+
+    return '' +
+      '<div class="section">' +
+        '<div class="section-head"><h2>📍 会場情報</h2><button class="edit-toggle" id="btn-edit-venue">編集</button></div>' +
+        body +
+      '</div>';
+  }
+
+  function renderLodgingSection(t){
+    var l = t.lodging;
+    if(state.editingLodging){
+      return '' +
+        '<div class="section">' +
+          '<div class="section-head"><h2>🏨 宿泊先</h2></div>' +
+          '<div class="form-card">' +
+            '<div class="field"><label>ホテル名</label><input type="text" id="l-name" value="'+esc(l.name)+'"></div>' +
+            '<div class="field-row">' +
+              '<div class="field"><label>チェックイン</label><input type="date" id="l-checkin" value="'+esc(l.checkin)+'"></div>' +
+              '<div class="field"><label>チェックアウト</label><input type="date" id="l-checkout" value="'+esc(l.checkout)+'"></div>' +
+            '</div>' +
+            '<div class="field"><label>住所・アクセスメモ</label><input type="text" id="l-address" value="'+esc(l.address)+'"></div>' +
+            '<div class="field"><label>その他メモ</label><input type="text" id="l-note" value="'+esc(l.note)+'" placeholder="会場から徒歩5分 など"></div>' +
+            '<div class="form-actions">' +
+              '<button class="btn btn-primary" id="btn-save-lodging">保存</button>' +
+              '<button class="btn btn-ghost" id="btn-cancel-lodging">キャンセル</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    var hasData = l.name || l.checkin || l.checkout || l.address || l.note;
+    var mapHtml = buildMapHtml(l.address || l.name || '');
+    var body = hasData ? '' +
+      '<div class="lodging-card">' +
+        (l.name ? '<div class="name">'+esc(l.name)+'</div>' : '') +
+        ((l.checkin || l.checkout) ? '<div class="row"><b>チェックイン</b> '+esc(fmtDateFull(l.checkin))+(l.checkout ? '　<b>チェックアウト</b> '+esc(fmtDateFull(l.checkout)) : '')+'</div>' : '') +
+        (l.address ? '<div class="row">'+esc(l.address)+'</div>' : '') +
+        (l.note ? '<div class="note">'+esc(l.note)+'</div>' : '') +
+        mapHtml +
+      '</div>' : '<div class="lodging-empty">まだ宿泊先が登録されていません</div>';
+
+    return '' +
+      '<div class="section">' +
+        '<div class="section-head"><h2>🏨 宿泊先</h2><button class="edit-toggle" id="btn-edit-lodging">編集</button></div>' +
+        body +
+      '</div>';
+  }
+
+  function transportSuggestions(t){
+    var list = [];
+    (t.transport.groups || []).forEach(function(group){
+      (group.legs || []).forEach(function(leg){
+        var methodLabel = leg.method === 'その他' ? (leg.methodOther || '交通') : (leg.method || '交通');
+        if(leg.departureTime){
+          var depLabel = (leg.from ? leg.from : methodLabel) + '出発(' + methodLabel + ')';
+          list.push({ date: leg.date || '', time: leg.departureTime, label: depLabel });
+        }
+        if(leg.arrivalTime){
+          var arrLabel = (leg.to ? leg.to : methodLabel) + '到着(' + methodLabel + ')';
+          list.push({ date: leg.date || '', time: leg.arrivalTime, label: arrLabel });
+        }
+      });
+    });
+    return list;
+  }
+
+  function scheduleItemDisplay(item){
+    return '' +
+      '<div class="schedule-item">' +
+        '<div class="schedule-time">'+esc(item.time)+'</div>' +
+        '<div class="schedule-dot-col"><span class="schedule-dot"></span></div>' +
+        '<div class="schedule-label" data-edit-sched="'+item.id+'" title="タップで編集">'+esc(item.label)+'</div>' +
+        '<button class="schedule-del" data-del-sched="'+item.id+'" title="削除">✕</button>' +
+      '</div>';
+  }
+
+  function scheduleItemEdit(item){
+    return '' +
+      '<div class="schedule-item-editing">' +
+        '<div class="sched-edit-row">' +
+          '<input type="date" class="sched-edit-date" id="sched-edit-date-'+item.id+'" value="'+esc(item.date||'')+'">' +
+        '</div>' +
+        '<div class="sched-edit-row">' +
+          '<input type="time" class="sched-edit-time" id="sched-edit-time-'+item.id+'" value="'+esc(item.time)+'">' +
+          '<input type="text" class="sched-edit-label" id="sched-edit-label-'+item.id+'" value="'+esc(item.label)+'">' +
+        '</div>' +
+        '<div class="schedule-edit-actions">' +
+          '<button type="button" class="btn btn-sm btn-primary" data-save-sched="'+item.id+'">保存</button>' +
+          '<button type="button" class="btn btn-sm btn-ghost" data-cancel-sched-edit>キャンセル</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderScheduleSection(t){
+    var items = t.schedule.slice();
+    items.sort(function(a,b){
+      var da = a.date || '', db = b.date || '';
+      if(da !== db) return da.localeCompare(db);
+      return (a.time||'').localeCompare(b.time||'');
+    });
+
+    var distinctDates = {};
+    items.forEach(function(it){ if(it.date) distinctDates[it.date] = true; });
+    var isMultiDay = Object.keys(distinctDates).length >= 2;
+
+    var renderItem = function(item){
+      return state.editingScheduleId === item.id ? scheduleItemEdit(item) : scheduleItemDisplay(item);
+    };
+
+    var body;
+    if(!items.length){
+      body = '<div class="schedule-empty">当日のタイムスケジュールを追加しましょう</div>';
+    } else if(isMultiDay){
+      var groups = {}; var order = [];
+      items.forEach(function(it){
+        var key = it.date || '(日付未設定)';
+        if(!groups[key]){ groups[key] = []; order.push(key); }
+        groups[key].push(it);
+      });
+      body = order.map(function(key){
+        var label = key === '(日付未設定)' ? key : fmtDateFull(key) + '(' + fmtWeekday(key) + ')';
+        return '<div class="schedule-day-label">'+esc(label)+'</div>' +
+          '<div class="timeline">' + groups[key].map(renderItem).join('') + '</div>';
+      }).join('');
+    } else {
+      body = '<div class="timeline">' + items.map(renderItem).join('') + '</div>';
+    }
+
+    var existingKeys = {};
+    items.forEach(function(it){ existingKeys[(it.date||'')+'|'+it.time+'|'+it.label] = true; });
+    var suggestions = transportSuggestions(t).filter(function(s){ return !existingKeys[(s.date||'')+'|'+s.time+'|'+s.label]; });
+    var chipsBlock = '';
+    if(suggestions.length){
+      var chips = suggestions.map(function(s){
+        var dayTag = s.date ? fmtDate(s.date)+' ' : '';
+        return '<button class="chip" data-add-suggestion data-date="'+esc(s.date||'')+'" data-time="'+esc(s.time)+'" data-label="'+esc(s.label)+'">'+esc(dayTag)+esc(s.time)+' '+esc(s.label)+'</button>';
+      }).join('');
+      chipsBlock = '<div class="suggestion-block"><div class="suggestion-label">交通の記録から追加:</div><div class="chip-row">'+chips+'</div></div>';
+    }
+
+    var defaultDate = state.lastScheduleDate[t.id] || t.startDate || '';
+
+    return '' +
+      '<div class="section">' +
+        '<div class="section-head"><h2>🕐 自分のタイムスケジュール</h2></div>' +
+        body +
+        '<div class="add-schedule-daterow"><input type="date" id="s-date" value="'+esc(defaultDate)+'"></div>' +
+        '<div class="add-schedule-row">' +
+          '<input type="time" id="s-time" aria-label="時刻">' +
+          '<input type="text" id="s-label" placeholder="例:会場入り" aria-label="内容">' +
+          '<button class="btn btn-sm" id="btn-add-sched">追加</button>' +
+        '</div>' +
+        chipsBlock +
+      '</div>';
+  }
+
+  function renderPackingSection(t){
+    var items = t.packingList || [];
+    var checkedCount = items.filter(function(it){ return it.checked; }).length;
+    var progress = items.length ? ' <span class="packing-progress">'+checkedCount+'/'+items.length+'</span>' : '';
+
+    var rows = items.map(function(item){
+      return '' +
+        '<div class="packing-item">' +
+          '<label class="packing-item-label">' +
+            '<input type="checkbox" data-toggle-pack="'+item.id+'" '+(item.checked?'checked':'')+'>' +
+            '<span class="'+(item.checked?'packing-text checked':'packing-text')+'">'+esc(item.label)+'</span>' +
+          '</label>' +
+          '<button class="schedule-del" data-del-pack="'+item.id+'" title="削除">✕</button>' +
+        '</div>';
+    }).join('');
+    var body = items.length ? '<div class="packing-list">'+rows+'</div>' : '<div class="schedule-empty">持ち物を追加するか、テンプレートから読み込みましょう</div>';
+
+    var templateOptions = state.packingTemplates.map(function(tpl){
+      return '<option value="'+tpl.id+'">'+esc(tpl.name)+'('+tpl.items.length+'個)</option>';
+    }).join('');
+
+    return '' +
+      '<div class="section">' +
+        '<div class="section-head"><h2>🎒 持ち物チェックリスト'+progress+'</h2></div>' +
+        body +
+        '<div class="add-schedule-row2">' +
+          '<input type="text" id="pack-label" placeholder="例:チェキ・現金・ペンライト" aria-label="持ち物">' +
+          '<button class="btn btn-sm" id="btn-add-pack">追加</button>' +
+        '</div>' +
+        (state.packingTemplates.length ? '' +
+          '<div class="field" style="margin-top:12px;">' +
+            '<label>持ち物セットを選んで追加</label>' +
+            '<select id="pack-template-select">' +
+              '<option value="">選択してください</option>' + templateOptions +
+            '</select>' +
+          '</div>' : '') +
+        (items.length ? '<button type="button" class="btn btn-sm btn-ghost" id="btn-save-pack-template">現在のリストをセットとして保存</button>' : '') +
+      '</div>';
+  }
+
+  function renderDetail(t){
+    if(!t){
+      state.view = 'list';
+      return renderList();
+    }
+    var range = t.endDate && t.endDate !== t.startDate
+      ? fmtDateFull(t.startDate) + ' 〜 ' + fmtDateFull(t.endDate)
+      : fmtDateFull(t.startDate);
+
+    return '' +
+      '<button class="back-link" id="btn-back">‹ 一覧へ戻る</button>' +
+      '<div class="trip-title-block">' +
+        '<h1>'+esc(t.name || '(無題の遠征)')+'</h1>' +
+        '<div class="range">'+esc(range)+'</div>' +
+      '</div>' +
+      '<div class="detail-toolbar"><button type="button" class="btn btn-sm btn-ghost" id="btn-open-print">🖨 印刷・画像保存</button></div>' +
+      renderVenueSection(t) +
+      renderTransportSection(t) +
+      renderLodgingSection(t) +
+      renderScheduleSection(t) +
+      renderPackingSection(t) +
+      '<div class="danger-zone"><button class="btn btn-danger btn-sm" id="btn-delete-trip">この遠征を削除</button></div>';
+  }
+
+  function bindEvents(){
+    var app = document.getElementById('app');
+
+    app.querySelectorAll('[data-open]').forEach(function(el){
+      el.addEventListener('click', function(){
+        state.currentId = el.getAttribute('data-open');
+        state.view = 'detail';
+        state.editingTransport = false;
+        state.editingLodging = false;
+        state.editingVenue = false;
+        state.editingScheduleId = null;
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-quick-delete]').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var id = btn.getAttribute('data-quick-delete');
+        var trip = getTrip(id);
+        var label = trip ? (trip.name || '(無題の遠征)') : 'この遠征';
+        showConfirm(label + 'の記録を削除します。よろしいですか?', function(){
+          state.trips = state.trips.filter(function(t){ return t.id !== id; });
+          save();
+          render();
+        });
+      });
+    });
+
+    var showNewBtn = document.getElementById('btn-show-new');
+    if(showNewBtn) showNewBtn.addEventListener('click', function(){ state.showNewForm = true; render(); });
+
+    var showPastBtn = document.getElementById('btn-show-past');
+    if(showPastBtn) showPastBtn.addEventListener('click', function(){ state.showPastTrips = true; render(); });
+    var hidePastBtn = document.getElementById('btn-hide-past');
+    if(hidePastBtn) hidePastBtn.addEventListener('click', function(){ state.showPastTrips = false; render(); });
+
+    var cancelNewBtn = document.getElementById('btn-cancel-new');
+    if(cancelNewBtn) cancelNewBtn.addEventListener('click', function(){ state.showNewForm = false; render(); });
+
+    var createBtn = document.getElementById('btn-create');
+    if(createBtn) createBtn.addEventListener('click', function(){
+      var name = document.getElementById('f-name').value.trim();
+      var start = document.getElementById('f-start').value;
+      var end = document.getElementById('f-end').value;
+      if(!name){ document.getElementById('f-name').focus(); return; }
+      var trip = emptyTrip();
+      trip.name = name;
+      trip.startDate = start;
+      trip.endDate = end || start;
+      var copyFromEl = document.getElementById('f-copyfrom');
+      var copyFromId = copyFromEl ? copyFromEl.value : '';
+      if(copyFromId){
+        var src = getTrip(copyFromId);
+        if(src){
+          trip.transport = {
+            groups: (src.transport.groups || []).map(function(g){
+              return {
+                id: uid(),
+                name: g.name,
+                legs: cloneLegsWithNewIds(g.legs).map(function(l){ l.date=''; l.departureTime=''; l.arrivalTime=''; return l; })
+              };
+            })
+          };
+          trip.lodging = JSON.parse(JSON.stringify(src.lodging));
+          trip.lodging.checkin = '';
+          trip.lodging.checkout = '';
+          trip.packingList = (src.packingList || []).map(function(it){
+            return { id: uid(), label: it.label, checked: false };
+          });
+        }
+      }
+      state.trips.push(trip);
+      state.showNewForm = false;
+      save();
+      render();
+    });
+
+    var backBtn = document.getElementById('btn-back');
+    if(backBtn) backBtn.addEventListener('click', function(){
+      state.view = 'list';
+      state.editingTransport = false;
+      state.editingLodging = false;
+      state.editingVenue = false;
+      state.editingScheduleId = null;
+      render();
+    });
+
+    var openPrintBtn = document.getElementById('btn-open-print');
+    if(openPrintBtn) openPrintBtn.addEventListener('click', function(){
+      state.printModalOpen = true;
+      render();
+    });
+
+    var editTransportBtn = document.getElementById('btn-edit-transport');
+    if(editTransportBtn) editTransportBtn.addEventListener('click', function(){
+      var t = getTrip(state.currentId);
+      state.transportDraft = JSON.parse(JSON.stringify(t.transport));
+      if(!state.transportDraft.groups || !state.transportDraft.groups.length){
+        state.transportDraft.groups = [ newGroup('往路'), newGroup('復路') ];
+      }
+      state.imageProcessingLeg = null;
+      state.templatePreview = null;
+      state.editingTransport = true;
+      render();
+    });
+    var cancelTransportBtn = document.getElementById('btn-cancel-transport');
+    if(cancelTransportBtn) cancelTransportBtn.addEventListener('click', function(){
+      state.editingTransport = false;
+      state.transportDraft = null;
+      state.templatePreview = null;
+      render();
+    });
+    var saveTransportBtn = document.getElementById('btn-save-transport');
+    if(saveTransportBtn) saveTransportBtn.addEventListener('click', function(){
+      syncTransportDraftFromDOM();
+      var t = getTrip(state.currentId);
+      var cleanLegs = function(legs){
+        return legs.filter(function(l){
+          return l.method || l.date || l.departureTime || l.arrivalTime || l.platform || l.from || l.to || l.fare || l.note || l.image;
+        });
+      };
+      t.transport = {
+        groups: state.transportDraft.groups.map(function(g){
+          return { id: g.id, name: (g.name || '').trim() || '区間', legs: cleanLegs(g.legs) };
+        })
+      };
+      state.editingTransport = false;
+      state.transportDraft = null;
+      state.templatePreview = null;
+      save();
+      render();
+    });
+
+    var addGroupBtn = document.getElementById('btn-add-group');
+    if(addGroupBtn) addGroupBtn.addEventListener('click', function(){
+      syncTransportDraftFromDOM();
+      state.transportDraft.groups.push(newGroup('新しい区間'));
+      render();
+    });
+
+    app.querySelectorAll('[data-remove-group]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var groupId = btn.getAttribute('data-remove-group');
+        if(state.transportDraft.groups.length <= 1) return;
+        state.transportDraft.groups = state.transportDraft.groups.filter(function(g){ return g.id !== groupId; });
+        render();
+      });
+    });
+
+    app.querySelectorAll('.leg-method-select').forEach(function(sel){
+      sel.addEventListener('change', function(){
+        syncTransportDraftFromDOM();
+        render();
+      });
+    });
+
+    app.querySelectorAll('.template-apply').forEach(function(sel){
+      sel.addEventListener('change', function(){
+        syncTransportDraftFromDOM();
+        var legKey = sel.getAttribute('data-templateapply');
+        if(!sel.value){
+          state.templatePreview = null;
+        } else {
+          state.templatePreview = { legKey: legKey, templateId: sel.value };
+        }
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-savetemplate]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var parts = btn.getAttribute('data-savetemplate').split(':');
+        var grp = findGroupInDraft(parts[0]);
+        var leg = grp ? grp.legs.filter(function(l){ return l.id === parts[1]; })[0] : null;
+        if(!leg || (!leg.method && !leg.from && !leg.to)){
+          showAlert('保存できる内容がありません。交通手段や区間を入力してから保存してください。');
+          return;
+        }
+        var defaultLabel = (leg.from && leg.to) ? (leg.from + '→' + leg.to) : (leg.method || '新しいテンプレート');
+        showPrompt('テンプレート名を入力してください', defaultLabel, function(label){
+          state.templates.push({
+            id: uid(), label: label,
+            method: leg.method, methodOther: leg.methodOther,
+            from: leg.from, to: leg.to, platform: leg.platform, fare: leg.fare
+          });
+          saveTemplates();
+          render();
+        });
+      });
+    });
+
+    app.querySelectorAll('[data-del-template]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-del-template');
+        showConfirm('このテンプレートを削除しますか?', function(){
+          state.templates = state.templates.filter(function(tp){ return tp.id !== id; });
+          saveTemplates();
+          render();
+        });
+      });
+    });
+
+    app.querySelectorAll('[data-reverse-into]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var targetId = btn.getAttribute('data-reverse-into');
+        var srcSelect = document.getElementById('reverse-src-' + targetId);
+        var sourceId = srcSelect ? srcSelect.value : '';
+        var targetGroup = findGroupInDraft(targetId);
+        var sourceGroup = findGroupInDraft(sourceId);
+        if(!targetGroup || !sourceGroup || !sourceGroup.legs.length) return;
+        targetGroup.legs = sourceGroup.legs.slice().reverse().map(reverseLeg);
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-transitlink]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var parts = btn.getAttribute('data-transitlink').split(':');
+        var grp = findGroupInDraft(parts[0]);
+        var leg = grp ? grp.legs.filter(function(l){ return l.id === parts[1]; })[0] : null;
+        if(!leg) return;
+        if(!leg.from && !leg.to){
+          showAlert('出発地・到着地のどちらかを入力してから検索してください。');
+          return;
+        }
+        window.open(transitSearchUrl(leg), '_blank');
+      });
+    });
+
+    app.querySelectorAll('[data-addleg]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var grp = findGroupInDraft(btn.getAttribute('data-addleg'));
+        if(grp) grp.legs.push(newLeg());
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-remove-leg]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var parts = btn.getAttribute('data-remove-leg').split(':');
+        var grp = findGroupInDraft(parts[0]);
+        if(grp) grp.legs = grp.legs.filter(function(l){ return l.id !== parts[1]; });
+        render();
+      });
+    });
+
+    app.querySelectorAll('input.image-zone').forEach(function(zone){
+      zone.addEventListener('click', function(){
+        var parts = zone.getAttribute('data-imagezone').split(':');
+        var fileInput = document.getElementById('leg-file-' + parts[1]);
+        if(fileInput) fileInput.click();
+      });
+      zone.addEventListener('paste', function(e){
+        e.preventDefault();
+        var parts = zone.getAttribute('data-imagezone').split(':');
+        var cd = e.clipboardData || window.clipboardData;
+        var items = (cd && cd.items) ? cd.items : [];
+        for(var i=0;i<items.length;i++){
+          if(items[i].type && items[i].type.indexOf('image') !== -1){
+            attachImageToLeg(parts[0], parts[1], items[i].getAsFile());
+            break;
+          }
+        }
+      });
+      zone.addEventListener('input', function(){ zone.value = ''; });
+    });
+
+    app.querySelectorAll('input[type=file][data-filefor]').forEach(function(input){
+      input.addEventListener('change', function(){
+        var parts = input.getAttribute('data-filefor').split(':');
+        var file = input.files && input.files[0];
+        attachImageToLeg(parts[0], parts[1], file);
+      });
+    });
+
+    app.querySelectorAll('[data-remove-image]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        syncTransportDraftFromDOM();
+        var parts = btn.getAttribute('data-remove-image').split(':');
+        var grp = findGroupInDraft(parts[0]);
+        var leg = grp ? grp.legs.filter(function(l){ return l.id === parts[1]; })[0] : null;
+        if(leg) leg.image = null;
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-viewimage]').forEach(function(img){
+      img.addEventListener('click', function(){
+        var leg = getLegById(img.getAttribute('data-viewimage'));
+        if(leg && leg.image){ state.viewingImage = leg.image; render(); }
+      });
+    });
+
+    var editLodgingBtn = document.getElementById('btn-edit-lodging');
+    if(editLodgingBtn) editLodgingBtn.addEventListener('click', function(){ state.editingLodging = true; render(); });
+    var cancelLodgingBtn = document.getElementById('btn-cancel-lodging');
+    if(cancelLodgingBtn) cancelLodgingBtn.addEventListener('click', function(){ state.editingLodging = false; render(); });
+    var saveLodgingBtn = document.getElementById('btn-save-lodging');
+    if(saveLodgingBtn) saveLodgingBtn.addEventListener('click', function(){
+      var t = getTrip(state.currentId);
+      t.lodging = {
+        name: document.getElementById('l-name').value,
+        checkin: document.getElementById('l-checkin').value,
+        checkout: document.getElementById('l-checkout').value,
+        address: document.getElementById('l-address').value,
+        note: document.getElementById('l-note').value
+      };
+      state.editingLodging = false;
+      save();
+      render();
+    });
+
+    var editVenueBtn = document.getElementById('btn-edit-venue');
+    if(editVenueBtn) editVenueBtn.addEventListener('click', function(){ state.editingVenue = true; render(); });
+    var cancelVenueBtn = document.getElementById('btn-cancel-venue');
+    if(cancelVenueBtn) cancelVenueBtn.addEventListener('click', function(){ state.editingVenue = false; render(); });
+    var saveVenueBtn = document.getElementById('btn-save-venue');
+    if(saveVenueBtn) saveVenueBtn.addEventListener('click', function(){
+      var t = getTrip(state.currentId);
+      t.venue = {
+        name: document.getElementById('v-name').value,
+        address: document.getElementById('v-address').value,
+        note: document.getElementById('v-note').value
+      };
+      state.editingVenue = false;
+      save();
+      render();
+    });
+
+    app.querySelectorAll('[data-toggle-pack]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var id = cb.getAttribute('data-toggle-pack');
+        var t = getTrip(state.currentId);
+        var item = t.packingList.filter(function(it){ return it.id === id; })[0];
+        if(item) item.checked = cb.checked;
+        save();
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-del-pack]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-del-pack');
+        var t = getTrip(state.currentId);
+        var item = t.packingList.filter(function(it){ return it.id === id; })[0];
+        var label = item ? item.label : 'この項目';
+        showConfirm('「'+label+'」を削除しますか?', function(){
+          t.packingList = t.packingList.filter(function(it){ return it.id !== id; });
+          save();
+          render();
+        });
+      });
+    });
+
+    var addPackBtn = document.getElementById('btn-add-pack');
+    if(addPackBtn) addPackBtn.addEventListener('click', function(){
+      var input = document.getElementById('pack-label');
+      var label = input.value.trim();
+      if(!label) return;
+      var t = getTrip(state.currentId);
+      t.packingList.push({ id: uid(), label: label, checked: false });
+      save();
+      render();
+    });
+
+    var packTemplateSelect = document.getElementById('pack-template-select');
+    if(packTemplateSelect) packTemplateSelect.addEventListener('change', function(){
+      var tplId = packTemplateSelect.value;
+      if(!tplId) return;
+      state.packingTemplatePreview = { id: tplId };
+      render();
+    });
+
+    var savePackTemplateBtn = document.getElementById('btn-save-pack-template');
+    if(savePackTemplateBtn) savePackTemplateBtn.addEventListener('click', function(){
+      var t = getTrip(state.currentId);
+      if(!t.packingList.length){
+        showAlert('保存できる持ち物がありません。');
+        return;
+      }
+      showPrompt('テンプレート名を入力してください', '持ち物セット', function(name){
+        state.packingTemplates.push({
+          id: uid(), name: name,
+          items: t.packingList.map(function(it){ return it.label; })
+        });
+        savePackingTemplates();
+        render();
+      });
+    });
+
+    var addSchedBtn = document.getElementById('btn-add-sched');
+    if(addSchedBtn) addSchedBtn.addEventListener('click', function(){
+      var time = document.getElementById('s-time').value;
+      var label = document.getElementById('s-label').value.trim();
+      if(!time || !label) return;
+      var dateEl = document.getElementById('s-date');
+      var dateVal = dateEl ? dateEl.value : '';
+      var t = getTrip(state.currentId);
+      t.schedule.push({ id: uid(), date: dateVal, time: time, label: label });
+      if(dateVal) state.lastScheduleDate[t.id] = dateVal;
+      save();
+      render();
+    });
+
+    app.querySelectorAll('[data-add-suggestion]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var t = getTrip(state.currentId);
+        var dateVal = btn.getAttribute('data-date') || '';
+        t.schedule.push({
+          id: uid(),
+          date: dateVal,
+          time: btn.getAttribute('data-time'),
+          label: btn.getAttribute('data-label')
+        });
+        if(dateVal) state.lastScheduleDate[t.id] = dateVal;
+        save();
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-del-sched]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-del-sched');
+        var t = getTrip(state.currentId);
+        var item = t.schedule.filter(function(s){ return s.id === id; })[0];
+        var label = item ? (item.time + ' ' + item.label) : 'この予定';
+        showConfirm('「'+label+'」を削除しますか?', function(){
+          t.schedule = t.schedule.filter(function(s){ return s.id !== id; });
+          if(state.editingScheduleId === id) state.editingScheduleId = null;
+          save();
+          render();
+        });
+      });
+    });
+
+    app.querySelectorAll('[data-edit-sched]').forEach(function(el){
+      el.addEventListener('click', function(){
+        state.editingScheduleId = el.getAttribute('data-edit-sched');
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-cancel-sched-edit]').forEach(function(el){
+      el.addEventListener('click', function(){
+        state.editingScheduleId = null;
+        render();
+      });
+    });
+
+    app.querySelectorAll('[data-save-sched]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-save-sched');
+        var t = getTrip(state.currentId);
+        var item = t.schedule.filter(function(s){ return s.id === id; })[0];
+        if(item){
+          var timeEl = document.getElementById('sched-edit-time-' + id);
+          var labelEl = document.getElementById('sched-edit-label-' + id);
+          var dateEl = document.getElementById('sched-edit-date-' + id);
+          if(timeEl) item.time = timeEl.value;
+          if(labelEl) item.label = labelEl.value.trim();
+          if(dateEl) item.date = dateEl.value;
+        }
+        state.editingScheduleId = null;
+        save();
+        render();
+      });
+    });
+
+    var deleteTripBtn = document.getElementById('btn-delete-trip');
+    if(deleteTripBtn) deleteTripBtn.addEventListener('click', function(){
+      showConfirm('この遠征の記録を削除します。よろしいですか?', function(){
+        state.trips = state.trips.filter(function(t){ return t.id !== state.currentId; });
+        state.view = 'list';
+        save();
+        render();
+      });
+    });
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>
