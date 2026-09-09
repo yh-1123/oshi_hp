@@ -142,7 +142,8 @@ section{ padding:26px 0 30px; }
 
 /* 豆知識カード */
 .wiki-list{ display:flex; flex-direction:column; gap:14px; }
-.wiki-item{ position:relative; padding:16px 84px 16px 52px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.wiki-item{ position:relative; padding:16px 16px 16px 52px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+body.editing .wiki-item{ padding-right:84px; }
 .wiki-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
 .wiki-category{ font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:2px 9px; }
 .wiki-source{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }

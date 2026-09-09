@@ -117,7 +117,8 @@ section{ padding:26px 0 30px; }
 
 /* 場所カード */
 .place-list{ display:flex; flex-direction:column; gap:14px; }
-.place-item{ position:relative; padding:16px 84px 16px 52px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.place-item{ position:relative; padding:16px 16px 16px 52px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+body.editing .place-item{ padding-right:84px; }
 .place-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
 .place-category{ font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:2px 9px; }
 .place-source{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
