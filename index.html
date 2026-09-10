@@ -212,13 +212,6 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 .carousel-block-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:12px; }
 .carousel-block-head h3{ font-size:14.5px; font-weight:700; }
 .carousel-block-desc{ font-size:11.5px; color:var(--sub-ink); margin-top:3px; }
-.tag-filter-row{ display:none; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
-.tag-filter-row.show{ display:flex; }
-.tag-filter-btn{
-  border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:10.5px; font-weight:700;
-  padding:4px 11px; border-radius:999px; cursor:pointer; font-family:inherit;
-}
-.tag-filter-btn.active{ background:var(--oshi-color); border-color:var(--oshi-color); color:#fff; }
 .sec-remove{ position:static; flex:none; }
 
 .rec-carousel{ position:relative; }
@@ -270,6 +263,8 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 .timeline{ position:relative; padding:0 14px 14px 34px; }
 .timeline::before{ content:""; position:absolute; left:19px; top:6px; bottom:6px; width:2px; background:var(--line); }
 .tl-item{ position:relative; padding-bottom:22px; padding-right:80px; }
+.tl-item.is-today{ padding:10px 80px 22px 12px; margin:-10px -12px 22px; background:var(--oshi-color-soft); border-radius:10px; border-left:3px solid var(--oshi-color); }
+.tl-today-badge{ display:inline-block; background:var(--oshi-color); color:#fff; font-size:10px; font-weight:700; padding:2px 9px; border-radius:999px; margin-bottom:5px; }
 .tl-item:last-child{ padding-bottom:0; }
 .tl-item::before{ content:""; position:absolute; left:-20px; top:4px; width:9px; height:9px; border-radius:50%; background:var(--oshi-color); box-shadow:0 0 0 4px var(--oshi-color-soft); }
 .tl-date{ font-size:11px; color:var(--oshi-color); font-weight:700; }
@@ -699,7 +694,6 @@ body.editing .reorder-row{ display:flex; }
       </div>
       
     </div>
-    <div class="tag-filter-row" data-role="tag-filter" data-active="all"></div>
     <div class="rec-carousel">
       <button class="rec-nav prev" aria-label="前へ">‹</button>
       <div class="rec-scroll" data-role="track"></div>
@@ -1136,7 +1130,6 @@ function carouselBlockHTML(sec){
       </div>
       <button class="edit-remove sec-remove" aria-label="このセクションを削除">×</button>
     </div>
-    <div class="tag-filter-row" data-role="tag-filter"></div>
     <div class="rec-carousel">
       <button class="rec-nav prev" aria-label="前へ">‹</button>
       <div class="rec-scroll" data-role="track"></div>
@@ -1233,9 +1226,12 @@ function downloadIcs(title, desc, dateISO, linkUrl){
 }
 function tlItemHTML(t){
   const linkBtn = t.url ? `<a class="tl-action-btn tl-open-btn" href="${t.url}" target="_blank" rel="noopener">🔗 リンクを開く</a>` : "";
-  return `<div class="tl-item" data-date="${t.date}" data-url="${t.url || ''}">
+  const isToday = t.date === new Date().toISOString().slice(0, 10);
+  const todayBadge = isToday ? `<span class="tl-today-badge">本日</span>` : "";
+  return `<div class="tl-item${isToday ? " is-today" : ""}" data-date="${t.date}" data-url="${t.url || ''}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
+    ${todayBadge}
     <div class="tl-date editable" contenteditable="false">${formatDate(t.date)}</div>
     <h3 class="editable" contenteditable="false">${t.title}</h3>
     <p class="editable" contenteditable="false">${t.desc || ""}</p>
@@ -1459,49 +1455,6 @@ if(!hasVisitedBefore()){
 /* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
 
 
-/* ---------- コンテンツのタグ絞り込み ---------- */
-function getSectionTags(root){
-  const tags = [];
-  root.querySelectorAll('[data-role="track"] .rec-card .rec-tag').forEach(el => {
-    const t = el.textContent.trim();
-    if(t && !tags.includes(t)) tags.push(t);
-  });
-  return tags;
-}
-function applyTagFilter(root, tag){
-  const wrap = root.querySelector('[data-role="tag-filter"]');
-  if(wrap) wrap.dataset.active = tag;
-  root.querySelectorAll('[data-role="track"] .rec-card').forEach(card => {
-    const cardTag = card.querySelector(".rec-tag")?.textContent.trim() || "";
-    card.style.display = (tag === "all" || cardTag === tag) ? "" : "none";
-  });
-}
-function renderTagFilter(root){
-  const wrap = root.querySelector('[data-role="tag-filter"]');
-  if(!wrap) return;
-  const tags = getSectionTags(root);
-  if(tags.length < 2){
-    wrap.classList.remove("show");
-    wrap.innerHTML = "";
-    applyTagFilter(root, "all");
-    return;
-  }
-  const current = tags.includes(wrap.dataset.active) ? wrap.dataset.active : "all";
-  wrap.classList.add("show");
-  wrap.innerHTML = [`<button type="button" class="tag-filter-btn${current === "all" ? " active" : ""}" data-tag="all">すべて</button>`]
-    .concat(tags.map(t => `<button type="button" class="tag-filter-btn${current === t ? " active" : ""}" data-tag="${escAttr(t)}">${t}</button>`))
-    .join("");
-  applyTagFilter(root, current);
-}
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".tag-filter-btn");
-  if(!btn) return;
-  const root = btn.closest(".carousel-block");
-  if(!root) return;
-  applyTagFilter(root, btn.dataset.tag);
-  root.querySelectorAll(".tag-filter-btn").forEach(b => b.classList.toggle("active", b === btn));
-});
-
 /* ---------- スライダー制御(セクションごとに独立) ---------- */
 function initCarouselFor(root){
   const track = root.querySelector('[data-role="track"]');
@@ -1533,9 +1486,8 @@ function initCarouselFor(root){
       track.scrollTo({ left: (+e.target.dataset.i) * step(), behavior: "smooth" });
     }
   });
-  renderTagFilter(root);
   renderDots();
-  new MutationObserver(() => { renderTagFilter(root); renderDots(); }).observe(track, { childList: true, subtree: true, characterData: true });
+  new MutationObserver(() => { renderDots(); }).observe(track, { childList: true, subtree: true, characterData: true });
 }
 document.querySelectorAll(".carousel-block").forEach(initCarouselFor);
 
