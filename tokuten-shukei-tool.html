@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
+<html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="購入履歴を貼り付けるだけで特典会の枚数を自動集計し、日程表・シェア画像まで作れるツールです">
@@ -20,7 +19,7 @@
   }catch(e){ /* localStorage利用不可の環境では何もしない */ }
 })();
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
@@ -30,8 +29,8 @@
 
 <title>特典会 集計＆日程表メーカー | 原優寧 布教サイト</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&amp;family=Noto+Sans+JP:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -314,7 +313,7 @@
   .tool-modal-actions{ display:flex; justify-content:flex-end; gap:8px; }
 </style>
 </head>
-<body>
+<body class="">
 
 <nav class="tool-topnav no-print">
   <div class="tool-topnav-inner">
@@ -322,30 +321,15 @@
   </div>
 </nav>
 
-<div class="tool-edit-toolbar no-print">
-  <button class="tool-tb-btn primary" id="toolToggleEdit">編集する</button>
-  <button class="tool-tb-btn" id="toolGeneratePublicHtml" style="display:none;">🌐 公開用HTMLを書き出す</button>
-  <button class="tool-tb-btn" id="toolExportData" style="display:none;" onclick="exportToolData()">📤 データを書き出し</button>
-  <button class="tool-tb-btn" id="toolImportData" style="display:none;" onclick="document.getElementById('toolImportFileInput').click()">📥 データを読み込み</button>
-  <input type="file" id="toolImportFileInput" accept="application/json,.json" style="display:none;" onchange="handleToolImportFile(event)">
-</div>
 
-<div class="tool-modal-overlay" id="toolPasswordModal">
-  <div class="tool-modal-box">
-    <h3>編集用パスワード</h3>
-    <input type="password" id="toolPasswordInput" placeholder="パスワードを入力">
-    <div class="tool-modal-actions">
-      <button class="btn-secondary" onclick="closeToolPasswordModal()">キャンセル</button>
-      <button class="btn-primary" onclick="submitToolPassword()">確認する</button>
-    </div>
-  </div>
-</div>
+
+
 
 <header class="top">
   <div class="top-inner">
-    <p class="eyebrow editable" id="p-eyebrow" contenteditable="false">for fans / order aggregator</p>
-    <h1 class="title editable" id="p-title" contenteditable="false">特典会 集計＆日程表メーカー</h1>
-    <p class="subtitle editable" id="p-subtitle" contenteditable="false">CD等の購入履歴（トーク会・握手会などの参加券つき商品）を貼り付けると、部ごとの枚数を自動で読み取り、集計表と当日の日程表を作ります。何回かに分けて注文したデータも追加登録できます。データはこの画面上だけで処理され、保存・送信はされません。</p>
+    <p class="eyebrow editable" id="p-eyebrow">for fans / order aggregator</p>
+    <h1 class="title editable" id="p-title">特典会 集計＆日程表メーカー</h1>
+    <p class="subtitle editable" id="p-subtitle">CD等の購入履歴（トーク会・握手会などの参加券つき商品）を貼り付けると、部ごとの枚数を自動で読み取り、集計表と当日の日程表を作ります。何回かに分けて注文したデータも追加登録できます。データはこの画面上だけで処理され、保存・送信はされません。</p>
   </div>
 </header>
 
@@ -353,30 +337,22 @@
 
   <section class="card no-print">
     <p class="step-label"><span class="num">01</span>購入履歴を貼り付けて登録</p>
-    <h2 class="card-title editable" id="step1-title" contenteditable="false">購入履歴ページの表をコピー＆ペースト</h2>
-    <p class="card-desc editable" id="step1-desc" contenteditable="false">購入履歴ページで表の部分を選択してコピーし、そのまま下の欄に貼り付けてください。注文が複数回に分かれている場合は、その都度この欄に貼り付けて「登録する」を押せば追加されます。既存データと日付・会場・部・種別・メンバーが一致するものがあれば、追加前に確認します。</p>
+    <h2 class="card-title editable" id="step1-title">購入履歴ページの表をコピー＆ペースト</h2>
+    <p class="card-desc editable" id="step1-desc">購入履歴ページで表の部分を選択してコピーし、そのまま下の欄に貼り付けてください。注文が複数回に分かれている場合は、その都度この欄に貼り付けて「登録する」を押せば追加されます。既存データと日付・会場・部・種別・メンバーが一致するものがあれば、追加前に確認します。</p>
     <div class="sample-image-grid">
       <div class="sample-image-col">
         <div class="sample-image-wrap" id="samplePcImageWrap" style="display:none;">
           <span class="sample-image-label">PC版</span>
           <img id="samplePcImage" alt="貼り付け方の見本(PC版)">
         </div>
-        <div class="sample-image-edit-row no-print" id="samplePcImageEditRow" style="display:none;">
-          <input type="file" accept="image/*" id="samplePcImageFile" style="display:none;" onchange="handleSampleImageUpload(event, 'pc')">
-          <button type="button" class="btn-secondary" onclick="document.getElementById('samplePcImageFile').click()">🖼️ PC版の見本画像を選ぶ</button>
-          <button type="button" class="btn-ghost" id="removeSamplePcImageBtn" onclick="removeSampleImage('pc')" style="display:none;">画像を削除</button>
-        </div>
+        
       </div>
       <div class="sample-image-col">
         <div class="sample-image-wrap" id="sampleMobileImageWrap" style="display:none;">
           <span class="sample-image-label">スマホ版</span>
           <img id="sampleMobileImage" alt="貼り付け方の見本(スマホ版)">
         </div>
-        <div class="sample-image-edit-row no-print" id="sampleMobileImageEditRow" style="display:none;">
-          <input type="file" accept="image/*" id="sampleMobileImageFile" style="display:none;" onchange="handleSampleImageUpload(event, 'mobile')">
-          <button type="button" class="btn-secondary" onclick="document.getElementById('sampleMobileImageFile').click()">🖼️ スマホ版の見本画像を選ぶ</button>
-          <button type="button" class="btn-ghost" id="removeSampleMobileImageBtn" onclick="removeSampleImage('mobile')" style="display:none;">画像を削除</button>
-        </div>
+        
       </div>
     </div>
     <p class="no-print editable-hint" id="sampleImageHint" style="display:none; font-size:11.5px; color:var(--muted); margin:-6px 0 14px;">どこをコピーすればいいか分かる画像(スクリーンショット等)を貼ると親切です</p>
@@ -394,34 +370,9 @@
       <input type="file" id="csvImportInput" accept=".csv" style="display:none" onchange="handleImportFile(event)">
     </div>
 
-    <div class="lane-panel no-print" id="lanePanel">
-      <div class="lane-panel-head">
-        <span class="year-panel-title">レーン情報を取り込む(任意)</span>
-        <button type="button" class="reset-link" onclick="toggleLanePanel()" id="laneToggleBtn">開く</button>
-      </div>
-      <div id="laneBody" style="display:none;">
-        <p class="lane-hint">レーン割表のPDFをアップロードすると、自動で読み取ります(この画面上だけで処理され、PDFはどこにも送信されません)。登録済みの注文と日付・会場・部・種別・メンバーが一致すれば、自動でレーンが反映されます。</p>
-        <input type="file" id="lanePdfFile" accept="application/pdf" style="display:none;" onchange="handleLanePdfUpload(event)">
-        <div class="btn-row">
-          <button class="btn-secondary" onclick="document.getElementById('lanePdfFile').click()">📄 レーン割表PDFを選ぶ</button>
-        </div>
-        <div id="lanePdfStatus" style="display:none;" class="warn-box"></div>
-        <div id="lanePreviewBox" style="display:none;"></div>
-        <details class="lane-manual-details">
-          <summary>うまく読み取れない場合(テキストで貼り付ける)</summary>
-          <textarea id="laneInput" placeholder="例:
-9/12 幕張メッセ トーク会 5部 原優寧 レーン4
-9/12 幕張メッセ 握手会 4部 原優寧 レーン8"></textarea>
-          <div class="btn-row" style="margin-top:8px;">
-            <button class="btn-secondary" onclick="handleLaneImport()">レーン情報を取り込む</button>
-          </div>
-        </details>
-        <div id="laneResultBox" style="display:none;" class="warn-box"></div>
-        <div class="lane-db-status" id="laneDbStatus"></div>
-      </div>
-    </div>
+    
 
-    <div class="note-box editable" id="step1-note" contenteditable="false">作業を中断するときは「CSVに書き出す」でファイルを保存しておくと、次にこのページを開いたときに「CSVから復元する」で続きから再開できます（このページ自体はデータを保存しません）。このツール以外で作ったCSVも、「日付」「会場」「部」「種別」「枚数」「メンバー」「作品」の見出し（列名）があれば取り込めます（「日付」「部」「枚数」は必須、それ以外は任意）。</div>
+    <div class="note-box editable" id="step1-note">作業を中断するときは「CSVに書き出す」でファイルを保存しておくと、次にこのページを開いたときに「CSVから復元する」で続きから再開できます（このページ自体はデータを保存しません）。このツール以外で作ったCSVも、「日付」「会場」「部」「種別」「枚数」「メンバー」「作品」の見出し（列名）があれば取り込めます（「日付」「部」「枚数」は必須、それ以外は任意）。</div>
   </section>
 
   <section class="card no-print" id="previewSection" style="display:none;">
@@ -485,7 +436,7 @@
           <option value="share">サマリー</option>
         </select>
       </div>
-      <details class="control-row filter-details" open>
+      <details class="control-row filter-details" open="">
         <summary class="control-label">絞り込み</summary>
         <div class="filter-body">
         <div class="multiselect">
@@ -528,7 +479,7 @@
       </div>
       <div class="control-row">
         <span class="control-label">表示設定</span>
-        <label class="toggle-switch"><input type="checkbox" id="showQtyToggle" checked onchange="toggleShowQty()"> 枚数を表示する</label>
+        <label class="toggle-switch"><input type="checkbox" id="showQtyToggle" checked="" onchange="toggleShowQty()"> 枚数を表示する</label>
       </div>
     </div>
     <div class="result-panel">
@@ -536,7 +487,7 @@
       <div class="table-actions no-print">
         <select class="ctrl-select" id="imageResolutionSelect" style="width:auto; min-width:190px;">
           <option value="device">画質：この画面の解像度のまま</option>
-          <option value="recommend1080" selected>画質：おすすめ（幅1080px）</option>
+          <option value="recommend1080" selected="">画質：おすすめ（幅1080px）</option>
           <option value="sns1200">画質：SNS投稿用（幅1200px）</option>
         </select>
         <button class="btn-primary" onclick="saveAsImage()">画像として保存</button>
@@ -563,92 +514,7 @@
 
 <script>
 /* ---------- 編集モード(パスワードで保護) ---------- */
-/* @EDIT_ONLY_START */
-const EDIT_PASSWORD_HASH = "ce9d9c91a8374c694448bdb6f6591003c96353d8eaf6ee9e32c7e47d47c1ac14";
-let authenticated = false;
-let editMode = false;
-async function sha256Hex(str){
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
-}
-function setToolEditable(on){
-  document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; });
-}
-function enterEditMode(){
-  editMode = true;
-  document.body.classList.add("editing");
-  setToolEditable(true);
-  document.getElementById("toolToggleEdit").textContent = "編集を終える";
-  document.getElementById("toolGeneratePublicHtml").style.display = "inline-block";
-  document.getElementById("toolExportData").style.display = "inline-block";
-  document.getElementById("toolImportData").style.display = "inline-block";
-}
-function exitEditMode(){
-  editMode = false;
-  document.body.classList.remove("editing");
-  setToolEditable(false);
-  document.getElementById("toolToggleEdit").textContent = "編集する";
-  document.getElementById("toolGeneratePublicHtml").style.display = "none";
-  document.getElementById("toolExportData").style.display = "none";
-  document.getElementById("toolImportData").style.display = "none";
-}
-function openToolPasswordModal(){
-  document.getElementById("toolPasswordModal").classList.add("open");
-  document.getElementById("toolPasswordInput").value = "";
-  document.getElementById("toolPasswordInput").focus();
-}
-function closeToolPasswordModal(){
-  document.getElementById("toolPasswordModal").classList.remove("open");
-}
-function submitToolPassword(){
-  const pw = document.getElementById("toolPasswordInput").value;
-  sha256Hex(pw).then(hash => {
-    if(hash !== EDIT_PASSWORD_HASH){ alert("パスワードが違います"); return; }
-    authenticated = true;
-    closeToolPasswordModal();
-    enterEditMode();
-  }).catch(() => {
-    alert("この環境ではパスワード確認に必要な機能が使えません。実際に公開したURL(https)で開いてお試しください。");
-  });
-}
-document.getElementById("toolToggleEdit").addEventListener("click", () => {
-  if(editMode){ exitEditMode(); return; }
-  if(authenticated){ enterEditMode(); return; }
-  openToolPasswordModal();
-});
-document.getElementById("toolPasswordInput").addEventListener("keydown", (e) => {
-  if(e.key === "Enter") submitToolPassword();
-});
 
-/* ---------- 見本画像のアップロード ---------- */
-function sampleImageIds(kind){
-  const cap = kind === "mobile" ? "Mobile" : "Pc";
-  return {
-    img: `sample${cap}Image`,
-    wrap: `sample${cap}ImageWrap`,
-    removeBtn: `removeSample${cap}ImageBtn`,
-  };
-}
-function handleSampleImageUpload(event, kind){
-  const file = event.target.files[0];
-  event.target.value = "";
-  if(!file) return;
-  const ids = sampleImageIds(kind);
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    document.getElementById(ids.img).src = e.target.result;
-    document.getElementById(ids.wrap).style.display = "block";
-    document.getElementById(ids.removeBtn).style.display = "inline-block";
-  };
-  reader.readAsDataURL(file);
-}
-function removeSampleImage(kind){
-  const ids = sampleImageIds(kind);
-  document.getElementById(ids.img).src = "";
-  document.getElementById(ids.wrap).style.display = "none";
-  document.getElementById(ids.removeBtn).style.display = "none";
-}
-/* @EDIT_ONLY_END */
 
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
 function rebuildToolData(data){
@@ -673,74 +539,18 @@ function rebuildToolData(data){
   }
   if(Array.isArray(data.laneDatabase)){
     laneDatabase = data.laneDatabase;
-    if(typeof items !== "undefined" && items.length) matchLanesToItems();
+    if(typeof items !== "undefined" && items.length){
+      matchLanesToItems();
+      if(typeof renderPreview === "function") renderPreview();
+      const resultsSection = document.getElementById("resultsSection");
+      if(resultsSection && resultsSection.style.display === "block" && typeof renderActivePanel === "function"){
+        renderActivePanel();
+      }
+    }
     if(typeof renderLaneDbStatus === "function") renderLaneDbStatus();
   }
 }
-/* @EDIT_ONLY_START */
-function extractToolData(){
-  const pcSrc = document.getElementById("samplePcImage").src;
-  const mobileSrc = document.getElementById("sampleMobileImage").src;
-  return {
-    eyebrow: document.getElementById("p-eyebrow").textContent,
-    title: document.getElementById("p-title").textContent,
-    subtitle: document.getElementById("p-subtitle").textContent,
-    step1Title: document.getElementById("step1-title").textContent,
-    step1Desc: document.getElementById("step1-desc").textContent,
-    step1Note: document.getElementById("step1-note").textContent,
-    samplePcImage: pcSrc.indexOf("data:") === 0 ? pcSrc : "",
-    sampleMobileImage: mobileSrc.indexOf("data:") === 0 ? mobileSrc : "",
-    laneDatabase: laneDatabase,
-  };
-}
-function exportToolData(){
-  const json = JSON.stringify(extractToolData(), null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "tokuten-shukei-tool-data.json";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-function handleToolImportFile(event){
-  const file = event.target.files[0];
-  event.target.value = "";
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try{
-      const data = JSON.parse(e.target.result);
-      rebuildToolData(data);
-      alert("読み込みました。");
-    }catch(err){
-      alert("JSONファイルの読み込みに失敗しました。ファイルの形式をご確認ください。");
-    }
-  };
-  reader.readAsText(file);
-}
-function generatePublicHtml(){
-  const clone = document.documentElement.cloneNode(true);
-  clone.querySelectorAll(".tool-edit-toolbar, #toolPasswordModal, .sample-image-edit-row, .lane-panel").forEach(el => el.remove());
-  clone.querySelectorAll("[contenteditable]").forEach(el => el.removeAttribute("contenteditable"));
-  const cloneBody = clone.querySelector("body");
-  if(cloneBody) cloneBody.classList.remove("editing");
-  let html = "<!DOCTYPE html>\n" + clone.outerHTML;
-  html = html.replace(/\/\* @EDIT_ONLY_START \*\/[\s\S]*?\/\* @EDIT_ONLY_END \*\//g, "");
-  const blob = new Blob([html], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "tokuten-shukei-tool.html";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-document.getElementById("toolGeneratePublicHtml").addEventListener("click", generatePublicHtml);
-/* @EDIT_ONLY_END */
+
 /* ---------- 同じ場所にある tokuten-shukei-tool-data.json があれば自動で読み込む ----------
    同じフォルダにこのファイルを置くと、次回訪問時に内容が反映されます。
    ファイルが存在しない場合は何もしません(エラーにはなりません)。 */
@@ -2222,5 +2032,6 @@ ANCD-00005
 }
 </script>
 
-</body>
-</html>
+
+
+</body></html>
