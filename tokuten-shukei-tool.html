@@ -968,11 +968,20 @@ function rebuildToolData(data){
    ファイルが存在しない場合は何もしません(エラーにはなりません)。 */
 (async function(){
   try{
-    if(location.href.indexOf("file://") === 0) return;
+    if(location.href.indexOf("file://") === 0){
+      console.info("tokuten-shukei-tool: file://で開いているため自動読み込みをスキップします。");
+      return;
+    }
     const res = await fetch("tokuten-shukei-tool-data.json", { cache: "no-store" });
-    if(!res.ok) return;
+    console.info("tokuten-shukei-tool-data.json fetch status:", res.status, res.url);
+    if(!res.ok){
+      console.warn("tokuten-shukei-tool-data.json が見つかりませんでした(status:", res.status, ")");
+      return;
+    }
     const data = await res.json();
+    console.info("tokuten-shukei-tool-data.json 読み込み成功。含まれる項目:", Object.keys(data));
     rebuildToolData(data);
+    console.info("rebuildToolData 完了。");
   }catch(e){
     /* ファイルが無い場合は何もしないが、それ以外の問題は分かるようログに残す */
     console.error("tokuten-shukei-tool-data.json の読み込みに失敗しました:", e);
