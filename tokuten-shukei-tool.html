@@ -32,6 +32,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&amp;family=Noto+Sans+JP:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root{
     --ink:#2B2331; --ink-soft:#3D3341;
@@ -79,6 +80,19 @@
   .warn-box pre{white-space:pre-wrap;font-size:11.5px;color:var(--muted);margin:6px 0 0;}
 
   .year-panel{background:var(--paper-dim);border-radius:4px;padding:12px 14px;margin-top:14px;}
+  .lane-panel{background:var(--paper-dim);border-radius:4px;padding:12px 14px;margin-top:14px;}
+  .lane-panel-head{display:flex;justify-content:space-between;align-items:center;}
+  .lane-hint{font-size:11.5px;color:var(--muted);margin:8px 0 10px;line-height:1.6;}
+  #laneInput{width:100%;min-height:100px;margin-top:4px;}
+  .lane-manual-details{margin-top:12px;}
+  .lane-manual-details summary{cursor:pointer;font-size:11.5px;color:var(--muted);}
+  .lane-db-status{font-size:11px;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);}
+  .lane-preview-table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:10px;}
+  .lane-preview-table th,.lane-preview-table td{border:1px solid var(--line);padding:5px 7px;text-align:left;}
+  .lane-preview-table th{background:var(--paper);}
+  .lane-section-head{display:flex;align-items:center;gap:8px;margin:12px 0 6px;flex-wrap:wrap;}
+  .lane-section-head select,.lane-section-head input{font-family:inherit;font-size:12.5px;padding:5px 8px;border:1px solid var(--line);border-radius:4px;}
+  .lane-preview-scroll{max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:4px;padding:0 8px;}
   .year-panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
   .year-panel-title{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
   .base-year-field{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);}
@@ -198,6 +212,7 @@
   .timeline-item .ti-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
   .timeline-item .ti-part{font-family:'JetBrains Mono', monospace;font-weight:700;font-size:14px;}
   .timeline-item .ti-qty{font-family:'JetBrains Mono', monospace;font-weight:700;font-size:15px;color:var(--gold-deep);}
+  .ti-lane{display:inline-block;font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:700;color:var(--ink);background:var(--paper-dim);padding:1px 8px;border-radius:999px;vertical-align:middle;}
   .timeline-item .ti-sub{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5;}
 
   .share-frame{width:100%;max-width:460px;margin:0 auto;}
@@ -353,15 +368,73 @@
       <button class="btn-secondary" onclick="document.getElementById('csvImportInput').click()">CSVから復元する</button>
       <input type="file" id="csvImportInput" accept=".csv" style="display:none" onchange="handleImportFile(event)">
     </div>
+
+    <div class="lane-panel">
+      <div class="lane-panel-head">
+        <span class="year-panel-title">レーン情報を取り込む(任意)</span>
+        <button type="button" class="reset-link" onclick="toggleLanePanel()" id="laneToggleBtn">閉じる</button>
+      </div>
+      <div id="laneBody" style="display: block;">
+        <p class="lane-hint">レーン割表のPDFをアップロードすると、自動で読み取ります(この画面上だけで処理され、PDFはどこにも送信されません)。登録済みの注文と日付・会場・部・種別・メンバーが一致すれば、自動でレーンが反映されます。</p>
+        <input type="file" id="lanePdfFile" accept="application/pdf" style="display:none;" onchange="handleLanePdfUpload(event)">
+        <div class="btn-row">
+          <button class="btn-secondary" onclick="document.getElementById('lanePdfFile').click()">📄 レーン割表PDFを選ぶ</button>
+        </div>
+        <div id="lanePdfStatus" style="display: none;" class="warn-box">PDFを読み込んでいます…</div>
+        <div id="lanePreviewBox" style="display: none;">
+    <div class="lane-section-head">
+      <span>日付：</span><input type="number" id="laneGuessMonth" value="9" style="width:56px;" placeholder="月">月
+      <input type="number" id="laneGuessDay" value="13" style="width:56px;" placeholder="日">日
+      <span>会場：</span><input type="text" id="laneGuessVenue" value="9月13日(日) 幕張メッセ" placeholder="例:幕張メッセ">
+    </div>
+    <p class="lane-hint">196件のレーン情報を読み取りました。日付・会場・各表の種別をご確認のうえ、取り込んでください。</p>
+    
+      <div class="lane-section-head">
+        <span>表1(11レーン)の種別：</span>
+        <input type="text" class="lane-section-type" data-section="0" value="トーク会" placeholder="例:握手会">
+      </div>
+      <div class="lane-preview-scroll">
+        <table class="lane-preview-table">
+          <thead><tr><th>レーン</th><th>部</th><th>メンバー</th></tr></thead>
+          <tbody><tr><td class="mono">1</td><td class="mono">2部</td><td>倉島杏実</td></tr><tr><td class="mono">1</td><td class="mono">3部</td><td>南澤恋々</td></tr><tr><td class="mono">1</td><td class="mono">4部</td><td>熊崎晴香</td></tr><tr><td class="mono">1</td><td class="mono">5部</td><td>熊崎晴香</td></tr><tr><td class="mono">1</td><td class="mono">6部</td><td>近藤海琴</td></tr><tr><td class="mono">1</td><td class="mono">7部</td><td>倉島杏実</td></tr><tr><td class="mono">1</td><td class="mono">8部</td><td>井上瑠夏</td></tr><tr><td class="mono">1</td><td class="mono">9部</td><td>井上瑠夏</td></tr><tr><td class="mono">2</td><td class="mono">1部</td><td>鎌田菜月</td></tr><tr><td class="mono">2</td><td class="mono">2部</td><td>鎌田菜月</td></tr><tr><td class="mono">2</td><td class="mono">3部</td><td>青木莉樺</td></tr><tr><td class="mono">2</td><td class="mono">4部</td><td>桒原椿</td></tr><tr><td class="mono">2</td><td class="mono">5部</td><td>佐藤佳穂</td></tr><tr><td class="mono">2</td><td class="mono">6部</td><td>佐藤佳穂</td></tr><tr><td class="mono">2</td><td class="mono">7部</td><td>山村さくら</td></tr><tr><td class="mono">2</td><td class="mono">8部</td><td>青木莉樺</td></tr><tr><td class="mono">2</td><td class="mono">9部</td><td>山村さくら</td></tr><tr><td class="mono">3</td><td class="mono">1部</td><td>松本慈子</td></tr><tr><td class="mono">3</td><td class="mono">2部</td><td>井田玲音名</td></tr><tr><td class="mono">3</td><td class="mono">3部</td><td>井田玲音名</td></tr><tr><td class="mono">3</td><td class="mono">4部</td><td>長谷川雅</td></tr><tr><td class="mono">3</td><td class="mono">5部</td><td>長谷川雅</td></tr><tr><td class="mono">3</td><td class="mono">6部</td><td>松本慈子</td></tr><tr><td class="mono">3</td><td class="mono">7部</td><td>中坂美祐</td></tr><tr><td class="mono">3</td><td class="mono">8部</td><td>中坂美祐</td></tr><tr><td class="mono">4</td><td class="mono">1部</td><td>野村実代</td></tr><tr><td class="mono">4</td><td class="mono">2部</td><td>野村実代</td></tr><tr><td class="mono">4</td><td class="mono">3部</td><td>太田彩夏</td></tr><tr><td class="mono">4</td><td class="mono">4部</td><td>伊藤実希</td></tr><tr><td class="mono">4</td><td class="mono">5部</td><td>原優寧</td></tr><tr><td class="mono">4</td><td class="mono">6部</td><td>伊藤実希</td></tr><tr><td class="mono">4</td><td class="mono">7部</td><td>原優寧</td></tr><tr><td class="mono">4</td><td class="mono">8部</td><td>太田彩夏</td></tr><tr><td class="mono">4</td><td class="mono">9部</td><td>浅井裕華</td></tr><tr><td class="mono">5</td><td class="mono">1部</td><td>河村優愛</td></tr><tr><td class="mono">5</td><td class="mono">2部</td><td>伊藤虹々美</td></tr><tr><td class="mono">5</td><td class="mono">3部</td><td>河村優愛</td></tr><tr><td class="mono">5</td><td class="mono">4部</td><td>森本くるみ</td></tr><tr><td class="mono">5</td><td class="mono">5部</td><td>森本くるみ</td></tr><tr><td class="mono">5</td><td class="mono">6部</td><td>大村杏</td></tr><tr><td class="mono">5</td><td class="mono">7部</td><td>桜井愛莉咲</td></tr><tr><td class="mono">5</td><td class="mono">8部</td><td>伊藤虹々美</td></tr><tr><td class="mono">5</td><td class="mono">9部</td><td>大村杏</td></tr><tr><td class="mono">6</td><td class="mono">2部</td><td>中尾楓華</td></tr><tr><td class="mono">6</td><td class="mono">3部</td><td>池田有沙</td></tr><tr><td class="mono">6</td><td class="mono">4部</td><td>坂本真凛</td></tr><tr><td class="mono">6</td><td class="mono">5部</td><td>坂本真凛</td></tr><tr><td class="mono">6</td><td class="mono">6部</td><td>桜井愛莉咲</td></tr><tr><td class="mono">6</td><td class="mono">7部</td><td>聖遥花</td></tr><tr><td class="mono">6</td><td class="mono">8部</td><td>聖遥花</td></tr><tr><td class="mono">7</td><td class="mono">2部</td><td>宮本倫花</td></tr><tr><td class="mono">7</td><td class="mono">3部</td><td>北川愛乃</td></tr><tr><td class="mono">7</td><td class="mono">4部</td><td>石黒友月</td></tr><tr><td class="mono">7</td><td class="mono">5部</td><td>石黒友月</td></tr><tr><td class="mono">7</td><td class="mono">6部</td><td>北川愛乃</td></tr><tr><td class="mono">7</td><td class="mono">7部</td><td>佐々木希美</td></tr><tr><td class="mono">7</td><td class="mono">8部</td><td>倉本羽菜</td></tr><tr><td class="mono">8</td><td class="mono">1部</td><td>荒野姫楓</td></tr><tr><td class="mono">8</td><td class="mono">2部</td><td>立花菖</td></tr><tr><td class="mono">8</td><td class="mono">3部</td><td>荒野姫楓</td></tr><tr><td class="mono">8</td><td class="mono">4部</td><td>浅井裕華</td></tr><tr><td class="mono">8</td><td class="mono">5部</td><td>篠原京香</td></tr><tr><td class="mono">8</td><td class="mono">6部</td><td>雲井紗菜</td></tr><tr><td class="mono">8</td><td class="mono">7部</td><td>篠原京香</td></tr><tr><td class="mono">8</td><td class="mono">8部</td><td>奥野心羽</td></tr><tr><td class="mono">8</td><td class="mono">9部</td><td>雲井紗菜</td></tr><tr><td class="mono">9</td><td class="mono">1部</td><td>太田愛恵</td></tr><tr><td class="mono">9</td><td class="mono">2部</td><td>久保田怜</td></tr><tr><td class="mono">9</td><td class="mono">3部</td><td>西井美桜</td></tr><tr><td class="mono">9</td><td class="mono">4部</td><td>西井美桜</td></tr><tr><td class="mono">9</td><td class="mono">7部</td><td>入内嶋涼</td></tr><tr><td class="mono">9</td><td class="mono">8部</td><td>竹下茉莉花</td></tr><tr><td class="mono">9</td><td class="mono">9部</td><td>田村真悠</td></tr><tr><td class="mono">10</td><td class="mono">1部</td><td>横井志穂</td></tr><tr><td class="mono">10</td><td class="mono">2部</td><td>飯田ゆら</td></tr><tr><td class="mono">10</td><td class="mono">3部</td><td>入内嶋涼</td></tr><tr><td class="mono">10</td><td class="mono">6部</td><td>赤堀君江</td></tr><tr><td class="mono">10</td><td class="mono">7部</td><td>赤堀君江</td></tr><tr><td class="mono">10</td><td class="mono">8部</td><td>鈴木恋奈</td></tr><tr><td class="mono">10</td><td class="mono">9部</td><td>鈴木恋奈</td></tr><tr><td class="mono">11</td><td class="mono">2部</td><td>桒原椿</td></tr><tr><td class="mono">11</td><td class="mono">4部</td><td>杉本りいな</td></tr><tr><td class="mono">11</td><td class="mono">5部</td><td>杉本りいな</td></tr><tr><td class="mono">11</td><td class="mono">6部</td><td>川村昇子</td></tr><tr><td class="mono">11</td><td class="mono">7部</td><td>川村昇子</td></tr><tr><td class="mono">11</td><td class="mono">8部</td><td>矢島凪</td></tr></tbody>
+        </table>
+      </div>
+      <div class="lane-section-head">
+        <span>表2(13レーン)の種別：</span>
+        <input type="text" class="lane-section-type" data-section="1" value="握手会" placeholder="例:握手会">
+      </div>
+      <div class="lane-preview-scroll">
+        <table class="lane-preview-table">
+          <thead><tr><th>レーン</th><th>部</th><th>メンバー</th></tr></thead>
+          <tbody><tr><td class="mono">1</td><td class="mono">1部</td><td>長谷川雅</td></tr><tr><td class="mono">1</td><td class="mono">2部</td><td>長谷川雅</td></tr><tr><td class="mono">1</td><td class="mono">3部</td><td>熊崎晴香</td></tr><tr><td class="mono">1</td><td class="mono">4部</td><td>入内嶋涼</td></tr><tr><td class="mono">1</td><td class="mono">5部</td><td>入内嶋涼</td></tr><tr><td class="mono">1</td><td class="mono">6部</td><td>坂本真凛</td></tr><tr><td class="mono">1</td><td class="mono">7部</td><td>熊崎晴香</td></tr><tr><td class="mono">1</td><td class="mono">8部</td><td>熊崎晴香</td></tr><tr><td class="mono">1</td><td class="mono">9部</td><td>佐々木希美</td></tr><tr><td class="mono">2</td><td class="mono">1部</td><td>南澤恋々</td></tr><tr><td class="mono">2</td><td class="mono">2部</td><td>南澤恋々</td></tr><tr><td class="mono">2</td><td class="mono">3部</td><td>野村実代</td></tr><tr><td class="mono">2</td><td class="mono">4部</td><td>飯田ゆら</td></tr><tr><td class="mono">2</td><td class="mono">5部</td><td>野村実代</td></tr><tr><td class="mono">2</td><td class="mono">6部</td><td>野村実代</td></tr><tr><td class="mono">2</td><td class="mono">7部</td><td>石黒友月</td></tr><tr><td class="mono">2</td><td class="mono">8部</td><td>坂本真凛</td></tr><tr><td class="mono">2</td><td class="mono">9部</td><td>坂本真凛</td></tr><tr><td class="mono">3</td><td class="mono">1部</td><td>森本くるみ</td></tr><tr><td class="mono">3</td><td class="mono">2部</td><td>森本くるみ</td></tr><tr><td class="mono">3</td><td class="mono">3部</td><td>鎌田菜月</td></tr><tr><td class="mono">3</td><td class="mono">4部</td><td>佐藤佳穂</td></tr><tr><td class="mono">3</td><td class="mono">5部</td><td>鎌田菜月</td></tr><tr><td class="mono">3</td><td class="mono">6部</td><td>鎌田菜月</td></tr><tr><td class="mono">3</td><td class="mono">7部</td><td>森本くるみ</td></tr><tr><td class="mono">3</td><td class="mono">8部</td><td>佐藤佳穂</td></tr><tr><td class="mono">3</td><td class="mono">9部</td><td>佐藤佳穂</td></tr><tr><td class="mono">4</td><td class="mono">1部</td><td>倉島杏実</td></tr><tr><td class="mono">4</td><td class="mono">2部</td><td>横井志穂</td></tr><tr><td class="mono">4</td><td class="mono">3部</td><td>倉島杏実</td></tr><tr><td class="mono">4</td><td class="mono">4部</td><td>青木莉樺</td></tr><tr><td class="mono">4</td><td class="mono">5部</td><td>倉島杏実</td></tr><tr><td class="mono">4</td><td class="mono">6部</td><td>青木莉樺</td></tr><tr><td class="mono">4</td><td class="mono">7部</td><td>青木莉樺</td></tr><tr><td class="mono">4</td><td class="mono">8部</td><td>近藤海琴</td></tr><tr><td class="mono">4</td><td class="mono">9部</td><td>近藤海琴</td></tr><tr><td class="mono">5</td><td class="mono">1部</td><td>宮本倫花</td></tr><tr><td class="mono">5</td><td class="mono">2部</td><td>松本慈子</td></tr><tr><td class="mono">5</td><td class="mono">3部</td><td>松本慈子</td></tr><tr><td class="mono">5</td><td class="mono">4部</td><td>井田玲音名</td></tr><tr><td class="mono">5</td><td class="mono">5部</td><td>松本慈子</td></tr><tr><td class="mono">5</td><td class="mono">6部</td><td>井田玲音名</td></tr><tr><td class="mono">5</td><td class="mono">7部</td><td>伊藤実希</td></tr><tr><td class="mono">5</td><td class="mono">8部</td><td>伊藤実希</td></tr><tr><td class="mono">5</td><td class="mono">9部</td><td>竹下茉莉花</td></tr><tr><td class="mono">6</td><td class="mono">1部</td><td>杉本りいな</td></tr><tr><td class="mono">6</td><td class="mono">2部</td><td>杉本りいな</td></tr><tr><td class="mono">6</td><td class="mono">3部</td><td>伊藤実希</td></tr><tr><td class="mono">6</td><td class="mono">4部</td><td>川村昇子</td></tr><tr><td class="mono">6</td><td class="mono">5部</td><td>中坂美祐</td></tr><tr><td class="mono">6</td><td class="mono">6部</td><td>矢島凪</td></tr><tr><td class="mono">6</td><td class="mono">8部</td><td>大村杏</td></tr><tr><td class="mono">7</td><td class="mono">1部</td><td>石黒友月</td></tr><tr><td class="mono">7</td><td class="mono">2部</td><td>石黒友月</td></tr><tr><td class="mono">7</td><td class="mono">3部</td><td>井上瑠夏</td></tr><tr><td class="mono">7</td><td class="mono">4部</td><td>井上瑠夏</td></tr><tr><td class="mono">7</td><td class="mono">5部</td><td>浅井裕華</td></tr><tr><td class="mono">7</td><td class="mono">6部</td><td>井上瑠夏</td></tr><tr><td class="mono">7</td><td class="mono">7部</td><td>浅井裕華</td></tr><tr><td class="mono">7</td><td class="mono">8部</td><td>浅井裕華</td></tr><tr><td class="mono">7</td><td class="mono">9部</td><td>中坂美祐</td></tr><tr><td class="mono">8</td><td class="mono">1部</td><td>立花菖</td></tr><tr><td class="mono">8</td><td class="mono">2部</td><td>西井美桜</td></tr><tr><td class="mono">8</td><td class="mono">3部</td><td>伊藤虹々美</td></tr><tr><td class="mono">8</td><td class="mono">4部</td><td>原優寧</td></tr><tr><td class="mono">8</td><td class="mono">5部</td><td>伊藤虹々美</td></tr><tr><td class="mono">8</td><td class="mono">6部</td><td>伊藤虹々美</td></tr><tr><td class="mono">8</td><td class="mono">8部</td><td>原優寧</td></tr><tr><td class="mono">8</td><td class="mono">9部</td><td>原優寧</td></tr><tr><td class="mono">9</td><td class="mono">1部</td><td>久保田怜</td></tr><tr><td class="mono">9</td><td class="mono">2部</td><td>河村優愛</td></tr><tr><td class="mono">9</td><td class="mono">3部</td><td>大村杏</td></tr><tr><td class="mono">9</td><td class="mono">4部</td><td>大村杏</td></tr><tr><td class="mono">9</td><td class="mono">5部</td><td>山村さくら</td></tr><tr><td class="mono">9</td><td class="mono">6部</td><td>西井美桜</td></tr><tr><td class="mono">9</td><td class="mono">7部</td><td>西井美桜</td></tr><tr><td class="mono">9</td><td class="mono">8部</td><td>山村さくら</td></tr><tr><td class="mono">9</td><td class="mono">9部</td><td>奥野心羽</td></tr><tr><td class="mono">10</td><td class="mono">1部</td><td>入内嶋涼</td></tr><tr><td class="mono">10</td><td class="mono">4部</td><td>太田彩夏</td></tr><tr><td class="mono">10</td><td class="mono">5部</td><td>北川愛乃</td></tr><tr><td class="mono">10</td><td class="mono">6部</td><td>太田彩夏</td></tr><tr><td class="mono">10</td><td class="mono">7部</td><td>太田彩夏</td></tr><tr><td class="mono">10</td><td class="mono">8部</td><td>北川愛乃</td></tr><tr><td class="mono">10</td><td class="mono">9部</td><td>北川愛乃</td></tr><tr><td class="mono">11</td><td class="mono">1部</td><td>篠原京香</td></tr><tr><td class="mono">11</td><td class="mono">2部</td><td>篠原京香</td></tr><tr><td class="mono">11</td><td class="mono">3部</td><td>篠原京香</td></tr><tr><td class="mono">11</td><td class="mono">4部</td><td>荒野姫楓</td></tr><tr><td class="mono">11</td><td class="mono">5部</td><td>河村優愛</td></tr><tr><td class="mono">11</td><td class="mono">6部</td><td>荒野姫楓</td></tr><tr><td class="mono">11</td><td class="mono">7部</td><td>河村優愛</td></tr><tr><td class="mono">11</td><td class="mono">8部</td><td>荒野姫楓</td></tr><tr><td class="mono">11</td><td class="mono">9部</td><td>桜井愛莉咲</td></tr><tr><td class="mono">12</td><td class="mono">1部</td><td>中尾楓華</td></tr><tr><td class="mono">12</td><td class="mono">2部</td><td>太田愛恵</td></tr><tr><td class="mono">12</td><td class="mono">4部</td><td>久保田怜</td></tr><tr><td class="mono">12</td><td class="mono">5部</td><td>赤堀君江</td></tr><tr><td class="mono">12</td><td class="mono">6部</td><td>奥野心羽</td></tr><tr><td class="mono">12</td><td class="mono">7部</td><td>倉本羽菜</td></tr><tr><td class="mono">12</td><td class="mono">8部</td><td>雲井紗菜</td></tr><tr><td class="mono">12</td><td class="mono">9部</td><td>倉本羽菜</td></tr><tr><td class="mono">13</td><td class="mono">1部</td><td>桒原椿</td></tr><tr><td class="mono">13</td><td class="mono">2部</td><td>池田有沙</td></tr><tr><td class="mono">13</td><td class="mono">3部</td><td>赤堀君江</td></tr><tr><td class="mono">13</td><td class="mono">4部</td><td>鈴木恋奈</td></tr><tr><td class="mono">13</td><td class="mono">5部</td><td>鈴木恋奈</td></tr><tr><td class="mono">13</td><td class="mono">7部</td><td>鈴木恋奈</td></tr><tr><td class="mono">13</td><td class="mono">8部</td><td>田村真悠</td></tr><tr><td class="mono">13</td><td class="mono">9部</td><td>聖遥花</td></tr></tbody>
+        </table>
+      </div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn-primary" onclick="confirmLanePdfImport()">この内容を取り込む</button>
+    </div></div>
+        <details class="lane-manual-details" open="">
+          <summary>うまく読み取れない場合(テキストで貼り付ける)</summary>
+          <textarea id="laneInput" placeholder="例:
+9/12 幕張メッセ トーク会 5部 原優寧 レーン4
+9/12 幕張メッセ 握手会 4部 原優寧 レーン8"></textarea>
+          <div class="btn-row" style="margin-top:8px;">
+            <button class="btn-secondary" onclick="handleLaneImport()">レーン情報を取り込む</button>
+          </div>
+        </details>
+        <div id="laneResultBox" style="display: block;" class="warn-box">196件のレーン情報を取り込み、0件を登録済みの注文に反映しました。</div>
+        <div class="lane-db-status" id="laneDbStatus">現在、399件のレーン情報を保持しています(複数のPDFを取り込むと蓄積されます)。</div>
+      </div>
+    </div>
+
     <div class="note-box editable" id="step1-note">作業を中断するときは「CSVに書き出す」でファイルを保存しておくと、次にこのページを開いたときに「CSVから復元する」で続きから再開できます（このページ自体はデータを保存しません）。このツール以外で作ったCSVも、「日付」「会場」「部」「種別」「枚数」「メンバー」「作品」の見出し（列名）があれば取り込めます（「日付」「部」「枚数」は必須、それ以外は任意）。</div>
   </section>
 
   <section class="card no-print" id="previewSection" style="display:none;">
     <p class="step-label"><span class="num">02</span>登録済みデータを確認</p>
     <h2 class="card-title">現在登録されている注文</h2>
-    <p class="card-desc" id="previewDesc"></p>
+    <p class="card-desc" id="previewDesc">現在 0 件の商品行が登録されています。</p>
     <div class="preview-scroll" id="previewTableWrap">
-      <table class="preview" id="previewTable"></table>
+      <table class="preview" id="previewTable"><tbody><tr><th>日付</th><th>会場</th><th>部</th><th>種別</th><th class="num">枚数</th><th>メンバー</th></tr></tbody></table>
     </div>
     <div id="unparsedBox" style="display:none;" class="warn-box">
       <strong id="unparsedCount"></strong> 件、自動で読み取れなかった商品行があります。集計には含まれていません。
@@ -373,7 +446,7 @@
         <span class="year-panel-title">日付ごとの年（自動判定・修正可）</span>
         <span class="base-year-field">基準年：<input type="number" id="baseYearInput" onchange="updateBaseYear(this.value)"></span>
       </div>
-      <div id="dateYearList"></div>
+      <div id="dateYearList"><span style="color:var(--muted);font-size:12.5px;">データがありません</span></div>
       <div class="btn-row" style="margin-top:8px;">
         <button class="reset-link" onclick="resetAllYearOverrides()">すべて自動判定に戻す</button>
       </div>
@@ -518,6 +591,11 @@ function rebuildToolData(data){
     document.getElementById("sampleMobileImageWrap").style.display = "block";
     document.getElementById("removeSampleMobileImageBtn").style.display = "inline-block";
   }
+  if(Array.isArray(data.laneDatabase)){
+    laneDatabase = data.laneDatabase;
+    if(typeof items !== "undefined" && items.length) matchLanesToItems();
+    if(typeof renderLaneDbStatus === "function") renderLaneDbStatus();
+  }
 }
 
 /* ---------- 同じ場所にある tokuten-shukei-tool-data.json があれば自動で読み込む ----------
@@ -629,7 +707,7 @@ function parseOrderText(text){
       parsedItems.push({
         month: parseInt(month), day: parseInt(day), venue: venue.trim(), part: parseInt(part),
         artist: artist.trim(), work: work.trim(), mode, eventType, ticketsPerUnit: tpu,
-        qty, totalTickets: qty * tpu,
+        qty, totalTickets: qty * tpu, lane: "",
       });
     } else {
       const trimmed = block.trim();
@@ -707,6 +785,283 @@ function updateBaseYear(value){
   renderPreview();
   if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
 }
+
+/* ---------- レーン情報の取り込み ---------- */
+let laneDatabase = [];
+let pendingLaneParse = null;
+
+function toggleLanePanel(){
+  const body = document.getElementById('laneBody');
+  const btn = document.getElementById('laneToggleBtn');
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '閉じる' : '開く';
+  renderLaneDbStatus();
+}
+function renderLaneDbStatus(){
+  const el = document.getElementById('laneDbStatus');
+  if(!el) return;
+  el.textContent = laneDatabase.length
+    ? `現在、${laneDatabase.length}件のレーン情報を保持しています(複数のPDFを取り込むと蓄積されます)。`
+    : 'まだレーン情報は取り込まれていません。';
+}
+function venueRoughlyMatches(a, b){
+  const na = String(a || '').trim();
+  const nb = String(b || '').trim();
+  if(!na || !nb) return false;
+  return na === nb || na.includes(nb) || nb.includes(na);
+}
+function matchLanesToItems(){
+  let matched = 0;
+  items.forEach(it => {
+    const hit = laneDatabase.find(en =>
+      en.month === it.month && en.day === it.day && venueRoughlyMatches(en.venue, it.venue) &&
+      en.eventType === it.eventType && en.part === it.part && en.artist === it.artist
+    );
+    if(hit){ it.lane = hit.lane; matched++; }
+  });
+  return matched;
+}
+function mergeLaneEntries(entries){
+  entries.forEach(en => {
+    const idx = laneDatabase.findIndex(x =>
+      x.month === en.month && x.day === en.day && x.venue === en.venue &&
+      x.eventType === en.eventType && x.part === en.part && x.artist === en.artist
+    );
+    if(idx > -1) laneDatabase[idx] = en; else laneDatabase.push(en);
+  });
+}
+function parseLaneText(text){
+  /* 「9/12 幕張メッセ トーク会 5部 原優寧 レーン4」の形式を読み取る */
+  const LANE_LINE_RE = /^(\d{1,2})\/(\d{1,2})\s+(\S+)\s+(\S+)\s+(\d+)部\s+(\S+)\s+レーン(\S+)$/;
+  const lines = String(text || '').replace(/\r\n/g, '\n').split('\n');
+  const entries = [];
+  lines.forEach(line => {
+    const t = line.trim();
+    if(!t || t.startsWith('#')) return;
+    const m = LANE_LINE_RE.exec(t);
+    if(m){
+      entries.push({
+        month: parseInt(m[1]), day: parseInt(m[2]), venue: m[3], eventType: m[4],
+        part: parseInt(m[5]), artist: m[6], lane: m[7],
+      });
+    }
+  });
+  return entries;
+}
+function handleLaneImport(){
+  const text = document.getElementById('laneInput').value;
+  const entries = parseLaneText(text);
+  const box = document.getElementById('laneResultBox');
+  box.style.display = 'block';
+  if(entries.length === 0){
+    box.textContent = '読み取れる行が見つかりませんでした。形式をご確認ください。';
+    return;
+  }
+  mergeLaneEntries(entries);
+  const matched = matchLanesToItems();
+  box.textContent = `${entries.length}件のレーン情報を読み取り、${matched}件を登録済みの注文に反映しました。`;
+  renderLaneDbStatus();
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+
+/* ---------- レーン割表PDFの直接読み取り ---------- */
+async function handleLanePdfUpload(event){
+  const file = event.target.files[0];
+  event.target.value = '';
+  if(!file) return;
+  const statusBox = document.getElementById('lanePdfStatus');
+  statusBox.style.display = 'block';
+  statusBox.textContent = 'PDFを読み込んでいます…';
+  document.getElementById('lanePreviewBox').style.display = 'none';
+  try{
+    if(typeof pdfjsLib === 'undefined'){
+      statusBox.textContent = 'PDF読み取り用のライブラリを読み込めませんでした。ネットワーク環境をご確認のうえ、下の「テキストで貼り付ける」もお試しください。';
+      return;
+    }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const buf = await file.arrayBuffer();
+    const parsed = await extractLaneTableFromPdf(buf);
+    if(!parsed || parsed.sections.length === 0){
+      statusBox.textContent = '表の形式を認識できませんでした。お手数ですが「テキストで貼り付ける」からお試しください。';
+      return;
+    }
+    statusBox.style.display = 'none';
+    pendingLaneParse = parsed;
+    renderLanePreview(parsed);
+  }catch(err){
+    console.error(err);
+    statusBox.textContent = '読み取り中にエラーが発生しました。お手数ですが「テキストで貼り付ける」からお試しください。';
+  }
+}
+
+async function extractLaneTableFromPdf(arrayBuffer){
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const page = await pdf.getPage(1);
+  const content = await page.getTextContent();
+  const rawItems = content.items.map(it => ({ text: it.str, x: it.transform[4], y: it.transform[5] }));
+  return reconstructLaneTable(rawItems);
+}
+
+function reconstructLaneTable(rawItems){
+  let items = rawItems.filter(it => it.text.trim() !== '');
+
+  /* 表の左端に縦書きで入る種別ラベル(トーク会/握手会など)の1文字ずつが、
+     たまたまデータ行と同じ高さに来て誤認識されるのを防ぐため、
+     「NO」という見出し文字より明らかに左にある文字は除外する */
+  const noItems = items.filter(it => it.text === 'NO');
+  let noX = null;
+  if(noItems.length){
+    noX = Math.min(...noItems.map(it => it.x));
+    items = items.filter(it => it.x >= noX - 15);
+  }
+
+  /* タイトル・日付らしき行を拾っておく(見つからなければ空のまま、あとで手入力) */
+  let guessMonth = null, guessDay = null, guessVenue = '';
+  rawItems.forEach(it => {
+    const m = /(\d{1,2})月(\d{1,2})日/.exec(it.text);
+    if(m && guessMonth === null){ guessMonth = parseInt(m[1]); guessDay = parseInt(m[2]); }
+  });
+  const venueItem = items.find(it => /(メッセ|ホール|ドーム|アリーナ|劇場|会館|センター)/.test(it.text));
+  if(venueItem) guessVenue = venueItem.text.replace(/^[)）]\s*/, '').trim();
+
+  /* Y座標が近いものを同じ行としてグルーピング */
+  const Y_TOL = 3;
+  const rowMap = [];
+  items.forEach(it => {
+    const y = Math.round(it.y);
+    let row = rowMap.find(r => Math.abs(r.y - y) <= Y_TOL);
+    if(!row){ row = { y, items: [] }; rowMap.push(row); }
+    row.items.push(it);
+  });
+  /* pdf.jsの座標は下から上に増えるため、y降順(上から下)に並べ替える */
+  rowMap.sort((a, b) => b.y - a.y);
+  rowMap.forEach(r => r.items.sort((a, b) => a.x - b.x));
+
+  /* 「N部」という見出し行を探し、各部の列位置(x座標)を特定する */
+  let partColumns = null;
+  for(const row of rowMap){
+    const ws = row.items;
+    const matches = [];
+    for(let i = 0; i < ws.length; i++){
+      const t = ws[i].text.trim();
+      if(/^\d{1,2}$/.test(t) && i + 1 < ws.length && ws[i + 1].text.trim() === '部'){
+        matches.push({ part: parseInt(t), x: ws[i].x });
+        continue;
+      }
+      const m = /^(\d{1,2})\s*部$/.exec(t);
+      if(m) matches.push({ part: parseInt(m[1]), x: ws[i].x });
+    }
+    const uniqByPart = new Map();
+    matches.forEach(mt => { if(!uniqByPart.has(mt.part)) uniqByPart.set(mt.part, mt); });
+    const uniqueMatches = Array.from(uniqByPart.values());
+    if(uniqueMatches.length >= 5){ partColumns = uniqueMatches; break; }
+  }
+  if(!partColumns) return null;
+  const nearestPart = (x) => {
+    let best = partColumns[0];
+    let bestDist = Infinity;
+    partColumns.forEach(pc => {
+      const d = Math.abs((pc.x - 11) - x);
+      if(d < bestDist){ bestDist = d; best = pc; }
+    });
+    return best.part;
+  };
+
+  /* データ行(先頭にレーン番号らしき数字がある行)を検出し、セクションに分ける
+     (レーン番号が1に戻ったタイミングで新しいセクションとみなす)
+     レーン番号は「NO」列とだいたい同じ列にあるはずなので、その位置を基準に判定する
+     (絶対座標で判定すると、PDFのページ幅・余白が変わった際に誤判定するため) */
+  const laneColMaxX = noX !== null ? noX + 40 : 70;
+  const sections = [];
+  let currentSection = null;
+  let prevLane = null;
+  rowMap.forEach(row => {
+    const ws = row.items;
+    if(!ws.length) return;
+    const first = ws[0];
+    if(first.x > laneColMaxX || !/^\d{1,2}$/.test(first.text)) return;
+    const lane = parseInt(first.text);
+    if(lane > 20) return;
+    if(!currentSection || (prevLane !== null && lane === 1 && prevLane !== 1)){
+      currentSection = { rows: [] };
+      sections.push(currentSection);
+    }
+    prevLane = lane;
+    const memberWords = ws.slice(1).filter(w => !(w.x > 780 && /^\d+$/.test(w.text)));
+    const cells = memberWords.map(w => ({ part: nearestPart(w.x), artist: w.text }));
+    currentSection.rows.push({ lane, cells });
+  });
+
+  return { sections, guessMonth, guessDay, guessVenue };
+}
+
+function renderLanePreview(parsed){
+  const box = document.getElementById('lanePreviewBox');
+  const totalRows = parsed.sections.reduce((sum, s) => sum + s.rows.reduce((a, r) => a + r.cells.length, 0), 0);
+  const sectionBlocks = parsed.sections.map((sec, i) => {
+    const rowsHtml = sec.rows.map(r =>
+      r.cells.map(c => `<tr><td class="mono">${r.lane}</td><td class="mono">${c.part}部</td><td>${escapeHtml(c.artist)}</td></tr>`).join('')
+    ).join('');
+    return `
+      <div class="lane-section-head">
+        <span>表${i + 1}(${sec.rows.length}レーン)の種別：</span>
+        <input type="text" class="lane-section-type" data-section="${i}" value="${i === 0 ? 'トーク会' : (i === 1 ? '握手会' : '')}" placeholder="例:握手会">
+      </div>
+      <div class="lane-preview-scroll">
+        <table class="lane-preview-table">
+          <thead><tr><th>レーン</th><th>部</th><th>メンバー</th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>`;
+  }).join('');
+  box.innerHTML = `
+    <div class="lane-section-head">
+      <span>日付：</span><input type="number" id="laneGuessMonth" value="${parsed.guessMonth || ''}" style="width:56px;" placeholder="月">月
+      <input type="number" id="laneGuessDay" value="${parsed.guessDay || ''}" style="width:56px;" placeholder="日">日
+      <span>会場：</span><input type="text" id="laneGuessVenue" value="${escapeHtml(parsed.guessVenue || '')}" placeholder="例:幕張メッセ">
+    </div>
+    <p class="lane-hint">${totalRows}件のレーン情報を読み取りました。日付・会場・各表の種別をご確認のうえ、取り込んでください。</p>
+    ${sectionBlocks}
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn-primary" onclick="confirmLanePdfImport()">この内容を取り込む</button>
+    </div>`;
+  box.style.display = 'block';
+}
+
+function confirmLanePdfImport(){
+  if(!pendingLaneParse) return;
+  const month = parseInt(document.getElementById('laneGuessMonth').value);
+  const day = parseInt(document.getElementById('laneGuessDay').value);
+  const venue = document.getElementById('laneGuessVenue').value.trim();
+  if(!month || !day || !venue){
+    alert('月・日・会場をすべて入力してください。');
+    return;
+  }
+  const entries = [];
+  document.querySelectorAll('.lane-section-type').forEach(input => {
+    const idx = parseInt(input.dataset.section);
+    const eventType = input.value.trim();
+    if(!eventType) return;
+    pendingLaneParse.sections[idx].rows.forEach(r => {
+      r.cells.forEach(c => {
+        entries.push({ month, day, venue, eventType, part: c.part, artist: c.artist, lane: String(r.lane) });
+      });
+    });
+  });
+  mergeLaneEntries(entries);
+  const matched = matchLanesToItems();
+  document.getElementById('lanePreviewBox').style.display = 'none';
+  const box = document.getElementById('laneResultBox');
+  box.style.display = 'block';
+  box.textContent = `${entries.length}件のレーン情報を取り込み、${matched}件を登録済みの注文に反映しました。`;
+  pendingLaneParse = null;
+  renderLaneDbStatus();
+  renderPreview();
+  if(document.getElementById('resultsSection').style.display === 'block') renderActivePanel();
+}
+
 
 function itemKey(it){
   const y = getYearForDate(it.month, it.day);
@@ -808,6 +1163,7 @@ function resolveModal(result){
 function finalizeRegistration(){
   clearRegisterError();
   document.getElementById('rawInput').value = '';
+  matchLanesToItems();
   populateFilterOptions();
   renderPreview();
   document.getElementById('previewSection').style.display = 'block';
@@ -970,7 +1326,7 @@ function groupItems(list, keyFn){
   list.forEach(it => {
     const key = keyFn(it);
     if(!map.has(key)){
-      map.set(key, {year: getYearForDate(it.month,it.day), month:it.month, day:it.day, venue:it.venue, part:it.part, eventType:it.eventType, artist:it.artist, work:it.work, totalTickets:0, count:0});
+      map.set(key, {year: getYearForDate(it.month,it.day), month:it.month, day:it.day, venue:it.venue, part:it.part, eventType:it.eventType, artist:it.artist, work:it.work, totalTickets:0, count:0, lane:it.lane||""});
     }
     const g = map.get(key);
     g.totalTickets += it.totalTickets;
@@ -1093,6 +1449,7 @@ function renderActivePanel(){
 function renderStyleSimple(groups, multiYear, multiWork){
   let totalTickets = 0;
   let rows = '';
+  const hasLane = groups.some(g => g.lane);
   groups.forEach(g => {
     totalTickets += g.totalTickets;
     rows += `<tr>
@@ -1102,13 +1459,14 @@ function renderStyleSimple(groups, multiYear, multiWork){
       <td class="mono">${g.part}部</td>
       <td>${escapeHtml(g.artist)}</td>
       <td><span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span></td>
+      ${hasLane ? `<td class="mono">${g.lane ? escapeHtml(g.lane) : "―"}</td>` : ''}
       <td class="num mono">${qtyText(g.totalTickets)}</td>
     </tr>`;
   });
-  const colCount = multiWork ? 6 : 5;
+  const colCount = (multiWork ? 6 : 5) + (hasLane ? 1 : 0);
   return `<div class="table-scroll">
     <table class="result">
-      <thead><tr><th>日付</th>${multiWork ? '<th>作品</th>' : ''}<th>会場</th><th>部</th><th>メンバー</th><th>種別</th><th class="num">枚数</th></tr></thead>
+      <thead><tr><th>日付</th>${multiWork ? '<th>作品</th>' : ''}<th>会場</th><th>部</th><th>メンバー</th><th>種別</th>${hasLane ? '<th>レーン</th>' : ''}<th class="num">枚数</th></tr></thead>
       <tbody>${rows}</tbody>
       <tfoot><tr><td colspan="${colCount}">合計</td><td class="num">${qtyText(totalTickets)}</td></tr></tfoot>
     </table>
@@ -1128,7 +1486,7 @@ function renderStyleCard(groups, multiYear, multiWork){
       <div class="part-num">${g.part}<small>部</small></div>
       <div class="divider-mini"></div>
       <div class="qty-big">${qtyText(g.totalTickets)}</div>
-      <div class="venue">${escapeHtml(g.venue)}</div>
+      <div class="venue">${escapeHtml(g.venue)}${g.lane ? `　<span class="ti-lane">レーン${escapeHtml(g.lane)}</span>` : ''}</div>
     </div>`;
   });
   return `<div class="card-grid">${cards}</div>`;
@@ -1185,7 +1543,7 @@ function renderStyleTimeline(groups, multiYear, multiWork){
         }
         html += `<div class="timeline-item">
           <div class="ti-row">
-            <span class="ti-part">${escapeHtml(g.artist)}　<span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span>${multiWork ? `　${escapeHtml(g.work)}` : ''}</span>
+            <span class="ti-part">${escapeHtml(g.artist)}　<span class="chip" style="background:${getTypeColor(g.eventType)}">${escapeHtml(g.eventType)}</span>${g.lane ? `　<span class="ti-lane">レーン${escapeHtml(g.lane)}</span>` : ''}${multiWork ? `　${escapeHtml(g.work)}` : ''}</span>
             <span class="ti-qty">${qtyText(g.totalTickets)}</span>
           </div>
         </div>`;
@@ -1497,7 +1855,7 @@ function downloadCSV(){
   URL.revokeObjectURL(url);
 }
 
-const BACKUP_HEADER = ['年','月','日','会場','部','種別','モード','メンバー','作品','参加券枚数(1点あたり)','購入点数','合計枚数'];
+const BACKUP_HEADER = ['年','月','日','会場','部','種別','モード','メンバー','作品','参加券枚数(1点あたり)','購入点数','合計枚数','レーン'];
 
 function csvSafe(v){
   const s = String(v ?? '');
@@ -1512,7 +1870,7 @@ function exportBackupCSV(){
     rows.push([
       year, it.month, it.day, csvSafe(it.venue), it.part, csvSafe(it.eventType),
       csvSafe(it.mode), csvSafe(it.artist), csvSafe(it.work),
-      it.ticketsPerUnit, it.qty, it.totalTickets
+      it.ticketsPerUnit, it.qty, it.totalTickets, csvSafe(it.lane || '')
     ].join(','));
   });
   const csv = '\uFEFF' + rows.join('\n');
@@ -1558,6 +1916,7 @@ const HEADER_ALIASES = {
   ticketsPerUnit: ['参加券枚数(1点あたり)','1点あたり枚数'],
   qty: ['購入点数','個数','数量'],
   total: ['合計枚数','枚数','qty','Qty','count','Count'],
+  lane: ['レーン','Lane'],
 };
 
 function findColIndex(header, aliasList){
@@ -1638,6 +1997,7 @@ function parseImportCSV(text){
       artist: idx.artist > -1 ? (cols[idx.artist]||'').trim() : '',
       work: idx.work > -1 ? (cols[idx.work]||'').trim() : '',
       ticketsPerUnit, qty, totalTickets,
+      lane: idx.lane > -1 ? (cols[idx.lane]||'').trim() : '',
     });
   });
   return {items: newItems, skippedRows};
