@@ -567,54 +567,22 @@ function rebuildToolData(data){
 /* ---------- 同じ場所にある tokuten-shukei-tool-data.json があれば自動で読み込む ----------
    同じフォルダにこのファイルを置くと、次回訪問時に内容が反映されます。
    ファイルが存在しない場合は何もしません(エラーにはなりません)。 */
-function tsDebugLog(msg){
-  let box = document.getElementById("ts-debug-box");
-  if(!box){
-    box = document.createElement("div");
-    box.id = "ts-debug-box";
-    box.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:99999;background:#111;color:#0f0;font-family:monospace;font-size:12px;padding:10px;max-height:50vh;overflow:auto;white-space:pre-wrap;";
-    document.body.insertBefore(box, document.body.firstChild);
-  }
-  const line = document.createElement("div");
-  line.textContent = msg;
-  box.appendChild(line);
-}
 (async function(){
-  const debugMode = location.search.indexOf("debug=1") > -1;
-  const t0 = Date.now();
-  let timerHandle = null;
-  if(debugMode){
-    tsDebugLog("[診断] スクリプトは実行されています。");
-    timerHandle = setInterval(() => {
-      tsDebugLog("[診断] 経過時間: " + Math.round((Date.now() - t0) / 1000) + "秒…まだ待っています");
-    }, 3000);
-  }
   try{
     if(location.href.indexOf("file://") === 0){
       console.info("tokuten-shukei-tool: file://で開いているため自動読み込みをスキップします。");
-      if(debugMode) tsDebugLog("[診断] file://で開いているため、自動読み込みをスキップしました。");
       return;
     }
     const res = await fetch("tokuten-shukei-tool-data.json?_=" + Date.now(), { cache: "no-store" });
-    console.info("tokuten-shukei-tool-data.json fetch status:", res.status, res.url);
-    if(debugMode) tsDebugLog("[診断] fetch status: " + res.status + " / URL: " + res.url + " (" + Math.round((Date.now() - t0) / 1000) + "秒経過)");
     if(!res.ok){
       console.warn("tokuten-shukei-tool-data.json が見つかりませんでした(status:", res.status, ")");
-      if(debugMode) tsDebugLog("[診断] status が ok ではないため終了しました。");
       return;
     }
     const data = await res.json();
-    console.info("tokuten-shukei-tool-data.json 読み込み成功。含まれる項目:", Object.keys(data));
-    if(debugMode) tsDebugLog("[診断] JSON読み込み成功(" + Math.round((Date.now() - t0) / 1000) + "秒経過)。含まれる項目: " + Object.keys(data).join(", "));
     rebuildToolData(data);
-    console.info("rebuildToolData 完了。");
-    if(debugMode) tsDebugLog("[診断] rebuildToolData 完了(" + Math.round((Date.now() - t0) / 1000) + "秒経過)。");
   }catch(e){
     /* ファイルが無い場合は何もしないが、それ以外の問題は分かるようログに残す */
     console.error("tokuten-shukei-tool-data.json の読み込みに失敗しました:", e);
-    if(debugMode) tsDebugLog("[診断] エラーが発生しました: " + (e && e.message ? e.message : e) + "\n" + (e && e.stack ? e.stack : ""));
-  }finally{
-    if(timerHandle) clearInterval(timerHandle);
   }
 })();
 
