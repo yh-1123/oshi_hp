@@ -967,24 +967,30 @@ function rebuildToolData(data){
    同じフォルダにこのファイルを置くと、次回訪問時に内容が反映されます。
    ファイルが存在しない場合は何もしません(エラーにはなりません)。 */
 (async function(){
+  const debugMode = location.search.indexOf("debug=1") > -1;
   try{
     if(location.href.indexOf("file://") === 0){
       console.info("tokuten-shukei-tool: file://で開いているため自動読み込みをスキップします。");
+      if(debugMode) alert("[診断] file://で開いているため、自動読み込みをスキップしました。");
       return;
     }
     const res = await fetch("tokuten-shukei-tool-data.json", { cache: "no-store" });
     console.info("tokuten-shukei-tool-data.json fetch status:", res.status, res.url);
+    if(debugMode) alert("[診断] fetch status: " + res.status + " / URL: " + res.url);
     if(!res.ok){
       console.warn("tokuten-shukei-tool-data.json が見つかりませんでした(status:", res.status, ")");
       return;
     }
     const data = await res.json();
     console.info("tokuten-shukei-tool-data.json 読み込み成功。含まれる項目:", Object.keys(data));
+    if(debugMode) alert("[診断] JSON読み込み成功。含まれる項目: " + Object.keys(data).join(", "));
     rebuildToolData(data);
     console.info("rebuildToolData 完了。");
+    if(debugMode) alert("[診断] rebuildToolData 完了。");
   }catch(e){
     /* ファイルが無い場合は何もしないが、それ以外の問題は分かるようログに残す */
     console.error("tokuten-shukei-tool-data.json の読み込みに失敗しました:", e);
+    if(debugMode) alert("[診断] エラーが発生しました: " + (e && e.message ? e.message : e));
   }
 })();
 
