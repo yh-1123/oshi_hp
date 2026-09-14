@@ -109,6 +109,23 @@ a{ color:inherit; text-decoration:none; }
 .wrap{ max-width:760px; margin:0 auto; padding:0 18px; }
 
 /* ---------- ヘッダー ナビ ---------- */
+.site-banner{
+  position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700;
+}
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
+.banner-edit-row{ display:none; background:var(--oshi-color-soft); border-bottom:1px solid var(--line); }
+body.editing .banner-edit-row{ display:block; }
+.banner-edit-inner{ display:flex; align-items:center; gap:10px; padding:8px 18px; flex-wrap:wrap; font-size:12px; }
+.banner-edit-toggle{ display:flex; align-items:center; gap:5px; font-weight:700; color:var(--oshi-color-deep); white-space:nowrap; }
+.banner-edit-url{ flex:1; min-width:120px; border:1px solid var(--line); border-radius:8px; padding:6px 10px; font-size:12px; font-family:inherit; }
+
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
 .topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; gap:10px; }
 .brand{ font-weight:700; font-size:13px; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -190,21 +207,21 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 
 /* ---------- ピックアップ(お知らせ) ---------- */
 #pickup{ border-top:none; padding:8px 0 6px; }
-.pickup-list{ display:flex; flex-direction:column; gap:10px; }
-.pickup-item{
+.pickup-list, .application-list{ display:flex; flex-direction:column; gap:10px; }
+.pickup-item, .application-item{
   position:relative;
   background:var(--oshi-color-soft); border:1px solid var(--oshi-color);
   border-radius:14px; padding:12px 80px 12px 14px; box-shadow:var(--shadow-sm);
   display:flex; gap:10px; align-items:flex-start;
 }
-.pickup-badge{ flex:none; font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:3px 8px; margin-top:1px; }
-.pickup-body h3{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
-.pickup-body p{ font-size:12px; color:var(--ink); }
-.pickup-go-btn{
+.pickup-badge, .application-badge{ flex:none; font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:3px 8px; margin-top:1px; }
+.pickup-body h3, .application-body h3{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
+.pickup-body p, .application-body p{ font-size:12px; color:var(--ink); }
+.pickup-go-btn, .application-go-btn{
   display:inline-flex; align-items:center; gap:3px; margin-top:8px; border:1px solid var(--oshi-color); background:#fff;
   color:var(--oshi-color); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
 }
-.pickup-go-btn:hover{ background:var(--oshi-color-soft); }
+.pickup-go-btn:hover, .application-go-btn:hover{ background:var(--oshi-color-soft); }
 
 /* ---------- 複数スライドセクション(おすすめコンテンツ) ---------- */
 .carousel-block{ margin-bottom:30px; }
@@ -622,6 +639,16 @@ body.editing .reorder-row{ display:flex; }
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
 
+
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span class="editable" id="site-banner-text" contenteditable="true">📢 お知らせテキストをここに入力</span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
+
 <nav class="topnav">
   <div class="wrap">
     <div class="brand editable" id="nav-brand" contenteditable="true">原優寧 布教サイト</div>
@@ -730,6 +757,17 @@ body.editing .reorder-row{ display:flex; }
     <div id="tl-groups"></div>
     <p class="no-results" id="schedule-no-results">該当する予定が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-schedule" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<section id="applications" style="">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="applications-heading" contenteditable="true">申込受付中</span></h2>
+      <p class="editable" id="applications-desc" contenteditable="true">受付中のイベント・ライブ・公演の申込みをまとめています</p>
+    </div>
+    <div class="application-list" id="application-list"></div>
     
   </div>
 </section>
@@ -858,6 +896,17 @@ body.editing .reorder-row{ display:flex; }
     </div>
     
     
+  </div><div class="more-page-card" data-url="sitemap.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">🗺️</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">サイトマップ</h3>
+      <p class="more-page-desc editable" contenteditable="true">このサイトの全ページ一覧</p>
+      <a class="more-page-link" href="sitemap.html">見る ›</a>
+    </div>
+    
+    
   </div></div>
     
   </div>
@@ -901,6 +950,7 @@ body.editing .reorder-row{ display:flex; }
 <!-- テンプレート保存用データ(保存時にファイル内へそのまま保持されます) -->
 <script type="application/json" id="templates-data-schedule">[]</script>
 <script type="application/json" id="templates-data-pickup">[]</script>
+<script type="application/json" id="templates-data-application">[]</script>
 
 <script>
 
@@ -981,6 +1031,7 @@ const OSHI = {
   ],
   stats: [],
   pickups: [],
+  applications: [],
   carouselSections: [
     {
       id: "sec-default",
@@ -1002,12 +1053,14 @@ const OSHI = {
     { icon: "🎬", title: "動画まとめ", desc: "公式チャンネルなどの動画一覧", url: "videos.html" },
     { icon: "🛍️", title: "グッズまとめ", desc: "公式グッズの情報と販売期間をまとめました", url: "goods.html" },
     { icon: "🔧", title: "便利なツール", desc: "推し活に役立つツールをまとめました", url: "tools.html" },
+    { icon: "🗺️", title: "サイトマップ", desc: "このサイトの全ページ一覧", url: "sitemap.html" },
   ],
   officialLinks: [],
   officialLinksHeading: "公式リンク",
   officialLinksDesc: "グループの公式サイト・公式SNSはこちら",
   sectionText: {
     pickup: { heading: "ピックアップ", desc: "見逃せない最新情報をお届け" },
+    applications: { heading: "申込受付中", desc: "受付中のイベント・ライブ・公演の申込みをまとめています" },
     recommend: { heading: "コンテンツ", desc: "" },
     gallery: { heading: "フォトギャラリー", desc: "オフショットや素敵な瞬間を集めました" },
     schedule: { heading: "出演情報", desc: "配信・イベントなどの出演予定をまとめています" },
@@ -1061,7 +1114,7 @@ function officialLinkHTML(l){
   const detected = detectSnsPlatform(l.url);
   const label = l.label || (detected ? detected.label : "公式サイト");
   const platformKey = detected ? detected.key : "default";
-  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="">` : (detected ? detected.icon : "🔗");
+  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="" loading="lazy">` : (detected ? detected.icon : "🔗");
   return `<a class="official-link-item plat-${platformKey}" href="${l.url || '#'}" target="_blank" rel="noopener" data-url="${escAttr(l.url)}" data-icon="${escAttr(l.icon)}" data-label="${escAttr(l.label)}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
@@ -1078,6 +1131,21 @@ function pickupHTML(p){
     <button class="edit-remove" aria-label="削除">×</button>
     <span class="pickup-badge editable" contenteditable="false">${p.badge}</span>
     <div class="pickup-body">
+      <h3 class="editable" contenteditable="false">${p.title}</h3>
+      <p class="editable" contenteditable="false">${p.desc}</p>
+      ${linkBtn}
+    </div>
+    ${REORDER_ROW}
+  </div>`;
+}
+
+function applicationHTML(p){
+  const linkBtn = p.url ? `<a class="application-go-btn" href="${p.url}" target="_blank" rel="noopener">申し込む ›</a>` : "";
+  return `<div class="application-item" data-url="${p.url || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <span class="application-badge editable" contenteditable="false">${p.badge}</span>
+    <div class="application-body">
       <h3 class="editable" contenteditable="false">${p.title}</h3>
       <p class="editable" contenteditable="false">${p.desc}</p>
       ${linkBtn}
@@ -1175,7 +1243,7 @@ function galleryItemHTML(g){
   return `<div class="gallery-item" data-caption="${caption}" data-source="${sourceUrl}" role="button" tabindex="0" aria-label="写真を拡大表示${g.caption ? ":" + caption : ""}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
-    <img src="${g.src}" alt="${altText}">
+    <img src="${g.src}" alt="${altText}" loading="lazy">
     ${g.caption ? '<span class="gallery-caption-dot" aria-hidden="true"></span>' : ''}
     ${REORDER_ROW}
   </div>`;
@@ -1378,6 +1446,7 @@ if(!document.body.dataset.rendered){
   document.getElementById("hero-stats").innerHTML = OSHI.stats.map(statHTML).join("");
 
   document.getElementById("pickup-list").innerHTML = OSHI.pickups.map(pickupHTML).join("");
+  document.getElementById("application-list").innerHTML = (OSHI.applications || []).map(applicationHTML).join("");
 
   document.getElementById("carousel-sections").innerHTML = OSHI.carouselSections.map(carouselBlockHTML).join("");
   OSHI.carouselSections.forEach(sec => {
@@ -1496,6 +1565,7 @@ function refreshEmptyStates(){
   const isEditing = document.body.classList.contains("editing");
   const rules = [
     { el: document.getElementById("pickup"), empty: document.querySelectorAll("#pickup-list .pickup-item").length === 0 },
+    { el: document.getElementById("applications"), empty: document.querySelectorAll("#application-list .application-item").length === 0 },
     { el: document.getElementById("recommend"), empty: document.querySelectorAll("#carousel-sections .carousel-block").length === 0 },
     { el: document.getElementById("schedule"), empty: document.querySelectorAll("#tl-groups .tl-item").length === 0 },
     { el: document.getElementById("sns"), empty: document.querySelectorAll("#sns-list .sns-post").length === 0 },
@@ -1604,6 +1674,9 @@ function applySearch(){
     el.style.display = matches(el) ? "" : "none";
   });
   document.querySelectorAll("#pickup-list .pickup-item").forEach(el => {
+    el.style.display = matches(el) ? "" : "none";
+  });
+  document.querySelectorAll("#application-list .application-item").forEach(el => {
     el.style.display = matches(el) ? "" : "none";
   });
   document.querySelectorAll("#gallery-grid .gallery-item").forEach(el => {
@@ -1772,7 +1845,7 @@ document.getElementById("share-btn-nav").addEventListener("click", async () => {
 /* 編集モード中は、リンク化されたカードをタップしても遷移させず編集を優先 */
 document.addEventListener("click", (e) => {
   if(!document.body.classList.contains("editing")) return;
-  const link = e.target.closest("a.rec-card-link, a.pickup-go-btn, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
+  const link = e.target.closest("a.rec-card-link, a.pickup-go-btn, a.application-go-btn, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
   if(link) e.preventDefault();
 });
 
@@ -1798,6 +1871,7 @@ document.addEventListener("click", (e) => {
 
 
 function rebuildFromData(data){
+  if(data.banner) renderSiteBanner(data.banner);
   if(data.nameMain !== undefined) document.getElementById("hero-name-main").textContent = data.nameMain;
   if(data.nameAccent !== undefined) document.getElementById("hero-name-accent").textContent = data.nameAccent;
   if(data.kana !== undefined) document.getElementById("hero-kana").textContent = data.kana;
@@ -1812,6 +1886,7 @@ function rebuildFromData(data){
 
   if(data.stats) document.getElementById("hero-stats").innerHTML = data.stats.map(statHTML).join("");
   if(data.pickups) document.getElementById("pickup-list").innerHTML = data.pickups.map(pickupHTML).join("");
+  if(data.applications) document.getElementById("application-list").innerHTML = data.applications.map(applicationHTML).join("");
 
   if(data.carouselSections){
     document.getElementById("carousel-sections").innerHTML = data.carouselSections.map(carouselBlockHTML).join("");
@@ -1853,6 +1928,63 @@ function rebuildFromData(data){
 }
 
 
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!data || !data.active || !data.text){
+    if(typeof editMode === "undefined" || !editMode) banner.style.display = "none";
+    return;
+  }
+  const dismissKey = "oshi_banner_dismissed";
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem(dismissKey) || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  const activeCheckbox = document.getElementById("site-banner-active");
+  const urlField = document.getElementById("site-banner-url");
+  if(activeCheckbox) activeCheckbox.checked = true;
+  if(urlField) urlField.value = data.url || "";
+  if(dismissed === data.text && (typeof editMode === "undefined" || !editMode)){
+    banner.style.display = "none";
+  }else{
+    banner.style.display = "block";
+  }
+}
+document.getElementById("site-banner-close").addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
+})();
+
+document.getElementById("import-data").addEventListener("click", () => {
+  document.getElementById("import-file-input").click();
+});
+document.getElementById("import-file-input").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if(!file) return;
+  if(!confirm("現在の内容を、選んだファイルの内容で上書きします。よろしいですか?")) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try{
+      const data = JSON.parse(ev.target.result);
+      rebuildFromData(data);
+      alert("データを読み込みました。内容を確認して「🌐 公開用HTMLを書き出す」または「📤 データを書き出し」をご利用ください。");
+    }catch(err){
+      alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
+    }
+  };
+  reader.readAsText(file);
+});
+/* @EDIT_ONLY_END */
 
 /* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
 

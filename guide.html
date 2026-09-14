@@ -100,12 +100,12 @@ section{ padding:30px 0; border-top:1px solid var(--line); }
 .sec-head p{ color:var(--sub-ink); font-size:12px; margin-top:4px; }
 
 /* 申込方法 */
-.howto-list{ display:flex; flex-direction:column; gap:14px; }
-.howto-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
-.howto-title{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:8px; }
-.howto-steps{ padding-left:20px; font-size:13px; }
-.howto-steps li{ margin-bottom:12px; }
-.howto-steps li:last-child{ margin-bottom:0; }
+.howto-list, .letters-list{ display:flex; flex-direction:column; gap:14px; }
+.howto-item, .letters-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.howto-title, .letters-title{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:8px; }
+.howto-steps, .letters-steps{ padding-left:20px; font-size:13px; }
+.howto-steps li, .letters-steps li{ margin-bottom:12px; }
+.howto-steps li:last-child, .letters-steps li:last-child{ margin-bottom:0; }
 .step-photo{ width:100%; max-width:260px; border-radius:8px; margin:6px 0; display:block; box-shadow:var(--shadow-sm); }
 .photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
 
@@ -240,6 +240,16 @@ body.editing .add-row{ display:flex; }
   border-radius:50%; animation:initial-load-spin .8s linear infinite;
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
+
+.site-banner{ position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700; }
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; text-decoration:none; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -258,10 +268,88 @@ body.editing .add-row{ display:flex; }
           "name": "推し活はじめてガイド"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "初めて現場に行くのですが、何を持っていけばいいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "サイリウムの色は自由に選んでいいの?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "SNSで布教する時に気をつけることはありますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "劇場公演の申込方法",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "公式サイトの公演スケジュールを確認する"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "申込フォームから希望の公演日を選択する"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "座席種別・枚数を選んで申し込む"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "当落確認後、案内に従って支払い・受け取りを行う"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "特典会の申込方法",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "対象イベントの参加方法(店舗・オンライン抽選など)を確認する"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "対象商品を購入して参加券を受け取る"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "指定された時間・会場に参加券を持って向かう"
+        }
+      ]
     }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text"></span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
 
 
 <nav class="topnav">
@@ -303,6 +391,31 @@ body.editing .add-row{ display:flex; }
     
     <h3 class="howto-title editable" contenteditable="true">特典会の申込方法</h3>
     <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象イベントの参加方法(店舗・オンライン抽選など)を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象商品を購入して参加券を受け取る</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">指定された時間・会場に参加券を持って向かう</span></li></ol>
+
+    
+  </div></div>
+    
+  </div>
+</section>
+
+<section id="letters">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span>ファンレター・差し入れ</h2>
+      <p>送り方やルールをまとめています。会場ごとに異なる場合があるので、必ず公式の最新情報もあわせてご確認ください</p>
+    </div>
+    <div class="letters-list" id="letters-list"><div class="letters-item">
+    
+    
+    <h3 class="letters-title editable" contenteditable="true">ファンレターの送り方</h3>
+    <ol class="letters-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">所属事務所またはグループ公式サイトの「ファンレター送付先」を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">封筒の宛名は「（グループ名）〇〇（メンバー名）様」の形式で書く</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">個人情報(返信先住所など)は基本的に書かない</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">郵送料金の不足に注意し、必要な切手を貼って送る</span></li></ol>
+
+    
+  </div><div class="letters-item">
+    
+    
+    <h3 class="letters-title editable" contenteditable="true">差し入れのルール</h3>
+    <ol class="letters-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">会場・イベントごとに差し入れの可否や受付方法が異なるため、事前に公式の注意事項を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">手渡しNGの場合が多いため、専用の差し入れ受付やスタッフを通す</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">生もの・要冷蔵の食品は避け、日持ちするものを選ぶ</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">個包装のお菓子や飲み物が定番で喜ばれやすい</span></li></ol>
 
     
   </div></div>
@@ -432,6 +545,20 @@ const GUIDE = {
       "指定された時間・会場に参加券を持って向かう",
     ]},
   ],
+  letters: [
+    { title: "ファンレターの送り方", steps: [
+      "所属事務所またはグループ公式サイトの「ファンレター送付先」を確認する",
+      "封筒の宛名は「（グループ名）〇〇（メンバー名）様」の形式で書く",
+      "個人情報(返信先住所など)は基本的に書かない",
+      "郵送料金の不足に注意し、必要な切手を貼って送る",
+    ]},
+    { title: "差し入れのルール", steps: [
+      "会場・イベントごとに差し入れの可否や受付方法が異なるため、事前に公式の注意事項を確認する",
+      "手渡しNGの場合が多いため、専用の差し入れ受付やスタッフを通す",
+      "生もの・要冷蔵の食品は避け、日持ちするものを選ぶ",
+      "個包装のお菓子や飲み物が定番で喜ばれやすい",
+    ]},
+  ],
   glossary: [
     { term: "サイリウム", desc: "ライブなどで振る、光る棒状の応援グッズ。推しのイメージカラーに合わせて色を選ぶのが定番です。" },
     { term: "現場・参戦", desc: "ライブや握手会など、実際に足を運んで参加するイベントのこと。「参戦する」のように使います。" },
@@ -464,7 +591,7 @@ function howtoItemHTML(h){
     const photo = typeof s === "string" ? "" : (s.photo || "");
     const linkText = typeof s === "string" ? "" : (s.linkText || "");
     const linkUrl = typeof s === "string" ? "" : (s.linkUrl || "");
-    const photoHtml = photo ? `<img class="step-photo" src="${photo}" alt="">` : "";
+    const photoHtml = photo ? `<img class="step-photo" src="${photo}" alt="" loading="lazy">` : "";
     const textHtml = applyInlineLink(text, linkText, linkUrl);
     return `<li data-photo="${escAttr(photo)}" data-link-text="${escAttr(linkText)}" data-link-url="${escAttr(linkUrl)}"><span class="step-text-display">${textHtml}</span>${photoHtml}</li>`;
   }).join("");
@@ -473,6 +600,25 @@ function howtoItemHTML(h){
     <button class="edit-remove" aria-label="削除">×</button>
     <h3 class="howto-title editable" contenteditable="false">${h.title}</h3>
     <ol class="howto-steps">${stepsHtml}</ol>
+
+    ${REORDER_ROW}
+  </div>`;
+}
+function lettersItemHTML(h){
+  const stepsHtml = (h.steps || []).map(s => {
+    const text = typeof s === "string" ? s : (s.text || "");
+    const photo = typeof s === "string" ? "" : (s.photo || "");
+    const linkText = typeof s === "string" ? "" : (s.linkText || "");
+    const linkUrl = typeof s === "string" ? "" : (s.linkUrl || "");
+    const photoHtml = photo ? `<img class="step-photo" src="${photo}" alt="" loading="lazy">` : "";
+    const textHtml = applyInlineLink(text, linkText, linkUrl);
+    return `<li data-photo="${escAttr(photo)}" data-link-text="${escAttr(linkText)}" data-link-url="${escAttr(linkUrl)}"><span class="step-text-display">${textHtml}</span>${photoHtml}</li>`;
+  }).join("");
+  return `<div class="letters-item">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <h3 class="letters-title editable" contenteditable="false">${h.title}</h3>
+    <ol class="letters-steps">${stepsHtml}</ol>
 
     ${REORDER_ROW}
   </div>`;
@@ -506,6 +652,7 @@ if(!document.body.dataset.rendered){
   document.getElementById("g-title").textContent = GUIDE.title;
   document.getElementById("g-desc").textContent = GUIDE.desc;
   document.getElementById("howto-list").innerHTML = GUIDE.howto.map(howtoItemHTML).join("");
+  document.getElementById("letters-list").innerHTML = (GUIDE.letters || []).map(lettersItemHTML).join("");
   document.getElementById("glossary-list").innerHTML = GUIDE.glossary.map(glossaryItemHTML).join("");
   document.getElementById("faq-list").innerHTML = GUIDE.faq.map(faqItemHTML).join("");
   document.body.dataset.rendered = "true";
@@ -540,6 +687,32 @@ function syncOgpTags(){
   if(location.href.indexOf("file://") !== 0){ setMeta('meta[property="og:url"]', location.href); }
   syncStructuredData(title || "推し活はじめてガイド");
 }
+function buildFaqSchema(){
+  const items = Array.from(document.querySelectorAll("#faq-list .faq-item")).map(el => ({
+    q: el.querySelector(".faq-q-text")?.textContent.trim() || "",
+    a: el.querySelector(".faq-a-text")?.textContent.trim() || "",
+  })).filter(f => f.q && f.a);
+  if(!items.length) return null;
+  return {
+    "@type": "FAQPage",
+    "mainEntity": items.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    })),
+  };
+}
+function buildHowToSchemas(){
+  return Array.from(document.querySelectorAll("#howto-list .howto-item")).map(el => {
+    const title = el.querySelector(".howto-title")?.textContent.trim() || "";
+    const steps = Array.from(el.querySelectorAll(".howto-steps li")).map(li => {
+      const text = (li.querySelector(".step-text-display")?.textContent || li.textContent || "").trim();
+      return text ? { "@type": "HowToStep", "text": text } : null;
+    }).filter(Boolean);
+    if(!title || !steps.length) return null;
+    return { "@type": "HowTo", "name": title, "step": steps };
+  }).filter(Boolean);
+}
 function syncStructuredData(pageTitle){
   const baseUrl = (location.href.indexOf("file://") !== 0) ? location.href.replace(/[^/]*$/, "") : "";
   const graph = [{
@@ -549,6 +722,9 @@ function syncStructuredData(pageTitle){
       { "@type": "ListItem", "position": 2, "name": pageTitle },
     ],
   }];
+  const faqSchema = buildFaqSchema();
+  if(faqSchema) graph.push(faqSchema);
+  graph.push(...buildHowToSchemas());
   let script = document.getElementById("structured-data");
   if(!script){
     script = document.createElement("script");
@@ -636,6 +812,7 @@ function rebuildGuideFromData(data){
     if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
   }
   if(data.howto) document.getElementById("howto-list").innerHTML = data.howto.map(howtoItemHTML).join("");
+  if(data.letters) document.getElementById("letters-list").innerHTML = data.letters.map(lettersItemHTML).join("");
   if(data.glossary) document.getElementById("glossary-list").innerHTML = data.glossary.map(glossaryItemHTML).join("");
   if(data.faq) document.getElementById("faq-list").innerHTML = data.faq.map(faqItemHTML).join("");
   setEditable(editMode);
@@ -689,6 +866,33 @@ document.addEventListener("click", (e) => {
     clearTimeout(safetyTimer);
     hideOverlay();
   }
+})();
+
+
+/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!banner) return;
+  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  banner.style.display = (dismissed === data.text) ? "none" : "block";
+}
+document.getElementById("site-banner-close")?.addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
 </script>

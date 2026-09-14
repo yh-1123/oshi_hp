@@ -278,6 +278,16 @@ body.editing .add-row{ display:flex; }
   border-radius:50%; animation:initial-load-spin .8s linear infinite;
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
+
+.site-banner{ position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700; }
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; text-decoration:none; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -300,6 +310,15 @@ body.editing .add-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text"></span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
 
 
 <nav class="topnav">
@@ -472,7 +491,7 @@ function snsIconHTML(s){
   </div>`;
 }
 function careerHTML(c){
-  const photoHtml = c.photo ? `<img class="tl-photo" src="${c.photo}" alt="">` : "";
+  const photoHtml = c.photo ? `<img class="tl-photo" src="${c.photo}" alt="" loading="lazy">` : "";
   const body = `<div class="tl-date editable" contenteditable="false">${c.date}</div>
     ${photoHtml}
     <p class="editable" contenteditable="false">${c.event}</p>`;
@@ -719,6 +738,33 @@ document.addEventListener("click", (e) => {
     clearTimeout(safetyTimer);
     hideOverlay();
   }
+})();
+
+
+/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!banner) return;
+  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  banner.style.display = (dismissed === data.text) ? "none" : "block";
+}
+document.getElementById("site-banner-close")?.addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
 </script>

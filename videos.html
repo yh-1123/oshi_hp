@@ -435,6 +435,16 @@ body.editing .add-row{ display:flex; }
   border-radius:50%; animation:initial-load-spin .8s linear infinite;
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
+
+.site-banner{ position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700; }
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; text-decoration:none; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -457,6 +467,15 @@ body.editing .add-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text"></span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
 
 
 <nav class="topnav">
@@ -605,7 +624,7 @@ let videoOrderCounter = 0;
 function videoItemHTML(v){
   const ytId = getYouTubeId(v.url);
   const thumbSrc = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "";
-  const thumbInner = thumbSrc ? `<img src="${thumbSrc}" alt="">` : "";
+  const thumbInner = thumbSrc ? `<img src="${thumbSrc}" alt="" loading="lazy">` : "";
   let thumbHtml, watchBtn;
   if(ytId){
     thumbHtml = `<button type="button" class="video-thumb-link" data-yt-id="${ytId}" aria-label="動画を再生">${thumbInner}<span class="video-play-badge">▶</span></button>`;
@@ -1005,7 +1024,7 @@ function renderRelatedLinks(){
     const newHtml = validItems.length
       ? `<div class="video-related-label">🔗 関連動画・シリーズ</div><div class="video-related-track">${validItems.map(el => {
           const entry = buildUpNextEntry(el);
-          const thumbHtml = entry.thumb ? `<img src="${entry.thumb}" alt="">` : "";
+          const thumbHtml = entry.thumb ? `<img src="${entry.thumb}" alt="" loading="lazy">` : "";
           return `<button type="button" class="video-related-card" data-target="${escAttr(entry.title)}">${thumbHtml}<span>${esc(entry.title)}</span></button>`;
         }).join("")}</div>`
       : "";
@@ -1044,7 +1063,7 @@ function renderDailyPick(){
   const desc = picked.dataset.pickupComment || picked.querySelector(".video-desc")?.textContent.trim() || "";
   const descHtml = desc ? `<div class="daily-pick-desc">${esc(desc)}</div>` : "";
   const thumbSrc = picked.querySelector(".video-thumb-link img")?.getAttribute("src") || "";
-  const thumbHtml = thumbSrc ? `<img src="${thumbSrc}" alt="">` : "";
+  const thumbHtml = thumbSrc ? `<img src="${thumbSrc}" alt="" loading="lazy">` : "";
   wrap.classList.add("show");
   wrap.innerHTML = `<div class="daily-pick-thumb">${thumbHtml}</div>
     <div class="daily-pick-body">
@@ -1128,7 +1147,7 @@ function renderUpNext(afterItem){
   if(!combined.length){ wrap.classList.remove("show"); wrap.innerHTML = ""; return; }
   let offset = 0;
   const buildTrack = (list) => {
-    const html = list.map((v, i) => `<button type="button" class="up-next-card" data-idx="${offset + i}"><img src="${v.thumb}" alt="">${esc(v.title) ? `<span>${esc(v.title)}</span>` : ""}</button>`).join("");
+    const html = list.map((v, i) => `<button type="button" class="up-next-card" data-idx="${offset + i}"><img src="${v.thumb}" alt="" loading="lazy">${esc(v.title) ? `<span>${esc(v.title)}</span>` : ""}</button>`).join("");
     offset += list.length;
     return html;
   };
@@ -1322,6 +1341,33 @@ document.addEventListener("click", (e) => {
     clearTimeout(safetyTimer);
     hideOverlay();
   }
+})();
+
+
+/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!banner) return;
+  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  banner.style.display = (dismissed === data.text) ? "none" : "block";
+}
+document.getElementById("site-banner-close")?.addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
 </script>

@@ -143,6 +143,16 @@ section{ padding:26px 0 30px; }
 /* 豆知識カード */
 .wiki-list{ display:flex; flex-direction:column; gap:14px; }
 .wiki-item{ position:relative; padding:16px 16px 16px 52px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+
+.related-link-box{
+  display:flex; align-items:center; gap:10px; width:calc(100% - 40px); max-width:640px; margin:20px auto 0; padding:11px 14px;
+  background:var(--oshi-color-soft); border:1px solid var(--oshi-color); border-radius:12px;
+  text-decoration:none; color:var(--ink); box-sizing:border-box;
+}
+.related-link-box .related-link-icon{ font-size:17px; flex:none; }
+.related-link-box .related-link-title{ font-size:12.5px; font-weight:700; margin-bottom:1px; }
+.related-link-box .related-link-desc{ font-size:10.5px; color:var(--sub-ink); }
+.related-link-box .related-link-arrow{ margin-left:auto; flex:none; color:var(--oshi-color-deep); font-weight:700; }
 body.editing .wiki-item{ padding-right:84px; }
 .wiki-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
 .wiki-category{ font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:2px 9px; }
@@ -330,6 +340,16 @@ body.editing .add-row{ display:flex; }
   border-radius:50%; animation:initial-load-spin .8s linear infinite;
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
+
+.site-banner{ position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700; }
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; text-decoration:none; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -352,6 +372,15 @@ body.editing .add-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text"></span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
+
 
 
 <nav class="topnav">
@@ -402,6 +431,15 @@ body.editing .add-row{ display:flex; }
   </div>
 </section>
 
+<a class="related-link-box" href="places.html">
+  <span class="related-link-icon">📍</span>
+  <span>
+    <div class="related-link-title">ゆかりの場所まとめも見る</div>
+    <div class="related-link-desc">豆知識に出てきた場所・お店などをまとめています</div>
+  </span>
+  <span class="related-link-arrow">›</span>
+</a>
+
 <footer>
   <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
   <div class="last-updated" id="last-updated"></div>
@@ -450,7 +488,7 @@ let wikiOrderCounter = 0;
 function wikiItemHTML(w){
   const ytId = w.photo ? null : getYouTubeId(w.url);
   const thumbSrc = w.photo || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "");
-  const photoHtml = thumbSrc ? `<img class="wiki-photo" src="${thumbSrc}" alt="">` : "";
+  const photoHtml = thumbSrc ? `<img class="wiki-photo" src="${thumbSrc}" alt="" loading="lazy">` : "";
   const linkLabel = ytId ? "▶ 動画を見る" : "🔗 詳しく見る";
   const linkHtml = w.url ? `<a class="wiki-link-btn" href="${w.url}" target="_blank" rel="noopener">${linkLabel}</a>` : "";
   const sourceHtml = w.source ? `<span class="wiki-source editable" contenteditable="false">${w.source}</span>` : `<span class="wiki-source editable" contenteditable="false" style="display:none;"></span>`;
@@ -1221,6 +1259,33 @@ document.addEventListener("click", (e) => {
     clearTimeout(safetyTimer);
     hideOverlay();
   }
+})();
+
+
+/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!banner) return;
+  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  banner.style.display = (dismissed === data.text) ? "none" : "block";
+}
+document.getElementById("site-banner-close")?.addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
 </script>

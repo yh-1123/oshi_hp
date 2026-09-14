@@ -1,42 +1,38 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
+<html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>推し活レポ帳</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&amp;family=Noto+Sans+JP:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
-    --bg:#FFF1F6;
-    --bg-dot: #FFD9EA;
+    --bg:#FFE2E6;
     --card-bg:#FFFFFF;
-    --primary:#FF4FA0;
-    --primary-deep:#D6237A;
-    --purple:#9B6BFF;
-    --yellow:#FFD34D;
-    --text:#3B2A3A;
-    --text-soft:#8E7A8D;
-    --border-soft:#FFDCEE;
-    --bubble-me:#F1EFF3;
+    --primary:#E0233A;
+    --primary-deep:#B81B30;
+    --purple:#9C2F52;
+    --yellow:#C98A2C;
+    --text:#2B2331;
+    --text-soft:#7D6B78;
+    --border-soft:#F0DDE6;
+    --bubble-me:#F5EFF0;
     --bubble-idol:#FFFFFF;
     --radius-lg: 22px;
     --radius-md: 14px;
-    --shadow-card: 0 8px 24px rgba(214, 35, 122, 0.12);
-    --shadow-pop: 0 14px 34px rgba(155, 107, 255, 0.22);
+    --shadow-card: 0 8px 24px rgba(184, 27, 48, 0.12);
+    --shadow-pop: 0 14px 34px rgba(156, 47, 82, 0.22);
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 
   body{
     margin:0; min-height:100vh; background-color: var(--bg);
-    background-image: radial-gradient(var(--bg-dot) 1.6px, transparent 1.6px);
-    background-size: 26px 26px;
-    font-family:'Zen Maru Gothic', sans-serif; color: var(--text);
+    font-family:'Noto Sans JP', sans-serif; color: var(--text);
     padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
-  h1,h2,h3, .display{ font-family:'Mochiy Pop One', 'Zen Maru Gothic', sans-serif; font-weight:400; }
+  h1,h2,h3, .display{ font-family:'Zen Maru Gothic', sans-serif; font-weight:900; }
 
   /* ---------- Header ---------- */
   header.app-header{ padding: 28px 20px 20px; text-align:center; position:relative; }
@@ -50,14 +46,14 @@
   }
   header.app-header p{ margin:0; color: var(--text-soft); font-size:13px; }
   .stat-pill{
-    margin-top:12px; display:inline-block; background: var(--card-bg);
-    border: 2px dashed var(--primary); color: var(--primary-deep);
-    font-weight:700; font-size:13px; padding:6px 16px; border-radius: 999px;
+    display:inline-block; margin-top:14px; background: var(--bg); color: var(--primary-deep);
+    font-weight:700; font-size:12.5px; padding:8px 16px; border-radius: 999px;
   }
   .header-links{ margin-top:10px; display:flex; gap:6px; justify-content:center; flex-wrap:wrap; font-size:12.5px; color:var(--text-soft); }
-  .menu-btn{
-    margin-top:12px; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
-    padding:10px 22px; font-size:13px; font-weight:700; color: var(--purple); cursor:pointer; min-height:42px;
+  .menu-btn-corner{
+    position:absolute; top:16px; right:16px; border:1px solid var(--border-soft); background:#fff;
+    border-radius:50%; width:38px; height:38px; font-size:16px; color: var(--purple); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
   }
   .menu-row{
     display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:none; border:none;
@@ -67,10 +63,10 @@
   .menu-row:last-child{ border-bottom:none; }
   .storage-status{
     margin-top:8px; display:inline-block; font-size:11.5px; font-weight:700; color:#B23E3E;
-    background:#FFF0EE; border:1.5px solid #F5C9C2; border-radius:999px; padding:5px 14px;
+    background:#FFF0EE; border:1px solid #F5C9C2; border-radius:999px; padding:5px 14px;
   }
   .app-toast{
-    position:fixed; left:50%; bottom:92px; transform:translateX(-50%); background:#3B2A3A; color:#fff;
+    position:fixed; left:50%; bottom:92px; transform:translateX(-50%); background:#2B2331; color:#fff;
     padding:10px 18px; border-radius:999px; font-size:12.5px; font-weight:700; z-index:200;
     box-shadow:0 8px 20px rgba(0,0,0,0.25); max-width:88vw; text-align:center; opacity:0; pointer-events:none;
     transition: opacity .3s ease;
@@ -79,25 +75,20 @@
   .link-btn{ background:none; border:none; color: var(--purple); font-weight:700; font-size:12.5px; cursor:pointer; text-decoration:underline; padding:8px 2px; min-height:36px; }
 
   /* ---------- Top controls ---------- */
+  .control-row{ display:flex; gap:8px; align-items:stretch; max-width:420px; margin:6px auto 10px; }
   .search-input{
-    display:block; width:100%; max-width:420px; margin:6px auto 12px;
-    border:2px solid var(--border-soft); border-radius:999px; padding:11px 18px;
+    flex:1; min-width:0; border:1px solid var(--border-soft); border-radius:999px; padding:11px 18px;
     font-size:16px; font-family:inherit; color: var(--text); background:#fff;
   }
-  .search-input:focus{ outline:2px solid var(--primary); border-color: var(--primary); }
+  .search-input:focus{ outline:none; border-color: var(--primary); }
 
-  .control-row{ display:flex; gap:8px; max-width:420px; margin:0 auto 10px; }
-  .view-toggle{ display:flex; gap:8px; flex:1; }
-  .view-btn{
-    flex:1; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
-    padding:10px 6px; font-weight:700; font-size:12.5px; cursor:pointer; color: var(--text-soft); min-height:42px;
-  }
-  .view-btn.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE9F3; }
   .filter-btn{
-    position:relative; flex:1; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
-    padding:10px 14px; font-weight:700; font-size:12.5px; cursor:pointer; color: var(--purple); min-height:42px;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    position:relative; flex:none; border:1px solid var(--border-soft); background:#fff; border-radius:999px;
+    padding:0 14px; font-weight:700; font-size:13px; cursor:pointer; color: var(--purple);
+    white-space:nowrap; display:flex; align-items:center; gap:5px;
   }
+  .filter-btn-label{ display:inline; }
+  @media (max-width: 380px){ .filter-btn-label{ display:none; } .filter-btn{ padding:0 13px; } }
   .filter-badge{
     display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px;
     background: var(--primary); color:#fff; border-radius:999px; font-size:10.5px; font-weight:900;
@@ -106,7 +97,7 @@
 
   .active-filters{ display:flex; gap:6px; flex-wrap:wrap; max-width:420px; margin:0 auto 14px; }
   .active-filter-chip{
-    display:inline-flex; align-items:center; gap:5px; background:#FFE9F3; border:1.5px solid var(--primary);
+    display:inline-flex; align-items:center; gap:5px; background:#FFE2E6; border:1.5px solid var(--primary);
     color: var(--primary-deep); border-radius:999px; padding:8px 8px 8px 14px; font-size:12px; font-weight:700; cursor:pointer; min-height:36px;
   }
   .active-filter-chip .x{ font-size:13px; }
@@ -129,7 +120,7 @@
     border-radius:10px; font-size:12.5px; cursor:pointer; color: var(--text); border:none; background:none; font-family:inherit;
   }
   .calendar-day.empty{ visibility:hidden; cursor:default; }
-  .calendar-day.has-reports{ background:#FFE9F3; font-weight:700; color: var(--primary-deep); }
+  .calendar-day.has-reports{ background:#FFE2E6; font-weight:700; color: var(--primary-deep); }
   .calendar-day.selected{ background: var(--primary); color:#fff; }
   .calendar-day.today{ border: 2px solid var(--primary); }
   .calendar-day .cal-dot{ width:5px; height:5px; border-radius:50%; background: var(--primary); margin-top:2px; }
@@ -138,16 +129,16 @@
 
   /* ---------- Filter chips (used inside the filter modal) ---------- */
   .sort-select{
-    flex:1; border:2px solid var(--border-soft); border-radius:999px; padding:9px 14px;
+    flex:1; border:1px solid var(--border-soft); border-radius:999px; padding:9px 14px;
     font-size:16px; font-family:inherit; color: var(--text); background:#fff;
   }
   #favOnlyChip.active{ border-color: var(--yellow); color:#A67C00; background:#FFF7DE; }
   .filter-chips{ display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding: 4px 2px 16px; }
   .filter-chip{
-    flex:0 0 auto; white-space:nowrap; border:2px solid var(--border-soft); background:#fff;
+    flex:0 0 auto; white-space:nowrap; border:1px solid var(--border-soft); background:#fff;
     border-radius:999px; padding:9px 14px; font-size:12.5px; font-weight:700; color: var(--text-soft); cursor:pointer; min-height:38px;
   }
-  .filter-chip.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE9F3; }
+  .filter-chip.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE2E6; }
 
   /* ---------- Grid ---------- */
   main{ max-width: 1080px; margin:0 auto; padding: 10px 16px 40px; }
@@ -184,9 +175,9 @@
   .card-top{ padding: 20px 16px 0; text-align:center; }
   .avatar{
     width:66px; height:66px; border-radius:50%; overflow:hidden; margin:0 auto;
-    background: linear-gradient(135deg, #FFB6D5, #C9A8FF);
+    background: linear-gradient(135deg, var(--primary), var(--purple));
     display:flex; align-items:center; justify-content:center; font-size:26px;
-    border:3px solid #fff; box-shadow: 0 3px 10px rgba(214,35,122,.2);
+    border:3px solid #fff; box-shadow: 0 3px 10px rgba(184,27,48,.2);
   }
   .avatar img{ width:100%; height:100%; object-fit:cover; }
   .idol-name-lg{ font-size:15px; font-weight:900; margin-top:8px; }
@@ -196,19 +187,19 @@
     border-radius:999px; padding:1px 8px; margin-left:6px; color: var(--primary-deep);
   }
   .extra-meta{ display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin-top:6px; }
-  .mini-tag{ font-size:10px; font-weight:700; color: var(--purple); background:#F5F0FF; border-radius:999px; padding:2px 8px; }
+  .mini-tag{ font-size:10px; font-weight:700; color: var(--purple); background:#FBE8ED; border-radius:999px; padding:2px 8px; }
 
   .ticket-divider{ position:relative; height: 20px; background: var(--card-bg); display:flex; align-items:center; margin-top:12px; }
   .ticket-divider::before{ content:""; position:absolute; left:-10px; top:50%; width:20px; height:20px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
   .ticket-divider::after{ content:""; position:absolute; right:-10px; top:50%; width:20px; height:20px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
-  .ticket-divider .dash-line{ width:100%; border-top: 2px dashed var(--border-soft); margin: 0 14px; }
+  .ticket-divider .dash-line{ width:100%; border-top: 1px solid var(--border-soft); margin: 0 14px; }
 
   .card-body{ padding: 4px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1; }
   .chip-row{ display:flex; gap:6px; justify-content:center; flex-wrap:wrap; }
-  .type-chip{ font-size:11px; font-weight:700; color:#3A7CA5; background:#E8F4FF; border-radius:999px; padding:4px 10px; white-space:nowrap; }
+  .type-chip{ font-size:11px; font-weight:700; color: var(--primary-deep); background: var(--bg); border-radius:999px; padding:4px 10px; white-space:nowrap; }
   .event-chip{
     font-size:11px; color: var(--purple); font-weight:700;
-    background:#F5F0FF; border-radius:999px; padding:4px 12px;
+    background:#FBE8ED; border-radius:999px; padding:4px 12px;
     max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
   }
 
@@ -244,13 +235,13 @@
   button{ font-family:'Zen Maru Gothic', sans-serif; }
   .btn{ border:none; border-radius: 999px; padding: 12px 20px; font-weight:700; font-size:14px; cursor:pointer; min-height:44px; }
   .btn-primary{ background: var(--primary); color:#fff; }
-  .btn-ghost{ background: #fff; color: var(--primary-deep); border:2px solid var(--primary); }
-  .btn-soft{ background: #FFE9F3; color: var(--primary-deep); }
+  .btn-ghost{ background: #fff; color: var(--primary-deep); border:1.5px solid var(--primary); }
+  .btn-soft{ background: #FFE2E6; color: var(--primary-deep); }
   .btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
 
   /* ---------- Modal ---------- */
   .overlay{
-    position:fixed; inset:0; background: rgba(59,42,58,0.45);
+    position:fixed; inset:0; background: rgba(43,35,49,0.45);
     display:none; align-items:flex-start; justify-content:center;
     padding: 24px 14px; overflow-y:auto; -webkit-overflow-scrolling:touch; z-index: 100;
   }
@@ -272,18 +263,18 @@
   .field{ margin-bottom:14px; }
   .field label{ display:block; font-size:12px; font-weight:700; color: var(--text-soft); margin-bottom:5px; }
   .field input[type=text], .field input[type=date], .field input[type=number], .field select, .field textarea{
-    width:100%; border: 2px solid var(--border-soft); border-radius: var(--radius-md);
+    width:100%; border: 1px solid var(--border-soft); border-radius: var(--radius-md);
     padding: 11px 12px; font-family: inherit; font-size:16px; color: var(--text); background:#fff;
   }
   .field textarea{ resize:vertical; min-height:70px; }
-  .field input:focus, .field select:focus, .field textarea:focus{ outline: 2px solid var(--primary); border-color: var(--primary); }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline: 1.5px solid var(--primary); border-color: var(--primary); }
 
   .two-col{ display:flex; gap:10px; }
   .two-col .field{ flex:1; min-width:0; }
   .three-col{ display:flex; gap:8px; flex-wrap:wrap; }
   .three-col .field{ flex:1; min-width:96px; }
 
-  details.optional-fields{ border: 2px dashed var(--border-soft); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 14px; }
+  details.optional-fields{ border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 14px; }
   details.optional-fields summary{ cursor:pointer; font-size:13px; font-weight:700; color: var(--purple); list-style: none; }
   details.optional-fields summary::-webkit-details-marker{ display:none; }
   details.optional-fields summary::before{ content:"詳細を追加（会場・部数枚数・アイコン写真）"; }
@@ -291,12 +282,12 @@
   details.optional-fields .field{ margin-top:12px; }
 
   .photo-input-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .photo-preview{ width:56px; height:56px; border-radius:12px; object-fit:cover; border: 2px solid var(--border-soft); display:none; }
+  .photo-preview{ width:56px; height:56px; border-radius:12px; object-fit:cover; border: 1px solid var(--border-soft); display:none; }
   .photo-edit-btn{ font-size:12px; font-weight:700; color: var(--purple); background:none; border:none; cursor:pointer; display:none; text-decoration:underline; }
 
   /* ---------- Extra photos ---------- */
   .extra-photo-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
-  .extra-photo-thumb{ position:relative; width:56px; height:73px; border-radius:8px; overflow:hidden; border:2px solid var(--border-soft); }
+  .extra-photo-thumb{ position:relative; width:56px; height:73px; border-radius:8px; overflow:hidden; border:1px solid var(--border-soft); }
   .extra-photo-thumb img{ width:100%; height:100%; object-fit:cover; }
   .extra-photo-del{ position:absolute; top:1px; right:1px; width:26px; height:26px; border-radius:50%; background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:14px; line-height:26px; padding:0; cursor:pointer; }
 
@@ -304,7 +295,7 @@
   .chat-section-label{ font-size:12px; font-weight:700; color: var(--text-soft); margin: 4px 0 8px; }
 
   /* ---------- Form sections (add/edit report) ---------- */
-  .form-section{ background:#FFF8FB; border-radius: var(--radius-lg); padding:16px; margin-bottom:14px; }
+  .form-section{ background:#fff; border:1px solid var(--border-soft); border-radius: var(--radius-lg); padding:16px; margin-bottom:14px; }
   .form-section-title{
     display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
     font-size:13.5px; font-weight:900; color: var(--primary-deep); margin-bottom:12px;
@@ -313,7 +304,7 @@
   .form-section-hint{ font-size:11.5px; color: var(--text-soft); margin: -6px 0 10px; line-height:1.5; }
   .form-section .field:last-child{ margin-bottom:0; }
   .composer-mini-label{ font-size:10.5px; font-weight:700; color: var(--text-soft); margin-bottom:4px; }
-  .chat-thread{ display:flex; flex-direction:column; gap:8px; padding: 12px; background: #FFF8FB; border-radius: var(--radius-md); min-height: 60px; margin-bottom: 10px; }
+  .chat-thread{ display:flex; flex-direction:column; gap:8px; padding: 12px; background: var(--bg); border-radius: var(--radius-md); min-height: 60px; margin-bottom: 10px; }
   .chat-thread-empty{ font-size:12.5px; color: var(--text-soft); text-align:center; padding: 10px 0; }
   .chat-msg{ display:flex; align-items:center; gap:6px; max-width:90%; }
   .chat-msg.me{ align-self:flex-start; }
@@ -322,7 +313,7 @@
   .chat-bubble{ padding: 9px 13px; border-radius: 16px; font-size:14px; line-height:1.45; word-break: break-word; }
   .chat-msg.me .chat-bubble{ background: var(--bubble-me); color: var(--text); border-bottom-left-radius:4px; }
   .chat-msg.idol .chat-bubble{ background: var(--bubble-idol); border:1.5px solid var(--border-soft); color: var(--text); border-bottom-right-radius:4px; }
-  .chat-note{ flex:1; font-size:12.5px; font-style:italic; text-align:center; padding: 6px 12px; border-radius:12px; border:1.5px dashed; }
+  .chat-note{ flex:1; font-size:12.5px; font-style:italic; text-align:center; padding: 6px 12px; border-radius:12px; border:1px solid var(--border-soft); }
   .note-who{ font-style:normal; font-weight:900; }
   .chat-note.me.feeling{ background:#FFEAF4; border-color:#FFB6D5; color:#B23E77; }
   .chat-note.idol.feeling{ background:#F0EBFF; border-color:#C9A8FF; color:#6B4FA0; }
@@ -331,12 +322,12 @@
   .chat-note.staff{ background:#EDEDF2; border-color:#B8B8C5; color:#4A4A58; font-weight:700; }
   .chat-msg-del{ background:none; border:none; color: var(--text-soft); font-size:15px; cursor:pointer; min-width:30px; min-height:30px; flex-shrink:0; }
 
-  .composer{ position:sticky; bottom:0; background: var(--card-bg); padding-top: 10px; border-top: 2px dashed var(--border-soft); }
+  .composer{ position:sticky; bottom:0; background: var(--card-bg); padding-top: 10px; border-top: 1px solid var(--border-soft); }
   .who-type-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:8px; }
   .who-type-row > div{ flex:1; min-width:150px; }
   .who-toggle{ display:flex; gap:6px; }
   .type-toggle{ display:flex; gap:6px; }
-  .who-btn, .type-btn{ flex:1; border-radius: 999px; border: 2px solid var(--border-soft); background:#fff; padding: 9px 3px; font-weight:700; font-size:11px; cursor:pointer; min-height:42px; }
+  .who-btn, .type-btn{ flex:1; border-radius: 999px; border: 1px solid var(--border-soft); background:#fff; padding: 9px 3px; font-weight:700; font-size:11px; cursor:pointer; min-height:42px; }
   .type-hint{ font-size:10.5px; color: var(--text-soft); margin: -2px 0 8px; line-height:1.4; display:none; }
   .type-hint.show{ display:block; }
   .phrase-toggle-row{ margin-bottom:6px; }
@@ -351,12 +342,12 @@
   .who-btn.me.active{ background: var(--bubble-me); border-color: var(--purple); color: var(--purple); }
   .who-btn.idol.active{ background: linear-gradient(135deg, var(--primary), var(--purple)); border-color: var(--primary); color:#fff; }
   .who-btn.staff.active{ background:#E7E7EE; border-color:#8A8A9A; color:#4A4A58; }
-  .type-btn.talk.active{ background:#F1EFF3; border-color: var(--text-soft); color: var(--text); }
+  .type-btn.talk.active{ background:#F0EEEF; border-color: var(--text-soft); color: var(--text); }
   .type-btn.feeling.active{ background:#FFEAF4; border-color:#FFB6D5; color:#B23E77; }
   .type-btn.gesture.active{ background:#F3ECDF; border-color:#D8C9A8; color:#8A7350; }
   .composer-input-row{ display:flex; gap:8px; }
-  .composer-input-row input{ flex:1; border: 2px solid var(--border-soft); border-radius: 999px; padding: 11px 16px; font-size:16px; font-family: inherit; }
-  .composer-input-row input:focus{ outline: 2px solid var(--primary); border-color: var(--primary); }
+  .composer-input-row input{ flex:1; border: 1px solid var(--border-soft); border-radius: 999px; padding: 11px 16px; font-size:16px; font-family: inherit; }
+  .composer-input-row input:focus{ outline: 1.5px solid var(--primary); border-color: var(--primary); }
   .send-btn{ width:46px; height:46px; border-radius:50%; border:none; background: var(--primary); color:#fff; font-size:18px; cursor:pointer; flex-shrink:0; }
 
   .modal-footer{ padding: 12px 20px calc(20px + env(safe-area-inset-bottom)); }
@@ -378,10 +369,10 @@
   .csv-table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:10px; border:1.5px solid var(--border-soft); }
   .csv-table{ border-collapse:collapse; width:100%; font-size:12px; }
   .csv-table th, .csv-table td{ padding:7px 9px; border-bottom:1px solid var(--border-soft); white-space:nowrap; text-align:left; }
-  .csv-table th{ background:#FFF8FB; }
+  .csv-table th{ background:#FFF5F6; }
   .csv-table select{ font-size:16px; border:1.5px solid var(--border-soft); border-radius:6px; padding:5px 4px; font-family:inherit; background:#fff; max-width:120px; }
   .csv-table td{ color: var(--text-soft); max-width:140px; overflow:hidden; text-overflow:ellipsis; }
-  .csv-dist-card{ background:#FFF8FB; border-radius:14px; padding:14px; margin-bottom:14px; }
+  .csv-dist-card{ background:#FFF5F6; border-radius:14px; padding:14px; margin-bottom:14px; }
   .csv-dist-title{ font-weight:900; font-size:13.5px; margin-bottom:2px; }
   .csv-dist-total{ font-size:12px; color: var(--text-soft); margin-bottom:10px; }
   .csv-split-row{ display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
@@ -390,7 +381,7 @@
     width:60px; border:1.5px solid var(--border-soft); border-radius:8px; padding:8px 6px;
     font-size:16px; font-family:inherit; text-align:center;
   }
-  .csv-split-btn{ border:2px solid var(--border-soft); background:#fff; color: var(--purple); border-radius:999px; padding:10px 16px; font-size:12.5px; font-weight:700; cursor:pointer; min-height:40px; }
+  .csv-split-btn{ border:1px solid var(--border-soft); background:#fff; color: var(--purple); border-radius:999px; padding:10px 16px; font-size:12.5px; font-weight:700; cursor:pointer; min-height:40px; }
   .csv-alloc-row{ display:flex; gap:6px; margin-bottom:8px; align-items:center; }
   .csv-alloc-row input[type=text]{
     flex:1; min-width:0; border:1.5px solid var(--border-soft); border-radius:8px; padding:9px 10px;
@@ -400,7 +391,7 @@
     width:64px; border:1.5px solid var(--border-soft); border-radius:8px; padding:9px 6px;
     font-size:16px; font-family:inherit; text-align:center;
   }
-  .reference-row:hover{ background:#FFF8FB; }
+  .reference-row:hover{ background:#FFF5F6; }
   .reference-row-info{ flex:1; min-width:0; }
   .reference-row-name{ font-weight:700; font-size:13.5px; }
   .reference-row-sub{ font-size:11.5px; color: var(--text-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -409,12 +400,12 @@
   .master-cat-input{ width:112px; border:1.5px solid var(--border-soft); border-radius:8px; padding:6px 6px; font-size:16px; font-family:inherit; }
   .master-del{ background:none; border:none; color: var(--text-soft); font-size:16px; cursor:pointer; min-width:36px; min-height:36px; flex-shrink:0; }
   .master-add-row{ display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; }
-  .master-add-row input{ flex:1; min-width:90px; border:2px solid var(--border-soft); border-radius:10px; padding:9px 10px; font-size:16px; font-family:inherit; }
+  .master-add-row input{ flex:1; min-width:90px; border:1px solid var(--border-soft); border-radius:10px; padding:9px 10px; font-size:16px; font-family:inherit; }
 
   /* ---------- Stats dashboard ---------- */
   .stats-summary-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
-  .stats-box{ background:#FFF8FB; border-radius:14px; padding:14px 6px; text-align:center; }
-  .stats-num{ font-size:22px; font-weight:400; color: var(--primary-deep); font-family:'Mochiy Pop One', sans-serif; }
+  .stats-box{ background:#FFF5F6; border-radius:14px; padding:14px 6px; text-align:center; }
+  .stats-num{ font-size:22px; font-weight:900; color: var(--primary-deep); font-family:'Zen Maru Gothic', sans-serif; }
   .stats-label{ font-size:10.5px; color: var(--text-soft); margin-top:4px; }
   .stats-section h3{ font-size:13px; color: var(--purple); margin:20px 0 10px; font-weight:900; }
   .stat-bar-row{ display:flex; align-items:center; gap:8px; margin-bottom:9px; }
@@ -431,10 +422,10 @@
   /* ---------- Style / tab switcher (shared look) ---------- */
   .style-switch{ display:flex; gap:6px; padding: 4px 20px 2px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .style-btn{
-    flex:0 0 auto; white-space:nowrap; border:2px solid var(--border-soft); background:#fff; border-radius:999px;
+    flex:0 0 auto; white-space:nowrap; border:1px solid var(--border-soft); background:#fff; border-radius:999px;
     padding: 9px 13px; font-size:12.5px; font-weight:700; color: var(--text-soft); cursor:pointer; min-height:42px;
   }
-  .style-btn.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE9F3; }
+  .style-btn.active{ border-color: var(--primary); color: var(--primary-deep); background:#FFE2E6; }
 
   /* ---------- Share card (export target) ---------- */
   .share-wrap{ display:flex; justify-content:center; margin: 16px 0 18px; }
@@ -448,9 +439,9 @@
   .share-avatar-wrap{ display:flex; justify-content:center; padding-top:22px; }
   .share-avatar{
     width:92px; height:92px; border-radius:50%; overflow:hidden;
-    background: linear-gradient(135deg, #FFB6D5, #C9A8FF);
+    background: linear-gradient(135deg, var(--primary), var(--purple));
     display:flex; align-items:center; justify-content:center; font-size:34px;
-    border:4px solid #fff; box-shadow: 0 4px 14px rgba(214,35,122,.25);
+    border:4px solid #fff; box-shadow: 0 4px 14px rgba(184,27,48,.25);
   }
   .share-avatar img{ width:100%; height:100%; object-fit:cover; }
 
@@ -458,16 +449,16 @@
   .share-meta-row{ display:flex; justify-content:center; align-items:center; gap:12px; margin-top:5px; font-size:11.5px; color: var(--text-soft); font-weight:700; flex-wrap:wrap; }
 
   .share-chip-row{ display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin:14px 24px 0; }
-  .share-type-chip{ font-size:12px; font-weight:700; padding:7px 14px; border-radius:999px; background:#E8F4FF; color:#3A7CA5; }
-  .share-event-chip{ font-size:12px; color: var(--purple); font-weight:700; background:#F5F0FF; border-radius:999px; padding:7px 14px; }
+  .share-type-chip{ font-size:12px; font-weight:700; padding:7px 14px; border-radius:999px; background: var(--bg); color: var(--primary-deep); }
+  .share-event-chip{ font-size:12px; color: var(--purple); font-weight:700; background:#FBE8ED; border-radius:999px; padding:7px 14px; }
 
   .share-extra-meta{ display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin: 10px 20px 0; }
-  .share-extra-tag{ font-size:10.5px; font-weight:700; color: var(--purple); background:#F5F0FF; border-radius:999px; padding:3px 10px; }
+  .share-extra-tag{ font-size:10.5px; font-weight:700; color: var(--purple); background:#FBE8ED; border-radius:999px; padding:3px 10px; }
 
   .share-ticket{ position:relative; margin: 16px 0 0; height:18px; }
   .share-ticket::before{ content:""; position:absolute; left:-9px; top:50%; width:18px; height:18px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
   .share-ticket::after{ content:""; position:absolute; right:-9px; top:50%; width:18px; height:18px; background: var(--bg); border-radius:50%; transform: translateY(-50%); }
-  .share-ticket .dash{ margin:0 16px; border-top:2px dashed var(--border-soft); }
+  .share-ticket .dash{ margin:0 16px; border-top:1px solid var(--border-soft); }
 
   .share-thread{ display:flex; flex-direction:column; gap:9px; margin: 14px 18px 4px; }
   .share-msg-group{ display:flex; flex-direction:column; gap:3px; max-width:86%; }
@@ -669,7 +660,7 @@
 
   .detail-actions{ margin-top:6px; padding: 0 20px 20px; }
   .detail-memo{
-    margin: 0 20px 16px; background:#FFF8FB; border:1.5px dashed var(--border-soft); border-radius: var(--radius-md);
+    margin: 0 20px 16px; background:#FFF5F6; border:1px solid var(--border-soft); border-radius: var(--radius-md);
     padding:12px 14px; font-size:13px; line-height:1.6; color: var(--text); white-space:pre-wrap; word-break:break-word;
   }
   .detail-memo-label{ font-size:11px; font-weight:700; color: var(--text-soft); margin-bottom:4px; }
@@ -680,40 +671,69 @@
     .modal{ max-width:none !important; width:100%; height:100%; max-height:100vh; border-radius:0; }
     .share-card{ width: 100%; max-width: 320px; }
   }
+  /* ---------- 編集モード(サイト運営者用) ---------- */
+  footer.site-footer{ text-align:center; padding:26px 20px 10px; font-size:11.5px; color: var(--text-soft); }
+  #footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
+  .editable{ outline:none; }
+  body.editing .editable{ outline:1.5px dashed var(--primary); outline-offset:2px; border-radius:4px; cursor:text; }
+  body.editing .editable:hover{ background:var(--bg); }
+  .edit-toolbar{
+    display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+    align-items:center; gap:8px; background:#fff; border:1px solid var(--border-soft);
+    border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:400;
+    max-width:94vw; overflow-x:auto; scrollbar-width:none;
+  }
+  .edit-toolbar.unlocked{ display:flex; }
+  .edit-toolbar::-webkit-scrollbar{ display:none; }
+  .tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--bg); color:var(--text); white-space:nowrap; transition:background .15s ease; }
+  .tb-btn.primary{ background:var(--primary); color:#fff; }
+  .tb-btn.primary:hover{ background:var(--primary-deep); }
+  .tb-btn-icon{
+    flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer;
+    background:var(--bg); color:var(--text); display:inline-flex; align-items:center; justify-content:center;
+  }
+  .tb-btn-icon:hover{ background:var(--border-soft); color:var(--primary); }
+  .edit-modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:410; align-items:center; justify-content:center; padding:20px; }
+  .edit-modal-backdrop.open{ display:flex; }
+  .edit-modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:360px; }
+  .edit-modal h3{ margin:0 0 12px; font-size:16px; color: var(--text); }
+  .edit-modal .qa-input{ width:100%; border:1.5px solid var(--border-soft); border-radius:10px; padding:11px 14px; font-size:15px; font-family:inherit; color: var(--text); margin-bottom:14px; }
+  .edit-modal .modal-actions{ display:flex; gap:8px; justify-content:flex-end; }
+  @media print{ .edit-toolbar, .edit-modal-backdrop{ display:none !important; } }
 </style>
 </head>
-<body>
+<body class="">
 
 <header class="app-header">
-  <span class="eyebrow">💌 HANDSHAKE EVENT LOG</span>
-  <h1>推し活レポ帳</h1>
-  <p>会場でサクッと記録 → そのままSNS映えカードでシェア</p>
+  <button type="button" class="menu-btn-corner" onclick="openMenuModal()" aria-label="メニュー">☰</button>
+  <span class="eyebrow editable" id="p-eyebrow">💌 HANDSHAKE EVENT LOG</span>
+  <h1 class="editable" id="p-title">推し活レポ帳</h1>
+  <p class="editable" id="p-desc">会場でサクッと記録 → そのままSNS映えカードでシェア</p>
   <div class="stat-pill" id="statPill">全 0 件のレポ</div>
   <div class="storage-status" id="storageStatus" style="display:none;"></div>
-  <button type="button" class="menu-btn" onclick="openMenuModal()">☰ メニュー</button>
   <input type="file" id="f-import" accept=".json,application/json" style="display:none;">
 </header>
 
 <main>
-  <input type="text" id="searchInput" class="search-input" placeholder="🔍 メンバー・日付・会場・トーク内容で検索">
   <div class="control-row">
-    <div class="view-toggle">
-      <button type="button" class="view-btn active" id="viewGridBtn" onclick="setViewMode('grid')">📋 一覧</button>
-      <button type="button" class="view-btn" id="viewCalendarBtn" onclick="setViewMode('calendar')">📅 カレンダー</button>
-    </div>
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 メンバー・日付・会場・トーク内容で検索">
     <button type="button" class="filter-btn" onclick="openFilterModal()">
-      ⚙️ フィルター・並び替え<span class="filter-badge" id="filterBadge" style="display:none;">0</span>
+      ⚙️<span class="filter-btn-label">フィルター</span><span class="filter-badge" id="filterBadge" style="display:none;">0</span>
     </button>
   </div>
   <div class="active-filters" id="activeFilters" style="display:none;"></div>
   <div class="calendar-wrap" id="calendarWrap" style="display:none;"></div>
   <div class="grid" id="grid"></div>
-  <div class="empty-state" id="emptyState" style="display:none;">
-    <span class="big-emoji">🎫💕</span>
-    まだレポがありません。<br>最初の握手会レポを追加してみましょう！
-    <div><button class="btn btn-primary" onclick="openAddModal()">＋ レポを追加</button></div>
-  </div>
+  <div class="empty-state" id="emptyState" style="display: block;"><span class="big-emoji">🎫💕</span>まだレポがありません。<br>最初の握手会レポを追加してみましょう！<div><button class="btn btn-primary" onclick="openAddModal()">＋ レポを追加</button></div></div>
 </main>
+
+<footer class="site-footer">
+  <span id="footer-tap-target">推し活は無理なく、楽しく♡</span>
+</footer>
+
+
+
+
 
 <button class="fab" onclick="openAddModal()" aria-label="レポを追加">＋</button>
 
@@ -738,11 +758,11 @@
         <div class="two-col">
           <div class="field">
             <label>メンバー名 / 推しの名前</label>
-            <input type="text" id="f-idol" list="idolList" placeholder="例）〇〇ちゃん" required>
+            <input type="text" id="f-idol" list="idolList" placeholder="例）〇〇ちゃん" required="">
           </div>
           <div class="field">
             <label>日付</label>
-            <input type="date" id="f-date" required>
+            <input type="date" id="f-date" required="">
           </div>
         </div>
 
@@ -758,7 +778,7 @@
 
         <div class="field" style="margin-bottom:0;">
           <label>イベント名</label>
-          <input type="text" id="f-event" list="eventList" placeholder="例）6th Single 発売記念握手会" required>
+          <input type="text" id="f-event" list="eventList" placeholder="例）6th Single 発売記念握手会" required="">
         </div>
       </div>
 
@@ -797,14 +817,14 @@
         <div class="field" style="margin-bottom:0;">
           <label>📸 思い出フォト（チェキ・2ショットなど）</label>
           <div class="extra-photo-row" id="extraPhotoRow"></div>
-          <input type="file" id="f-extra-photos" accept="image/*" multiple>
+          <input type="file" id="f-extra-photos" accept="image/*" multiple="">
         </div>
       </details>
 
       <div class="form-section">
         <div class="form-section-title"><span>💬 トークの掛け合い</span></div>
         <p class="form-section-hint">誰の発言／心情／仕草かを選んで、下の入力欄から追加していきます</p>
-        <div class="chat-thread" id="chatThread"></div>
+        <div class="chat-thread" id="chatThread"><div class="chat-thread-empty">「自分/推し/スタッフ」＋「発言・心情・仕草」を選んで下の欄から追加していきましょう</div></div>
       </div>
     </div>
 
@@ -814,7 +834,7 @@
           <div>
             <div class="composer-mini-label">誰が</div>
             <div class="who-toggle">
-              <button type="button" class="who-btn me" id="whoMeBtn" onclick="setWho('me')">🙋 自分</button>
+              <button type="button" class="who-btn me active" id="whoMeBtn" onclick="setWho('me')">🙋 自分</button>
               <button type="button" class="who-btn idol" id="whoIdolBtn" onclick="setWho('idol')">💖 推し</button>
               <button type="button" class="who-btn staff" id="whoStaffBtn" onclick="setWho('staff')">🎽 スタッフ</button>
             </div>
@@ -822,7 +842,7 @@
           <div>
             <div class="composer-mini-label">種類</div>
             <div class="type-toggle">
-              <button type="button" class="type-btn talk" id="typeTalkBtn" onclick="setType('talk')">💬 発言</button>
+              <button type="button" class="type-btn talk active" id="typeTalkBtn" onclick="setType('talk')">💬 発言</button>
               <button type="button" class="type-btn feeling" id="typeFeelingBtn" onclick="setType('feeling')">💭 心情</button>
               <button type="button" class="type-btn gesture" id="typeGestureBtn" onclick="setType('gesture')">👋 仕草</button>
             </div>
@@ -832,7 +852,7 @@
         <div class="phrase-toggle-row">
           <button type="button" class="phrase-toggle-btn" id="phraseToggleBtn" onclick="togglePhraseChips()">💬 よく使うフレーズを表示</button>
         </div>
-        <div class="phrase-chips" id="phraseChips"></div>
+        <div class="phrase-chips" id="phraseChips"><div class="mini-empty" style="width:100%;padding:6px 0;">まだフレーズがありません。<button type="button" class="link-btn" onclick="openPhraseMasterFromComposer()">＋ 追加する</button></div></div>
         <div class="composer-input-row">
           <input type="text" id="composerInput" placeholder="発言・心情・仕草を入力">
           <button type="button" class="send-btn" onclick="addMessage()" aria-label="追加">＋</button>
@@ -933,7 +953,8 @@
       </div>
       <div class="field">
         <label>またはCSVを貼り付け</label>
-        <textarea id="csvPasteInput" placeholder="商品名,数量,注文日&#10;〇〇6th Single 握手会CD,5,2026/05/01" style="min-height:90px;"></textarea>
+        <textarea id="csvPasteInput" placeholder="商品名,数量,注文日
+〇〇6th Single 握手会CD,5,2026/05/01" style="min-height:90px;"></textarea>
       </div>
       <div class="btn-row">
         <button type="button" class="btn btn-primary" onclick="parseCsvInput()">読み込む</button>
@@ -1175,7 +1196,7 @@ function showToast(msg){
   if(!toast){
     toast = document.createElement('div');
     toast.id = 'toast';
-    toast.style.cssText = 'position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#3B2A3A;color:#fff;padding:10px 18px;border-radius:999px;font-size:12.5px;font-weight:700;z-index:300;box-shadow:0 6px 18px rgba(0,0,0,0.25);max-width:88vw;text-align:center;opacity:0;transition:opacity .3s;pointer-events:none;';
+    toast.style.cssText = 'position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#2B2331;color:#fff;padding:10px 18px;border-radius:999px;font-size:12.5px;font-weight:700;z-index:300;box-shadow:0 6px 18px rgba(0,0,0,0.25);max-width:88vw;text-align:center;opacity:0;transition:opacity .3s;pointer-events:none;';
     document.body.appendChild(toast);
   }
   toast.textContent = msg;
@@ -1589,8 +1610,8 @@ function render(){
         return `<div class="mini-msg note"><div class="mini-note ${who} ${type}">${icon} ${escapeHtml(m.text)}</div></div>`;
       }
       const avatarHtml = who === 'idol'
-        ? `<div class="mini-avatar">${r.photo ? `<img src="${r.photo}" alt="">` : ''}</div>`
-        : `<div class="mini-avatar">${myProfile.photo ? `<img src="${myProfile.photo}" alt="">` : ''}</div>`;
+        ? `<div class="mini-avatar">${r.photo ? `<img src="${r.photo}" alt="" loading="lazy">` : ''}</div>`
+        : `<div class="mini-avatar">${myProfile.photo ? `<img src="${myProfile.photo}" alt="" loading="lazy">` : ''}</div>`;
       return `
       <div class="mini-msg ${who}">
         ${avatarHtml}
@@ -1607,7 +1628,7 @@ function render(){
       ${r.isDraft ? `<span class="draft-badge">📝 下書き</span>` : ''}
       <button type="button" class="fav-star ${r.favorite ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${r.id}')" aria-label="お気に入り">${r.favorite ? '⭐️' : '☆'}</button>
       <div class="card-top">
-        <div class="avatar">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+        <div class="avatar">${r.photo ? `<img src="${r.photo}" alt="" loading="lazy">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
         <div class="idol-name-lg">${escapeHtml(r.idol)}</div>
         <div class="meta-line">${fmtDate(r.date)}<span class="count-badge">🎫 ${count}</span></div>
         ${extraMetaHtml}
@@ -1665,8 +1686,8 @@ document.getElementById('sortSelect').addEventListener('change', function(){
 
 function setViewMode(mode){
   viewMode = mode;
-  document.getElementById('viewGridBtn').classList.toggle('active', mode === 'grid');
-  document.getElementById('viewCalendarBtn').classList.toggle('active', mode === 'calendar');
+  document.getElementById('viewGridBtn')?.classList.toggle('active', mode === 'grid');
+  document.getElementById('viewCalendarBtn')?.classList.toggle('active', mode === 'calendar');
   document.getElementById('calendarWrap').style.display = mode === 'calendar' ? 'block' : 'none';
   document.getElementById('grid').style.display = mode === 'calendar' ? 'none' : 'grid';
   if(mode === 'calendar'){
@@ -2034,7 +2055,7 @@ function renderReferenceList(query){
   }
   wrap.innerHTML = list.map(r => `
     <div class="reference-row" onclick="showReferencePreview('${r.id}')">
-      <div class="avatar" style="width:40px;height:40px;font-size:16px;">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+      <div class="avatar" style="width:40px;height:40px;font-size:16px;">${r.photo ? `<img src="${r.photo}" alt="" loading="lazy">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
       <div class="reference-row-info">
         <div class="reference-row-name">${escapeHtml(r.idol)}</div>
         <div class="reference-row-sub">${fmtDate(r.date)} ・ ${escapeHtml(r.event)}</div>
@@ -2074,7 +2095,7 @@ function showReferencePreview(id){
   previewSection.style.display = 'block';
   previewSection.innerHTML = `
     <button type="button" class="link-btn" style="margin-bottom:14px;" onclick="backToReferenceList()">← 一覧に戻る</button>
-    <div class="avatar" style="width:72px;height:72px;font-size:28px;margin:0 auto;">${r.photo ? `<img src="${r.photo}" alt="">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
+    <div class="avatar" style="width:72px;height:72px;font-size:28px;margin:0 auto;">${r.photo ? `<img src="${r.photo}" alt="" loading="lazy">` : `<span>${AVATAR_FALLBACK}</span>`}</div>
     <div style="text-align:center;font-weight:900;font-size:15px;margin-top:8px;">${escapeHtml(r.idol)}</div>
     <div style="text-align:center;font-size:12px;color:var(--text-soft);margin-top:2px;">${fmtDate(r.date)}${r.venue ? ' ・ ' + escapeHtml(r.venue) : ''}</div>
     <div class="chip-row" style="margin-top:10px;">
@@ -3169,7 +3190,41 @@ async function init(){
   await loadAppData();
 }
 init();
+
+/* ==========================================================
+   編集モード(サイト運営者用)。他のページと同じ仕組み。
+   ヘッダーのタイトル・説明文のみを編集対象とする(レポ自体は
+   訪問者ごとのローカルデータなので対象外)。
+   ========================================================== */
+
+let editMode = false;
+function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+
+function rebuildRepoPageData(data){
+  if(!data) return;
+  if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
+  if(data.title !== undefined) document.getElementById("p-title").textContent = data.title;
+  if(data.desc !== undefined) document.getElementById("p-desc").textContent = data.desc;
+  setEditable(editMode);
+}
+
+
+/* ---------- 同じ場所にある oshikatsu-repo-data.json があれば自動で読み込む ----------
+   同じフォルダにこのファイルを置くと、次回訪問時に見出し・説明文が反映されます。
+   ファイルが存在しない場合は何もしません(エラーにはなりません)。 */
+(async function(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("oshikatsu-repo-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    rebuildRepoPageData(data);
+  }catch(e){
+    console.error("oshikatsu-repo-data.json の読み込みに失敗しました:", e);
+  }
+})();
 </script>
 
-</body>
-</html>
+
+
+</body></html>
