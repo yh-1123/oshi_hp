@@ -1,4 +1,10 @@
 {
+  "banner": {
+    "active": false,
+    "text": "📢 お知らせテキストをここに入力",
+    "url": "",
+    "updatedAt": 1789410647723
+  },
   "nameMain": "原",
   "nameAccent": "優寧",
   "kana": "YUNE HARA",
@@ -33,6 +39,7 @@
       "url": "https://shop.mu-mo.net/st/special/ske48_37thsg/"
     }
   ],
+  "applications": [],
   "carouselSections": [
     {
       "id": "sec-default",
@@ -217,9 +224,21 @@
       "url": ""
     },
     {
+      "date": "2026-09-18",
+      "title": "ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」",
+      "desc": "26:00～26:30",
+      "url": ""
+    },
+    {
       "date": "2026-09-20",
       "title": "CBCラジオ「ウインクス presents SKE48原優寧の建築ラジオ」",
       "desc": "22:30～22:45",
+      "url": ""
+    },
+    {
+      "date": "2026-09-23",
+      "title": "「クラフト餃子フェス® NAGOYA 2026」",
+      "desc": "📍\udccd 久屋大通公園 エンゼル広場(愛知県名古屋市中区栄 3 丁目 15 ) ■ 参加",
       "url": ""
     },
     {
@@ -393,6 +412,10 @@
     "pickup": {
       "heading": "ピックアップ",
       "desc": ""
+    },
+    "applications": {
+      "heading": "申込受付中",
+      "desc": "受付中のイベント・ライブ・公演の申込みをまとめています"
     },
     "recommend": {
       "heading": "コンテンツ",
