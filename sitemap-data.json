@@ -1,0 +1,66 @@
+{
+  "title": "サイトマップ",
+  "desc": "このサイトの全ページの一覧です。お探しのページが見つからないときはこちらからどうぞ。",
+  "pages": [
+    {
+      "icon": "🏠",
+      "title": "トップページ",
+      "desc": "プロフィール・出演情報・最新情報など",
+      "url": "index.html"
+    },
+    {
+      "icon": "👤",
+      "title": "メンバープロフィール",
+      "desc": "経歴・基本情報・SNSリンクなど",
+      "url": "member-profile.html"
+    },
+    {
+      "icon": "🔰",
+      "title": "推し活はじめての方へ",
+      "desc": "申込方法・用語集・FAQ",
+      "url": "guide.html"
+    },
+    {
+      "icon": "📚",
+      "title": "豆知識・エピソード集",
+      "desc": "知って楽しい豆知識をまとめました",
+      "url": "wiki.html"
+    },
+    {
+      "icon": "📍",
+      "title": "ゆかりの場所まとめ",
+      "desc": "聖地巡礼・お店・旅行先など",
+      "url": "places.html"
+    },
+    {
+      "icon": "🏛️",
+      "title": "建築との関わり",
+      "desc": "大学時代や建築にまつわる活動",
+      "url": "architecture.html"
+    },
+    {
+      "icon": "🏆",
+      "title": "活動実績",
+      "desc": "楽曲・公演・メディア出演の記録",
+      "url": "achievements.html"
+    },
+    {
+      "icon": "🎬",
+      "title": "動画まとめ",
+      "desc": "公式チャンネルなどの動画一覧",
+      "url": "videos.html"
+    },
+    {
+      "icon": "🛍️",
+      "title": "グッズまとめ",
+      "desc": "公式グッズの情報と販売期間をまとめました",
+      "url": "goods.html"
+    },
+    {
+      "icon": "🔧",
+      "title": "便利なツール",
+      "desc": "推し活に役立つツールをまとめました",
+      "url": "tools.html"
+    }
+  ]
+}
