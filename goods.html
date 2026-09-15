@@ -770,7 +770,7 @@ function applyGoodsFilter(){
   const q = currentSearchQuery();
   const allItems = Array.from(document.querySelectorAll("#goods-grid .goods-item"));
   const matched = allItems.filter(item => {
-    const statusOk = (currentStatusFilter === "all" || item.dataset.status === currentStatusFilter);
+    const statusOk = (currentStatusFilter === "all" ? item.dataset.status !== "ended" : item.dataset.status === currentStatusFilter);
     const categoryOk = (currentCategoryFilter === "all" || item.dataset.category === currentCategoryFilter);
     const searchOk = !q || item.textContent.toLowerCase().includes(q);
     const favOk = !favoriteOnlyMode || isFavorite(item.querySelector(".goods-title")?.textContent.trim() || "");

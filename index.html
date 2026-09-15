@@ -109,6 +109,18 @@ a{ color:inherit; text-decoration:none; }
 .wrap{ max-width:760px; margin:0 auto; padding:0 18px; }
 
 /* ---------- ヘッダー ナビ ---------- */
+.site-banner{
+  position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700;
+}
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
+
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
 .topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height:46px; gap:10px; }
 .brand{ font-weight:700; font-size:13px; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -144,6 +156,16 @@ body.editing .nav-link-add-btn{ display:inline-flex; align-items:center; }
 
 /* ---------- ヒーロー(小型) ---------- */
 .hero{ position:relative; padding:24px 0 10px; text-align:center; overflow:hidden; }
+body.birthday-mode .hero{
+  background: linear-gradient(160deg, #fff6e5 0%, #ffe3f0 55%, #fff0d8 100%);
+}
+body.birthday-mode .hero-photo{ box-shadow: 0 0 0 4px #ffcf4d, 0 0 26px rgba(255,183,3,0.55); }
+.birthday-banner{
+  display:none; align-items:center; justify-content:center; gap:8px; position:relative;
+  margin:0 auto 14px; max-width:280px; padding:9px 18px; border-radius:999px;
+  background:linear-gradient(90deg, #ff8fab, #ffc94d); color:#fff; font-size:13px; font-weight:900;
+  box-shadow:0 6px 16px rgba(255,111,155,0.35);
+}
 .hero::before{
   content:""; position:absolute; top:10px; left:50%; width:170px; height:170px; transform:translateX(-50%);
   background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
@@ -190,21 +212,38 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 
 /* ---------- ピックアップ(お知らせ) ---------- */
 #pickup{ border-top:none; padding:8px 0 6px; }
-.pickup-list{ display:flex; flex-direction:column; gap:10px; }
-.pickup-item{
+.pickup-list, .application-list{ display:flex; flex-direction:column; gap:10px; }
+.pickup-item, .application-item{
   position:relative;
   background:var(--oshi-color-soft); border:1px solid var(--oshi-color);
   border-radius:14px; padding:12px 80px 12px 14px; box-shadow:var(--shadow-sm);
   display:flex; gap:10px; align-items:flex-start;
 }
-.pickup-badge{ flex:none; font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:3px 8px; margin-top:1px; }
-.pickup-body h3{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
-.pickup-body p{ font-size:12px; color:var(--ink); }
-.pickup-go-btn{
+.pickup-badge, .application-badge{ flex:none; font-size:10px; font-weight:700; color:#fff; background:var(--oshi-color); border-radius:6px; padding:3px 8px; margin-top:1px; }
+body.editing .application-item.is-inactive-period{ opacity:0.5; }
+body.editing .application-item.is-inactive-period::after{
+  content:"表示期間外(訪問者には表示されません)"; position:absolute; left:14px; bottom:8px;
+  font-size:10px; font-weight:700; color:var(--oshi-color-deep);
+}
+.pickup-body h3, .application-body h3{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
+.pickup-body p, .application-body p{ font-size:12px; color:var(--ink); white-space:pre-line; }
+.application-attendance{
+  display:flex; align-items:flex-start; gap:6px; margin-top:8px; padding:8px 12px;
+  background:#fff; border:1px dashed var(--oshi-color); border-radius:10px;
+  font-size:12px; font-weight:700; color:var(--oshi-color-deep); white-space:pre-line; line-height:1.5;
+}
+.application-attendance-icon{ flex:none; font-size:14px; }
+.pickup-go-btn, .application-go-btn{
   display:inline-flex; align-items:center; gap:3px; margin-top:8px; border:1px solid var(--oshi-color); background:#fff;
   color:var(--oshi-color); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
 }
-.pickup-go-btn:hover{ background:var(--oshi-color-soft); }
+.pickup-go-btn:hover, .application-go-btn:hover{ background:var(--oshi-color-soft); }
+.application-links{ display:flex; gap:8px; flex-wrap:wrap; }
+.application-detail-btn{
+  display:inline-flex; align-items:center; gap:3px; margin-top:8px; border:1px solid var(--line); background:#fff;
+  color:var(--sub-ink); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
+}
+.application-detail-btn:hover{ background:var(--accent2); }
 
 /* ---------- 複数スライドセクション(おすすめコンテンツ) ---------- */
 .carousel-block{ margin-bottom:30px; }
@@ -249,6 +288,10 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 
 /* ---------- 出演情報(月ごとグループ・開閉式) ---------- */
 .tl-group{ margin-bottom:12px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--card); }
+.sns-group{ margin-bottom:14px; }
+.sns-month-head{ padding:4px 4px 8px; }
+.sns-month-label{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.sns-group-feed{ display:flex; flex-direction:column; gap:12px; }
 .tl-group:last-child{ margin-bottom:0; }
 .tl-month-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:12px 14px; cursor:pointer; }
 .tl-month-label{ font-size:13px; font-weight:700; color:var(--oshi-color); }
@@ -270,6 +313,7 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 .tl-date{ font-size:11px; color:var(--oshi-color); font-weight:700; }
 .tl-item h3{ font-size:13.5px; font-weight:700; margin:2px 0 3px; }
 .tl-item p{ font-size:12px; color:var(--sub-ink); }
+.tl-location{ font-size:11.5px; color:var(--oshi-color-deep); font-weight:700; margin-top:4px; }
 .tl-actions{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
 .tl-action-btn{
   border:1px solid var(--line); background:#fff; color:var(--oshi-color);
@@ -280,6 +324,10 @@ section{ padding:34px 0; border-top:1px solid var(--line); }
 body.editing .dup-btn{ display:inline-flex; }
 
 .qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{
+  border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit;
+  background:#fff; color:var(--ink); width:100%; box-sizing:border-box; line-height:1.6; resize:vertical;
+}
 .qa-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
 .qa-label{ font-size:11px; color:var(--sub-ink); margin-bottom:-3px; }
 
@@ -394,6 +442,11 @@ body.editing .official-link-item{ padding-right:84px; flex-wrap:wrap; }
 .sns-time{ font-size:10px; color:var(--sub-ink); white-space:nowrap; }
 .sns-text{ font-size:13.5px; line-height:1.7; }
 .sns-open-hint{ margin-top:9px; font-size:11px; font-weight:700; color:var(--oshi-color); }
+.sns-pickup-comment{
+  margin:0 16px 14px; padding:9px 12px; background:var(--oshi-color-soft); border-left:3px solid var(--oshi-color);
+  border-radius:8px; font-size:11.5px; color:var(--ink); line-height:1.6; white-space:pre-line;
+}
+.sns-pickup-label{ display:block; font-size:10px; font-weight:700; color:var(--oshi-color-deep); margin-bottom:2px; }
 .platform-badge{ font-size:9px; font-weight:700; padding:2px 7px; border-radius:6px; color:#fff; white-space:nowrap; }
 .platform-badge.x{ background:#141414; }
 .platform-badge.instagram{ background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4); }
@@ -496,12 +549,11 @@ body.editing .reorder-row{ display:flex; }
 
 .edit-toolbar{
   display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
-  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
-  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
-  max-width:94vw; overflow-x:auto; scrollbar-width:none;
+  align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:20px; padding:8px 10px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:100;
+  max-width:94vw;
 }
 .edit-toolbar.unlocked{ display:flex; }
-.edit-toolbar::-webkit-scrollbar{ display:none; }
 #footer-tap-target{ cursor:default; -webkit-tap-highlight-color:transparent; user-select:none; display:inline-block; }
 .tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--paper); color:var(--ink); white-space:nowrap; transition:background .15s ease; }
 .tb-btn.primary{ background:var(--oshi-color); color:#fff; }
@@ -622,6 +674,15 @@ body.editing .reorder-row{ display:flex; }
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 
 
+
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text">📢 お知らせテキストをここに入力</span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
 <nav class="topnav">
   <div class="wrap">
     <div class="brand editable" id="nav-brand" contenteditable="true">原優寧 布教サイト</div>
@@ -653,6 +714,7 @@ body.editing .reorder-row{ display:flex; }
 
 <header class="hero">
   <div class="wrap">
+    <div class="birthday-banner" id="birthday-banner" style="display: none;">🎉 Happy Birthday 🎂</div>
     <div class="hero-photo-wrap">
       <span class="hero-star hero-star-1" aria-hidden="true">✦</span>
       <div class="hero-photo" id="hero-photo">
@@ -730,6 +792,17 @@ body.editing .reorder-row{ display:flex; }
     <div id="tl-groups"></div>
     <p class="no-results" id="schedule-no-results">該当する予定が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-schedule" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<section id="applications" style="">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="applications-heading" contenteditable="true">申込受付中</span></h2>
+      <p class="editable" id="applications-desc" contenteditable="true">受付中のイベント・ライブ・公演の申込みをまとめています</p>
+    </div>
+    <div class="application-list" id="application-list"></div>
     
   </div>
 </section>
@@ -858,6 +931,17 @@ body.editing .reorder-row{ display:flex; }
     </div>
     
     
+  </div><div class="more-page-card" data-url="sitemap.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">🗺️</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">サイトマップ</h3>
+      <p class="more-page-desc editable" contenteditable="true">このサイトの全ページ一覧</p>
+      <a class="more-page-link" href="sitemap.html">見る ›</a>
+    </div>
+    
+    
   </div></div>
     
   </div>
@@ -901,6 +985,7 @@ body.editing .reorder-row{ display:flex; }
 <!-- テンプレート保存用データ(保存時にファイル内へそのまま保持されます) -->
 <script type="application/json" id="templates-data-schedule">[]</script>
 <script type="application/json" id="templates-data-pickup">[]</script>
+<script type="application/json" id="templates-data-application">[]</script>
 
 <script>
 
@@ -972,6 +1057,7 @@ const OSHI = {
   kana: "",
   badge: "推し活はじめませんか",
   catch: "",
+  birthday: "",
   navBrand: "原優寧 布教サイト",
   navLinks: [
     { label: "ゆかりの場所", url: "places.html" },
@@ -981,6 +1067,7 @@ const OSHI = {
   ],
   stats: [],
   pickups: [],
+  applications: [],
   carouselSections: [
     {
       id: "sec-default",
@@ -1002,12 +1089,14 @@ const OSHI = {
     { icon: "🎬", title: "動画まとめ", desc: "公式チャンネルなどの動画一覧", url: "videos.html" },
     { icon: "🛍️", title: "グッズまとめ", desc: "公式グッズの情報と販売期間をまとめました", url: "goods.html" },
     { icon: "🔧", title: "便利なツール", desc: "推し活に役立つツールをまとめました", url: "tools.html" },
+    { icon: "🗺️", title: "サイトマップ", desc: "このサイトの全ページ一覧", url: "sitemap.html" },
   ],
   officialLinks: [],
   officialLinksHeading: "公式リンク",
   officialLinksDesc: "グループの公式サイト・公式SNSはこちら",
   sectionText: {
     pickup: { heading: "ピックアップ", desc: "見逃せない最新情報をお届け" },
+    applications: { heading: "申込受付中", desc: "受付中のイベント・ライブ・公演の申込みをまとめています" },
     recommend: { heading: "コンテンツ", desc: "" },
     gallery: { heading: "フォトギャラリー", desc: "オフショットや素敵な瞬間を集めました" },
     schedule: { heading: "出演情報", desc: "配信・イベントなどの出演予定をまとめています" },
@@ -1061,7 +1150,7 @@ function officialLinkHTML(l){
   const detected = detectSnsPlatform(l.url);
   const label = l.label || (detected ? detected.label : "公式サイト");
   const platformKey = detected ? detected.key : "default";
-  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="">` : (detected ? detected.icon : "🔗");
+  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="" loading="lazy">` : (detected ? detected.icon : "🔗");
   return `<a class="official-link-item plat-${platformKey}" href="${l.url || '#'}" target="_blank" rel="noopener" data-url="${escAttr(l.url)}" data-icon="${escAttr(l.icon)}" data-label="${escAttr(l.label)}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
@@ -1081,6 +1170,27 @@ function pickupHTML(p){
       <h3 class="editable" contenteditable="false">${p.title}</h3>
       <p class="editable" contenteditable="false">${p.desc}</p>
       ${linkBtn}
+    </div>
+    ${REORDER_ROW}
+  </div>`;
+}
+
+function applicationHTML(p){
+  const linkBtn = p.url ? `<a class="application-go-btn" href="${p.url}" target="_blank" rel="noopener">申し込む ›</a>` : "";
+  const detailBtn = p.detailUrl ? `<a class="application-detail-btn" href="${p.detailUrl}" target="_blank" rel="noopener">詳細を見る ›</a>` : "";
+  const attendanceHtml = p.attendance ? `<div class="application-attendance"><span class="application-attendance-icon editable" contenteditable="false">${p.attendanceIcon || "📅"}</span><span class="application-attendance-text editable" contenteditable="false">${p.attendance}</span></div>` : "";
+  return `<div class="application-item" data-url="${p.url || ''}" data-detail-url="${p.detailUrl || ''}" data-start="${p.startDate || ''}" data-end="${p.endDate || ''}">
+    <button class="edit-edit" aria-label="編集">✎</button>
+    <button class="edit-remove" aria-label="削除">×</button>
+    <span class="application-badge editable" contenteditable="false">${p.badge}</span>
+    <div class="application-body">
+      <h3 class="editable" contenteditable="false">${p.title}</h3>
+      <p class="editable" contenteditable="false">${p.desc}</p>
+      ${attendanceHtml}
+      <div class="application-links">
+        ${linkBtn}
+        ${detailBtn}
+      </div>
     </div>
     ${REORDER_ROW}
   </div>`;
@@ -1159,11 +1269,13 @@ function snsPostHTML(p){
   const inner = p.url
     ? `<a class="sns-link" href="${p.url}" target="_blank" rel="noopener">${body}</a>`
     : `<div class="sns-link">${body}</div>`;
+  const commentHtml = p.comment ? `<div class="sns-pickup-comment"><span class="sns-pickup-label">💬 コメント</span><span class="editable" contenteditable="false">${p.comment}</span></div>` : "";
   const platformLabelAttr = (p.platformLabel || "").replace(/"/g, "&quot;");
-  return `<div class="sns-post" data-platform="${p.platform}" data-platform-label="${platformLabelAttr}" data-url="${p.url || ''}" data-avatar="${p.avatar || ''}">
+  return `<div class="sns-post" data-platform="${p.platform}" data-platform-label="${platformLabelAttr}" data-url="${p.url || ''}" data-avatar="${p.avatar || ''}" data-date="${p.date || ''}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
     ${inner}
+    ${commentHtml}
     ${REORDER_ROW}
   </div>`;
 }
@@ -1175,7 +1287,7 @@ function galleryItemHTML(g){
   return `<div class="gallery-item" data-caption="${caption}" data-source="${sourceUrl}" role="button" tabindex="0" aria-label="写真を拡大表示${g.caption ? ":" + caption : ""}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
-    <img src="${g.src}" alt="${altText}">
+    <img src="${g.src}" alt="${altText}" loading="lazy">
     ${g.caption ? '<span class="gallery-caption-dot" aria-hidden="true"></span>' : ''}
     ${REORDER_ROW}
   </div>`;
@@ -1191,6 +1303,18 @@ function formatDate(iso){
   const d = new Date(iso + "T00:00:00");
   const w = ["日","月","火","水","木","金","土"][d.getDay()];
   return `${String(d.getMonth()+1).padStart(2,"0")}/${String(d.getDate()).padStart(2,"0")}(${w})`;
+}
+function isTodayBirthday(){
+  if(!OSHI.birthday) return false;
+  const today = new Date();
+  const mmdd = String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+  return mmdd === OSHI.birthday;
+}
+function applyBirthdayMode(){
+  const active = isTodayBirthday();
+  document.body.classList.toggle("birthday-mode", active);
+  const banner = document.getElementById("birthday-banner");
+  banner.style.display = active ? "flex" : "none";
 }
 function icsEscape(s){
   return String(s || "").replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n");
@@ -1228,19 +1352,52 @@ function tlItemHTML(t){
   const linkBtn = t.url ? `<a class="tl-action-btn tl-open-btn" href="${t.url}" target="_blank" rel="noopener">🔗 リンクを開く</a>` : "";
   const isToday = t.date === new Date().toISOString().slice(0, 10);
   const todayBadge = isToday ? `<span class="tl-today-badge">本日</span>` : "";
-  return `<div class="tl-item${isToday ? " is-today" : ""}" data-date="${t.date}" data-url="${t.url || ''}">
+  const locationHtml = t.location ? `<div class="tl-location editable" contenteditable="false">📍 ${t.location}</div>` : "";
+  const mapBtn = t.location ? `<a class="tl-action-btn tl-map-btn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t.location)}" target="_blank" rel="noopener">📍 地図で見る</a>` : "";
+  return `<div class="tl-item${isToday ? " is-today" : ""}" data-date="${t.date}" data-url="${t.url || ''}" data-location="${(t.location || '').replace(/"/g, "&quot;")}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
     ${todayBadge}
     <div class="tl-date editable" contenteditable="false">${formatDate(t.date)}</div>
     <h3 class="editable" contenteditable="false">${t.title}</h3>
     <p class="editable" contenteditable="false">${t.desc || ""}</p>
+    ${locationHtml}
     <div class="tl-actions">
       ${linkBtn}
+      ${mapBtn}
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
   </div>`;
+}
+function snsGroupHTML(key, label){
+  return `<div class="sns-group" data-month="${key}">
+    <div class="sns-month-head"><h3 class="sns-month-label editable" contenteditable="false">${label}</h3></div>
+    <div class="sns-group-feed"></div>
+  </div>`;
+}
+function regroupSnsList(){
+  const list = document.getElementById("sns-list");
+  if(!list) return;
+  const posts = Array.from(list.querySelectorAll(".sns-post"));
+  posts.sort((a, b) => (b.dataset.date || "").localeCompare(a.dataset.date || ""));
+  const groups = new Map();
+  posts.forEach(post => {
+    const date = post.dataset.date || "";
+    const key = date ? monthKey(date) : "unknown";
+    if(!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(post);
+  });
+  const keys = Array.from(groups.keys()).sort((a, b) => b.localeCompare(a));
+  const unknownIdx = keys.indexOf("unknown");
+  if(unknownIdx > -1){ keys.splice(unknownIdx, 1); keys.push("unknown"); }
+  list.innerHTML = "";
+  keys.forEach(key => {
+    const label = key === "unknown" ? "日付未設定" : monthLabel(key + "-01");
+    list.insertAdjacentHTML("beforeend", snsGroupHTML(key, label));
+    const feed = list.querySelector(`.sns-group[data-month="${key}"] .sns-group-feed`);
+    groups.get(key).forEach(post => feed.appendChild(post));
+  });
 }
 function tlGroupHTML(key, label){
   const isCurrentMonth = (key === monthKey(new Date().toISOString()));
@@ -1303,7 +1460,7 @@ function parseScheduleBulkText(text){
       while(i < lines.length && lines[i].trim() === "") i++;
       let venue = "";
       if(i < lines.length && lines[i].trim().startsWith("📍")){
-        venue = lines[i].trim().slice(1).trim();
+        venue = lines[i].trim().replace(/^📍\s*/u, "").trim();
         i++;
       }
       while(i < lines.length){
@@ -1317,11 +1474,60 @@ function parseScheduleBulkText(text){
         const mm = String(month).padStart(2, "0");
         const dd = String(day).padStart(2, "0");
         const date = `${baseYear}-${mm}-${dd}`;
-        const desc = [timeStr, venue ? `📍${venue}` : ""].filter(Boolean).join(" ");
-        events.push({ date, title, desc });
+        const desc = timeStr;
+        events.push({ date, title, desc, location: venue });
       }
     }
   }
+  return events;
+}
+function looksLikeHtmlSource(text){
+  const head = String(text || "").slice(0, 3000);
+  return /<!doctype html/i.test(head) || /<html[\s>]/i.test(head) || text.indexOf("event-card") > -1;
+}
+function parseScheduleFromHtmlSource(html, memberName){
+  const events = [];
+  const name = String(memberName || "").trim();
+  if(!name) return events;
+  let doc;
+  try{
+    doc = new DOMParser().parseFromString(String(html || ""), "text/html");
+  }catch(e){
+    return events;
+  }
+  const dateGroups = doc.querySelectorAll(".date-group");
+  dateGroups.forEach(group => {
+    const heading = group.querySelector(".date-heading");
+    if(!heading) return;
+    let date = "";
+    const idMatch = /d(\d{4})-(\d{2})-(\d{2})/.exec(heading.id || "");
+    if(idMatch){
+      date = `${idMatch[1]}-${idMatch[2]}-${idMatch[3]}`;
+    }else{
+      const textMatch = /(\d{1,2})月(\d{1,2})日/.exec(heading.textContent || "");
+      if(textMatch) date = `${new Date().getFullYear()}-${String(textMatch[1]).padStart(2,"0")}-${String(textMatch[2]).padStart(2,"0")}`;
+    }
+    if(!date) return;
+    const cards = group.querySelectorAll(".event-card");
+    cards.forEach(card => {
+      const memberEls = card.querySelectorAll("[data-member-name], [data-stage-member-name]");
+      let hasMember = Array.from(memberEls).some(el => {
+        const v = el.getAttribute("data-member-name") || el.getAttribute("data-stage-member-name") || el.textContent || "";
+        return v.trim() === name;
+      });
+      const titleEl = card.querySelector(".event-title-link") || card.querySelector(".event-title");
+      const title = (titleEl?.textContent || "").trim();
+      if(!hasMember && title.indexOf(name) > -1) hasMember = true;
+      if(!hasMember || !title) return;
+      const timeEl = card.querySelector(".event-time");
+      const time = (timeEl?.textContent || "").trim();
+      const placeEl = card.querySelector(".event-detail-place");
+      const venue = (placeEl?.textContent || "").trim().replace(/^📍\s*/, "");
+      const desc = time;
+      const url = titleEl?.tagName === "A" ? (titleEl.getAttribute("href") || "") : (card.querySelector(".event-title-link")?.getAttribute("href") || "");
+      events.push({ date, title, desc, location: venue, url });
+    });
+  });
   return events;
 }
 function scheduleBulkPreviewHTML(events){
@@ -1335,7 +1541,9 @@ function scheduleBulkPreviewHTML(events){
       </label>
       <input type="date" class="qa-input bulk-row-date" value="${ev.date}" style="width:132px; font-size:11px; padding:6px; margin-bottom:5px;">
       <input type="text" class="qa-input bulk-row-title" value="${ev.title.replace(/"/g, "&quot;")}" style="font-size:12px; padding:7px 9px; margin-bottom:5px;">
-      <input type="text" class="qa-input bulk-row-desc" value="${(ev.desc || "").replace(/"/g, "&quot;")}" style="font-size:11px; padding:6px 9px;" placeholder="詳細(任意)">
+      <input type="text" class="qa-input bulk-row-desc" value="${(ev.desc || "").replace(/"/g, "&quot;")}" style="font-size:11px; padding:6px 9px; margin-bottom:5px;" placeholder="詳細(任意)">
+      <input type="text" class="qa-input bulk-row-location" value="${(ev.location || "").replace(/"/g, "&quot;")}" style="font-size:11px; padding:6px 9px; margin-bottom:5px;" placeholder="位置情報(任意)">
+      <input type="text" class="qa-input bulk-row-url" value="${(ev.url || "").replace(/"/g, "&quot;")}" style="font-size:11px; padding:6px 9px;" placeholder="リンクURL(任意)">
     </div>`;
   }).join("");
   return `
@@ -1375,9 +1583,12 @@ if(!document.body.dataset.rendered){
   document.getElementById("hero-name-accent").textContent = OSHI.nameAccent;
   document.getElementById("hero-kana").textContent = OSHI.kana;
   document.getElementById("hero-catch").textContent = OSHI.catch;
+  applyBirthdayMode();
   document.getElementById("hero-stats").innerHTML = OSHI.stats.map(statHTML).join("");
 
   document.getElementById("pickup-list").innerHTML = OSHI.pickups.map(pickupHTML).join("");
+  document.getElementById("application-list").innerHTML = (OSHI.applications || []).map(applicationHTML).join("");
+  refreshApplicationVisibility();
 
   document.getElementById("carousel-sections").innerHTML = OSHI.carouselSections.map(carouselBlockHTML).join("");
   OSHI.carouselSections.forEach(sec => {
@@ -1390,6 +1601,7 @@ if(!document.body.dataset.rendered){
   document.getElementById("gallery-grid").innerHTML = (OSHI.gallery || []).map(galleryItemHTML).join("");
 
   document.getElementById("sns-list").innerHTML = OSHI.sns.map(snsPostHTML).join("");
+  regroupSnsList();
   document.getElementById("more-pages-grid").innerHTML = (OSHI.morePages || []).map(morePageCardHTML).join("");
   document.getElementById("official-links-row").innerHTML = (OSHI.officialLinks || []).map(officialLinkHTML).join("");
   document.getElementById("official-links-heading").textContent = OSHI.officialLinksHeading || "公式リンク";
@@ -1492,10 +1704,25 @@ function initCarouselFor(root){
 document.querySelectorAll(".carousel-block").forEach(initCarouselFor);
 
 /* ---------- 情報がないセクションの見出しを隠す ---------- */
+function refreshApplicationVisibility(){
+  const today = new Date().toISOString().slice(0, 10);
+  document.querySelectorAll("#application-list .application-item").forEach(item => {
+    const start = item.dataset.start || "";
+    const end = item.dataset.end || "";
+    const active = (!start || today >= start) && (!end || today <= end);
+    item.classList.toggle("is-inactive-period", !active);
+    if(typeof editMode !== "undefined" && editMode){
+      item.style.display = "";
+    }else{
+      item.style.display = active ? "" : "none";
+    }
+  });
+}
 function refreshEmptyStates(){
   const isEditing = document.body.classList.contains("editing");
   const rules = [
     { el: document.getElementById("pickup"), empty: document.querySelectorAll("#pickup-list .pickup-item").length === 0 },
+    { el: document.getElementById("applications"), empty: document.querySelectorAll("#application-list .application-item").length === 0 },
     { el: document.getElementById("recommend"), empty: document.querySelectorAll("#carousel-sections .carousel-block").length === 0 },
     { el: document.getElementById("schedule"), empty: document.querySelectorAll("#tl-groups .tl-item").length === 0 },
     { el: document.getElementById("sns"), empty: document.querySelectorAll("#sns-list .sns-post").length === 0 },
@@ -1542,6 +1769,10 @@ function applySnsVisibility(){
       loadMoreBtn.style.display = "none";
     }
   }
+  document.querySelectorAll("#sns-list .sns-group").forEach(group => {
+    const anyVisible = Array.from(group.querySelectorAll(".sns-post")).some(post => post.style.display !== "none");
+    group.style.display = anyVisible ? "" : "none";
+  });
 }
 document.querySelectorAll("#sns-filter .filter-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -1604,6 +1835,9 @@ function applySearch(){
     el.style.display = matches(el) ? "" : "none";
   });
   document.querySelectorAll("#pickup-list .pickup-item").forEach(el => {
+    el.style.display = matches(el) ? "" : "none";
+  });
+  document.querySelectorAll("#application-list .application-item").forEach(el => {
     el.style.display = matches(el) ? "" : "none";
   });
   document.querySelectorAll("#gallery-grid .gallery-item").forEach(el => {
@@ -1772,7 +2006,7 @@ document.getElementById("share-btn-nav").addEventListener("click", async () => {
 /* 編集モード中は、リンク化されたカードをタップしても遷移させず編集を優先 */
 document.addEventListener("click", (e) => {
   if(!document.body.classList.contains("editing")) return;
-  const link = e.target.closest("a.rec-card-link, a.pickup-go-btn, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
+  const link = e.target.closest("a.rec-card-link, a.pickup-go-btn, a.application-go-btn, a.application-detail-btn, a.tl-open-btn, a.sns-link, a.more-page-link, a.official-link-item");
   if(link) e.preventDefault();
 });
 
@@ -1798,10 +2032,12 @@ document.addEventListener("click", (e) => {
 
 
 function rebuildFromData(data){
+  if(data.banner) renderSiteBanner(data.banner);
   if(data.nameMain !== undefined) document.getElementById("hero-name-main").textContent = data.nameMain;
   if(data.nameAccent !== undefined) document.getElementById("hero-name-accent").textContent = data.nameAccent;
   if(data.kana !== undefined) document.getElementById("hero-kana").textContent = data.kana;
   if(data.catch !== undefined) document.getElementById("hero-catch").textContent = data.catch;
+  if(data.birthday !== undefined){ OSHI.birthday = data.birthday; applyBirthdayMode(); }
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
   if(data.navLinks) renderNavLinksList(data.navLinks);
   if(data.heroPhoto){
@@ -1812,6 +2048,7 @@ function rebuildFromData(data){
 
   if(data.stats) document.getElementById("hero-stats").innerHTML = data.stats.map(statHTML).join("");
   if(data.pickups) document.getElementById("pickup-list").innerHTML = data.pickups.map(pickupHTML).join("");
+  if(data.applications){ document.getElementById("application-list").innerHTML = data.applications.map(applicationHTML).join(""); refreshApplicationVisibility(); }
 
   if(data.carouselSections){
     document.getElementById("carousel-sections").innerHTML = data.carouselSections.map(carouselBlockHTML).join("");
@@ -1828,7 +2065,7 @@ function rebuildFromData(data){
   }
   scheduleShowAll = false;
 
-  if(data.sns) document.getElementById("sns-list").innerHTML = data.sns.map(snsPostHTML).join("");
+  if(data.sns){ document.getElementById("sns-list").innerHTML = data.sns.map(snsPostHTML).join(""); regroupSnsList(); }
   snsShowAll = false;
   if(data.gallery) document.getElementById("gallery-grid").innerHTML = data.gallery.map(galleryItemHTML).join("");
   if(data.morePages) document.getElementById("more-pages-grid").innerHTML = data.morePages.map(morePageCardHTML).join("");
@@ -1851,6 +2088,45 @@ function rebuildFromData(data){
   syncOgpTags();
   hasUnsavedChanges = true;
 }
+
+/* ---------- サイト全体のお知らせバナー ----------
+   index.htmlで内容を編集し「📢 お知らせ」ボタンから書き出したannouncement-data.jsonを
+   他の全ページの同じ場所に置くと、共通のお知らせとして表示されます。 */
+let currentBannerState = { active: false, text: "📢 お知らせテキストをここに入力", url: "" };
+
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!data || !data.active || !data.text){
+    currentBannerState = { active: false, text: (data && data.text) || currentBannerState.text, url: (data && data.url) || "" };
+    if(typeof editMode === "undefined" || !editMode) banner.style.display = "none";
+    return;
+  }
+  const dismissKey = "oshi_banner_dismissed";
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem(dismissKey) || ""; }catch(e){ /* localStorage不可の環境 */ }
+  currentBannerState = { active: true, text: data.text, url: data.url || "" };
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  if(dismissed === data.text && (typeof editMode === "undefined" || !editMode)){
+    banner.style.display = "none";
+  }else{
+    banner.style.display = "block";
+  }
+}
+document.getElementById("site-banner-close").addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
+})();
 
 
 
