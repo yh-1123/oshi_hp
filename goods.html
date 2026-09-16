@@ -2,6 +2,14 @@
 <html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<script>
+(function(){
+  try{
+    if(localStorage.getItem("oshi_dark_mode") === "1") document.documentElement.classList.add("dark-mode");
+  }catch(e){ /* localStorage不可の環境 */ }
+})();
+</script>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#e0233a">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -60,6 +68,34 @@
   --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
   --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
 }
+html.dark-mode{
+  --oshi-color: #ff5c72;
+  --oshi-color-deep: #ff8194;
+  --oshi-color-soft: #3a2028;
+  --accent2: #2b2530;
+  --ink: #f1e9ec;
+  --sub-ink: #b3a3ae;
+  --paper: #17131b;
+  --line: #362e3c;
+  --card: #241f29;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md: 0 10px 26px rgba(0,0,0,0.45);
+}
+html.dark-mode img{ opacity:0.92; }
+html.dark-mode .topnav{ background: rgba(23,19,27,0.92); }
+.dark-mode-toggle-btn{
+  position:fixed; left:16px; bottom:16px; z-index:60;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  width:40px; height:40px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(43,35,49,0.10);
+  opacity:0.45; transition:opacity 0.15s ease;
+}
+.dark-mode-toggle-btn:hover, .dark-mode-toggle-btn:focus-visible, .dark-mode-toggle-btn:active{ opacity:1; }
+@media (hover: none){ .dark-mode-toggle-btn{ opacity:0.65; } }
+html.dark-mode .dark-toggle-icon-moon{ display:none; }
+html.dark-mode .dark-toggle-icon-sun{ display:inline; }
+.dark-toggle-icon-sun{ display:none; }
 *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
   outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
@@ -387,6 +423,20 @@ body.editing .add-row{ display:flex; }
   font-size:14px; line-height:1; cursor:pointer; flex:none;
 }
 .site-banner-close:hover{ background:rgba(255,255,255,0.35); }
+
+.related-pages-section{ margin-top:26px; }
+.related-pages-list{ display:flex; flex-direction:column; gap:10px; }
+.related-link-box{
+  position:relative; display:flex; gap:10px; align-items:center; text-decoration:none;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:12px 46px 12px 14px; box-shadow:var(--shadow-sm);
+}
+.related-link-box .related-link-icon{ font-size:17px; flex:none; }
+.related-link-box .related-link-title{ font-size:12.5px; font-weight:700; color:var(--ink); margin-bottom:1px; }
+.related-link-box .related-link-desc{ font-size:10.5px; color:var(--sub-ink); }
+.related-link-box .related-link-arrow{ margin-left:auto; flex:none; color:var(--oshi-color-deep); font-weight:700; }
+.related-link-box .edit-edit{ top:6px; right:34px; }
+.related-link-box .edit-remove{ top:6px; right:6px; }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -409,6 +459,9 @@ body.editing .add-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+<button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
+  <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
+</button>
 
 <div class="site-banner" id="site-banner" style="display:none;">
   <div class="wrap site-banner-inner">
@@ -430,8 +483,7 @@ body.editing .add-row{ display:flex; }
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
-    </div>
-  </div>
+    </div></div>
 </nav>
 
 <header class="p-hero">
@@ -483,6 +535,14 @@ body.editing .add-row{ display:flex; }
     <div class="goods-grid" id="goods-grid"></div>
     <p class="no-results" id="no-results">条件に合うグッズが見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-goods" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<section class="related-pages-section">
+  <div class="wrap">
+    <div class="sec-head"><h2><span class="mark">◆</span>関連ページ</h2></div>
+    <div class="related-pages-list" id="related-pages-list"></div>
     
   </div>
 </section>
@@ -1238,6 +1298,7 @@ document.addEventListener("click", (e) => {
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
 
 function rebuildFromData(data){
+  if(data.relatedPages) renderRelatedPages(data.relatedPages);
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
   if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
   if(data.backLinkUrl){
@@ -1333,6 +1394,68 @@ document.getElementById("site-banner-close")?.addEventListener("click", () => {
   }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
+
+document.getElementById("dark-mode-toggle")?.addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark-mode");
+  try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
+});
+
+/* ---------- 関連ページ(手動リンク・編集可能) ---------- */
+function relEscHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function relEscAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function relatedPageHTML(p){
+  return `<a class="related-link-box" href="${relEscAttr(p.url)}">
+    <button type="button" class="edit-edit" aria-label="編集">✎</button>
+    <button type="button" class="edit-remove" aria-label="削除">×</button>
+    <span class="related-link-icon">${relEscHtml(p.icon)}</span>
+    <span>
+      <div class="related-link-title">${relEscHtml(p.title)}</div>
+      <div class="related-link-desc">${relEscHtml(p.desc)}</div>
+    </span>
+    <span class="related-link-arrow">›</span>
+  </a>`;
+}
+function renderRelatedPages(list){
+  const el = document.getElementById("related-pages-list");
+  if(el) el.innerHTML = (list || []).map(relatedPageHTML).join("");
+}
+function extractRelatedPages(){
+  return Array.from(document.querySelectorAll("#related-pages-list .related-link-box")).map(el => ({
+    icon: el.querySelector(".related-link-icon")?.textContent || "",
+    title: el.querySelector(".related-link-title")?.textContent || "",
+    desc: el.querySelector(".related-link-desc")?.textContent || "",
+    url: el.getAttribute("href") || "",
+  }));
+}
+renderRelatedPages([]);
+function relVal(id, fallback){ return document.getElementById(id)?.value.trim() || fallback; }
+let relatedModalEditTarget = null;
+function openRelatedModal(existing){
+  relatedModalEditTarget = existing || null;
+  const icon = existing?.querySelector(".related-link-icon")?.textContent || "";
+  const title = existing?.querySelector(".related-link-title")?.textContent || "";
+  const desc = existing?.querySelector(".related-link-desc")?.textContent || "";
+  const url = existing?.getAttribute("href") || "";
+  document.getElementById("modal-title").textContent = existing ? "関連ページを編集" : "関連ページを追加";
+  document.getElementById("modal-fields").innerHTML = `
+    <div class="qa-label">アイコン(絵文字)</div><input class="qa-input" id="f-rel-icon" value="${relEscAttr(icon || "📄")}">
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-rel-title" value="${relEscAttr(title)}" placeholder="例:ゆかりの場所まとめも見る">
+    <div class="qa-label">説明</div><input class="qa-input" id="f-rel-desc" value="${relEscAttr(desc)}" placeholder="例:聖地巡礼・お店などをまとめています">
+    <div class="qa-label">リンク先(ファイル名)</div><input class="qa-input" id="f-rel-url" value="${relEscAttr(url)}" placeholder="例:places.html">`;
+  document.getElementById("modal-submit").textContent = existing ? "更新する" : "追加する";
+  modalType = "relatedPage";
+  document.getElementById("modal-backdrop").classList.add("open");
+}
+document.getElementById("add-related-page")?.addEventListener("click", () => openRelatedModal(null));
+document.getElementById("related-pages-list")?.addEventListener("click", (e) => {
+  if(e.target.closest(".edit-edit")){ e.preventDefault(); openRelatedModal(e.target.closest(".related-link-box")); return; }
+  if(e.target.closest(".edit-remove")){
+    e.preventDefault();
+    if(confirm("この関連ページリンクを削除しますか？")){ e.target.closest(".related-link-box").remove(); hasUnsavedChanges = true; }
+    return;
+  }
+  if(document.body.classList.contains("editing")) e.preventDefault();
+});
 </script>
 
 

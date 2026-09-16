@@ -2,6 +2,13 @@
 <html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<script>
+(function(){
+  try{
+    if(localStorage.getItem("oshi_dark_mode") === "1") document.documentElement.classList.add("dark-mode");
+  }catch(e){ /* localStorage不可の環境 */ }
+})();
+</script>
 
 <!-- ==========================================================
      PWA(ホーム画面に追加)対応
@@ -88,6 +95,34 @@
   --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
   --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
 }
+html.dark-mode{
+  --oshi-color: #ff5c72;
+  --oshi-color-deep: #ff8194;
+  --oshi-color-soft: #3a2028;
+  --accent2: #2b2530;
+  --ink: #f1e9ec;
+  --sub-ink: #b3a3ae;
+  --paper: #17131b;
+  --line: #362e3c;
+  --card: #241f29;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md: 0 10px 26px rgba(0,0,0,0.45);
+}
+html.dark-mode img{ opacity:0.92; }
+html.dark-mode .topnav{ background: rgba(23,19,27,0.92); }
+html.dark-mode .dark-toggle-icon-moon{ display:none; }
+html.dark-mode .dark-toggle-icon-sun{ display:inline; }
+.dark-toggle-icon-sun{ display:none; }
+.dark-mode-toggle-btn{
+  position:fixed; left:16px; bottom:16px; z-index:60;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  width:40px; height:40px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(43,35,49,0.10);
+  opacity:0.45; transition:opacity 0.15s ease;
+}
+.dark-mode-toggle-btn:hover, .dark-mode-toggle-btn:focus-visible, .dark-mode-toggle-btn:active{ opacity:1; }
+@media (hover: none){ .dark-mode-toggle-btn{ opacity:0.65; } }
 
 *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
@@ -672,6 +707,9 @@ body.editing .reorder-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+<button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
+  <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
+</button>
 
 
 
@@ -702,8 +740,7 @@ body.editing .reorder-row{ display:flex; }
   </span></span>
       
       <button class="nav-search-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
-      <button class="nav-search-btn" id="nav-search-toggle" type="button" aria-label="検索">🔍</button>
-    </div>
+      <button class="nav-search-btn" id="nav-search-toggle" type="button" aria-label="検索">🔍</button>    </div>
   </div>
   <div class="nav-search-row" id="nav-search-row">
     <div class="wrap">
@@ -865,6 +902,17 @@ body.editing .reorder-row{ display:flex; }
     </div>
     
     
+  </div><div class="more-page-card" data-url="meigen.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">💬</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">名言集</h3>
+      <p class="more-page-desc editable" contenteditable="true">配信やインタビューでの印象的な言葉をまとめました</p>
+      <a class="more-page-link" href="meigen.html">見る ›</a>
+    </div>
+    
+    
   </div><div class="more-page-card" data-url="places.html" data-visible="1">
     
     
@@ -898,6 +946,17 @@ body.editing .reorder-row{ display:flex; }
     </div>
     
     
+  </div><div class="more-page-card" data-url="nenpyo.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">🗓️</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">年表</h3>
+      <p class="more-page-desc editable" contenteditable="true">これまでの歩みを時系列でまとめました</p>
+      <a class="more-page-link" href="nenpyo.html">見る ›</a>
+    </div>
+    
+    
   </div><div class="more-page-card" data-url="videos.html" data-visible="1">
     
     
@@ -928,6 +987,28 @@ body.editing .reorder-row{ display:flex; }
       <h3 class="more-page-title editable" contenteditable="true">便利なツール</h3>
       <p class="more-page-desc editable" contenteditable="true">推し活に役立つツールをまとめました</p>
       <a class="more-page-link" href="tools.html">見る ›</a>
+    </div>
+    
+    
+  </div><div class="more-page-card" data-url="favorites.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">⭐</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">お気に入り</h3>
+      <p class="more-page-desc editable" contenteditable="true">各ページでチェックしたお気に入りをまとめて見られます</p>
+      <a class="more-page-link" href="favorites.html">見る ›</a>
+    </div>
+    
+    
+  </div><div class="more-page-card" data-url="updates.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">📝</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">更新ログ</h3>
+      <p class="more-page-desc editable" contenteditable="true">このサイトの更新内容をお知らせします</p>
+      <a class="more-page-link" href="updates.html">見る ›</a>
     </div>
     
     
@@ -1083,12 +1164,16 @@ const OSHI = {
     { icon: "👤", title: "メンバープロフィール", desc: "経歴・基本情報・SNSリンクなど", url: "member-profile.html" },
     { icon: "🔰", title: "推し活はじめての方へ", desc: "申込方法・用語集・FAQ", url: "guide.html" },
     { icon: "📚", title: "豆知識・エピソード集", desc: "知って楽しい豆知識をまとめました", url: "wiki.html" },
+    { icon: "💬", title: "名言集", desc: "配信やインタビューでの印象的な言葉をまとめました", url: "meigen.html" },
     { icon: "📍", title: "ゆかりの場所まとめ", desc: "聖地巡礼・お店・旅行先など", url: "places.html" },
     { icon: "🏛️", title: "建築との関わり", desc: "大学時代や建築にまつわる活動", url: "architecture.html" },
     { icon: "🏆", title: "活動実績", desc: "楽曲・公演・メディア出演の記録", url: "achievements.html" },
+    { icon: "🗓️", title: "年表", desc: "これまでの歩みを時系列でまとめました", url: "nenpyo.html" },
     { icon: "🎬", title: "動画まとめ", desc: "公式チャンネルなどの動画一覧", url: "videos.html" },
     { icon: "🛍️", title: "グッズまとめ", desc: "公式グッズの情報と販売期間をまとめました", url: "goods.html" },
     { icon: "🔧", title: "便利なツール", desc: "推し活に役立つツールをまとめました", url: "tools.html" },
+    { icon: "⭐", title: "お気に入り", desc: "各ページでチェックしたお気に入りをまとめて見られます", url: "favorites.html" },
+    { icon: "📝", title: "更新ログ", desc: "このサイトの更新内容をお知らせします", url: "updates.html" },
     { icon: "🗺️", title: "サイトマップ", desc: "このサイトの全ページ一覧", url: "sitemap.html" },
   ],
   officialLinks: [],
@@ -1862,6 +1947,10 @@ document.getElementById("nav-search-toggle").addEventListener("click", () => {
   const opening = !row.classList.contains("open");
   row.classList.toggle("open", opening);
   if(opening){ document.getElementById("site-search").focus(); }
+});
+document.getElementById("dark-mode-toggle").addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark-mode");
+  try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
 });
 
 
