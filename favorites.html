@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<script>
+(function(){
+  try{
+    if(localStorage.getItem("oshi_dark_mode") === "1") document.documentElement.classList.add("dark-mode");
+  }catch(e){ /* localStorage不可の環境 */ }
+})();
+</script>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0233a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<title>お気に入り | 原優寧 布教サイト</title>
+<meta name="description" content="各ページでチェックしたお気に入りを、まとめて見られるページです。">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="原優寧 布教サイト">
+<meta property="og:title" content="お気に入り">
+<meta property="og:description" content="各ページでチェックしたお気に入りを、まとめて見られるページです。">
+<meta property="og:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
+<meta property="og:url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="お気に入り">
+<meta name="twitter:description" content="各ページでチェックしたお気に入りを、まとめて見られるページです。">
+<meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
+
+<!-- Google tag (gtag.js) -->
+<script>
+(function(){
+  var OPTOUT_KEY = "oshi_ga_optout";
+  var PASSPHRASE = "yune1123";
+  try{
+    var params = new URLSearchParams(location.search);
+    if(params.get("ga_optout") === PASSPHRASE){
+      localStorage.setItem(OPTOUT_KEY, "1");
+    }
+    if(localStorage.getItem(OPTOUT_KEY) === "1"){
+      window["ga-disable-G-N5CY6YN1KG"] = true;
+    }
+  }catch(e){ /* localStorage利用不可の環境では何もしない */ }
+})();
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-N5CY6YN1KG');
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root{
+  --oshi-color: #e0233a;
+  --oshi-color-deep: #b81b30;
+  --oshi-color-soft: #ffe2e6;
+  --ink: #2b2331;
+  --sub-ink: #7d6b78;
+  --paper: #fffaf9;
+  --line: #f0dde6;
+  --card: #ffffff;
+  --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
+  --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
+}
+html.dark-mode{
+  --oshi-color: #ff5c72;
+  --oshi-color-deep: #ff8194;
+  --oshi-color-soft: #3a2028;
+  --accent2: #2b2530;
+  --ink: #f1e9ec;
+  --sub-ink: #b3a3ae;
+  --paper: #17131b;
+  --line: #362e3c;
+  --card: #241f29;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md: 0 10px 26px rgba(0,0,0,0.45);
+}
+html.dark-mode img{ opacity:0.92; }
+html.dark-mode .topnav{ background: rgba(23,19,27,0.92); }
+.dark-mode-toggle-btn{
+  position:fixed; left:16px; bottom:16px; z-index:60;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  width:40px; height:40px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(43,35,49,0.10);
+  opacity:0.45; transition:opacity 0.15s ease;
+}
+.dark-mode-toggle-btn:hover, .dark-mode-toggle-btn:focus-visible, .dark-mode-toggle-btn:active{ opacity:1; }
+@media (hover: none){ .dark-mode-toggle-btn{ opacity:0.65; } }
+html.dark-mode .dark-toggle-icon-moon{ display:none; }
+html.dark-mode .dark-toggle-icon-sun{ display:inline; }
+.dark-toggle-icon-sun{ display:none; }
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible{ outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px; }
+html{ scroll-behavior:smooth; overflow-x:hidden; width:100%; }
+body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
+h1,h2,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+
+.topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.topnav .wrap{ display:flex; align-items:center; height:46px; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.brand{ margin-left:auto; font-size:12px; color:var(--sub-ink); }
+
+.s-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
+.s-hero::before{
+  content:""; position:absolute; top:4px; left:50%; width:170px; height:120px; transform:translateX(-50%);
+  background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
+  opacity:0.9; pointer-events:none;
+}
+.s-hero .eyebrow{ position:relative; display:inline-block; font-size:10px; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:3px 10px; margin-bottom:9px; font-weight:700; }
+.s-hero h1{ position:relative; font-size:clamp(19px,6.6vw,25px); font-weight:900; }
+.s-hero p{ position:relative; margin:9px auto 0; max-width:420px; font-size:12.5px; color:var(--sub-ink); }
+
+section{ padding:22px 0; }
+.sec-head{ margin-bottom:14px; }
+.sec-head h2{ font-size:15px; font-weight:900; display:flex; align-items:center; gap:6px; }
+.sec-head .mark{ color:var(--oshi-color); }
+
+.page-list{ display:flex; flex-direction:column; gap:10px; }
+.page-card{
+  position:relative; display:flex; gap:12px; align-items:flex-start;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:14px 84px 14px 16px; box-shadow:var(--shadow-sm);
+}
+.page-icon{ flex:none; font-size:24px; line-height:1.2; }
+.page-body{ flex:1; min-width:0; }
+.page-title{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
+.page-desc{ font-size:11.5px; color:var(--sub-ink); }
+.page-arrow{ flex:none; align-self:center; color:var(--oshi-color); font-weight:700; }
+.page-arrow-link{ flex:none; align-self:center; color:var(--oshi-color); font-weight:900; font-size:20px; text-decoration:none; padding:6px; }
+
+footer{ text-align:center; padding:30px 20px 10px; font-size:11.5px; color:var(--sub-ink); }
+
+.site-banner{ position:relative; background: var(--oshi-color); color:#fff; font-size:12.5px; font-weight:700; }
+.site-banner-inner{ display:flex; align-items:center; gap:10px; padding:9px 40px 9px 18px; min-height:20px; }
+.site-banner-link{ color:#fff; flex:1; min-width:0; text-decoration:none; }
+.site-banner-close{
+  position:absolute; top:50%; right:10px; transform:translateY(-50%);
+  border:none; background:rgba(255,255,255,0.2); color:#fff; width:24px; height:24px; border-radius:50%;
+  font-size:14px; line-height:1; cursor:pointer; flex:none;
+}
+.site-banner-close:hover{ background:rgba(255,255,255,0.35); }
+
+/* ---------- 編集モード(サイト運営者用) ---------- */
+.editable{ outline:none; }
+body.editing .editable{ outline:1.5px dashed var(--oshi-color); outline-offset:2px; border-radius:4px; cursor:text; }
+body.editing .editable:hover{ background:rgba(255,255,255,0.6); }
+.edit-edit, .edit-remove{
+  display:none; position:absolute; top:12px; width:28px; height:28px; border-radius:50%;
+  border:1px solid var(--line); background:#fff; align-items:center; justify-content:center;
+  font-size:12px; color:var(--sub-ink); cursor:pointer;
+}
+.edit-edit{ right:48px; }
+.edit-remove{ right:14px; }
+body.editing .edit-edit, body.editing .edit-remove{ display:flex; }
+body.editing .edit-edit:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+body.editing .edit-remove:hover{ background:var(--oshi-color); color:#fff; border-color:var(--oshi-color); }
+.reorder-row{ display:none; gap:6px; margin-top:10px; }
+body.editing .reorder-row{ display:flex; }
+.reorder-btn{ border:1px solid var(--line); background:#fff; border-radius:8px; padding:4px 10px; font-size:11px; color:var(--sub-ink); cursor:pointer; }
+.add-row{ display:none; margin-top:12px; }
+body.editing .add-row{ display:block; }
+.add-btn{ width:100%; border:1.5px dashed var(--oshi-color); background:var(--oshi-color-soft); color:var(--oshi-color-deep); border-radius:14px; padding:12px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; }
+
+.edit-toolbar{
+  display:none; position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+  align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:7px 8px; box-shadow:0 8px 24px rgba(43,35,49,0.18); z-index:400;
+  max-width:94vw; overflow-x:auto;
+}
+.edit-toolbar.unlocked{ display:flex; }
+.tb-btn{ flex:none; border:none; border-radius:999px; padding:9px 15px; font-size:12px; font-weight:700; cursor:pointer; background:var(--oshi-color-soft); color:var(--ink); white-space:nowrap; font-family:inherit; }
+.tb-btn.primary{ background:var(--oshi-color); color:#fff; }
+.tb-btn.primary:hover{ background:var(--oshi-color-deep); }
+.tb-btn-icon{ flex:none; border:none; border-radius:50%; width:34px; height:34px; font-size:14px; cursor:pointer; background:var(--oshi-color-soft); color:var(--ink); display:inline-flex; align-items:center; justify-content:center; }
+.tb-btn-icon:hover{ background:var(--line); color:var(--oshi-color); }
+
+.modal-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:410; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open{ display:flex; }
+.edit-modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:88vh; overflow-y:auto; }
+.edit-modal h3{ margin:0 0 14px; font-size:16px; }
+.qa-label{ font-size:11.5px; font-weight:700; color:var(--sub-ink); margin:10px 0 4px; }
+.qa-input{ width:100%; border:1.5px solid var(--line); border-radius:10px; padding:10px 13px; font-size:14px; font-family:inherit; color:var(--ink); }
+.modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:16px; }
+</style>
+</head>
+<body>
+<button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
+  <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
+</button>
+
+<div class="site-banner" id="site-banner" style="display:none;">
+  <div class="wrap site-banner-inner">
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text"></span>
+    </a>
+    <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
+  </div>
+</div>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← トップに戻る</a>
+    <div class="brand">お気に入り</div></div>
+</nav>
+
+<header class="s-hero">
+  <div class="wrap">
+    <span class="eyebrow">MY FAVORITES</span>
+    <h1 id="s-title">お気に入り</h1>
+    <p id="s-desc">各ページでチェックした☆お気に入りを、まとめて見られるページです。この端末・このブラウザでの記録が表示されます。</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><h2><span class="mark">◆</span>チェックした項目</h2></div>
+    <div class="page-list" id="favorites-list"></div>
+    <p class="no-results" id="favorites-empty" style="display:none; text-align:center; color:var(--sub-ink); font-size:12.5px; padding:20px 0;">まだお気に入りがありません。各ページの☆ボタンでチェックすると、ここに表示されます。</p>
+  </div>
+</section>
+
+<footer>
+  推し活は無理なく、楽しく♡
+</footer>
+
+<script>
+/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!banner) return;
+  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  banner.style.display = (dismissed === data.text) ? "none" : "block";
+}
+document.getElementById("site-banner-close")?.addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
+})();
+
+/* ---------- お気に入り統合表示 ---------- */
+function escapeHtml(str){
+  return String(str || "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+const FAVORITE_SOURCES = [
+  { key:"wiki", label:"豆知識・エピソード集", icon:"📚", pageUrl:"wiki.html", jsonFile:"wiki-data.json", storageKey:"oshi-favorites-wiki", titleField:"title", descField:"body" },
+  { key:"places", label:"ゆかりの場所まとめ", icon:"📍", pageUrl:"places.html", jsonFile:"places-data.json", storageKey:"oshi-favorites-places", titleField:"name", descField:"body" },
+  { key:"videos", label:"動画まとめ", icon:"🎬", pageUrl:"videos.html", jsonFile:"videos-data.json", storageKey:"oshi-favorites-videos", titleField:"title", descField:"desc" },
+  { key:"goods", label:"グッズまとめ", icon:"🛍️", pageUrl:"goods.html", jsonFile:"goods-data.json", storageKey:"oshi-favorites-goods", titleField:"title", descField:"desc" },
+  { key:"tools", label:"便利なツール", icon:"🔧", pageUrl:"tools.html", jsonFile:"tools-data.json", storageKey:"oshi-favorites-tools", titleField:"title", descField:"desc" },
+];
+function getFavTitles(storageKey){
+  try{
+    const raw = localStorage.getItem(storageKey);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function favoriteCardHTML(source, item){
+  const title = item[source.titleField] || "";
+  const desc = (item[source.descField] || "").slice(0, 80);
+  return `<div class="page-card">
+    <span class="page-icon">${source.icon}</span>
+    <span class="page-body">
+      <span class="page-title">${escapeHtml(title)}</span><br>
+      <span class="page-desc">${escapeHtml(desc)}${desc.length >= 80 ? "…" : ""}</span>
+    </span>
+    <a class="page-arrow-link" href="${source.pageUrl}" aria-label="${escapeHtml(source.label)}を見る">›</a>
+  </div>`;
+}
+async function loadFavoritesFromSource(source){
+  const titles = getFavTitles(source.storageKey);
+  if(!titles.length) return [];
+  try{
+    if(location.href.indexOf("file://") === 0) return [];
+    const res = await fetch(source.jsonFile + "?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return [];
+    const data = await res.json();
+    const items = Array.isArray(data.items) ? data.items : [];
+    return items
+      .filter(item => titles.includes((item[source.titleField] || "").trim()))
+      .map(item => ({ source, item }));
+  }catch(e){ return []; }
+}
+async function renderFavorites(){
+  const results = await Promise.all(FAVORITE_SOURCES.map(loadFavoritesFromSource));
+  const all = results.flat();
+  const listEl = document.getElementById("favorites-list");
+  const emptyEl = document.getElementById("favorites-empty");
+  if(!all.length){
+    listEl.innerHTML = "";
+    emptyEl.style.display = "block";
+    return;
+  }
+  emptyEl.style.display = "none";
+  listEl.innerHTML = all.map(({source, item}) => favoriteCardHTML(source, item)).join("");
+}
+renderFavorites();
+
+
+document.getElementById("dark-mode-toggle")?.addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark-mode");
+  try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
+});
+</script>
+
+</body>
+</html>
