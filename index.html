@@ -229,7 +229,7 @@ body.editing .hero-photo-edit{ display:flex; }
 .hero h1{ position:relative; font-size:clamp(20px, 7.5vw, 28px); font-weight:900; color:var(--ink); line-height:1.25; }
 .hero h1 .accent{ color:var(--oshi-color); }
 .hero .kana{ position:relative; font-size:10px; color:var(--sub-ink); margin-top:2px; letter-spacing:0.08em; }
-.hero .catch{ position:relative; margin:9px auto 0; max-width:400px; font-size:12.5px; color:var(--ink); font-weight:500; }
+.hero .catch{ position:relative; margin:9px auto 0; max-width:100%; padding:0 12px; font-size:12.5px; color:var(--ink); font-weight:500; white-space:nowrap; overflow:hidden; display:inline-block; box-sizing:border-box; }
 .hero .stats{ position:relative; display:flex; justify-content:center; gap:14px; margin-top:14px; flex-wrap:wrap; }
 .hero .stats .stat-item{ text-align:center; position:relative; }
 .hero .stats .num{ font-family:'Zen Maru Gothic',sans-serif; font-size:14px; font-weight:700; color:var(--oshi-color); }
@@ -715,8 +715,8 @@ body.editing .reorder-row{ display:flex; }
 
 <div class="site-banner" id="site-banner" style="display:none;">
   <div class="wrap site-banner-inner">
-    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
-      <span id="site-banner-text">📢 お知らせテキストをここに入力</span>
+    <a class="site-banner-link" id="site-banner-link" href="https://yh-1123.github.io/oshi_hp/videos.html" target="_blank" rel="noopener">
+      <span id="site-banner-text">動画まとめに「タグ別に表示機能」を実装いたしました。興味ある方はお試しください。</span>
     </a>
     <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
   </div>
@@ -1044,7 +1044,7 @@ body.editing .reorder-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -1389,6 +1389,20 @@ function formatDate(iso){
   const w = ["日","月","火","水","木","金","土"][d.getDay()];
   return `${String(d.getMonth()+1).padStart(2,"0")}/${String(d.getDate()).padStart(2,"0")}(${w})`;
 }
+function fitCatchToOneLine(){
+  const el = document.getElementById("hero-catch");
+  if(!el || !el.textContent.trim()){ return; }
+  const container = el.parentElement;
+  const maxWidth = (container ? container.clientWidth : window.innerWidth) - 24;
+  el.style.fontSize = "12.5px";
+  let fontSize = 12.5;
+  while(el.scrollWidth > maxWidth && fontSize > 8){
+    fontSize -= 0.5;
+    el.style.fontSize = fontSize + "px";
+  }
+}
+new MutationObserver(fitCatchToOneLine).observe(document.getElementById("hero-catch"), { childList: true, characterData: true, subtree: true });
+window.addEventListener("resize", () => { fitCatchToOneLine(); });
 function isTodayBirthday(){
   if(!OSHI.birthday) return false;
   const today = new Date();
@@ -1668,6 +1682,7 @@ if(!document.body.dataset.rendered){
   document.getElementById("hero-name-accent").textContent = OSHI.nameAccent;
   document.getElementById("hero-kana").textContent = OSHI.kana;
   document.getElementById("hero-catch").textContent = OSHI.catch;
+  fitCatchToOneLine();
   applyBirthdayMode();
   document.getElementById("hero-stats").innerHTML = OSHI.stats.map(statHTML).join("");
 
