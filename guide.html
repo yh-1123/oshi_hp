@@ -140,7 +140,7 @@ section{ padding:30px 0; border-top:1px solid var(--line); }
 .howto-item, .letters-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
 .howto-title, .letters-title{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:8px; }
 .howto-steps, .letters-steps{ padding-left:20px; font-size:13px; }
-.howto-steps li, .letters-steps li{ margin-bottom:12px; }
+.howto-steps li, .letters-steps li{ margin-bottom:12px; line-height:1.7; overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
 .howto-steps li:last-child, .letters-steps li:last-child{ margin-bottom:0; }
 .step-photo{ width:100%; max-width:260px; border-radius:8px; margin:6px 0; display:block; box-shadow:var(--shadow-sm); }
 .photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
@@ -162,7 +162,7 @@ section{ padding:30px 0; border-top:1px solid var(--line); }
 .glossary-list{ display:flex; flex-direction:column; gap:14px; }
 .glossary-item{ position:relative; padding:14px 84px 14px 14px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
 .glossary-term{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:4px; }
-.glossary-desc{ font-size:13px; }
+.glossary-desc{ font-size:13px; line-height:1.7; overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
 
 /* よくある質問(アコーディオン) */
 .faq-list{ display:flex; flex-direction:column; gap:10px; }
@@ -170,13 +170,15 @@ section{ padding:30px 0; border-top:1px solid var(--line); }
 .faq-question{
   width:100%; text-align:left; background:none; border:none; padding:14px 84px 14px 16px; font-size:13.5px;
   font-weight:700; color:var(--ink); cursor:pointer; font-family:inherit; display:flex; gap:10px; align-items:flex-start;
+  line-height:1.7;
 }
 .faq-question .faq-q-mark{ color:var(--oshi-color); flex:none; }
+.faq-q-text{ overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
 .faq-arrow{ position:absolute; top:14px; right:34px; color:var(--sub-ink); font-size:12px; transition:transform .2s ease; }
 .faq-item.open .faq-arrow{ transform:rotate(180deg); }
 .faq-answer{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
 .faq-item.open .faq-answer{ max-height:600px; }
-.faq-answer-inner{ padding:0 16px 16px 16px; font-size:13px; color:var(--sub-ink); }
+.faq-answer-inner{ padding:0 16px 16px 16px; font-size:13px; color:var(--sub-ink); line-height:1.7; overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
 
 .bio-text{ font-size:13.5px; white-space:pre-line; }
 
@@ -320,40 +322,71 @@ body.editing .add-row{ display:flex; }
       ]
     },
     {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "初めて現場に行くのですが、何を持っていけばいいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "サイリウムの色は自由に選んでいいの?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "SNSで布教する時に気をつけることはありますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。"
+          }
+        }
+      ]
+    },
+    {
       "@type": "HowTo",
       "name": "劇場公演の申込方法",
       "step": [
         {
           "@type": "HowToStep",
-          "text": "公式サイトの公演スケジュールを確認する。"
+          "text": "公式サイトの公演スケジュールを確認する"
         },
         {
           "@type": "HowToStep",
-          "text": "申込サイトから応募する公演を選択する。"
+          "text": "申込フォームから希望の公演日を選択する"
         },
         {
           "@type": "HowToStep",
-          "text": "アカウントを作成して、申込を完了させる。"
+          "text": "座席種別・枚数を選んで申し込む"
         },
         {
           "@type": "HowToStep",
-          "text": "当落確認後、案内に従って決済をする。"
+          "text": "当落確認後、案内に従って支払い・受け取りを行う"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "特典会の申込方法",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "対象イベントの参加方法(店舗・オンライン抽選など)を確認する"
         },
         {
           "@type": "HowToStep",
-          "text": "「チケプラ」アプリをインストールしてログインをする。"
+          "text": "対象商品を購入して参加券を受け取る"
         },
         {
           "@type": "HowToStep",
-          "text": "本人確認、顔写真登録を済ませる。"
-        },
-        {
-          "@type": "HowToStep",
-          "text": "チケット表示開始されたら「チケプラ」アプリで受け取る。"
-        },
-        {
-          "@type": "HowToStep",
-          "text": "公演当日にSKE48劇場へ行く。"
+          "text": "指定された時間・会場に参加券を持って向かう"
         }
       ]
     }
@@ -404,7 +437,14 @@ body.editing .add-row{ display:flex; }
     
     
     <h3 class="howto-title editable" contenteditable="true">劇場公演の申込方法</h3>
-    <ol class="howto-steps"><li data-photo="" data-link-text="公式サイト" data-link-url="https://ske48.co.jp/"><span class="step-text-display"><a href="https://ske48.co.jp/" target="_blank" rel="noopener" class="step-inline-link">公式サイト</a>の公演スケジュールを確認する。</span></li><li data-photo="" data-link-text="申込サイト" data-link-url="https://tixplus.jp/feature/ske48_theater_ticket/"><span class="step-text-display"><a href="https://tixplus.jp/feature/ske48_theater_ticket/" target="_blank" rel="noopener" class="step-inline-link">申込サイト</a>から応募する公演を選択する。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">アカウントを作成して、申込を完了させる。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">当落確認後、案内に従って決済をする。</span></li><li data-photo="" data-link-text="チケプラ" data-link-url="https://ticketplus.co.jp/feature/eticketapp"><span class="step-text-display">「<a href="https://ticketplus.co.jp/feature/eticketapp" target="_blank" rel="noopener" class="step-inline-link">チケプラ</a>」アプリをインストールしてログインをする。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">本人確認、顔写真登録を済ませる。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">チケット表示開始されたら「チケプラ」アプリで受け取る。</span></li><li data-photo="" data-link-text="SKE48劇場" data-link-url="https://maps.app.goo.gl/aSKQWGguVChnoHie8"><span class="step-text-display">公演当日に<a href="https://maps.app.goo.gl/aSKQWGguVChnoHie8" target="_blank" rel="noopener" class="step-inline-link">SKE48劇場</a>へ行く。</span></li></ol>
+    <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">公式サイトの公演スケジュールを確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">申込フォームから希望の公演日を選択する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">座席種別・枚数を選んで申し込む</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">当落確認後、案内に従って支払い・受け取りを行う</span></li></ol>
+
+    
+  </div><div class="howto-item">
+    
+    
+    <h3 class="howto-title editable" contenteditable="true">特典会の申込方法</h3>
+    <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象イベントの参加方法(店舗・オンライン抽選など)を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象商品を購入して参加券を受け取る</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">指定された時間・会場に参加券を持って向かう</span></li></ol>
 
     
   </div></div>
@@ -412,13 +452,27 @@ body.editing .add-row{ display:flex; }
   </div>
 </section>
 
-<section id="letters" style="border-top-width: medium; border-top-style: none; border-top-color: currentcolor; padding-top: 0px;">
+<section id="letters">
   <div class="wrap">
-    <div class="sec-head" style="margin-bottom: 0px;">
-      <h2 style="display: none;"><span class="mark">◆</span><span class="editable" id="letters-heading" contenteditable="true"><br></span></h2>
-      <p class="editable" id="letters-desc" contenteditable="true" style="display: none;"><br></p>
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="letters-heading" contenteditable="true">ファンレター・差し入れ</span></h2>
+      <p class="editable" id="letters-desc" contenteditable="true">送り方やルールをまとめています。会場ごとに異なる場合があるので、必ず公式の最新情報もあわせてご確認ください</p>
     </div>
-    <div class="letters-list" id="letters-list"></div>
+    <div class="letters-list" id="letters-list"><div class="letters-item">
+    
+    
+    <h3 class="letters-title editable" contenteditable="true">ファンレターの送り方</h3>
+    <ol class="letters-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">所属事務所またはグループ公式サイトの「ファンレター送付先」を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">封筒の宛名は「（グループ名）〇〇（メンバー名）様」の形式で書く</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">個人情報(返信先住所など)は基本的に書かない</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">郵送料金の不足に注意し、必要な切手を貼って送る</span></li></ol>
+
+    
+  </div><div class="letters-item">
+    
+    
+    <h3 class="letters-title editable" contenteditable="true">差し入れのルール</h3>
+    <ol class="letters-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">会場・イベントごとに差し入れの可否や受付方法が異なるため、事前に公式の注意事項を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">手渡しNGの場合が多いため、専用の差し入れ受付やスタッフを通す</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">生もの・要冷蔵の食品は避け、日持ちするものを選ぶ</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">個包装のお菓子や飲み物が定番で喜ばれやすい</span></li></ol>
+
+    
+  </div></div>
     
   </div>
 </section>
@@ -432,34 +486,91 @@ body.editing .add-row{ display:flex; }
     <div class="glossary-list" id="glossary-list"><div class="glossary-item">
     
     
-    <div class="glossary-term editable" contenteditable="true">はらへりすぎ</div>
-    <div class="glossary-desc editable" contenteditable="true">同期の杉本りいなちゃんとのコンビ名。二人とも食べることが大好きで、まさに「はらへりすぎ」な仲良しコンビ。</div>
+    <div class="glossary-term editable" contenteditable="true">サイリウム</div>
+    <div class="glossary-desc editable" contenteditable="true">ライブなどで振る、光る棒状の応援グッズ。推しのイメージカラーに合わせて色を選ぶのが定番です。</div>
     
   </div><div class="glossary-item">
     
     
-    <div class="glossary-term editable" contenteditable="true">初恋の瞬間</div>
-    <div class="glossary-desc editable" contenteditable="true">「初恋の瞬間」は、SKE48のメンバー7人で結成された公式派生ユニットです。2025年に開催されたSHOWROOMイベントをきっかけに結成され、2026年2月にユニット名が正式発表されました。メンバーは原優寧、河村優愛、倉本羽菜、伊藤虹々美、近藤海琴、聖遥花、桒原椿の7人で、「初恋のときめきを届ける」ことをコンセプトに活動しています。</div>
+    <div class="glossary-term editable" contenteditable="true">現場・参戦</div>
+    <div class="glossary-desc editable" contenteditable="true">ライブや握手会など、実際に足を運んで参加するイベントのこと。「参戦する」のように使います。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">特典会</div>
+    <div class="glossary-desc editable" contenteditable="true">CDなどを購入すると参加できる交流イベント。少し会話できたり、握手できたりします。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">古参・新規</div>
+    <div class="glossary-desc editable" contenteditable="true">応援を始めた時期による呼び方。「古参」は昔から応援している人、「新規」は最近応援を始めた人のことです。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">沼落ち</div>
+    <div class="glossary-desc editable" contenteditable="true">すっかりハマってしまうこと。「沼」は抜け出せないほど夢中になっている状態を指します。</div>
+    
+  </div><div class="glossary-item">
+    
+    
+    <div class="glossary-term editable" contenteditable="true">箱推し</div>
+    <div class="glossary-desc editable" contenteditable="true">特定の一人ではなく、グループ全体を応援すること。</div>
     
   </div></div>
     
   </div>
 </section>
 
-<section id="faq" style="border-top-width: medium; border-top-style: none; border-top-color: currentcolor; padding-top: 0px;">
+<section id="faq">
   <div class="wrap">
-    <div class="sec-head" style="margin-bottom: 0px;">
-      <h2 style="display: none;"><span class="mark">◆</span><span class="editable" id="faq-heading" contenteditable="true"><br></span></h2>
-      <p class="editable" id="faq-desc" contenteditable="true" style="display: none;"><br></p>
+    <div class="sec-head">
+      <h2><span class="mark">◆</span><span class="editable" id="faq-heading" contenteditable="true">よくある質問</span></h2>
+      <p class="editable" id="faq-desc" contenteditable="true">タップすると回答が開きます</p>
     </div>
-    <div class="faq-list" id="faq-list"></div>
+    <div class="faq-list" id="faq-list"><div class="faq-item">
+    
+    
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">初めて現場に行くのですが、何を持っていけばいいですか?</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。</span></div>
+    </div>
+    
+  </div><div class="faq-item">
+    
+    
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">サイリウムの色は自由に選んでいいの?</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。</span></div>
+    </div>
+    
+  </div><div class="faq-item">
+    
+    
+    <button class="faq-question" type="button" aria-expanded="false">
+      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">SNSで布教する時に気をつけることはありますか?</span>
+    </button>
+    <span class="faq-arrow" aria-hidden="true">▾</span>
+    <div class="faq-answer">
+      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。</span></div>
+    </div>
+    
+  </div></div>
     
   </div>
 </section>
 
-<section class="related-pages-section" style="border-top-width: medium; border-top-style: none; border-top-color: currentcolor; padding-top: 0px;">
+<section class="related-pages-section">
   <div class="wrap">
-    <div class="sec-head" style="margin-bottom: 0px;"><h2 style="display: none;"><span class="mark">◆</span><span class="editable" id="related-pages-heading" contenteditable="true"><br></span></h2></div>
+    <div class="sec-head"><h2><span class="mark">◆</span><span class="editable" id="related-pages-heading" contenteditable="true">関連ページ</span></h2></div>
     <div class="related-pages-list" id="related-pages-list"></div>
     
   </div>
