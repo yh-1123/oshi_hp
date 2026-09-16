@@ -2,6 +2,14 @@
 <html lang="ja"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<script>
+(function(){
+  try{
+    if(localStorage.getItem("oshi_dark_mode") === "1") document.documentElement.classList.add("dark-mode");
+  }catch(e){ /* localStorage不可の環境 */ }
+})();
+</script>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#e0233a">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -61,6 +69,34 @@
   --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
   --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
 }
+html.dark-mode{
+  --oshi-color: #ff5c72;
+  --oshi-color-deep: #ff8194;
+  --oshi-color-soft: #3a2028;
+  --accent2: #2b2530;
+  --ink: #f1e9ec;
+  --sub-ink: #b3a3ae;
+  --paper: #17131b;
+  --line: #362e3c;
+  --card: #241f29;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md: 0 10px 26px rgba(0,0,0,0.45);
+}
+html.dark-mode img{ opacity:0.92; }
+html.dark-mode .topnav{ background: rgba(23,19,27,0.92); }
+.dark-mode-toggle-btn{
+  position:fixed; left:16px; bottom:16px; z-index:60;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  width:40px; height:40px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(43,35,49,0.10);
+  opacity:0.45; transition:opacity 0.15s ease;
+}
+.dark-mode-toggle-btn:hover, .dark-mode-toggle-btn:focus-visible, .dark-mode-toggle-btn:active{ opacity:1; }
+@media (hover: none){ .dark-mode-toggle-btn{ opacity:0.65; } }
+html.dark-mode .dark-toggle-icon-moon{ display:none; }
+html.dark-mode .dark-toggle-icon-sun{ display:inline; }
+.dark-toggle-icon-sun{ display:none; }
 *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
   outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
@@ -250,6 +286,20 @@ body.editing .add-row{ display:flex; }
   font-size:14px; line-height:1; cursor:pointer; flex:none;
 }
 .site-banner-close:hover{ background:rgba(255,255,255,0.35); }
+
+.related-pages-section{ margin-top:26px; }
+.related-pages-list{ display:flex; flex-direction:column; gap:10px; }
+.related-link-box{
+  position:relative; display:flex; gap:10px; align-items:center; text-decoration:none;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:12px 46px 12px 14px; box-shadow:var(--shadow-sm);
+}
+.related-link-box .related-link-icon{ font-size:17px; flex:none; }
+.related-link-box .related-link-title{ font-size:12.5px; font-weight:700; color:var(--ink); margin-bottom:1px; }
+.related-link-box .related-link-desc{ font-size:10.5px; color:var(--sub-ink); }
+.related-link-box .related-link-arrow{ margin-left:auto; flex:none; color:var(--oshi-color-deep); font-weight:700; }
+.related-link-box .edit-edit{ top:6px; right:34px; }
+.related-link-box .edit-remove{ top:6px; right:6px; }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -270,77 +320,49 @@ body.editing .add-row{ display:flex; }
       ]
     },
     {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "初めて現場に行くのですが、何を持っていけばいいですか?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "サイリウムの色は自由に選んでいいの?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "SNSで布教する時に気をつけることはありますか?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。"
-          }
-        }
-      ]
-    },
-    {
       "@type": "HowTo",
       "name": "劇場公演の申込方法",
       "step": [
         {
           "@type": "HowToStep",
-          "text": "公式サイトの公演スケジュールを確認する"
+          "text": "公式サイトの公演スケジュールを確認する。"
         },
         {
           "@type": "HowToStep",
-          "text": "申込フォームから希望の公演日を選択する"
+          "text": "申込サイトから応募する公演を選択する。"
         },
         {
           "@type": "HowToStep",
-          "text": "座席種別・枚数を選んで申し込む"
+          "text": "アカウントを作成して、申込を完了させる。"
         },
         {
           "@type": "HowToStep",
-          "text": "当落確認後、案内に従って支払い・受け取りを行う"
-        }
-      ]
-    },
-    {
-      "@type": "HowTo",
-      "name": "特典会の申込方法",
-      "step": [
-        {
-          "@type": "HowToStep",
-          "text": "対象イベントの参加方法(店舗・オンライン抽選など)を確認する"
+          "text": "当落確認後、案内に従って決済をする。"
         },
         {
           "@type": "HowToStep",
-          "text": "対象商品を購入して参加券を受け取る"
+          "text": "「チケプラ」アプリをインストールしてログインをする。"
         },
         {
           "@type": "HowToStep",
-          "text": "指定された時間・会場に参加券を持って向かう"
+          "text": "本人確認、顔写真登録を済ませる。"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "チケット表示開始されたら「チケプラ」アプリで受け取る。"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "公演当日にSKE48劇場へ行く。"
         }
       ]
     }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+<button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
+  <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
+</button>
 
 <div class="site-banner" id="site-banner" style="display:none;">
   <div class="wrap site-banner-inner">
@@ -361,8 +383,7 @@ body.editing .add-row{ display:flex; }
     <div class="brand">推し活はじめてガイド</div>
     <div class="nav-icons">
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
-    </div>
-  </div>
+    </div></div>
 </nav>
 
 <header class="g-hero">
@@ -376,21 +397,14 @@ body.editing .add-row{ display:flex; }
 <section id="howto">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span>申込方法</h2>
-      <p>劇場公演・特典会などの申し込みの流れをまとめています</p>
+      <h2><span class="mark">◆</span><span class="editable" id="howto-heading" contenteditable="true">申込方法</span></h2>
+      <p class="editable" id="howto-desc" contenteditable="true">劇場公演・特典会などの申し込みの流れをまとめています</p>
     </div>
     <div class="howto-list" id="howto-list"><div class="howto-item">
     
     
     <h3 class="howto-title editable" contenteditable="true">劇場公演の申込方法</h3>
-    <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">公式サイトの公演スケジュールを確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">申込フォームから希望の公演日を選択する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">座席種別・枚数を選んで申し込む</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">当落確認後、案内に従って支払い・受け取りを行う</span></li></ol>
-
-    
-  </div><div class="howto-item">
-    
-    
-    <h3 class="howto-title editable" contenteditable="true">特典会の申込方法</h3>
-    <ol class="howto-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象イベントの参加方法(店舗・オンライン抽選など)を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">対象商品を購入して参加券を受け取る</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">指定された時間・会場に参加券を持って向かう</span></li></ol>
+    <ol class="howto-steps"><li data-photo="" data-link-text="公式サイト" data-link-url="https://ske48.co.jp/"><span class="step-text-display"><a href="https://ske48.co.jp/" target="_blank" rel="noopener" class="step-inline-link">公式サイト</a>の公演スケジュールを確認する。</span></li><li data-photo="" data-link-text="申込サイト" data-link-url="https://tixplus.jp/feature/ske48_theater_ticket/"><span class="step-text-display"><a href="https://tixplus.jp/feature/ske48_theater_ticket/" target="_blank" rel="noopener" class="step-inline-link">申込サイト</a>から応募する公演を選択する。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">アカウントを作成して、申込を完了させる。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">当落確認後、案内に従って決済をする。</span></li><li data-photo="" data-link-text="チケプラ" data-link-url="https://ticketplus.co.jp/feature/eticketapp"><span class="step-text-display">「<a href="https://ticketplus.co.jp/feature/eticketapp" target="_blank" rel="noopener" class="step-inline-link">チケプラ</a>」アプリをインストールしてログインをする。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">本人確認、顔写真登録を済ませる。</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">チケット表示開始されたら「チケプラ」アプリで受け取る。</span></li><li data-photo="" data-link-text="SKE48劇場" data-link-url="https://maps.app.goo.gl/aSKQWGguVChnoHie8"><span class="step-text-display">公演当日に<a href="https://maps.app.goo.gl/aSKQWGguVChnoHie8" target="_blank" rel="noopener" class="step-inline-link">SKE48劇場</a>へ行く。</span></li></ol>
 
     
   </div></div>
@@ -398,27 +412,13 @@ body.editing .add-row{ display:flex; }
   </div>
 </section>
 
-<section id="letters">
+<section id="letters" style="border-top-width: medium; border-top-style: none; border-top-color: currentcolor; padding-top: 0px;">
   <div class="wrap">
-    <div class="sec-head">
-      <h2><span class="mark">◆</span>ファンレター・差し入れ</h2>
-      <p>送り方やルールをまとめています。会場ごとに異なる場合があるので、必ず公式の最新情報もあわせてご確認ください</p>
+    <div class="sec-head" style="margin-bottom: 0px;">
+      <h2 style="display: none;"><span class="mark">◆</span><span class="editable" id="letters-heading" contenteditable="true"><br></span></h2>
+      <p class="editable" id="letters-desc" contenteditable="true" style="display: none;"><br></p>
     </div>
-    <div class="letters-list" id="letters-list"><div class="letters-item">
-    
-    
-    <h3 class="letters-title editable" contenteditable="true">ファンレターの送り方</h3>
-    <ol class="letters-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">所属事務所またはグループ公式サイトの「ファンレター送付先」を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">封筒の宛名は「（グループ名）〇〇（メンバー名）様」の形式で書く</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">個人情報(返信先住所など)は基本的に書かない</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">郵送料金の不足に注意し、必要な切手を貼って送る</span></li></ol>
-
-    
-  </div><div class="letters-item">
-    
-    
-    <h3 class="letters-title editable" contenteditable="true">差し入れのルール</h3>
-    <ol class="letters-steps"><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">会場・イベントごとに差し入れの可否や受付方法が異なるため、事前に公式の注意事項を確認する</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">手渡しNGの場合が多いため、専用の差し入れ受付やスタッフを通す</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">生もの・要冷蔵の食品は避け、日持ちするものを選ぶ</span></li><li data-photo="" data-link-text="" data-link-url=""><span class="step-text-display">個包装のお菓子や飲み物が定番で喜ばれやすい</span></li></ol>
-
-    
-  </div></div>
+    <div class="letters-list" id="letters-list"></div>
     
   </div>
 </section>
@@ -426,90 +426,41 @@ body.editing .add-row{ display:flex; }
 <section id="glossary">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span>用語集</h2>
-      <p>推し活でよく見かける言葉をまとめています</p>
+      <h2><span class="mark">◆</span><span class="editable" id="glossary-heading" contenteditable="true">用語集</span></h2>
+      <p class="editable" id="glossary-desc" contenteditable="true">推し活でよく見かける言葉をまとめています</p>
     </div>
     <div class="glossary-list" id="glossary-list"><div class="glossary-item">
     
     
-    <div class="glossary-term editable" contenteditable="true">サイリウム</div>
-    <div class="glossary-desc editable" contenteditable="true">ライブなどで振る、光る棒状の応援グッズ。推しのイメージカラーに合わせて色を選ぶのが定番です。</div>
+    <div class="glossary-term editable" contenteditable="true">はらへりすぎ</div>
+    <div class="glossary-desc editable" contenteditable="true">同期の杉本りいなちゃんとのコンビ名。二人とも食べることが大好きで、まさに「はらへりすぎ」な仲良しコンビ。</div>
     
   </div><div class="glossary-item">
     
     
-    <div class="glossary-term editable" contenteditable="true">現場・参戦</div>
-    <div class="glossary-desc editable" contenteditable="true">ライブや握手会など、実際に足を運んで参加するイベントのこと。「参戦する」のように使います。</div>
-    
-  </div><div class="glossary-item">
-    
-    
-    <div class="glossary-term editable" contenteditable="true">特典会</div>
-    <div class="glossary-desc editable" contenteditable="true">CDなどを購入すると参加できる交流イベント。少し会話できたり、握手できたりします。</div>
-    
-  </div><div class="glossary-item">
-    
-    
-    <div class="glossary-term editable" contenteditable="true">古参・新規</div>
-    <div class="glossary-desc editable" contenteditable="true">応援を始めた時期による呼び方。「古参」は昔から応援している人、「新規」は最近応援を始めた人のことです。</div>
-    
-  </div><div class="glossary-item">
-    
-    
-    <div class="glossary-term editable" contenteditable="true">沼落ち</div>
-    <div class="glossary-desc editable" contenteditable="true">すっかりハマってしまうこと。「沼」は抜け出せないほど夢中になっている状態を指します。</div>
-    
-  </div><div class="glossary-item">
-    
-    
-    <div class="glossary-term editable" contenteditable="true">箱推し</div>
-    <div class="glossary-desc editable" contenteditable="true">特定の一人ではなく、グループ全体を応援すること。</div>
+    <div class="glossary-term editable" contenteditable="true">初恋の瞬間</div>
+    <div class="glossary-desc editable" contenteditable="true">「初恋の瞬間」は、SKE48のメンバー7人で結成された公式派生ユニットです。2025年に開催されたSHOWROOMイベントをきっかけに結成され、2026年2月にユニット名が正式発表されました。メンバーは原優寧、河村優愛、倉本羽菜、伊藤虹々美、近藤海琴、聖遥花、桒原椿の7人で、「初恋のときめきを届ける」ことをコンセプトに活動しています。</div>
     
   </div></div>
     
   </div>
 </section>
 
-<section id="faq">
+<section id="faq" style="border-top-width: medium; border-top-style: none; border-top-color: currentcolor; padding-top: 0px;">
   <div class="wrap">
-    <div class="sec-head">
-      <h2><span class="mark">◆</span>よくある質問</h2>
-      <p>タップすると回答が開きます</p>
+    <div class="sec-head" style="margin-bottom: 0px;">
+      <h2 style="display: none;"><span class="mark">◆</span><span class="editable" id="faq-heading" contenteditable="true"><br></span></h2>
+      <p class="editable" id="faq-desc" contenteditable="true" style="display: none;"><br></p>
     </div>
-    <div class="faq-list" id="faq-list"><div class="faq-item">
+    <div class="faq-list" id="faq-list"></div>
     
-    
-    <button class="faq-question" type="button" aria-expanded="false">
-      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">初めて現場に行くのですが、何を持っていけばいいですか?</span>
-    </button>
-    <span class="faq-arrow" aria-hidden="true">▾</span>
-    <div class="faq-answer">
-      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">基本的にはサイリウムがあれば十分です。会場によってルールが異なることもあるので、公式の注意事項は事前に確認しておくと安心です。</span></div>
-    </div>
-    
-  </div><div class="faq-item">
-    
-    
-    <button class="faq-question" type="button" aria-expanded="false">
-      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">サイリウムの色は自由に選んでいいの?</span>
-    </button>
-    <span class="faq-arrow" aria-hidden="true">▾</span>
-    <div class="faq-answer">
-      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">基本的には自由ですが、推しのイメージカラーに合わせるのが一般的です。このサイトのトップページにも色の案内があるので参考にしてみてください。</span></div>
-    </div>
-    
-  </div><div class="faq-item">
-    
-    
-    <button class="faq-question" type="button" aria-expanded="false">
-      <span class="faq-q-mark">Q.</span><span class="faq-q-text editable" contenteditable="true">SNSで布教する時に気をつけることはありますか?</span>
-    </button>
-    <span class="faq-arrow" aria-hidden="true">▾</span>
-    <div class="faq-answer">
-      <div class="faq-answer-inner"><span class="faq-a-text editable" contenteditable="true">ネタバレになる内容は控えめにし、公式が禁止している画像・映像の転載は避けましょう。良かった部分を自分の言葉で伝えるのが一番喜ばれます。</span></div>
-    </div>
-    
-  </div></div>
+  </div>
+</section>
+
+<section class="related-pages-section" style="border-top-width: medium; border-top-style: none; border-top-color: currentcolor; padding-top: 0px;">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom: 0px;"><h2 style="display: none;"><span class="mark">◆</span><span class="editable" id="related-pages-heading" contenteditable="true"><br></span></h2></div>
+    <div class="related-pages-list" id="related-pages-list"></div>
     
   </div>
 </section>
@@ -799,14 +750,63 @@ document.getElementById("faq-list").addEventListener("click", (e) => {
 /* ---------- 編集モード(パスワードで保護) ---------- */
 let editMode = false;
 function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+const SEC_HEADING_IDS = ["howto-heading", "letters-heading", "glossary-heading", "faq-heading", "related-pages-heading"];
+const SEC_DESC_IDS = ["howto-desc", "letters-desc", "glossary-desc", "faq-desc"];
+function updateSecHeadingVisibility(id){
+  const heading = document.getElementById(id);
+  if(!heading) return;
+  const h2 = heading.closest("h2");
+  if(!h2) return;
+  h2.style.display = heading.textContent.trim() ? "" : "none";
+}
+function updateSecDescVisibility(id){
+  const desc = document.getElementById(id);
+  if(!desc) return;
+  desc.style.display = desc.textContent.trim() ? "" : "none";
+}
+function updateAllSecHeadingVisibility(){
+  SEC_HEADING_IDS.forEach(updateSecHeadingVisibility);
+  SEC_DESC_IDS.forEach(updateSecDescVisibility);
+  document.querySelectorAll(".sec-head").forEach(sh => {
+    const h2 = sh.querySelector("h2");
+    const p = sh.querySelector("p");
+    const bothHidden = (!h2 || h2.style.display === "none") && (!p || p.style.display === "none");
+    sh.style.marginBottom = bothHidden ? "0" : "";
+    const section = sh.closest("section");
+    if(section){
+      section.style.borderTop = bothHidden ? "none" : "";
+      section.style.paddingTop = bothHidden ? "0" : "";
+    }
+  });
+}
+SEC_HEADING_IDS.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) new MutationObserver(() => updateAllSecHeadingVisibility()).observe(el, { characterData: true, childList: true, subtree: true });
+});
+SEC_DESC_IDS.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) new MutationObserver(() => updateAllSecHeadingVisibility()).observe(el, { characterData: true, childList: true, subtree: true });
+});
+updateAllSecHeadingVisibility();
 
 
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
 
 function rebuildGuideFromData(data){
+  if(data.relatedPages) renderRelatedPages(data.relatedPages);
   if(data.eyebrow !== undefined) document.getElementById("g-eyebrow").textContent = data.eyebrow;
   if(data.title !== undefined) document.getElementById("g-title").textContent = data.title;
   if(data.desc !== undefined) document.getElementById("g-desc").textContent = data.desc;
+  if(data.howtoHeading !== undefined) document.getElementById("howto-heading").textContent = data.howtoHeading;
+  if(data.howtoDesc !== undefined) document.getElementById("howto-desc").textContent = data.howtoDesc;
+  if(data.lettersHeading !== undefined) document.getElementById("letters-heading").textContent = data.lettersHeading;
+  if(data.lettersDesc !== undefined) document.getElementById("letters-desc").textContent = data.lettersDesc;
+  if(data.glossaryHeading !== undefined) document.getElementById("glossary-heading").textContent = data.glossaryHeading;
+  if(data.glossaryDesc !== undefined) document.getElementById("glossary-desc").textContent = data.glossaryDesc;
+  if(data.faqHeading !== undefined) document.getElementById("faq-heading").textContent = data.faqHeading;
+  if(data.faqDesc !== undefined) document.getElementById("faq-desc").textContent = data.faqDesc;
+  if(data.relatedPagesHeading !== undefined) document.getElementById("related-pages-heading").textContent = data.relatedPagesHeading;
+  updateAllSecHeadingVisibility();
   if(data.backLinkUrl){
     const link = document.querySelector(".back-link");
     if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
@@ -895,6 +895,68 @@ document.getElementById("site-banner-close")?.addEventListener("click", () => {
   }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
+
+document.getElementById("dark-mode-toggle")?.addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark-mode");
+  try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
+});
+
+/* ---------- 関連ページ(手動リンク・編集可能) ---------- */
+function relEscHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function relEscAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function relatedPageHTML(p){
+  return `<a class="related-link-box" href="${relEscAttr(p.url)}">
+    <button type="button" class="edit-edit" aria-label="編集">✎</button>
+    <button type="button" class="edit-remove" aria-label="削除">×</button>
+    <span class="related-link-icon">${relEscHtml(p.icon)}</span>
+    <span>
+      <div class="related-link-title">${relEscHtml(p.title)}</div>
+      <div class="related-link-desc">${relEscHtml(p.desc)}</div>
+    </span>
+    <span class="related-link-arrow">›</span>
+  </a>`;
+}
+function renderRelatedPages(list){
+  const el = document.getElementById("related-pages-list");
+  if(el) el.innerHTML = (list || []).map(relatedPageHTML).join("");
+}
+function extractRelatedPages(){
+  return Array.from(document.querySelectorAll("#related-pages-list .related-link-box")).map(el => ({
+    icon: el.querySelector(".related-link-icon")?.textContent || "",
+    title: el.querySelector(".related-link-title")?.textContent || "",
+    desc: el.querySelector(".related-link-desc")?.textContent || "",
+    url: el.getAttribute("href") || "",
+  }));
+}
+renderRelatedPages([]);
+function relVal(id, fallback){ return document.getElementById(id)?.value.trim() || fallback; }
+let relatedModalEditTarget = null;
+function openRelatedModal(existing){
+  relatedModalEditTarget = existing || null;
+  const icon = existing?.querySelector(".related-link-icon")?.textContent || "";
+  const title = existing?.querySelector(".related-link-title")?.textContent || "";
+  const desc = existing?.querySelector(".related-link-desc")?.textContent || "";
+  const url = existing?.getAttribute("href") || "";
+  document.getElementById("modal-title").textContent = existing ? "関連ページを編集" : "関連ページを追加";
+  document.getElementById("modal-fields").innerHTML = `
+    <div class="qa-label">アイコン(絵文字)</div><input class="qa-input" id="f-rel-icon" value="${relEscAttr(icon || "📄")}">
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-rel-title" value="${relEscAttr(title)}" placeholder="例:ゆかりの場所まとめも見る">
+    <div class="qa-label">説明</div><input class="qa-input" id="f-rel-desc" value="${relEscAttr(desc)}" placeholder="例:聖地巡礼・お店などをまとめています">
+    <div class="qa-label">リンク先(ファイル名)</div><input class="qa-input" id="f-rel-url" value="${relEscAttr(url)}" placeholder="例:places.html">`;
+  document.getElementById("modal-submit").textContent = existing ? "更新する" : "追加する";
+  modalType = "relatedPage";
+  document.getElementById("modal-backdrop").classList.add("open");
+}
+document.getElementById("add-related-page")?.addEventListener("click", () => openRelatedModal(null));
+document.getElementById("related-pages-list")?.addEventListener("click", (e) => {
+  if(e.target.closest(".edit-edit")){ e.preventDefault(); openRelatedModal(e.target.closest(".related-link-box")); return; }
+  if(e.target.closest(".edit-remove")){
+    e.preventDefault();
+    if(confirm("この関連ページリンクを削除しますか？")){ e.target.closest(".related-link-box").remove(); hasUnsavedChanges = true; }
+    return;
+  }
+  if(document.body.classList.contains("editing")) e.preventDefault();
+});
 </script>
 
 
