@@ -1002,21 +1002,30 @@ function applyVideoGrouping(){
   videoListObserver.disconnect();
   try{
     document.querySelectorAll(".video-group-header").forEach(h => h.remove());
+    document.querySelectorAll("#video-list [data-tag-clone]").forEach(c => c.remove());
     if(groupMode !== "none"){
-      const visibleItems = Array.from(list.querySelectorAll(".video-item")).filter(item => item.style.display !== "none");
+      const visibleItems = Array.from(list.querySelectorAll(".video-item:not([data-tag-clone])")).filter(item => item.style.display !== "none");
       const groups = new Map();
       const noneKey = groupMode === "tag" ? "タグなし" : "その他";
-      visibleItems.forEach(item => {
-        let key;
-        if(groupMode === "tag"){
-          const tagsRaw = item.dataset.tags || "";
-          const firstTag = tagsRaw.split("|||").map(t => t.trim()).filter(Boolean)[0];
-          key = firstTag || noneKey;
-        } else {
-          key = item.dataset.category || noneKey;
-        }
+      const addToGroup = (key, item) => {
         if(!groups.has(key)) groups.set(key, []);
         groups.get(key).push(item);
+      };
+      visibleItems.forEach(item => {
+        if(groupMode === "tag"){
+          const tags = (item.dataset.tags || "").split("|||").map(t => t.trim()).filter(Boolean);
+          if(!tags.length){ addToGroup(noneKey, item); return; }
+          tags.forEach((tag, i) => {
+            if(i === 0){ addToGroup(tag, item); return; }
+            const clone = item.cloneNode(true);
+            clone.setAttribute("data-tag-clone", "true");
+            clone.querySelector(".edit-edit")?.remove();
+            clone.querySelector(".edit-remove")?.remove();
+            addToGroup(tag, clone);
+          });
+        } else {
+          addToGroup(item.dataset.category || noneKey, item);
+        }
       });
       const orderedKeys = Array.from(groups.keys()).sort((a, b) => {
         if(a === noneKey) return 1;
