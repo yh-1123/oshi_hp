@@ -1024,30 +1024,10 @@ function applyVideoGrouping(){
     videoListObserver.observe(list, { childList: true, subtree: true, characterData: true });
   }
 }
-document.body.appendChild(document.getElementById("view-settings-panel"));
-document.getElementById("view-settings-btn").addEventListener("click", (e) => {
-  e.stopPropagation();
+function moveViewSettingsPanelToBody(){
   const panel = document.getElementById("view-settings-panel");
-  const willOpen = !panel.classList.contains("open");
-  if(willOpen){
-    const rect = e.currentTarget.getBoundingClientRect();
-    panel.style.top = (rect.bottom + 8) + "px";
-    panel.style.right = (window.innerWidth - rect.right) + "px";
-  }
-  panel.classList.toggle("open", willOpen);
-});
-document.addEventListener("click", (e) => {
-  const panel = document.getElementById("view-settings-panel");
-  if(panel.classList.contains("open") && !panel.contains(e.target) && e.target.id !== "view-settings-btn"){
-    panel.classList.remove("open");
-  }
-});
-document.getElementById("view-mode-toggle").addEventListener("click", () => {
-  const list = document.getElementById("video-list");
-  const isCompact = list.classList.toggle("compact-mode");
-  document.getElementById("view-mode-toggle").textContent = isCompact ? "📋 詳細表示に戻す" : "🔳 サムネイル一覧";
-  try{ localStorage.setItem("oshi-videos-view-mode", isCompact ? "compact" : "normal"); }catch(e){ /* 保存不可の環境 */ }
-});
+  if(panel && panel.parentElement !== document.body) document.body.appendChild(panel);
+}
 function setGroupMode(mode){
   groupMode = (groupMode === mode) ? "none" : mode;
   const catBtn = document.getElementById("group-mode-toggle");
@@ -1059,8 +1039,51 @@ function setGroupMode(mode){
   if(groupMode !== "none") showAllItems = true;
   applyVideoFilter();
 }
-document.getElementById("group-mode-toggle").addEventListener("click", () => setGroupMode("category"));
-document.getElementById("tag-group-toggle").addEventListener("click", () => setGroupMode("tag"));
+function initViewSettingsControls(){
+  moveViewSettingsPanelToBody();
+  document.getElementById("view-settings-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const panel = document.getElementById("view-settings-panel");
+    const willOpen = !panel.classList.contains("open");
+    if(willOpen){
+      const rect = e.currentTarget.getBoundingClientRect();
+      panel.style.top = (rect.bottom + 8) + "px";
+      panel.style.right = (window.innerWidth - rect.right) + "px";
+    }
+    panel.classList.toggle("open", willOpen);
+  });
+  document.addEventListener("click", (e) => {
+    const panel = document.getElementById("view-settings-panel");
+    if(panel.classList.contains("open") && !panel.contains(e.target) && e.target.id !== "view-settings-btn"){
+      panel.classList.remove("open");
+    }
+  });
+  document.getElementById("view-mode-toggle").addEventListener("click", () => {
+    const list = document.getElementById("video-list");
+    const isCompact = list.classList.toggle("compact-mode");
+    document.getElementById("view-mode-toggle").textContent = isCompact ? "📋 詳細表示に戻す" : "🔳 サムネイル一覧";
+    try{ localStorage.setItem("oshi-videos-view-mode", isCompact ? "compact" : "normal"); }catch(e){ /* 保存不可の環境 */ }
+  });
+  document.getElementById("group-mode-toggle").addEventListener("click", () => setGroupMode("category"));
+  document.getElementById("tag-group-toggle").addEventListener("click", () => setGroupMode("tag"));
+  document.getElementById("sort-toggle-btn").addEventListener("click", () => {
+    videoSortMode = videoSortMode === "date" ? "random" : "date";
+    const btn = document.getElementById("sort-toggle-btn");
+    btn.textContent = videoSortMode === "random" ? "📅 公開順に戻す" : "🔀 ランダムに並び替え";
+    btn.classList.toggle("active", videoSortMode === "random");
+    currentCategoryFilter = "all";
+    activeTagFilter = null;
+    showAllItems = false;
+    document.getElementById("video-search").value = "";
+    document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
+    sortVideoList();
+  });
+}
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", initViewSettingsControls, { once: true });
+} else {
+  initViewSettingsControls();
+}
 (function restoreVideoViewMode(){
   try{
     if(localStorage.getItem("oshi-videos-view-mode") === "compact"){
@@ -1126,18 +1149,6 @@ function sortVideoList(){
   }
   applyVideoFilter();
 }
-document.getElementById("sort-toggle-btn").addEventListener("click", () => {
-  videoSortMode = videoSortMode === "date" ? "random" : "date";
-  const btn = document.getElementById("sort-toggle-btn");
-  btn.textContent = videoSortMode === "random" ? "📅 公開順に戻す" : "🔀 ランダムに並び替え";
-  btn.classList.toggle("active", videoSortMode === "random");
-  currentCategoryFilter = "all";
-  activeTagFilter = null;
-  showAllItems = false;
-  document.getElementById("video-search").value = "";
-  document.querySelectorAll("#category-filter .tag-filter-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "all"));
-  sortVideoList();
-});
 document.getElementById("fav-filter-btn").addEventListener("click", () => {
   favoriteOnlyMode = !favoriteOnlyMode;
   const btn = document.getElementById("fav-filter-btn");
@@ -1611,13 +1622,13 @@ document.getElementById("related-pages-list")?.addEventListener("click", (e) => 
   }
   if(document.body.classList.contains("editing")) e.preventDefault();
 });
-</script><div class="view-settings-panel" id="view-settings-panel">
+</script>
+
+
+
+<div class="view-settings-panel" id="view-settings-panel">
           <button type="button" class="sort-toggle-btn" id="sort-toggle-btn">🔀 ランダムに並び替え</button>
           <button type="button" class="fav-filter-btn" id="view-mode-toggle">🔳 サムネイル一覧</button>
           <button type="button" class="fav-filter-btn" id="group-mode-toggle">📂 カテゴリ別に表示</button>
           <button type="button" class="fav-filter-btn" id="tag-group-toggle">🏷 タグ別に表示</button>
-        </div>
-
-
-
-</body></html>
+        </div></body></html>
