@@ -20,7 +20,7 @@
 <meta property="og:title" content="動画まとめ">
 <meta property="og:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
 <meta property="og:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
-<meta property="og:url" content="content://media/external/downloads/174416">
+<meta property="og:url" content="">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="動画まとめ">
 <meta name="twitter:description" content="公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。">
@@ -585,8 +585,7 @@ body.editing .add-row{ display:flex; }
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "ホーム",
-          "item": "content://media/external/downloads/index.html"
+          "name": "ホーム"
         },
         {
           "@type": "ListItem",
@@ -1634,30 +1633,37 @@ let pendingShare = null;
 function buildShareCardImage(thumbUrl, title, text){
   return new Promise((resolve) => {
     const canvas = document.createElement("canvas");
-    canvas.width = 600; canvas.height = 600;
+    canvas.width = 600; canvas.height = 620;
     const ctx = canvas.getContext("2d");
+    const IMG_H = 338; /* 16:9で確保する画像エリアの高さ */
     const finish = () => {
-      ctx.fillStyle = "rgba(0,0,0,0.55)";
-      ctx.fillRect(0, 380, 600, 220);
+      /* 画像エリアとテキストエリアを完全に分離(背景色で塗り分け、重ねない) */
+      ctx.fillStyle = "#231b28";
+      ctx.fillRect(0, IMG_H, 600, canvas.height - IMG_H);
       ctx.fillStyle = "#fff";
-      ctx.font = "bold 30px sans-serif";
-      wrapCanvasText(ctx, title, 24, 430, 552, 36);
-      ctx.font = "24px sans-serif";
-      ctx.fillStyle = "#ffe2e6";
-      wrapCanvasText(ctx, text, 24, 480, 552, 30);
-      ctx.font = "bold 18px sans-serif";
+      ctx.font = "26px sans-serif";
+      wrapCanvasText(ctx, text, 28, IMG_H + 48, 544, 34, 4);
+      ctx.font = "bold 17px sans-serif";
       ctx.fillStyle = "#ff8194";
-      ctx.fillText(`#${SHARE_HASHTAG}`, 24, 580);
-      canvas.toBlob(blob => resolve(blob), "image/jpeg", 0.85);
+      ctx.fillText(`#${SHARE_HASHTAG}`, 28, canvas.height - 26);
+      canvas.toBlob(blob => resolve(blob), "image/jpeg", 0.88);
     };
+    ctx.fillStyle = "#17131b";
+    ctx.fillRect(0, 0, 600, IMG_H);
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.onload = () => { ctx.drawImage(img, 0, 0, 600, 380); finish(); };
-    img.onerror = () => { ctx.fillStyle = "#ffe2e6"; ctx.fillRect(0, 0, 600, 380); finish(); };
+    img.onload = () => {
+      /* アスペクト比を保ったまま画像エリア内に収める(引き伸ばし・トリミングしない) */
+      const scale = Math.min(600 / img.width, IMG_H / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.drawImage(img, (600 - w) / 2, (IMG_H - h) / 2, w, h);
+      finish();
+    };
+    img.onerror = finish;
     img.src = thumbUrl;
   });
 }
-function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight){
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines){
   const chars = Array.from(text || "");
   let line = "", lines = [];
   chars.forEach(ch => {
@@ -1665,7 +1671,7 @@ function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight){
     if(ctx.measureText(test).width > maxWidth && line){ lines.push(line); line = ch; } else { line = test; }
   });
   if(line) lines.push(line);
-  lines.slice(0, 3).forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight));
+  lines.slice(0, maxLines || 3).forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight));
 }
 function openSharePreviewModal(time, label, comment, endTime, key){
   if(!currentPlayingYtId) return;
@@ -1676,7 +1682,10 @@ function openSharePreviewModal(time, label, comment, endTime, key){
   if(comment) defaultText = comment;
   else if(label) defaultText = endSeconds ? `${videoTitle}「${label}」の場面(${formatSecondsToTime(seconds)}〜${formatSecondsToTime(endSeconds)})` : `${videoTitle}「${label}」の場面`;
   else defaultText = `${videoTitle}(${formatSecondsToTime(seconds)}〜)`;
-  pendingShare = { seconds, endSeconds, videoTitle, label, key, mode: "thumb" };
+  const chapters = parseChaptersField(currentPlayerSourceItem?.dataset.chapters);
+  const matchedChapter = chapters.find(c => chapterKey(videoTitle, c) === key);
+  const customPhoto = matchedChapter?.photo || "";
+  pendingShare = { seconds, endSeconds, videoTitle, label, key, mode: "thumb", customPhoto };
   document.getElementById("share-preview-text").value = defaultText;
   document.getElementById("share-mode-thumb").classList.add("active");
   document.getElementById("share-mode-card").classList.remove("active");
@@ -1686,16 +1695,16 @@ function openSharePreviewModal(time, label, comment, endTime, key){
 async function updateSharePreviewImage(){
   const wrap = document.getElementById("share-preview-image-wrap");
   wrap.innerHTML = `<div style="padding:20px; text-align:center; font-size:11px; color:var(--sub-ink);">画像を準備中…</div>`;
-  const thumbUrl = `https://img.youtube.com/vi/${currentPlayingYtId}/hqdefault.jpg`;
+  const imageSource = pendingShare.customPhoto || `https://img.youtube.com/vi/${currentPlayingYtId}/hqdefault.jpg`;
   if(pendingShare.mode === "thumb"){
-    wrap.innerHTML = `<img src="${thumbUrl}" alt="">`;
+    wrap.innerHTML = `<img src="${imageSource}" alt="">`;
   } else {
     try{
-      const blob = await buildShareCardImage(thumbUrl, pendingShare.videoTitle, document.getElementById("share-preview-text").value);
+      const blob = await buildShareCardImage(imageSource, pendingShare.videoTitle, document.getElementById("share-preview-text").value);
       pendingShare.cardBlob = blob;
       wrap.innerHTML = `<img src="${URL.createObjectURL(blob)}" alt="">`;
     }catch(e){
-      wrap.innerHTML = `<img src="${thumbUrl}" alt="">`;
+      wrap.innerHTML = `<img src="${imageSource}" alt="">`;
     }
   }
 }
@@ -1729,6 +1738,10 @@ async function executeShare(shareText, shareUrl, videoTitle, mode){
   try{
     if(mode === "card" && pendingShare && pendingShare.cardBlob){
       imageFile = new File([pendingShare.cardBlob], "share-card.jpg", { type: "image/jpeg" });
+    } else if(pendingShare && pendingShare.customPhoto){
+      const res = await fetch(pendingShare.customPhoto);
+      const blob = await res.blob();
+      imageFile = new File([blob], "photo.jpg", { type: blob.type || "image/jpeg" });
     } else {
       const res = await fetch(`https://img.youtube.com/vi/${currentPlayingYtId}/hqdefault.jpg`);
       const blob = await res.blob();
