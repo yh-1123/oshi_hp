@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 (function(){
   try{
@@ -110,12 +110,12 @@ a{ color:inherit; text-decoration:none; }
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
 .topnav .wrap{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; height:46px; column-gap:8px; }
 .nav-left{ display:flex; align-items:center; gap:2px; justify-self:start; min-width:0; }
-.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:inline-flex; align-items:center; padding:10px 4px; margin:-10px -4px; }
 .back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; flex:none; }
 body.editing .back-link-edit{ display:inline-block; }
 .back-link-edit:hover{ color:var(--oshi-color); }
 .brand{ font-size:12px; color:var(--sub-ink); justify-self:center; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:10px 8px; margin:-6px -4px; color:var(--sub-ink); line-height:1; }
 .nav-icons{ display:flex; align-items:center; gap:10px; justify-self:end; }
 .nav-icon-btn:hover{ color:var(--oshi-color); }
 
@@ -137,10 +137,11 @@ section{ padding:30px 0; border-top:1px solid var(--line); }
 
 /* 申込方法 */
 .howto-list, .letters-list{ display:flex; flex-direction:column; gap:14px; }
-.howto-item, .letters-item{ position:relative; padding:16px 84px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.howto-item, .letters-item{ position:relative; padding:16px 16px 16px 16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+body.editing .howto-item, body.editing .letters-item{ padding-right:84px; }
 .howto-title, .letters-title{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:8px; }
 .howto-steps, .letters-steps{ padding-left:20px; font-size:13px; }
-.howto-steps li, .letters-steps li{ margin-bottom:12px; line-height:1.7; overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
+.howto-steps li, .letters-steps li{ margin-bottom:12px; line-height:1.7; overflow-wrap:break-word; }
 .howto-steps li:last-child, .letters-steps li:last-child{ margin-bottom:0; }
 .step-photo{ width:100%; max-width:260px; border-radius:8px; margin:6px 0; display:block; box-shadow:var(--shadow-sm); }
 .photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
@@ -160,25 +161,27 @@ section{ padding:30px 0; border-top:1px solid var(--line); }
 
 /* 用語集 */
 .glossary-list{ display:flex; flex-direction:column; gap:14px; }
-.glossary-item{ position:relative; padding:14px 84px 14px 14px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+.glossary-item{ position:relative; padding:14px 16px 14px 14px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); }
+body.editing .glossary-item{ padding-right:84px; }
 .glossary-term{ font-size:14px; font-weight:700; color:var(--oshi-color); margin-bottom:4px; }
-.glossary-desc{ font-size:13px; line-height:1.7; overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
+.glossary-desc{ font-size:13px; line-height:1.7; overflow-wrap:break-word; white-space:pre-line; }
 
 /* よくある質問(アコーディオン) */
 .faq-list{ display:flex; flex-direction:column; gap:10px; }
 .faq-item{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); }
 .faq-question{
-  width:100%; text-align:left; background:none; border:none; padding:14px 84px 14px 16px; font-size:13.5px;
+  width:100%; text-align:left; background:none; border:none; padding:14px 40px 14px 16px; font-size:13.5px;
   font-weight:700; color:var(--ink); cursor:pointer; font-family:inherit; display:flex; gap:10px; align-items:flex-start;
   line-height:1.7;
 }
+body.editing .faq-question{ padding-right:84px; }
 .faq-question .faq-q-mark{ color:var(--oshi-color); flex:none; }
-.faq-q-text{ overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
+.faq-q-text{ overflow-wrap:break-word; }
 .faq-arrow{ position:absolute; top:14px; right:34px; color:var(--sub-ink); font-size:12px; transition:transform .2s ease; }
 .faq-item.open .faq-arrow{ transform:rotate(180deg); }
 .faq-answer{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
 .faq-item.open .faq-answer{ max-height:600px; }
-.faq-answer-inner{ padding:0 16px 16px 16px; font-size:13px; color:var(--sub-ink); line-height:1.7; overflow-wrap:break-word; text-align:justify; text-justify:inter-character; }
+.faq-answer-inner{ padding:0 16px 16px 16px; font-size:13px; color:var(--sub-ink); line-height:1.7; overflow-wrap:break-word; white-space:pre-line; }
 
 .bio-text{ font-size:13.5px; white-space:pre-line; }
 
@@ -254,8 +257,8 @@ body.editing .add-row{ display:flex; }
 .modal h3{ font-size:15px; margin-bottom:14px; }
 .qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:2px; }
 .qa-label:first-child{ margin-top:0; }
-.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
-.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:80px; resize:vertical; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:16px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:16px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:80px; resize:vertical; }
 .qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
 .modal-actions{ display:flex; gap:8px; margin-top:18px; }
 .modal-actions button{ flex:1; }
