@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 (function(){
   try{
@@ -165,7 +165,7 @@ a{ color:inherit; text-decoration:none; }
   .nav-right::-webkit-scrollbar{ display:none; }
   .profile-nav-link{ font-size:10.5px; flex:none; }
 }
-.profile-nav-link{ font-size:11.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; }
+.profile-nav-link{ font-size:11.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; display:inline-flex; align-items:center; padding:8px 0; margin:-8px 0; }
 .profile-nav-link:hover{ opacity:0.8; }
 .nav-link-list{ display:flex; align-items:center; gap:10px; }
 .nav-link-item{ position:relative; display:inline-flex; align-items:center; gap:0; }
@@ -183,7 +183,7 @@ body.editing .nav-link-add-btn{ display:inline-flex; align-items:center; }
 .nav-search-row{ display:none; border-top:1px solid var(--line); background:rgba(255,250,249,0.98); padding:10px 0; }
 .nav-search-row.open{ display:block; }
 .search-input{
-  width:100%; border:1px solid var(--line); border-radius:999px; padding:10px 16px; font-size:13px;
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:10px 16px; font-size:16px;
   font-family:inherit; background:#fff; color:var(--ink);
 }
 .search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
@@ -358,9 +358,9 @@ body.editing .application-item.is-inactive-period::after{
 .dup-btn{ display:none; }
 body.editing .dup-btn{ display:inline-flex; }
 
-.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:16px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
 .qa-textarea{
-  border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit;
+  border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:16px; font-family:inherit;
   background:#fff; color:var(--ink); width:100%; box-sizing:border-box; line-height:1.6; resize:vertical;
 }
 .qa-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
@@ -715,8 +715,8 @@ body.editing .reorder-row{ display:flex; }
 
 <div class="site-banner" id="site-banner" style="display:none;">
   <div class="wrap site-banner-inner">
-    <a class="site-banner-link" id="site-banner-link" href="https://yh-1123.github.io/oshi_hp/videos.html" target="_blank" rel="noopener">
-      <span id="site-banner-text">動画まとめに「タグ別に表示機能」を実装いたしました。興味ある方はお試しください。</span>
+    <a class="site-banner-link" id="site-banner-link" href="#" target="_blank" rel="noopener">
+      <span id="site-banner-text">📢 お知らせテキストをここに入力</span>
     </a>
     <button type="button" class="site-banner-close" id="site-banner-close" aria-label="バナーを閉じる">×</button>
   </div>
@@ -1044,7 +1044,7 @@ body.editing .reorder-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
 
 
@@ -1298,7 +1298,7 @@ function recCardHTML(r){
   const bg = r.thumb || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "");
   const playIcon = r.url ? '<span class="play-badge"><span>▶</span></span>' : "";
   const thumbHtml = bg
-    ? `<div class="rec-thumb" style="background-image:url('${bg}');background-size:cover;background-position:center;">${playIcon}</div>`
+    ? `<div class="rec-thumb"><img src="${bg}" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;">${playIcon}</div>`
     : `<div class="rec-thumb">サムネイル画像${playIcon}</div>`;
   const body = `${thumbHtml}
     <div class="rec-body">

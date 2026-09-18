@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+  try{
+    if(localStorage.getItem("oshi_dark_mode") === "1") document.documentElement.classList.add("dark-mode");
+  }catch(e){ /* localStorage不可の環境 */ }
+})();
+</script>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#e0233a">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -61,6 +69,34 @@
   --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
   --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
 }
+html.dark-mode{
+  --oshi-color: #ff5c72;
+  --oshi-color-deep: #ff8194;
+  --oshi-color-soft: #3a2028;
+  --accent2: #2b2530;
+  --ink: #f1e9ec;
+  --sub-ink: #b3a3ae;
+  --paper: #17131b;
+  --line: #362e3c;
+  --card: #241f29;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md: 0 10px 26px rgba(0,0,0,0.45);
+}
+html.dark-mode img{ opacity:0.92; }
+html.dark-mode .topnav{ background: rgba(23,19,27,0.92); }
+.dark-mode-toggle-btn{
+  position:fixed; left:16px; bottom:16px; z-index:60;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  width:40px; height:40px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(43,35,49,0.10);
+  opacity:0.45; transition:opacity 0.15s ease;
+}
+.dark-mode-toggle-btn:hover, .dark-mode-toggle-btn:focus-visible, .dark-mode-toggle-btn:active{ opacity:1; }
+@media (hover: none){ .dark-mode-toggle-btn{ opacity:0.65; } }
+html.dark-mode .dark-toggle-icon-moon{ display:none; }
+html.dark-mode .dark-toggle-icon-sun{ display:inline; }
+.dark-toggle-icon-sun{ display:none; }
 *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
   outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
@@ -74,13 +110,13 @@ a{ color:inherit; text-decoration:none; }
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
 .topnav .wrap{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; height:46px; column-gap:8px; }
 .nav-left{ display:flex; align-items:center; gap:2px; justify-self:start; min-width:0; }
-.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:inline-flex; align-items:center; padding:10px 4px; margin:-10px -4px; }
 .back-link-edit{ display:none; border:none; background:transparent; color:var(--sub-ink); font-size:11px; cursor:pointer; padding:2px 4px; vertical-align:middle; flex:none; }
 body.editing .back-link-edit{ display:inline-block; }
 .back-link-edit:hover{ color:var(--oshi-color); }
 .brand{ font-size:12px; color:var(--sub-ink); justify-self:center; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .nav-icons{ display:flex; align-items:center; gap:10px; justify-self:end; }
-.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.nav-icon-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:10px 8px; margin:-6px -4px; color:var(--sub-ink); line-height:1; }
 .nav-icon-btn:hover{ color:var(--oshi-color); }
 
 .p-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
@@ -95,7 +131,7 @@ body.editing .back-link-edit{ display:inline-block; }
 
 .search-wrap{ position:relative; margin-top:16px; }
 .search-input{
-  width:100%; border:1px solid var(--line); border-radius:999px; padding:11px 16px; font-size:13px;
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:11px 16px; font-size:16px;
   font-family:inherit; background:#fff; color:var(--ink); box-shadow:var(--shadow-sm);
 }
 .search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
@@ -132,6 +168,12 @@ body.editing .place-item{ padding-right:84px; }
 .place-name{ font-size:14px; font-weight:700; margin-bottom:2px; }
 .place-area{ font-size:11.5px; color:var(--sub-ink); margin-bottom:6px; display:flex; align-items:center; gap:4px; }
 .place-body{ font-size:13px; white-space:pre-line; }
+.glossary-tip{ border-bottom:1.5px dotted var(--oshi-color); color:var(--oshi-color-deep); font-weight:700; cursor:help; }
+#glossary-tip-popup{
+  display:none; position:absolute; z-index:200; background:var(--ink); color:#fff; border-radius:10px;
+  padding:10px 12px; font-size:11.5px; line-height:1.6; box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+#glossary-tip-popup .glossary-tip-term{ font-weight:700; font-size:12px; margin-bottom:4px; color:#ffe2e6; }
 .place-visit{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
 .place-recommend{
   margin-top:10px; background:#fffaf0; border:1px dashed #e0a800; border-radius:10px; padding:10px 12px;
@@ -279,8 +321,8 @@ body.editing .add-row{ display:flex; }
 .modal h3{ font-size:15px; margin-bottom:14px; }
 .qa-label{ font-size:11px; color:var(--sub-ink); margin-top:12px; margin-bottom:2px; }
 .qa-label:first-child{ margin-top:0; }
-.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
-.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:90px; resize:vertical; }
+.qa-input{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:16px; font-family:inherit; background:#fff; color:var(--ink); width:100%; }
+.qa-textarea{ border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:16px; font-family:inherit; background:#fff; color:var(--ink); width:100%; min-height:90px; resize:vertical; }
 .qa-input:focus, .qa-textarea:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
 .photo-preview{ width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; border-radius:10px; margin-top:6px; border:1px solid var(--line); display:none; }
 .sns-icon-preview{ width:56px; height:56px; border-radius:50%; background:var(--oshi-color-soft) center/cover; margin:6px auto 0; display:none; }
@@ -348,6 +390,20 @@ body.editing .add-row{ display:flex; }
   font-size:14px; line-height:1; cursor:pointer; flex:none;
 }
 .site-banner-close:hover{ background:rgba(255,255,255,0.35); }
+
+.related-pages-section{ margin-top:26px; }
+.related-pages-list{ display:flex; flex-direction:column; gap:10px; }
+.related-link-box{
+  position:relative; display:flex; gap:10px; align-items:center; text-decoration:none;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:12px 46px 12px 14px; box-shadow:var(--shadow-sm);
+}
+.related-link-box .related-link-icon{ font-size:17px; flex:none; }
+.related-link-box .related-link-title{ font-size:12.5px; font-weight:700; color:var(--ink); margin-bottom:1px; }
+.related-link-box .related-link-desc{ font-size:10.5px; color:var(--sub-ink); }
+.related-link-box .related-link-arrow{ margin-left:auto; flex:none; color:var(--oshi-color-deep); font-weight:700; }
+.related-link-box .edit-edit{ top:6px; right:34px; }
+.related-link-box .edit-remove{ top:6px; right:6px; }
 </style>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
@@ -370,6 +426,9 @@ body.editing .add-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+<button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
+  <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
+</button>
 
 <div class="site-banner" id="site-banner" style="display:none;">
   <div class="wrap site-banner-inner">
@@ -391,8 +450,7 @@ body.editing .add-row{ display:flex; }
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
-    </div>
-  </div>
+    </div></div>
 </nav>
 
 <header class="p-hero">
@@ -436,6 +494,23 @@ body.editing .add-row{ display:flex; }
     <div class="place-list" id="place-list"></div>
     <p class="no-results" id="no-results">条件に合う場所が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-places" type="button" style="display:none;">＋ もっと見る</button>
+    
+  </div>
+</section>
+
+<section class="related-pages-section">
+  <div class="wrap">
+    <div class="sec-head"><h2><span class="mark">◆</span><span class="editable" id="related-pages-heading" contenteditable="true">関連ページ</span></h2></div>
+    <div class="related-pages-list" id="related-pages-list"><a class="related-link-box" href="wiki.html">
+    
+    
+    <span class="related-link-icon">📚</span>
+    <span>
+      <div class="related-link-title">豆知識・エピソード集も見る</div>
+      <div class="related-link-desc">知って楽しい豆知識をまとめました</div>
+    </span>
+    <span class="related-link-arrow">›</span>
+  </a></div>
     
   </div>
 </section>
@@ -557,7 +632,7 @@ function placeItemHTML(p){
     </div>
     <h3 class="place-name editable" contenteditable="false">${p.name}</h3>
     <div class="place-area editable" contenteditable="false">${p.area ? "📍 " + p.area : ""}</div>
-    <p class="place-body editable" contenteditable="false">${p.body}</p>
+    <p class="place-body editable glossary-tip-target" contenteditable="false">${p.body}</p>
     ${recommendHtml}
     ${photosHtml}
     <div class="place-link-row">
@@ -938,12 +1013,101 @@ document.getElementById("place-list").addEventListener("click", (e) => {
 
 /* ---------- 編集モード(パスワードで保護) ---------- */
 let editMode = false;
-function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
+function setEditable(on){
+  document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; });
+  if(on) unwrapGlossaryTerms(); else rewrapGlossaryTerms();
+}
+
+/* ---------- 用語のミニ解説(ツールチップ) ---------- */
+let glossaryTermsCache = null;
+function escGlossaryHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escGlossaryAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function wrapGlossaryTermsIn(el){
+  if(!glossaryTermsCache || !glossaryTermsCache.length) return;
+  if(el.querySelector(".glossary-tip")) return;
+  const text = el.textContent;
+  if(!text || !text.trim()) return;
+  const matches = [];
+  glossaryTermsCache.forEach(g => {
+    if(!g.term || !g.desc || !text.includes(g.term)) return;
+    let idx = 0;
+    while((idx = text.indexOf(g.term, idx)) !== -1){
+      matches.push({ start: idx, end: idx + g.term.length, term: g.term, desc: g.desc });
+      idx += g.term.length;
+    }
+  });
+  if(!matches.length) return;
+  matches.sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
+  const selected = [];
+  let lastEnd = -1;
+  matches.forEach(m => { if(m.start >= lastEnd){ selected.push(m); lastEnd = m.end; } });
+  let html = "";
+  let cursor = 0;
+  selected.forEach(m => {
+    html += escGlossaryHtml(text.slice(cursor, m.start));
+    html += `<span class="glossary-tip" data-term="${escGlossaryAttr(m.term)}" data-desc="${escGlossaryAttr(m.desc)}">${escGlossaryHtml(m.term)}</span>`;
+    cursor = m.end;
+  });
+  html += escGlossaryHtml(text.slice(cursor));
+  el.innerHTML = html;
+}
+function rewrapGlossaryTerms(){
+  document.querySelectorAll(".glossary-tip-target").forEach(wrapGlossaryTermsIn);
+}
+function unwrapGlossaryTerms(){
+  document.querySelectorAll(".glossary-tip-target").forEach(el => {
+    if(el.querySelector(".glossary-tip")) el.textContent = el.textContent;
+  });
+}
+function ensureGlossaryPopup(){
+  if(document.getElementById("glossary-tip-popup")) return;
+  const popup = document.createElement("div");
+  popup.id = "glossary-tip-popup";
+  popup.innerHTML = `<div class="glossary-tip-term"></div><div class="glossary-tip-desc"></div>`;
+  document.body.appendChild(popup);
+  document.addEventListener("click", (e) => {
+    const tip = e.target.closest(".glossary-tip");
+    if(tip){
+      const p = document.getElementById("glossary-tip-popup");
+      p.querySelector(".glossary-tip-term").textContent = "📖 " + tip.dataset.term;
+      p.querySelector(".glossary-tip-desc").textContent = tip.dataset.desc;
+      const rect = tip.getBoundingClientRect();
+      p.style.display = "block";
+      const popupWidth = Math.min(260, window.innerWidth - 20);
+      p.style.width = popupWidth + "px";
+      let left = rect.left;
+      if(left + popupWidth > window.innerWidth - 10) left = window.innerWidth - popupWidth - 10;
+      p.style.left = Math.max(10, left) + "px";
+      p.style.top = (rect.bottom + window.scrollY + 6) + "px";
+      return;
+    }
+    const p = document.getElementById("glossary-tip-popup");
+    if(p && p.style.display === "block" && !p.contains(e.target)) p.style.display = "none";
+  });
+}
+(async function initGlossaryTooltips(){
+  if(location.href.indexOf("file://") === 0) return;
+  try{
+    const res = await fetch("guide-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    glossaryTermsCache = Array.isArray(data.glossary) ? data.glossary.filter(g => g.term && g.desc) : [];
+    glossaryTermsCache.sort((a, b) => b.term.length - a.term.length);
+    if(!glossaryTermsCache.length) return;
+    ensureGlossaryPopup();
+    rewrapGlossaryTerms();
+    const list = document.getElementById("place-list");
+    if(list) new MutationObserver(() => { if(!document.body.classList.contains("editing")) rewrapGlossaryTerms(); }).observe(list, { childList: true, subtree: true, characterData: true });
+  }catch(e){ /* 取得できない場合は何もしない */ }
+})();
 
 
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
 
 function rebuildPlacesFromData(data){
+  if(data.relatedPages) renderRelatedPages(data.relatedPages);
+  if(data.relatedPagesHeading !== undefined) document.getElementById("related-pages-heading").textContent = data.relatedPagesHeading;
+  updateRelatedPagesHeadingVisibility();
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
   if(data.backLinkUrl){
     const link = document.querySelector(".back-link");
@@ -1041,6 +1205,86 @@ document.getElementById("site-banner-close")?.addEventListener("click", () => {
   }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
 
+
+document.getElementById("dark-mode-toggle")?.addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark-mode");
+  try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
+});
+
+/* ---------- 関連ページ(手動リンク・編集可能) ---------- */
+function relEscHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function relEscAttr(s){ return String(s || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function relatedPageHTML(p){
+  return `<a class="related-link-box" href="${relEscAttr(p.url)}">
+    <button type="button" class="edit-edit" aria-label="編集">✎</button>
+    <button type="button" class="edit-remove" aria-label="削除">×</button>
+    <span class="related-link-icon">${relEscHtml(p.icon)}</span>
+    <span>
+      <div class="related-link-title">${relEscHtml(p.title)}</div>
+      <div class="related-link-desc">${relEscHtml(p.desc)}</div>
+    </span>
+    <span class="related-link-arrow">›</span>
+  </a>`;
+}
+function renderRelatedPages(list){
+  const el = document.getElementById("related-pages-list");
+  if(el) el.innerHTML = (list || []).map(relatedPageHTML).join("");
+}
+function extractRelatedPages(){
+  return Array.from(document.querySelectorAll("#related-pages-list .related-link-box")).map(el => ({
+    icon: el.querySelector(".related-link-icon")?.textContent || "",
+    title: el.querySelector(".related-link-title")?.textContent || "",
+    desc: el.querySelector(".related-link-desc")?.textContent || "",
+    url: el.getAttribute("href") || "",
+  }));
+}
+renderRelatedPages([{"icon": "📚", "title": "豆知識・エピソード集も見る", "desc": "知って楽しい豆知識をまとめました", "url": "wiki.html"}]);
+function relVal(id, fallback){ return document.getElementById(id)?.value.trim() || fallback; }
+let relatedModalEditTarget = null;
+function openRelatedModal(existing){
+  relatedModalEditTarget = existing || null;
+  const icon = existing?.querySelector(".related-link-icon")?.textContent || "";
+  const title = existing?.querySelector(".related-link-title")?.textContent || "";
+  const desc = existing?.querySelector(".related-link-desc")?.textContent || "";
+  const url = existing?.getAttribute("href") || "";
+  document.getElementById("modal-title").textContent = existing ? "関連ページを編集" : "関連ページを追加";
+  document.getElementById("modal-fields").innerHTML = `
+    <div class="qa-label">アイコン(絵文字)</div><input class="qa-input" id="f-rel-icon" value="${relEscAttr(icon || "📄")}">
+    <div class="qa-label">タイトル</div><input class="qa-input" id="f-rel-title" value="${relEscAttr(title)}" placeholder="例:ゆかりの場所まとめも見る">
+    <div class="qa-label">説明</div><input class="qa-input" id="f-rel-desc" value="${relEscAttr(desc)}" placeholder="例:聖地巡礼・お店などをまとめています">
+    <div class="qa-label">リンク先(ファイル名)</div><input class="qa-input" id="f-rel-url" value="${relEscAttr(url)}" placeholder="例:places.html">`;
+  document.getElementById("modal-submit").textContent = existing ? "更新する" : "追加する";
+  modalType = "relatedPage";
+  document.getElementById("modal-backdrop").classList.add("open");
+}
+document.getElementById("add-related-page")?.addEventListener("click", () => openRelatedModal(null));
+document.getElementById("related-pages-list")?.addEventListener("click", (e) => {
+  if(e.target.closest(".edit-edit")){ e.preventDefault(); openRelatedModal(e.target.closest(".related-link-box")); return; }
+  if(e.target.closest(".edit-remove")){
+    e.preventDefault();
+    if(confirm("この関連ページリンクを削除しますか？")){ e.target.closest(".related-link-box").remove(); hasUnsavedChanges = true; }
+    return;
+  }
+  if(document.body.classList.contains("editing")) e.preventDefault();
+});
+
+function updateRelatedPagesHeadingVisibility(){
+  const heading = document.getElementById("related-pages-heading");
+  if(!heading) return;
+  const h2 = heading.closest("h2");
+  const section = heading.closest("section");
+  const isEmpty = !heading.textContent.trim();
+  if(h2) h2.style.display = isEmpty ? "none" : "";
+  if(section){
+    section.style.borderTop = isEmpty ? "none" : "";
+    section.style.paddingTop = isEmpty ? "0" : "";
+  }
+}
+(function(){
+  const el = document.getElementById("related-pages-heading");
+  if(el) new MutationObserver(updateRelatedPagesHeadingVisibility).observe(el, { characterData: true, childList: true, subtree: true });
+  updateRelatedPagesHeadingVisibility();
+})();
 </script>
 
 
