@@ -1,4 +1,13 @@
 {
+  "relatedPages": [
+    {
+      "icon": "🏆",
+      "title": "活動実績も見る",
+      "desc": "楽曲・公演・メディア出演の記録",
+      "url": "achievements.html"
+    }
+  ],
+  "relatedPagesHeading": "関連ページ",
   "navBrand": "動画まとめ",
   "eyebrow": "公式チャンネルなど",
   "title": "動画まとめ",
@@ -239,8 +248,8 @@
       "pickupComment": "",
       "chapters": "",
       "seriesOrder": "010",
-      "related": "「もう知らん」Music Video Making Movie / SKE48 36th.Single c/w::",
-      "tags": "",
+      "related": "「もう知らん」Music Video Making Movie / SKE48 36th.Single c/w",
+      "tags": "OneGem",
       "addedAt": "",
       "order": "15"
     },
@@ -345,7 +354,7 @@
       "chapters": "292::おねだり|||635::幸せそうな笑顔",
       "seriesOrder": "009",
       "related": "SKE48坂本真凛＆原優寧の大須・うまいもの探し完結編！ラストはアツアツなあのグルメ！！│ 愛知あたりまえ倶楽部|||SKE48坂本真凛＆原優寧が勇者に！！白熱の「宝探し」に挑戦！│ 愛知あたりまえ倶楽部|||SKE48坂本真凛＆原優寧が大須の“ダンジョン食堂”へ！？│ 愛知あたりまえ倶楽部",
-      "tags": "",
+      "tags": "愛知あたりまえ倶楽部",
       "addedAt": "",
       "order": "86"
     },
@@ -1670,7 +1679,7 @@
       "order": "71"
     },
     {
-      "title": "https://youtu.be/QpKcJN2akes?si=TAdpKgAE_6iEQ8C9",
+      "title": "【未公開】絶対使わないのに取材の最後になぜか手を振る11期研究生【SKE48】",
       "url": "https://www.youtube.com/watch?v=QpKcJN2akes",
       "category": "",
       "date": "2022-07-10",
