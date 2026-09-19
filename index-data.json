@@ -3,7 +3,7 @@
     "active": false,
     "text": "📢 お知らせテキストをここに入力",
     "url": "",
-    "updatedAt": 1789464701997
+    "updatedAt": 1789808450748
   },
   "nameMain": "原",
   "nameAccent": "優寧",
@@ -307,6 +307,41 @@
       "desc": "18:30",
       "location": "",
       "url": "https://ske48.co.jp/schedule/detail/59991"
+    },
+    {
+      "date": "2026-10-05",
+      "title": "18周年特別公演",
+      "desc": "17:30",
+      "location": "",
+      "url": "https://ske48.co.jp/schedule/detail/60059"
+    },
+    {
+      "date": "2026-10-09",
+      "title": "SHOWROOM『恋シュンの旬』",
+      "desc": "19:00",
+      "location": "",
+      "url": ""
+    },
+    {
+      "date": "2026-10-12",
+      "title": "「SKE48 プレミアム・ファンサインイベント 〜撮って!勝って!サインリレー〜」",
+      "desc": "",
+      "location": "",
+      "url": "https://ske48.co.jp/schedule/detail/59390"
+    },
+    {
+      "date": "2026-10-24",
+      "title": "SKE48 37thシングル「ため息未来」(劇場盤)現地で2ショット撮影会 ※着席形式 @幕張メッセ",
+      "desc": "",
+      "location": "幕張メッセ",
+      "url": "https://ske48.co.jp/schedule/detail/59380"
+    },
+    {
+      "date": "2026-10-25",
+      "title": "SKE48 37thシングル「ため息未来」(劇場盤)現地で2ショット撮影会 ※スタンディング形式 @幕張メッセ",
+      "desc": "",
+      "location": "幕張メッセ",
+      "url": "https://ske48.co.jp/schedule/detail/59381"
     }
   ],
   "sns": [
