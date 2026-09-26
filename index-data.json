@@ -3,7 +3,7 @@
     "active": false,
     "text": "📢 お知らせテキストをここに入力",
     "url": "",
-    "updatedAt": 1789842751047
+    "updatedAt": 1790399379334
   },
   "nameMain": "原",
   "nameAccent": "優寧",
@@ -274,11 +274,46 @@
       "url": "https://ske48.co.jp/schedule/detail/59828"
     },
     {
+      "date": "2026-09-22",
+      "title": "愛知・名古屋2026応援サポーター「アジア競技大会『空手』会場ライブ」",
+      "desc": "",
+      "location": "豊橋市総合体育館",
+      "url": "https://ske48.co.jp/schedule/detail/60096"
+    },
+    {
       "date": "2026-09-23",
       "title": "「クラフト餃子フェス® NAGOYA 2026」",
       "desc": "",
       "location": "久屋大通公園 エンゼル広場(愛知県名古屋市中区栄 3 丁目 15 )",
       "url": "https://ske48.co.jp/schedule/detail/60001"
+    },
+    {
+      "date": "2026-09-24",
+      "title": "愛知・名古屋2026応援サポーター「アジア競技大会『フェンシング』会場ライブ」",
+      "desc": "",
+      "location": "Aichi Sky Expo",
+      "url": "https://ske48.co.jp/schedule/detail/60097"
+    },
+    {
+      "date": "2026-09-25",
+      "title": "「Aichi-Nagoya 2026 Ticket Center」一日店長就任イベント",
+      "desc": "",
+      "location": "Aichi-Nagoya 2026 Ticket Center(名古屋市中区栄3丁目5-10)",
+      "url": "https://ske48.co.jp/schedule/detail/60167"
+    },
+    {
+      "date": "2026-09-25",
+      "title": "BSテレ東7ch「わっきゃいのゴールデンかまし魂-CHARITY TELEVISION-」",
+      "desc": "25:29～25:58",
+      "location": "",
+      "url": "https://ske48.co.jp/schedule/detail/60215"
+    },
+    {
+      "date": "2026-09-25",
+      "title": "NHK名古屋「まるっと!」",
+      "desc": "18:10～19:00",
+      "location": "",
+      "url": "https://ske48.co.jp/schedule/detail/60207"
     },
     {
       "date": "2026-09-26",
@@ -314,6 +349,13 @@
       "desc": "17:30",
       "location": "",
       "url": "https://ske48.co.jp/schedule/detail/60059"
+    },
+    {
+      "date": "2026-10-06",
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "desc": "21:40～21:50",
+      "location": "",
+      "url": "https://ske48.co.jp/schedule/detail/60183"
     },
     {
       "date": "2026-10-09",
