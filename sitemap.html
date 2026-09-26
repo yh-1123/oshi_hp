@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+  try{
+    if(localStorage.getItem("oshi_dark_mode") === "1") document.documentElement.classList.add("dark-mode");
+  }catch(e){ /* localStorage不可の環境 */ }
+})();
+</script>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#e0233a">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -60,6 +68,34 @@
   --shadow-sm: 0 2px 10px rgba(43,35,49,0.06);
   --shadow-md: 0 10px 26px rgba(43,35,49,0.12);
 }
+html.dark-mode{
+  --oshi-color: #ff5c72;
+  --oshi-color-deep: #ff8194;
+  --oshi-color-soft: #3a2028;
+  --accent2: #2b2530;
+  --ink: #f1e9ec;
+  --sub-ink: #b3a3ae;
+  --paper: #17131b;
+  --line: #362e3c;
+  --card: #241f29;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md: 0 10px 26px rgba(0,0,0,0.45);
+}
+html.dark-mode img{ opacity:0.92; }
+html.dark-mode .topnav{ background: rgba(23,19,27,0.92); }
+.dark-mode-toggle-btn{
+  position:fixed; left:16px; bottom:16px; z-index:60;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  width:40px; height:40px; border-radius:50%; font-size:16px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(43,35,49,0.10);
+  opacity:0.45; transition:opacity 0.15s ease;
+}
+.dark-mode-toggle-btn:hover, .dark-mode-toggle-btn:focus-visible, .dark-mode-toggle-btn:active{ opacity:1; }
+@media (hover: none){ .dark-mode-toggle-btn{ opacity:0.65; } }
+html.dark-mode .dark-toggle-icon-moon{ display:none; }
+html.dark-mode .dark-toggle-icon-sun{ display:inline; }
+.dark-toggle-icon-sun{ display:none; }
 *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 a:focus-visible, button:focus-visible, input:focus-visible{ outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px; }
 html{ scroll-behavior:smooth; overflow-x:hidden; width:100%; }
@@ -70,7 +106,7 @@ a{ color:inherit; text-decoration:none; }
 
 .topnav{ position:sticky; top:0; z-index:50; background:rgba(255,250,249,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
 .topnav .wrap{ display:flex; align-items:center; height:46px; }
-.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); }
+.back-link{ font-size:12.5px; font-weight:700; color:var(--oshi-color); display:inline-flex; align-items:center; padding:10px 4px; margin:-10px -4px; }
 .brand{ margin-left:auto; font-size:12px; color:var(--sub-ink); }
 
 .s-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
@@ -92,7 +128,7 @@ section{ padding:22px 0; }
 .page-card{
   position:relative; display:flex; gap:12px; align-items:flex-start;
   background:var(--card); border:1px solid var(--line); border-radius:14px;
-  padding:14px 84px 14px 16px; box-shadow:var(--shadow-sm);
+  padding:14px 84px 14px 16px; box-shadow:var(--shadow-sm); cursor:pointer;
 }
 .page-icon{ flex:none; font-size:24px; line-height:1.2; }
 .page-body{ flex:1; min-width:0; }
@@ -151,11 +187,14 @@ body.editing .add-row{ display:block; }
 .edit-modal{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:380px; max-height:88vh; overflow-y:auto; }
 .edit-modal h3{ margin:0 0 14px; font-size:16px; }
 .qa-label{ font-size:11.5px; font-weight:700; color:var(--sub-ink); margin:10px 0 4px; }
-.qa-input{ width:100%; border:1.5px solid var(--line); border-radius:10px; padding:10px 13px; font-size:14px; font-family:inherit; color:var(--ink); }
+.qa-input{ width:100%; border:1.5px solid var(--line); border-radius:10px; padding:10px 13px; font-size:16px; font-family:inherit; color:var(--ink); }
 .modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:16px; }
 </style>
 </head>
 <body class="">
+<button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
+  <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
+</button>
 
 <div class="site-banner" id="site-banner" style="display:none;">
   <div class="wrap site-banner-inner">
@@ -169,8 +208,7 @@ body.editing .add-row{ display:block; }
 <nav class="topnav">
   <div class="wrap">
     <a class="back-link" href="index.html">← トップに戻る</a>
-    <div class="brand">サイトマップ</div>
-  </div>
+    <div class="brand">サイトマップ</div></div>
 </nav>
 
 <header class="s-hero">
@@ -224,6 +262,16 @@ body.editing .add-row{ display:block; }
       
     </span>
     <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="meigen.html">
+    
+    
+    <span class="page-icon editable">💬</span>
+    <span class="page-body">
+      <span class="page-title editable">名言集</span><br>
+      <span class="page-desc editable">配信やインタビューでの印象的な言葉をまとめました</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
   </div><div class="page-card" data-url="places.html">
     
     
@@ -254,6 +302,56 @@ body.editing .add-row{ display:block; }
       
     </span>
     <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="nenpyo.html">
+    
+    
+    <span class="page-icon editable">🗓️</span>
+    <span class="page-body">
+      <span class="page-title editable">年表</span><br>
+      <span class="page-desc editable">これまでの歩みを時系列でまとめました</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="search.html">
+    
+    
+    <span class="page-icon editable">🔍</span>
+    <span class="page-body">
+      <span class="page-title editable">サイト内検索</span><br>
+      <span class="page-desc editable">配信ログ・豆知識・グッズなどをまとめて検索できます</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="weekly.html">
+    
+    
+    <span class="page-icon editable">🗞️</span>
+    <span class="page-body">
+      <span class="page-title editable">今週の推し活まとめ</span><br>
+      <span class="page-desc editable">直近1週間の配信ログ・新着グッズなどをまとめてチェック</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="log.html">
+    
+    
+    <span class="page-icon editable">📻</span>
+    <span class="page-body">
+      <span class="page-title editable">配信ログ</span><br>
+      <span class="page-desc editable">SHOWROOM配信で話していた内容をまとめました</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="setlist.html">
+    
+    
+    <span class="page-icon editable">🎤</span>
+    <span class="page-body">
+      <span class="page-title editable">セトリまとめ</span><br>
+      <span class="page-desc editable">フェスやライブイベントでのセットリスト</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
   </div><div class="page-card" data-url="videos.html">
     
     
@@ -281,6 +379,26 @@ body.editing .add-row{ display:block; }
     <span class="page-body">
       <span class="page-title editable">便利なツール</span><br>
       <span class="page-desc editable">推し活に役立つツールをまとめました</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="favorites.html">
+    
+    
+    <span class="page-icon editable">⭐</span>
+    <span class="page-body">
+      <span class="page-title editable">お気に入り</span><br>
+      <span class="page-desc editable">各ページでチェックしたお気に入りをまとめて見られます</span>
+      
+    </span>
+    <span class="page-arrow">›</span>
+  </div><div class="page-card" data-url="updates.html">
+    
+    
+    <span class="page-icon editable">📝</span>
+    <span class="page-body">
+      <span class="page-title editable">更新ログ</span><br>
+      <span class="page-desc editable">このサイトの更新内容をお知らせします</span>
       
     </span>
     <span class="page-arrow">›</span>
@@ -343,12 +461,20 @@ const DEFAULT_PAGES = [
   { icon:"👤", title:"メンバープロフィール", desc:"経歴・基本情報・SNSリンクなど", url:"member-profile.html" },
   { icon:"🔰", title:"推し活はじめての方へ", desc:"申込方法・用語集・FAQ", url:"guide.html" },
   { icon:"📚", title:"豆知識・エピソード集", desc:"知って楽しい豆知識をまとめました", url:"wiki.html" },
+  { icon:"💬", title:"名言集", desc:"配信やインタビューでの印象的な言葉をまとめました", url:"meigen.html" },
   { icon:"📍", title:"ゆかりの場所まとめ", desc:"聖地巡礼・お店・旅行先など", url:"places.html" },
   { icon:"🏛️", title:"建築との関わり", desc:"大学時代や建築にまつわる活動", url:"architecture.html" },
   { icon:"🏆", title:"活動実績", desc:"楽曲・公演・メディア出演の記録", url:"achievements.html" },
+  { icon:"🗓️", title:"年表", desc:"これまでの歩みを時系列でまとめました", url:"nenpyo.html" },
+  { icon:"🔍", title:"サイト内検索", desc:"配信ログ・豆知識・グッズなどをまとめて検索できます", url:"search.html" },
+  { icon:"🗞️", title:"今週の推し活まとめ", desc:"直近1週間の配信ログ・新着グッズなどをまとめてチェック", url:"weekly.html" },
+  { icon:"📻", title:"配信ログ", desc:"SHOWROOM配信で話していた内容をまとめました", url:"log.html" },
+  { icon:"🎤", title:"セトリまとめ", desc:"フェスやライブイベントでのセットリスト", url:"setlist.html" },
   { icon:"🎬", title:"動画まとめ", desc:"公式チャンネルなどの動画一覧", url:"videos.html" },
   { icon:"🛍️", title:"グッズまとめ", desc:"公式グッズの情報と販売期間をまとめました", url:"goods.html" },
   { icon:"🔧", title:"便利なツール", desc:"推し活に役立つツールをまとめました", url:"tools.html" },
+  { icon:"⭐", title:"お気に入り", desc:"各ページでチェックしたお気に入りをまとめて見られます", url:"favorites.html" },
+  { icon:"📝", title:"更新ログ", desc:"このサイトの更新内容をお知らせします", url:"updates.html" },
   { icon:"💌", title:"布教カードメーカー", desc:"プロフィールカード画像を作ってSNSでシェア", url:"oshi-card.html" },
 ];
 const REORDER_ROW = '<div class="reorder-row"><button type="button" class="reorder-btn move-up">↑ 上へ</button><button type="button" class="reorder-btn move-down">↓ 下へ</button></div>';
@@ -379,6 +505,80 @@ async function sha256Hex(text){
   return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 let authenticated = false;
+/* ---------- サイトカラー(index.htmlで設定した色をこのページにも反映) ---------- */
+const THEME_COLOR_KEY = "oshi-theme-color";
+function hexToHsl(hex){
+  const m = hex.replace("#", "").match(/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+  if(!m) return null;
+  let r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  const d = max - min;
+  if(d === 0){ h = 0; s = 0; }
+  else{
+    s = d / (1 - Math.abs(2 * l - 1));
+    switch(max){
+      case r: h = ((g - b) / d) % 6; break;
+      case g: h = (b - r) / d + 2; break;
+      default: h = (r - g) / d + 4;
+    }
+    h *= 60;
+    if(h < 0) h += 360;
+  }
+  return { h, s: s * 100, l: l * 100 };
+}
+function hslToCss(h, s, l){ return `hsl(${h.toFixed(1)}, ${Math.max(0, Math.min(100, s)).toFixed(1)}%, ${Math.max(0, Math.min(100, l)).toFixed(1)}%)`; }
+function hslToRgbTriplet(h, s, l){
+  s /= 100; l /= 100;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+  const m = l - c / 2;
+  let r, g, b;
+  if(h < 60){ r = c; g = x; b = 0; }
+  else if(h < 120){ r = x; g = c; b = 0; }
+  else if(h < 180){ r = 0; g = c; b = x; }
+  else if(h < 240){ r = 0; g = x; b = c; }
+  else if(h < 300){ r = x; g = 0; b = c; }
+  else{ r = c; g = 0; b = x; }
+  return [r, g, b].map(v => Math.round((v + m) * 255)).join(", ");
+}
+function applyThemeColor(hex){
+  const hsl = hexToHsl(hex);
+  if(!hsl) return;
+  const { h, s } = hsl;
+  let style = document.getElementById("theme-color-override");
+  if(!style){ style = document.createElement("style"); style.id = "theme-color-override"; document.head.appendChild(style); }
+  style.textContent = `
+    :root{
+      --oshi-color: ${hslToCss(h, s, 50)};
+      --oshi-color-rgb: ${hslToRgbTriplet(h, s, 50)};
+      --oshi-color-deep: ${hslToCss(h, s, 38)};
+      --oshi-color-soft: ${hslToCss(h, Math.min(100, s * 0.6), 92)};
+      --paper: ${hslToCss(h, Math.min(100, s * 0.5), 97.3)};
+      --accent2: ${hslToCss(h, Math.min(100, s * 0.35), 90)};
+      --line: ${hslToCss(h, Math.min(100, s * 0.6), 88)};
+    }
+    html.dark-mode{
+      --oshi-color: ${hslToCss(h, s, 66)};
+      --oshi-color-rgb: ${hslToRgbTriplet(h, s, 66)};
+      --oshi-color-deep: ${hslToCss(h, s, 76)};
+      --oshi-color-soft: ${hslToCss(h, Math.min(100, s * 0.7), 18)};
+      --paper: ${hslToCss(h, Math.min(100, s * 0.35), 8)};
+      --accent2: ${hslToCss(h, Math.min(100, s * 0.3), 16)};
+      --line: ${hslToCss(h, Math.min(100, s * 0.3), 21)};
+      --card: ${hslToCss(h, Math.min(100, s * 0.3), 14)};
+    }
+  `;
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if(themeMeta) themeMeta.setAttribute("content", hex);
+}
+function loadThemeColor(){
+  try{
+    const saved = localStorage.getItem(THEME_COLOR_KEY);
+    if(saved) applyThemeColor(saved);
+  }catch(e){ /* ストレージ利用不可の場合は無視 */ }
+}
+loadThemeColor();
 let editMode = false;
 let hasUnsavedChanges = false;
 function setEditable(on){ document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; }); }
@@ -412,7 +612,7 @@ function requestEditAccess(){
   document.getElementById("modal-submit").textContent = "確認する";
   document.getElementById("modal-backdrop").classList.add("open");
 }
-editToggleBtn.addEventListener("click", () => { if(editMode){ exitEditMode(); } else { requestEditAccess(); } });
+editToggleBtn?.addEventListener("click", () => { if(editMode){ exitEditMode(); } else { requestEditAccess(); } });
 /* フッターの文字を2秒以内に5回タップすると、編集ツールバーが出てくる */
 (function initSecretUnlock(){
   const target = document.querySelector("footer");
@@ -455,10 +655,10 @@ function openEditModal(card){
   document.getElementById("modal-submit").textContent = "更新する";
   document.getElementById("modal-backdrop").classList.add("open");
 }
-document.getElementById("add-page").addEventListener("click", openAddModal);
-document.getElementById("modal-cancel").addEventListener("click", closePasswordModal);
-document.getElementById("modal-backdrop").addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closePasswordModal(); });
-document.getElementById("modal-submit").addEventListener("click", () => {
+document.getElementById("add-page")?.addEventListener("click", openAddModal);
+document.getElementById("modal-cancel")?.addEventListener("click", closePasswordModal);
+document.getElementById("modal-backdrop")?.addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closePasswordModal(); });
+document.getElementById("modal-submit")?.addEventListener("click", () => {
   if(modalType === "password"){
     const pw = val("f-password", "");
     sha256Hex(pw).then(hash => {
@@ -503,7 +703,8 @@ document.getElementById("page-list").addEventListener("click", (e) => {
     hasUnsavedChanges = true;
     return;
   }
-  if(editMode) e.preventDefault(); /* 編集モード中はリンク先へ飛ばない */
+  if(editMode){ e.preventDefault(); return; } /* 編集モード中はリンク先へ飛ばない */
+  if(card.dataset.url) window.location.href = card.dataset.url;
 });
 
 /* ---------- データの書き出し・読み込み ---------- */
@@ -526,7 +727,7 @@ function rebuildSitemapData(data){
   if(Array.isArray(data.pages)) renderPageList(data.pages);
   setEditable(editMode);
 }
-document.getElementById("export-data").addEventListener("click", () => {
+document.getElementById("export-data")?.addEventListener("click", () => {
   const json = JSON.stringify(extractSitemapData(), null, 2);
   const blob = new Blob([json], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -536,10 +737,10 @@ document.getElementById("export-data").addEventListener("click", () => {
   URL.revokeObjectURL(url);
   hasUnsavedChanges = false;
 });
-document.getElementById("import-data").addEventListener("click", () => {
+document.getElementById("import-data")?.addEventListener("click", () => {
   document.getElementById("import-file-input").click();
 });
-document.getElementById("import-file-input").addEventListener("change", (e) => {
+document.getElementById("import-file-input")?.addEventListener("change", (e) => {
   const file = e.target.files[0];
   e.target.value = "";
   if(!file) return;
@@ -575,7 +776,7 @@ function generatePublicHtml(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-document.getElementById("generate-public-html").addEventListener("click", generatePublicHtml);
+document.getElementById("generate-public-html")?.addEventListener("click", generatePublicHtml);
 window.addEventListener("beforeunload", (e) => {
   if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = ""; }
 });
@@ -591,6 +792,11 @@ window.addEventListener("beforeunload", (e) => {
     hasUnsavedChanges = false;
   }catch(e){ /* ファイルが無い場合は何もしない */ }
 })();
+
+document.getElementById("dark-mode-toggle")?.addEventListener("click", () => {
+  const isDark = document.documentElement.classList.toggle("dark-mode");
+  try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
+});
 </script>
 
 
