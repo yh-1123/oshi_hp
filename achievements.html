@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ja"><head>
+<html lang="ja">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
@@ -18,12 +19,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="原優寧 布教サイト">
 <meta property="og:title" content="活動実績">
-<meta property="og:description" content="楽曲・公演・メディア出演などの活動記録をまとめています。">
+<meta property="og:description" content="楽曲・公演・メディア出演などの活動記録をまとめています">
 <meta property="og:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
-<meta property="og:url" content="content://media/external/downloads/174792">
+<meta property="og:url" content="">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="活動実績">
-<meta name="twitter:description" content="楽曲・公演・メディア出演などの活動記録をまとめています。">
+<meta name="twitter:description" content="楽曲・公演・メディア出演などの活動記録をまとめています">
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- Google tag (gtag.js) : index.html と同じ測定IDに書き換えてください -->
@@ -42,7 +43,7 @@
   }catch(e){ /* localStorage利用不可の環境では何もしない */ }
 })();
 </script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5CY6YN1KG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
@@ -51,7 +52,7 @@
 </script>
 
 <title>活動実績 | 原優寧 布教サイト</title>
-<meta name="description" content="楽曲・公演・メディア出演などの活動記録をまとめています。">
+<meta name="description" content="楽曲・公演・メディア出演などの活動記録をまとめています">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -101,6 +102,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
 }
 html{ scroll-behavior:smooth; }
+section[id]{ scroll-margin-top:56px; }
 body{ font-family:'Noto Sans JP', sans-serif; background:var(--paper); color:var(--ink); line-height:1.75; overflow-x:hidden; padding-bottom:72px; font-size:15px; }
 h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
 a{ color:inherit; text-decoration:none; }
@@ -178,6 +180,11 @@ section{ padding:26px 0 30px; border-top:1px solid var(--line); }
 .record-date{ font-size:10px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:6px; padding:2px 9px; }
 .record-new-badge{ font-size:10px; font-weight:700; color:#7a5c00; background:#ffd447; border-radius:6px; padding:2px 9px; }
 .record-count-private-badge{ display:none; font-size:10px; font-weight:700; color:var(--sub-ink); background:var(--accent2); border-radius:6px; padding:2px 9px; }
+.performance-first-appearance{
+  display:inline-flex; align-items:center; gap:3px; font-size:10.5px; font-weight:800; color:#fff;
+  background:linear-gradient(135deg, var(--oshi-color), var(--oshi-color-deep, var(--oshi-color)));
+  border-radius:999px; padding:3px 10px 3px 8px;
+}
 body.editing .record-count-private-badge{ display:inline-block; }
 .record-title{ font-size:14px; font-weight:700; margin-bottom:2px; }
 .record-desc{ font-size:12.5px; color:var(--sub-ink); white-space:pre-line; }
@@ -408,28 +415,8 @@ body.editing .add-row{ display:flex; }
 .related-link-box .edit-edit{ top:6px; right:34px; }
 .related-link-box .edit-remove{ top:6px; right:6px; }
 </style>
-<script type="application/ld+json" id="structured-data">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "ホーム",
-          "item": "content://media/external/downloads/index.html"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "活動実績"
-        }
-      ]
-    }
-  ]
-}</script></head>
-<body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+</head>
+<body>
 <button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
   <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
 </button>
@@ -443,14 +430,14 @@ body.editing .add-row{ display:flex; }
   </div>
 </div>
 
-
+<div class="initial-load-overlay" id="initial-load-overlay"><div class="initial-load-spinner"></div></div>
 <nav class="topnav">
   <div class="wrap">
     <div class="nav-left">
       <a class="back-link" href="index.html" data-url="index.html">← トップに戻る</a>
-      
+      <button class="back-link-edit" type="button" aria-label="リンク先を編集">✎</button>
     </div>
-    <div class="brand editable" id="nav-brand" contenteditable="true">活動実績</div>
+    <div class="brand editable" id="nav-brand" contenteditable="false">活動実績</div>
     <div class="nav-icons">
       <button class="nav-icon-btn" id="print-btn" type="button" aria-label="印刷用に表示" title="印刷・PDF保存">🖨️</button>
       <button class="nav-icon-btn" id="share-btn-nav" type="button" aria-label="シェアする" title="シェアする">📣</button>
@@ -459,13 +446,14 @@ body.editing .add-row{ display:flex; }
 
 <header class="p-hero">
   <div class="wrap">
-    <span class="eyebrow editable" id="p-eyebrow" contenteditable="true">活動記録</span>
-    <h1 class="editable" id="p-title" contenteditable="true">活動実績</h1>
-    <p class="editable" id="p-desc" contenteditable="true">楽曲・公演・メディア出演などの活動記録をまとめています。</p>
+    <span class="eyebrow editable" id="p-eyebrow" contenteditable="false">活動記録</span>
+    <h1 class="editable" id="p-title" contenteditable="false">活動実績</h1>
+    <p class="editable" id="p-desc" contenteditable="false">楽曲・公演・メディア出演などの活動記録をまとめています。</p>
     <div class="toc-row">
-      <a class="toc-link" href="#songs">楽曲</a>
-      <a class="toc-link" href="#performances">公演</a>
-      <a class="toc-link" href="#media">メディア・イベント</a>
+      <a class="toc-link editable" id="qj-songs" href="#songs" contenteditable="false">楽曲</a>
+      <a class="toc-link editable" id="qj-performances" href="#performances" contenteditable="false">公演</a>
+      <a class="toc-link editable" id="qj-media" href="#media" contenteditable="false">メディア・イベント</a>
+      <a class="toc-link editable" id="qj-criteria" href="#criteria" contenteditable="false">集計・掲載基準</a>
     </div>
   </div>
 </header>
@@ -473,8 +461,8 @@ body.editing .add-row{ display:flex; }
 <section id="songs">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span><span class="editable" id="songs-heading" contenteditable="true">楽曲</span></h2>
-      <p class="editable" id="songs-desc" contenteditable="true">選抜曲・カップリング曲・ユニット曲・ソロ楽曲などをまとめています</p>
+      <h2><span class="mark">◆</span><span class="editable" id="songs-heading" contenteditable="false">楽曲</span></h2>
+      <p class="editable" id="songs-desc" contenteditable="false">選抜曲・カップリング曲・ユニット曲・ソロ楽曲などをまとめています</p>
     </div>
     <div class="search-wrap">
       <input type="search" id="song-search" class="search-input" placeholder="🔍 曲名で検索">
@@ -484,35 +472,40 @@ body.editing .add-row{ display:flex; }
     <div class="record-list" id="song-list"></div>
     <p class="no-results" id="song-no-results">条件に合う楽曲が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-songs" type="button" style="display:none;">＋ もっと見る</button>
-    
+    <div class="add-row"><button class="add-btn" id="add-song">＋ 楽曲を追加</button></div>
   </div>
 </section>
 
 <section id="performances">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span><span class="editable" id="performances-heading" contenteditable="true">公演</span></h2>
-      <p class="editable" id="performances-desc" contenteditable="true">出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます</p>
+      <h2><span class="mark">◆</span><span class="editable" id="performances-heading" contenteditable="false">公演</span></h2>
+      <p class="editable" id="performances-desc" contenteditable="false">出演した公演の一覧です。公演ごとに出演回数を入力でき、合計は自動で集計されます</p>
     </div>
-    <div class="stat-callout" id="performance-stat-callout" data-public="1" style="display: none;">
-      <button type="button" class="stat-callout-visibility-toggle" id="performance-count-visibility-toggle" aria-label="合計の公開設定を切り替え">🔓</button>
+    <div class="stat-callout" id="performance-stat-callout" data-public="1">
+      <button type="button" class="stat-callout-visibility-toggle" id="performance-count-visibility-toggle" aria-label="合計の公開設定を切り替え">🔒</button>
       <div class="stat-label">劇場公演出演回数</div>
       <span class="stat-icon">🎭</span>
       <div class="stat-num-row"><span class="stat-num" id="performance-count">0</span><span class="stat-unit">回</span></div>
       <div class="stat-callout-private-note" id="performance-count-private-note">🔒 訪問者には非表示です(運営者のみ表示)</div>
     </div>
+    <input type="search" id="performance-search" class="search-input" placeholder="🔍 公演名・メンバー名などで検索">
+    <div class="sort-toggle-row" style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; justify-content:center;">
+      <button type="button" class="tag-filter-btn performance-sort-btn active" data-sort="recent" id="performance-sort-recent">🕐 直近の出演順</button>
+      <button type="button" class="tag-filter-btn performance-sort-btn" data-sort="count" id="performance-sort-count">🔢 出演回数が多い順</button>
+    </div>
     <div class="record-list" id="performance-list"></div>
-    <p class="no-results show" id="performance-no-results">まだ公演が登録されていません。</p>
+    <p class="no-results" id="performance-no-results">まだ公演が登録されていません。</p>
     <button class="load-more-btn" id="load-more-performances" type="button" style="display:none;">＋ もっと見る</button>
-    
+    <div class="add-row"><button class="add-btn" id="add-performance">＋ 公演を追加</button><button class="add-btn" id="add-performance-bulk" style="margin-top:8px; background:#fff; color:var(--oshi-color); border:1px solid var(--oshi-color);">📋 まとめて貼り付けて登録</button><button class="add-btn" id="merge-duplicate-performances" style="margin-top:8px; background:#fff; color:var(--sub-ink); border:1px solid var(--line);">🔀 表記ゆれで分かれている公演をまとめる</button></div>
   </div>
 </section>
 
 <section id="media">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span><span class="editable" id="media-heading" contenteditable="true">メディア・イベント</span></h2>
-      <p class="editable" id="media-desc" contenteditable="true">ラジオ・テレビ・雑誌書籍・イベント出演の記録です</p>
+      <h2><span class="mark">◆</span><span class="editable" id="media-heading" contenteditable="false">メディア・イベント</span></h2>
+      <p class="editable" id="media-desc" contenteditable="false">ラジオ・テレビ・雑誌書籍・イベント出演の記録です</p>
     </div>
     <div class="search-wrap">
       <input type="search" id="media-search" class="search-input" placeholder="🔍 番組名・企画名で検索">
@@ -521,46 +514,27 @@ body.editing .add-row{ display:flex; }
     <div class="record-list" id="media-list"></div>
     <p class="no-results" id="media-no-results">条件に合う記録が見つかりませんでした。</p>
     <button class="load-more-btn" id="load-more-medias" type="button" style="display:none;">＋ もっと見る</button>
-    
+    <div class="add-row"><button class="add-btn" id="add-media">＋ 記録を追加</button><button class="add-btn" id="add-media-bulk" style="margin-top:8px; background:#fff; color:var(--oshi-color); border:1px solid var(--oshi-color);">📋 まとめて貼り付けて登録</button></div>
   </div>
 </section>
 
 <section id="criteria">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="mark">◆</span><span class="editable" id="criteria-heading" contenteditable="true">集計・掲載基準</span></h2>
-      <p class="editable" id="criteria-desc" contenteditable="true">このページの情報をまとめる上でのルールや注意点です</p>
+      <h2><span class="mark">◆</span><span class="editable" id="criteria-heading" contenteditable="false">集計・掲載基準</span></h2>
+      <p class="editable" id="criteria-desc" contenteditable="false">このページの情報をまとめる上でのルールや注意点です</p>
     </div>
-    <div class="criteria-list" id="criteria-list"><div class="editable-item criteria-item">
-    
-    
-    <p class="editable" contenteditable="true">本ページの出演回数・掲載楽曲は、公式に発表された情報をもとに個人でまとめたものです。</p>
-    
-  </div><div class="editable-item criteria-item">
-    
-    
-    <p class="editable" contenteditable="true">非公式のファンサイトのため、内容に誤りが含まれる可能性があります。正確な情報は必ず公式サイト・公式SNSをご確認ください。</p>
-    
-  </div></div>
-    
+    <div class="criteria-list" id="criteria-list"></div>
+    <div class="add-row"><button class="add-btn" id="add-criteria">＋ 項目を追加</button></div>
   </div>
 </section>
 
 
 <section class="related-pages-section">
   <div class="wrap">
-    <div class="sec-head"><h2><span class="mark">◆</span><span class="editable" id="related-pages-heading" contenteditable="true">関連ページ</span></h2></div>
-    <div class="related-pages-list" id="related-pages-list"><a class="related-link-box" href="videos.html">
-    
-    
-    <span class="related-link-icon">🎬</span>
-    <span>
-      <div class="related-link-title">動画まとめも見る</div>
-      <div class="related-link-desc">公式チャンネルなどの動画一覧</div>
-    </span>
-    <span class="related-link-arrow">›</span>
-  </a></div>
-    
+    <div class="sec-head"><h2><span class="mark">◆</span><span class="editable" id="related-pages-heading" contenteditable="false">関連ページ</span></h2></div>
+    <div class="related-pages-list" id="related-pages-list"></div>
+    <div class="add-row"><button type="button" class="add-btn" id="add-related-page">＋ 関連ページを追加</button></div>
   </div>
 </section>
 
@@ -569,14 +543,116 @@ body.editing .add-row{ display:flex; }
   <div class="last-updated" id="last-updated"></div>
 </footer>
 
-<button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
 
+<div class="edit-toolbar">
+  <button class="tb-btn primary" id="toggle-edit">編集する</button>
+  <button class="tb-btn" id="generate-public-html" style="display:none">🌐 公開用HTMLを書き出す</button>
+  <button class="tb-btn-icon" id="export-data" style="display:none" type="button" aria-label="データを書き出し" title="データを書き出し(JSON)">📤</button>
+  <button class="tb-btn-icon" id="import-data" style="display:none" type="button" aria-label="データを読み込み" title="データを読み込み(JSON)">📥</button>
+  <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;">
+</div>
 
-
-
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <h3 id="modal-title">追加</h3>
+    <div id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="tb-btn" id="modal-cancel" type="button">キャンセル</button>
+      <button class="add-btn" id="modal-submit" type="button">追加する</button>
+    </div>
+  </div>
+</div>
 
 <script>
-
+/* @EDIT_ONLY_START */
+/* ==========================================================
+   編集用パスワード。他のページと同じ仕組み(SHA-256ハッシュ)。
+   初期パスワードは "oshikatsu2026" です。
+   ========================================================== */
+const EDIT_PASSWORD_HASH = "ce9d9c91a8374c694448bdb6f6591003c96353d8eaf6ee9e32c7e47d47c1ac14";
+async function sha256Hex(text){
+  if(!window.crypto || !window.crypto.subtle){ return Promise.reject(new Error("subtlecrypto-unavailable")); }
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+let authenticated = false;
+/* @EDIT_ONLY_END */
+/* ---------- サイトカラー(index.htmlで設定した色をこのページにも反映) ---------- */
+const THEME_COLOR_KEY = "oshi-theme-color";
+function hexToHsl(hex){
+  const m = hex.replace("#", "").match(/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+  if(!m) return null;
+  let r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  const d = max - min;
+  if(d === 0){ h = 0; s = 0; }
+  else{
+    s = d / (1 - Math.abs(2 * l - 1));
+    switch(max){
+      case r: h = ((g - b) / d) % 6; break;
+      case g: h = (b - r) / d + 2; break;
+      default: h = (r - g) / d + 4;
+    }
+    h *= 60;
+    if(h < 0) h += 360;
+  }
+  return { h, s: s * 100, l: l * 100 };
+}
+function hslToCss(h, s, l){ return `hsl(${h.toFixed(1)}, ${Math.max(0, Math.min(100, s)).toFixed(1)}%, ${Math.max(0, Math.min(100, l)).toFixed(1)}%)`; }
+function hslToRgbTriplet(h, s, l){
+  s /= 100; l /= 100;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+  const m = l - c / 2;
+  let r, g, b;
+  if(h < 60){ r = c; g = x; b = 0; }
+  else if(h < 120){ r = x; g = c; b = 0; }
+  else if(h < 180){ r = 0; g = c; b = x; }
+  else if(h < 240){ r = 0; g = x; b = c; }
+  else if(h < 300){ r = x; g = 0; b = c; }
+  else{ r = c; g = 0; b = x; }
+  return [r, g, b].map(v => Math.round((v + m) * 255)).join(", ");
+}
+function applyThemeColor(hex){
+  const hsl = hexToHsl(hex);
+  if(!hsl) return;
+  const { h, s } = hsl;
+  let style = document.getElementById("theme-color-override");
+  if(!style){ style = document.createElement("style"); style.id = "theme-color-override"; document.head.appendChild(style); }
+  style.textContent = `
+    :root{
+      --oshi-color: ${hslToCss(h, s, 50)};
+      --oshi-color-rgb: ${hslToRgbTriplet(h, s, 50)};
+      --oshi-color-deep: ${hslToCss(h, s, 38)};
+      --oshi-color-soft: ${hslToCss(h, Math.min(100, s * 0.6), 92)};
+      --paper: ${hslToCss(h, Math.min(100, s * 0.5), 97.3)};
+      --accent2: ${hslToCss(h, Math.min(100, s * 0.35), 90)};
+      --line: ${hslToCss(h, Math.min(100, s * 0.6), 88)};
+    }
+    html.dark-mode{
+      --oshi-color: ${hslToCss(h, s, 66)};
+      --oshi-color-rgb: ${hslToRgbTriplet(h, s, 66)};
+      --oshi-color-deep: ${hslToCss(h, s, 76)};
+      --oshi-color-soft: ${hslToCss(h, Math.min(100, s * 0.7), 18)};
+      --paper: ${hslToCss(h, Math.min(100, s * 0.35), 8)};
+      --accent2: ${hslToCss(h, Math.min(100, s * 0.3), 16)};
+      --line: ${hslToCss(h, Math.min(100, s * 0.3), 21)};
+      --card: ${hslToCss(h, Math.min(100, s * 0.3), 14)};
+    }
+  `;
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if(themeMeta) themeMeta.setAttribute("content", hex);
+}
+function loadThemeColor(){
+  try{
+    const saved = localStorage.getItem(THEME_COLOR_KEY);
+    if(saved) applyThemeColor(saved);
+  }catch(e){ /* ストレージ利用不可の場合は無視 */ }
+}
+loadThemeColor();
 let editMode = false;
 
 const SONG_CATEGORIES = ["選抜曲", "カップリング曲", "ユニット曲", "ソロ・その他"];
@@ -678,6 +754,11 @@ function songItemHTML(s){
 function isCancelledPerformanceTitle(title){
   return /中止|休演|見送り/.test(String(title || ""));
 }
+function isExcludedMediaTitle(title){
+  const t = String(title || "");
+  /* トレード(出品待ち等)の投稿や、開催中止・延期になったイベントは記録の対象外にする */
+  return /トレード/.test(t) || isCancelledPerformanceTitle(t) || /延期/.test(t);
+}
 function normalizePerformanceTitle(title){
   let t = String(title || "").trim();
   /* アポストロフィ(‘ ’ ′ ` など)を半角の ' に統一 */
@@ -721,6 +802,8 @@ function performanceItemHTML(p){
   try{ history = typeof p.history === "string" ? JSON.parse(p.history) : (Array.isArray(p.history) ? p.history : []); }catch(e){ history = []; }
   const historyRaw = escAttr(JSON.stringify(history));
   const sortedHistory = history.slice().sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const firstAppearanceText = String(p.firstAppearance || "").trim();
+  const firstAppearanceHtml = firstAppearanceText ? `<span class="performance-first-appearance">🌱初出演:${esc(firstAppearanceText)}</span>` : "";
   const yearGroups = new Map();
   sortedHistory.forEach(h => {
     const year = (h.date || "").slice(0, 4) || "年不明";
@@ -766,10 +849,9 @@ function performanceItemHTML(p){
       ${historyRows}
     </div>
   </div>` : "";
-  return `<div class="editable-item record-item" data-type="performance" data-date="${escAttr(p.date)}" data-url="${escAttr(p.url)}" data-count="${count}" data-count-public="${countPublic ? "1" : "0"}" data-added="${escAttr(p.addedAt)}" data-order="${order}" data-history="${historyRaw}">
-    <button class="edit-edit" aria-label="編集">✎</button>
+  return `<div class="editable-item record-item" data-type="performance" data-date="${escAttr(p.date)}" data-url="${escAttr(p.url)}" data-count="${count}" data-count-public="${countPublic ? "1" : "0"}" data-first-appearance="${escAttr(firstAppearanceText)}" data-added="${escAttr(p.addedAt)}" data-order="${order}" data-history="${historyRaw}">    <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
-    <div class="record-meta">${newBadge}${countPublic ? "" : `<span class="record-count-private-badge">🔒非公開</span>`}</div>
+    <div class="record-meta">${newBadge}${countPublic ? "" : `<span class="record-count-private-badge">🔒非公開</span>`}${firstAppearanceHtml}</div>
     <h3 class="record-title editable" contenteditable="false">${esc(p.title)}</h3>
     <p class="record-desc editable glossary-tip-target" contenteditable="false" style="display:none;">${esc(p.desc)}</p>
     ${historyHtml}
@@ -836,7 +918,7 @@ function parseMediaBulkText(text){
         i++;
       }
       while(i < lines.length && TRAILERS.has(lines[i].trim())) i++;
-      if(title && !FOOTER_RE.test(title) && title.length < 150 && !title.includes("公演")){
+      if(title && !FOOTER_RE.test(title) && title.length < 150 && !title.includes("公演") && !isExcludedMediaTitle(title)){
         const mm = String(month).padStart(2, "0");
         const dd = String(day).padStart(2, "0");
         const date = `${baseYear}-${mm}-${dd}`;
@@ -1112,7 +1194,23 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 
 /* ---------- 未保存の変更を警告 ---------- */
 let hasUnsavedChanges = false;
-
+/* @EDIT_ONLY_START */
+function watchDirty(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  new MutationObserver((mutations) => {
+    const relevant = mutations.some(m => !(m.type === "attributes" && m.attributeName === "style"));
+    if(relevant) hasUnsavedChanges = true;
+  }).observe(el, { childList: true, subtree: true, characterData: true, attributes: true });
+}
+["nav-brand","p-eyebrow","p-title","p-desc",
+  "songs-heading","songs-desc","performances-heading","performances-desc",
+  "media-heading","media-desc","criteria-heading","criteria-desc",
+  "song-list","performance-list","media-list","criteria-list"].forEach(watchDirty);
+window.addEventListener("beforeunload", (e) => {
+  if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = ""; }
+});
+/* @EDIT_ONLY_END */
 
 /* ---------- シェアボタン ---------- */
 document.getElementById("share-btn-nav").addEventListener("click", async () => {
@@ -1149,7 +1247,20 @@ document.getElementById("print-btn").addEventListener("click", () => window.prin
 })();
 
 /* ---------- 隠し編集メニュー(フッターを5回タップで解錠) ---------- */
-
+/* @EDIT_ONLY_START */
+(function initSecretUnlock(){
+  const target = document.getElementById("footer-tap-target");
+  const toolbar = document.querySelector(".edit-toolbar");
+  if(!target || !toolbar) return;
+  let tapCount = 0, resetTimer = null;
+  target.addEventListener("click", () => {
+    tapCount++;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { tapCount = 0; }, 2000);
+    if(tapCount >= 5){ tapCount = 0; toolbar.classList.add("unlocked"); }
+  });
+})();
+/* @EDIT_ONLY_END */
 
 /* ---------- 汎用:検索・カテゴリ絞り込み・もっと見る ---------- */
 const INITIAL_VISIBLE = 6;
@@ -1260,6 +1371,28 @@ document.getElementById("media-search").addEventListener("input", () => { listSt
 document.getElementById("load-more-songs").addEventListener("click", () => { listState.song.showAll = true; applyRecordFilter("song"); });
 document.getElementById("load-more-medias").addEventListener("click", () => { listState.media.showAll = true; applyRecordFilter("media"); });
 document.getElementById("load-more-performances").addEventListener("click", () => { listState.performance.showAll = true; applyRecordFilter("performance"); });
+document.getElementById("performance-search").addEventListener("input", () => { listState.performance.showAll = false; applyRecordFilter("performance"); });
+let performanceSortMode = "recent";
+function sortPerformanceList(){
+  const list = document.getElementById("performance-list");
+  const items = Array.from(list.querySelectorAll(".record-item"));
+  items.sort((a, b) => {
+    if(performanceSortMode === "count"){
+      const diff = (parseInt(b.dataset.count, 10) || 0) - (parseInt(a.dataset.count, 10) || 0);
+      if(diff !== 0) return diff;
+    }
+    return (b.dataset.date || "").localeCompare(a.dataset.date || "");
+  });
+  items.forEach(item => list.appendChild(item));
+}
+document.querySelectorAll(".performance-sort-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    performanceSortMode = btn.dataset.sort;
+    document.querySelectorAll(".performance-sort-btn").forEach(b => b.classList.toggle("active", b === btn));
+    sortPerformanceList();
+    applyRecordFilter("performance");
+  });
+});
 document.getElementById("performance-count-visibility-toggle").addEventListener("click", () => {
   const callout = document.getElementById("performance-stat-callout");
   const isPublic = callout.dataset.public !== "0";
@@ -1431,6 +1564,8 @@ document.addEventListener("click", (e) => {
       desc: item.querySelector(".record-desc")?.textContent.trim() || "",
       url: item.dataset.url || "",
       count: newHistory.length,
+      countPublic: item.dataset.countPublic !== "0",
+      firstAppearance: item.dataset.firstAppearance || "",
       addedAt: item.dataset.added || "",
       order: item.dataset.order || "",
       history: JSON.stringify(newHistory),
@@ -1440,7 +1575,614 @@ document.addEventListener("click", (e) => {
     return;
   }
 });
+/* @EDIT_ONLY_START */
+const toggleBtn = document.getElementById("toggle-edit");
+const publicHtmlBtn = document.getElementById("generate-public-html");
+document.querySelector(".back-link-edit")?.addEventListener("click", () => {
+  const link = document.querySelector(".back-link");
+  if(!link) return;
+  openModal("navLink", { editTarget: link, navLabel: link.textContent, navUrl: link.getAttribute("href") || "" });
+});
+const TOC_LIST_MAP = { "songs":"song-list", "performances":"performance-list", "media":"media-list", "criteria":"criteria-list" };
+function refreshTocLinks(){
+  const editing = document.body.classList.contains("editing");
+  document.querySelectorAll(".toc-link").forEach(link => {
+    const targetId = (link.getAttribute("href") || "").replace("#", "");
+    const listId = TOC_LIST_MAP[targetId];
+    const listEl = listId ? document.getElementById(listId) : null;
+    const empty = listEl ? listEl.children.length === 0 : false;
+    link.style.display = (empty && !editing) ? "none" : "";
+  });
+}
+Object.values(TOC_LIST_MAP).forEach(listId => {
+  const el = document.getElementById(listId);
+  if(el) new MutationObserver(refreshTocLinks).observe(el, { childList: true });
+});
+refreshTocLinks();
+function enterEditMode(){
+  editMode = true;
+  setEditable(true);
+  document.body.classList.add("editing");
+  toggleBtn.textContent = "編集を終える";
+  publicHtmlBtn.style.display = "inline-flex";
+  document.getElementById("export-data").style.display = "inline-flex";
+  document.getElementById("import-data").style.display = "inline-flex";
+  updatePerformanceCount();
+  refreshTocLinks();
+}
+function exitEditMode(){
+  editMode = false;
+  setEditable(false);
+  document.body.classList.remove("editing");
+  toggleBtn.textContent = "編集する";
+  publicHtmlBtn.style.display = "none";
+  document.getElementById("export-data").style.display = "none";
+  document.getElementById("import-data").style.display = "none";
+  updatePerformanceCount();
+  refreshTocLinks();
+}
+function requestEditAccess(){
+  if(authenticated){ enterEditMode(); return; }
+  openModal("password");
+}
+toggleBtn.addEventListener("click", () => { editMode ? exitEditMode() : requestEditAccess(); });
 
+/* ---------- モーダル(項目追加・編集フォーム) ---------- */
+let modalType = null;
+let modalEditTarget = null;
+let modalOriginalAddedAt = "";
+let modalOriginalOrder = "";
+let pendingSongCategory = "";
+let pendingMediaCategory = "";
+let pendingDuplicateConfirmed = false;
+const RECORD_LIST_ID = { song: "song-list", performance: "performance-list", media: "media-list" };
+function findRecordDuplicates(listId, title){
+  const norm = (title || "").trim().toLowerCase();
+  if(!norm || !listId) return [];
+  return Array.from(document.querySelectorAll(`#${listId} .record-item`)).filter(item => {
+    if(item === modalEditTarget) return false;
+    return (item.querySelector(".record-title")?.textContent || "").trim().toLowerCase() === norm;
+  });
+}
+function duplicateWarningHTML(newTitle, duplicates){
+  const cardStyle = "background:var(--accent2); border:1px solid var(--line); border-radius:10px; padding:8px 10px; margin-bottom:6px;";
+  const dupRows = duplicates.map(item => {
+    const t = item.querySelector(".record-title")?.textContent || "";
+    const date = item.dataset.date ? formatDate(item.dataset.date) : "";
+    return `<div style="${cardStyle}">
+      <div style="font-size:12.5px; font-weight:700; color:var(--ink);">${esc(t)}</div>
+      ${date ? `<div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px;">${esc(date)}</div>` : ""}
+    </div>`;
+  }).join("");
+  return `
+    <div class="qa-label">⚠️ よく似た項目がすでに登録されています</div>
+    <div style="font-size:11px; color:var(--sub-ink); margin-bottom:10px;">間違って重複登録していないか確認してください。</div>
+    <div style="font-size:11px; font-weight:700; color:var(--sub-ink); margin:12px 0 6px;">今回追加する内容</div>
+    <div style="${cardStyle}"><div style="font-size:12.5px; font-weight:700; color:var(--ink);">${esc(newTitle)}</div></div>
+    <div style="font-size:11px; font-weight:700; color:var(--sub-ink); margin:12px 0 6px;">似ている既存の項目(${duplicates.length}件)</div>
+    ${dupRows}
+    <button type="button" id="dup-confirm-add" style="display:block; width:100%; margin-top:14px; border:1px solid var(--oshi-color); background:#fff; color:var(--oshi-color); font-size:13px; font-weight:900; padding:10px; border-radius:10px; cursor:pointer; font-family:inherit;">それでも追加する</button>
+    <button type="button" id="dup-cancel-add" style="display:block; width:100%; margin-top:8px; border:1px solid var(--line); background:#fff; color:var(--sub-ink); font-size:12.5px; font-weight:700; padding:9px; border-radius:10px; cursor:pointer; font-family:inherit;">← 戻って修正する</button>`;
+}
+function restoreMainAchievementsForm(){
+  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(modalType);
+  if(modalType === "song") initCategorySelect("song-category-select", SONG_CATEGORIES, "", (val) => { pendingSongCategory = val; });
+  if(modalType === "song"){
+    const dl = document.getElementById("album-suggestions");
+    if(dl){
+      const albums = [];
+      document.querySelectorAll("#song-list .record-item").forEach(item => { const a = item.dataset.album; if(a && !albums.includes(a)) albums.push(a); });
+      dl.innerHTML = albums.map(a => `<option value="${escAttr(a)}"></option>`).join("");
+    }
+  }
+  if(modalType === "media") initCategorySelect("media-category-select", MEDIA_CATEGORIES_ALL, "", (val) => {
+    pendingMediaCategory = val;
+    const otherInput = document.getElementById("f-media-category-other");
+    if(otherInput) otherInput.style.display = (val === "その他") ? "block" : "none";
+  });
+  const savedRaw = document.getElementById("modal-fields").dataset.savedValues;
+  if(savedRaw){
+    const savedValues = JSON.parse(savedRaw);
+    Object.keys(savedValues).forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.value = savedValues[id];
+    });
+  }
+}
+document.getElementById("modal-fields").addEventListener("click", (e) => {
+  if(e.target.id === "dup-cancel-add"){ restoreMainAchievementsForm(); return; }
+  if(e.target.id === "dup-confirm-add"){
+    restoreMainAchievementsForm();
+    pendingDuplicateConfirmed = true;
+    document.getElementById("modal-submit").click();
+    return;
+  }
+  if(e.target.id === "bulk-cancel-add"){
+    document.getElementById("modal-fields").innerHTML = modalFieldsHTML(modalType);
+    document.getElementById("modal-submit").style.display = "";
+    return;
+  }
+  if(e.target.id === "bulk-confirm-add" && modalType === "performanceBulk"){
+    const rows = Array.from(document.querySelectorAll("#modal-fields .bulk-row"));
+    const checkedEntries = rows.filter(row => row.querySelector(".bulk-row-include")?.checked).map(row => {
+      let members = [];
+      try{ members = JSON.parse(row.dataset.members || "[]"); }catch(err){ members = []; }
+      return {
+        date: row.querySelector(".bulk-row-date")?.value || "",
+        title: row.querySelector(".bulk-row-title")?.value.trim() || "",
+        desc: row.querySelector(".bulk-row-desc")?.value.trim() || "",
+        members,
+        url: row.dataset.url || "",
+      };
+    }).filter(en => en.title && en.date);
+
+    const groups = new Map();
+    checkedEntries.forEach(entry => {
+      const base = normalizePerformanceTitle(entry.title);
+      if(!groups.has(base)) groups.set(base, []);
+      groups.get(base).push(entry);
+    });
+
+    let addedCount = 0, mergedCount = 0, skippedDupCount = 0;
+    groups.forEach((entries, baseTitle) => {
+      const existingItem = Array.from(document.querySelectorAll("#performance-list .record-item"))
+        .find(el => normalizePerformanceTitle(el.querySelector(".record-title")?.textContent.trim() || "") === baseTitle);
+      if(existingItem){
+        let history = [];
+        try{ history = JSON.parse(existingItem.dataset.history || "[]"); }catch(err){ history = []; }
+        const existingKeys = new Set(history.map(h => `${h.date}::${h.title}`));
+        const newEntries = entries.filter(en => {
+          const key = `${en.date}::${en.title}`;
+          if(existingKeys.has(key)){ skippedDupCount++; return false; }
+          existingKeys.add(key);
+          return true;
+        });
+        if(!newEntries.length) return;
+        newEntries.forEach(en => history.push({ date: en.date, title: en.title, members: en.members, url: en.url }));
+        const newCount = (parseInt(existingItem.dataset.count, 10) || 0) + newEntries.length;
+        const latestDate = [existingItem.dataset.date, ...newEntries.map(en => en.date)].filter(Boolean).sort().pop();
+        const newHtml = performanceItemHTML({
+          title: baseTitle,
+          date: latestDate,
+          desc: existingItem.querySelector(".record-desc")?.textContent.trim() || "",
+          url: existingItem.dataset.url || "",
+          count: newCount,
+          addedAt: existingItem.dataset.added || "",
+          order: existingItem.dataset.order || "",
+          history: JSON.stringify(history),
+        });
+        existingItem.outerHTML = newHtml;
+        mergedCount += newEntries.length;
+      } else {
+        const seenKeys = new Set();
+        const uniqueEntries = entries.filter(en => {
+          const key = `${en.date}::${en.title}`;
+          if(seenKeys.has(key)){ skippedDupCount++; return false; }
+          seenKeys.add(key);
+          return true;
+        });
+        if(!uniqueEntries.length) return;
+        const history = uniqueEntries.map(en => ({ date: en.date, title: en.title, members: en.members, url: en.url }));
+        const latestDate = uniqueEntries.map(en => en.date).sort().pop();
+        addAndRefresh("performance-list", performanceItemHTML({
+          title: baseTitle, date: latestDate, desc: uniqueEntries[0].desc, count: uniqueEntries.length,
+          addedAt: new Date().toISOString().slice(0, 10), history: JSON.stringify(history),
+        }));
+        addedCount++;
+      }
+    });
+    sortRecordListByDateDesc("performance-list");
+    setEditable(editMode);
+    closeModal();
+    const dupNote = skippedDupCount ? `(重複していた${skippedDupCount}件は除外しました)` : "";
+    alert(`${addedCount}件を新規の公演として追加、${mergedCount}件を既存の公演の出演履歴に追加しました。${dupNote}`);
+    return;
+  }
+  if(e.target.id === "bulk-confirm-add"){
+    const rows = Array.from(document.querySelectorAll("#modal-fields .bulk-row"));
+    let addedCount = 0;
+    rows.forEach(row => {
+      if(!row.querySelector(".bulk-row-include")?.checked) return;
+      const date = row.querySelector(".bulk-row-date")?.value || "";
+      const title = row.querySelector(".bulk-row-title")?.value.trim() || "";
+      const category = row.querySelector(".bulk-row-category")?.value || "その他";
+      const desc = row.querySelector(".bulk-row-desc")?.value.trim() || "";
+      if(!title || !date) return;
+      addAndRefresh("media-list", mediaItemHTML({ title, category, date, desc, addedAt: new Date().toISOString().slice(0, 10) }));
+      addedCount++;
+    });
+    sortRecordListByDateDesc("media-list");
+    setEditable(editMode);
+    closeModal();
+    alert(`${addedCount}件の記録を追加しました。`);
+  }
+});
+function initCategorySelect(rowId, categories, initial, onSelect){
+  let current = initial || categories[0];
+  onSelect(current);
+  const wrap = document.getElementById(rowId);
+  if(!wrap) return;
+  wrap.innerHTML = categories.map(c => `<button type="button" class="qa-select-btn${current === c ? " active" : ""}" data-cat="${escAttr(c)}">${c}</button>`).join("");
+  wrap.querySelectorAll(".qa-select-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      current = btn.dataset.cat;
+      onSelect(current);
+      wrap.querySelectorAll(".qa-select-btn").forEach(b => b.classList.toggle("active", b === btn));
+    });
+  });
+}
+function val(id, fallback){ const el = document.getElementById(id); const v = el ? el.value.trim() : ""; return v || fallback; }
+function modalFieldsHTML(type){
+  if(type === "password") return `<div class="qa-label">パスワードを入力してください</div><input class="qa-input" id="f-password" type="password" placeholder="パスワード">`;
+  if(type === "navLink") return `
+    <div class="qa-label">表示名</div><input class="qa-input" id="f-navLabel" placeholder="例:← トップに戻る">
+    <div class="qa-label">リンク先(ファイル名)</div><input class="qa-input" id="f-navUrl" placeholder="例:index.html">`;
+  if(type === "song") return `
+    <div class="qa-label">カテゴリ</div><div class="qa-select-row" id="song-category-select"></div>
+    <div class="qa-label">曲名</div><input class="qa-input" id="f-title" placeholder="曲名を入力">
+    <div class="qa-label">収録シングル・アルバム(任意)</div>
+    <input class="qa-input" id="f-album" list="album-suggestions" placeholder="例:1stシングル「〇〇」">
+    <datalist id="album-suggestions"></datalist>
+    <div class="qa-label">日付(任意・例:2026-04-01、2026/4/1、2026年4月1日 なども可)</div><input class="qa-input" id="f-date" placeholder="例:2026-04-01">
+    <div class="qa-label">説明(任意)</div><textarea class="qa-textarea" id="f-desc" placeholder="収録アルバム、センターなど"></textarea>
+    <div class="qa-label">リンクURL(任意・MVや音源など・YouTubeの場合は自動でサムネ表示)</div><input class="qa-input" id="f-url" placeholder="https://...">
+    <div class="qa-label">リンクの表示名(任意・空欄なら「見る・聴く」)</div><input class="qa-input" id="f-linkLabel" placeholder="例:▶ MVを見る">
+    <div class="qa-date-row" style="margin-top:10px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);">
+        <input type="checkbox" id="f-markNew" checked style="width:18px; height:18px;"> NEWバッジを表示する
+      </label>
+    </div>
+    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px;">サイト公開時にまとめて登録する場合は、チェックを外すとNEW表示されません</div>`;
+  if(type === "performance") return `
+    <div class="qa-label">公演名</div><input class="qa-input" id="f-title" placeholder="公演名を入力">
+    <div class="qa-label">出演回数(任意・未入力の場合は合計の集計対象外になります)</div><input class="qa-input" type="number" min="1" id="f-count" placeholder="例:15">
+    <div class="qa-label">日付(任意・例:2026-05-10、2026/5/10、2026年5月10日 なども可)</div><input class="qa-input" id="f-date" placeholder="例:2026-05-10">
+    <div class="qa-label">説明(任意)</div><textarea class="qa-textarea" id="f-desc" placeholder="公演についてのメモ"></textarea>
+    <div class="qa-label">リンクURL(任意)</div><input class="qa-input" id="f-url" placeholder="https://...">
+    <div class="qa-label">初出演(任意・自由入力・例:2026.01.10)</div><input class="qa-input" id="f-firstAppearance" placeholder="例:2026.01.10">
+    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px; margin-bottom:8px;">カードに「初出演:◯◯」として表示されます。空欄の場合は表示されません</div>
+    <div class="qa-date-row" style="margin-top:10px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);">
+        <input type="checkbox" id="f-countPublic" checked style="width:18px; height:18px;"> 出演回数を公開する
+      </label>
+    </div>
+    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px; margin-bottom:8px;">チェックを外すと、出演履歴の回数(◯回)が訪問者には表示されなくなります(個別の履歴・詳細は引き続き見られます)</div>
+    <div class="qa-date-row">
+      <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);">
+        <input type="checkbox" id="f-markNew" checked style="width:18px; height:18px;"> NEWバッジを表示する
+      </label>
+    </div>
+    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px;">サイト公開時にまとめて登録する場合は、チェックを外すとNEW表示されません</div>`;
+  if(type === "performanceBulk") return `
+    <div class="qa-label">メンバー名(このメンバーが出演する公演だけ拾います)</div>
+    <input class="qa-input" id="f-bulk-member" value="原優寧" placeholder="例:原優寧">
+    <div class="qa-label" style="margin-top:8px;">スケジュールページの内容を貼り付け</div>
+    <div style="font-size:11px; color:var(--sub-ink); margin-bottom:6px;">推しスケジュール等のサイトで「予定一覧」を含む範囲を全選択してコピーし、そのまま貼り付けてください(ページのHTMLソースをそのまま貼り付けても構いません)。「9月3日」「23:30～24:00」「タイトル」「📍会場」「予定なし」のような形式を自動で読み取ります。タイトルに「公演」を含み、上で指定したメンバーが出演するものだけを取り込みます。</div>
+    <textarea class="qa-textarea" id="f-bulk-text" placeholder="ここに貼り付けてください" style="min-height:200px;"></textarea>`;
+  if(type === "mediaBulk") return `
+    <div class="qa-label">スケジュールページの内容を貼り付け</div>
+    <div style="font-size:11px; color:var(--sub-ink); margin-bottom:6px;">推しスケジュール等のサイトで「予定一覧」を含む範囲を全選択してコピーし、そのまま貼り付けてください。「9月3日」「23:30～24:00」「タイトル」「📍会場」「予定なし」のような形式を自動で読み取ります。タイトルに「公演」を含むものは自動で除外されます。種類(カテゴリ)はタイトルから自動で判定します。</div>
+    <textarea class="qa-textarea" id="f-bulk-text" placeholder="ここに貼り付けてください" style="min-height:200px;"></textarea>`;
+  if(type === "media") return `
+    <div class="qa-label">カテゴリ</div><div class="qa-select-row" id="media-category-select"></div>
+    <input class="qa-input" id="f-media-category-other" placeholder="カテゴリ名を入力(例:配信)" style="display:none; margin-top:8px;">
+    <div class="qa-label">番組名・企画名</div><input class="qa-input" id="f-title" placeholder="タイトルを入力">
+    <div class="qa-label">日付(任意・例:2026-03-15、2026/3/15、2026年3月15日 なども可)</div><input class="qa-input" id="f-date" placeholder="例:2026-03-15">
+    <div class="qa-label">説明(任意)</div><textarea class="qa-textarea" id="f-desc" placeholder="内容についてのメモ"></textarea>
+    <div class="qa-label">リンクURL(任意)</div><input class="qa-input" id="f-url" placeholder="https://...">
+    <div class="qa-date-row" style="margin-top:10px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink);">
+        <input type="checkbox" id="f-markNew" checked style="width:18px; height:18px;"> NEWバッジを表示する
+      </label>
+    </div>
+    <div style="font-size:10.5px; color:var(--sub-ink); margin-top:2px;">サイト公開時にまとめて登録する場合は、チェックを外すとNEW表示されません</div>`;
+  if(type === "criteria") return `<div class="qa-label">内容</div><textarea class="qa-textarea" id="f-text" placeholder="内容を入力してください"></textarea>`;
+  return "";
+}
+const MODAL_TITLES = { password: "編集用パスワード", song: "楽曲を追加", performance: "公演を追加", performanceBulk: "公演をまとめて貼り付けて登録", media: "記録を追加", mediaBulk: "まとめて貼り付けて登録", criteria: "項目を追加", navLink: "リンクを編集" };
+function openModal(type, prefill){
+  modalType = type;
+  modalEditTarget = (prefill && prefill.editTarget) || null;
+  modalOriginalAddedAt = (prefill && prefill.addedAt) || "";
+  modalOriginalOrder = (prefill && prefill.order) || "";
+  pendingDuplicateConfirmed = false;
+  document.getElementById("modal-title").textContent = modalEditTarget ? "編集する" : (MODAL_TITLES[type] || "追加");
+  document.getElementById("modal-fields").innerHTML = modalFieldsHTML(type);
+  document.getElementById("modal-submit").textContent = type === "password" ? "確認する" : ((type === "mediaBulk" || type === "performanceBulk") ? "取り込む" : (modalEditTarget ? "更新する" : "追加する"));
+  document.getElementById("modal-backdrop").classList.add("open");
+  if(type === "song") initCategorySelect("song-category-select", SONG_CATEGORIES, (prefill && prefill.category) || "", (val) => { pendingSongCategory = val; });
+  if(type === "song"){
+    const dl = document.getElementById("album-suggestions");
+    if(dl){
+      const albums = [];
+      document.querySelectorAll("#song-list .record-item").forEach(item => { const a = item.dataset.album; if(a && !albums.includes(a)) albums.push(a); });
+      dl.innerHTML = albums.map(a => `<option value="${escAttr(a)}"></option>`).join("");
+    }
+  }
+  if(type === "media") initCategorySelect("media-category-select", MEDIA_CATEGORIES_ALL, (prefill && prefill.category && !MEDIA_CATEGORIES.includes(prefill.category)) ? "その他" : (prefill && prefill.category) || "", (val) => {
+    pendingMediaCategory = val;
+    const otherInput = document.getElementById("f-media-category-other");
+    if(otherInput) otherInput.style.display = (val === "その他") ? "block" : "none";
+  });
+  if(type === "media" && prefill && prefill.category && !MEDIA_CATEGORIES.includes(prefill.category)){
+    const otherInput = document.getElementById("f-media-category-other");
+    if(otherInput) otherInput.value = prefill.category;
+  }
+  if(prefill){
+    Object.keys(prefill).forEach(k => {
+      if(["editTarget","addedAt","order","category","countPublic","history"].includes(k)) return;
+      const el = document.getElementById("f-" + k);
+      if(el) el.value = prefill[k];
+    });
+    const markNewEl = document.getElementById("f-markNew");
+    if(markNewEl) markNewEl.checked = !!prefill.addedAt;
+    const countPublicEl = document.getElementById("f-countPublic");
+    if(countPublicEl) countPublicEl.checked = prefill.countPublic === undefined ? true : !!prefill.countPublic;
+  }
+  const firstInput = document.querySelector("#modal-fields .qa-input, #modal-fields .qa-textarea");
+  if(firstInput) firstInput.focus();
+}
+function closeModal(){ document.getElementById("modal-backdrop").classList.remove("open"); document.getElementById("modal-submit").style.display = ""; modalType = null; modalEditTarget = null; }
+document.getElementById("modal-cancel").addEventListener("click", closeModal);
+document.getElementById("modal-fields").addEventListener("focusin", (e) => {
+  if(e.target.id === "f-date") e.target.select();
+});
+document.getElementById("modal-backdrop").addEventListener("click", (e) => { if(e.target.id === "modal-backdrop") closeModal(); });
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape" && document.getElementById("modal-backdrop").classList.contains("open")) closeModal();
+});
+document.getElementById("add-song").addEventListener("click", () => openModal("song"));
+document.getElementById("add-performance").addEventListener("click", () => openModal("performance"));
+document.getElementById("add-media").addEventListener("click", () => openModal("media"));
+document.getElementById("add-media-bulk").addEventListener("click", () => openModal("mediaBulk"));
+document.getElementById("add-performance-bulk").addEventListener("click", () => openModal("performanceBulk"));
+document.getElementById("merge-duplicate-performances").addEventListener("click", () => {
+  const items = Array.from(document.querySelectorAll("#performance-list .record-item"));
+  const groups = new Map();
+  items.forEach(el => {
+    const base = normalizePerformanceTitle(el.querySelector(".record-title")?.textContent.trim() || "");
+    if(!groups.has(base)) groups.set(base, []);
+    groups.get(base).push(el);
+  });
+  let mergedGroupCount = 0, removedCardCount = 0;
+  groups.forEach((els, baseTitle) => {
+    if(els.length < 2) return;
+    mergedGroupCount++;
+    let mergedHistory = [];
+    let mergedUrl = "", mergedDesc = "", mergedAddedAt = "", mergedOrder = "", mergedFirstAppearance = "";
+    els.forEach(el => {
+      let h = [];
+      try{ h = JSON.parse(el.dataset.history || "[]"); }catch(err){ h = []; }
+      if(h.length){
+        mergedHistory = mergedHistory.concat(h);
+      } else {
+        mergedHistory.push({ date: el.dataset.date || "", title: el.querySelector(".record-title")?.textContent.trim() || "", members: [], url: el.dataset.url || "" });
+      }
+      if(!mergedUrl) mergedUrl = el.dataset.url || "";
+      if(!mergedDesc) mergedDesc = el.querySelector(".record-desc")?.textContent.trim() || "";
+      if(!mergedAddedAt) mergedAddedAt = el.dataset.added || "";
+      if(!mergedOrder) mergedOrder = el.dataset.order || "";
+      if(!mergedFirstAppearance) mergedFirstAppearance = el.dataset.firstAppearance || "";
+    });
+    /* 日付+タイトルが完全一致する重複履歴は1件にまとめる */
+    const seen = new Set();
+    mergedHistory = mergedHistory.filter(h => {
+      const key = `${h.date || ""}::${h.title || ""}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const latestDate = mergedHistory.map(h => h.date).filter(Boolean).sort().pop();
+    const newHtml = performanceItemHTML({
+      title: baseTitle, date: latestDate, desc: mergedDesc, url: mergedUrl,
+      count: mergedHistory.length, addedAt: mergedAddedAt, order: mergedOrder,
+      firstAppearance: mergedFirstAppearance,
+      history: JSON.stringify(mergedHistory),
+    });
+    els[0].outerHTML = newHtml;
+    for(let i = 1; i < els.length; i++){ els[i].remove(); removedCardCount++; }
+  });
+  sortRecordListByDateDesc("performance-list");
+  setEditable(editMode);
+  if(mergedGroupCount){
+    hasUnsavedChanges = true;
+    alert(`${mergedGroupCount}件のグループをまとめ、${removedCardCount}枚の重複カードを整理しました。`);
+  } else {
+    alert("表記ゆれによる重複は見つかりませんでした。");
+  }
+});
+document.getElementById("add-criteria").addEventListener("click", () => openModal("criteria"));
+
+function addAndRefresh(containerId, html){
+  document.getElementById(containerId).insertAdjacentHTML("beforeend", html);
+  setEditable(editMode);
+}
+document.getElementById("modal-submit").addEventListener("click", () => {
+  if(modalType === "relatedPage"){
+    const html = relatedPageHTML({ icon: relVal("f-rel-icon","📄"), title: relVal("f-rel-title","関連ページ"), desc: relVal("f-rel-desc",""), url: relVal("f-rel-url","") });
+    if(relatedModalEditTarget){ relatedModalEditTarget.outerHTML = html; } else { document.getElementById("related-pages-list").insertAdjacentHTML("beforeend", html); }
+    hasUnsavedChanges = true;
+    document.getElementById("modal-backdrop").classList.remove("open");
+    return;
+  }
+  if(document.getElementById("dup-confirm-add")){
+    restoreMainAchievementsForm();
+  }
+  if(modalType === "password"){
+    const pw = val("f-password", "");
+    sha256Hex(pw).then(hash => {
+      if(hash !== EDIT_PASSWORD_HASH){ alert("パスワードが違います"); return; }
+      authenticated = true;
+      closeModal();
+      enterEditMode();
+    }).catch(() => {
+      alert("この環境ではパスワード確認に必要な機能が使えません。実際に公開したURL(https)で開いてお試しください。");
+    });
+    return;
+  }
+  if(modalType === "mediaBulk"){
+    const rawText = document.getElementById("f-bulk-text")?.value || "";
+    const parsedEvents = parseMediaBulkText(rawText);
+    document.getElementById("modal-fields").innerHTML = mediaBulkPreviewHTML(parsedEvents);
+    document.getElementById("modal-submit").style.display = "none";
+    return;
+  }
+  if(modalType === "performanceBulk"){
+    const rawText = document.getElementById("f-bulk-text")?.value || "";
+    const memberName = document.getElementById("f-bulk-member")?.value.trim() || "";
+    const looksLikeHtml = /<!doctype html>|<html[\s>]|<article[\s>]/i.test(rawText);
+    const parsedEvents = looksLikeHtml ? parsePerformanceHtmlSource(rawText, memberName) : parsePerformanceBulkText(rawText, memberName);
+    document.getElementById("modal-fields").innerHTML = performanceBulkPreviewHTML(parsedEvents);
+    document.getElementById("modal-submit").style.display = "none";
+    return;
+  }
+  if(modalType === "navLink"){
+    const label = val("f-navLabel", "");
+    const url = val("f-navUrl", "");
+    if(modalEditTarget){
+      if(label) modalEditTarget.textContent = label;
+      if(url){ modalEditTarget.setAttribute("href", url); modalEditTarget.dataset.url = url; }
+      hasUnsavedChanges = true;
+    }
+    closeModal();
+    return;
+  }
+  if((modalType === "song" || modalType === "performance" || modalType === "media") && !modalEditTarget && !pendingDuplicateConfirmed){
+    const checkTitle = document.getElementById("f-title")?.value.trim() || "";
+    const dups = findRecordDuplicates(RECORD_LIST_ID[modalType], checkTitle);
+    if(dups.length){
+      const savedValues = {};
+      document.querySelectorAll("#modal-fields [id^='f-']").forEach(el => { savedValues[el.id] = el.value; });
+      document.getElementById("modal-fields").dataset.savedValues = JSON.stringify(savedValues);
+      document.getElementById("modal-fields").innerHTML = duplicateWarningHTML(checkTitle || "タイトル", dups);
+      return;
+    }
+  }
+  const markNewEl = document.getElementById("f-markNew");
+  const addedAt = markNewEl
+    ? (markNewEl.checked ? (modalOriginalAddedAt || new Date().toISOString().slice(0, 10)) : "")
+    : (modalEditTarget ? (modalOriginalAddedAt || "") : new Date().toISOString().slice(0, 10));
+  const order = modalEditTarget ? modalOriginalOrder : undefined;
+  if(modalType === "song"){
+    const html = songItemHTML({ title: val("f-title","楽曲タイトル"), category: pendingSongCategory || SONG_CATEGORIES[0], album: val("f-album",""), date: parseFlexibleDate(val("f-date","")), desc: val("f-desc",""), url: val("f-url",""), linkLabel: val("f-linkLabel",""), addedAt, order });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { addAndRefresh("song-list", html); }
+    sortRecordListByDateDesc("song-list");
+  } else if(modalType === "performance"){
+    const countPublicEl = document.getElementById("f-countPublic");
+    const existingHistory = modalEditTarget ? (modalEditTarget.dataset.history || "") : "";
+    const html = performanceItemHTML({ title: val("f-title","公演名"), count: val("f-count",""), countPublic: countPublicEl ? countPublicEl.checked : true, date: parseFlexibleDate(val("f-date","")), desc: val("f-desc",""), url: val("f-url",""), firstAppearance: val("f-firstAppearance",""), history: existingHistory, addedAt, order });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { addAndRefresh("performance-list", html); }
+  } else if(modalType === "media"){
+    const mediaCategory = pendingMediaCategory === "その他" ? val("f-media-category-other","その他") : (pendingMediaCategory || MEDIA_CATEGORIES[0]);
+    const html = mediaItemHTML({ title: val("f-title","タイトル"), category: mediaCategory, date: parseFlexibleDate(val("f-date","")), desc: val("f-desc",""), url: val("f-url",""), addedAt, order });
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { addAndRefresh("media-list", html); }
+    sortRecordListByDateDesc("media-list");
+  } else if(modalType === "criteria"){
+    const html = criteriaItemHTML(val("f-text","内容を入力してください"));
+    if(modalEditTarget){ modalEditTarget.outerHTML = html; } else { addAndRefresh("criteria-list", html); }
+  }
+  closeModal();
+});
+
+/* 既存項目の編集(✎) */
+function openEditModal(item){
+  if(item.dataset.type === "song"){
+    openModal("song", {
+      editTarget: item,
+      title: item.querySelector(".record-title")?.textContent.trim() || "",
+      category: item.dataset.category || "",
+      album: item.dataset.album || "",
+      date: item.dataset.date || "",
+      desc: item.querySelector(".record-desc")?.textContent.trim() || "",
+      url: item.dataset.url || "",
+      linkLabel: item.dataset.linkLabel || "",
+      addedAt: item.dataset.added || "",
+      order: item.dataset.order || "",
+    });
+  } else if(item.dataset.type === "performance"){
+    openModal("performance", {
+      editTarget: item,
+      title: item.querySelector(".record-title")?.textContent.trim() || "",
+      count: item.dataset.count || "",
+      countPublic: item.dataset.countPublic !== "0",
+      date: item.dataset.date || "",
+      desc: item.querySelector(".record-desc")?.textContent.trim() || "",
+      url: item.dataset.url || "",
+      firstAppearance: item.dataset.firstAppearance || "",
+      history: item.dataset.history || "",
+      addedAt: item.dataset.added || "",
+      order: item.dataset.order || "",
+    });
+  } else if(item.dataset.type === "media"){
+    openModal("media", {
+      editTarget: item,
+      title: item.querySelector(".record-title")?.textContent.trim() || "",
+      category: item.dataset.category || "",
+      date: item.dataset.date || "",
+      desc: item.querySelector(".record-desc")?.textContent.trim() || "",
+      url: item.dataset.url || "",
+      addedAt: item.dataset.added || "",
+      order: item.dataset.order || "",
+    });
+  } else if(item.classList.contains("criteria-item")){
+    openModal("criteria", { editTarget: item, text: item.querySelector("p")?.textContent.trim() || "" });
+  }
+}
+function extractMediaFields(item){
+  return {
+    title: item.querySelector(".record-title")?.textContent.trim() || "",
+    category: item.dataset.category || "",
+    date: item.dataset.date || "",
+    desc: item.querySelector(".record-desc")?.textContent.trim() || "",
+    url: item.dataset.url || "",
+  };
+}
+document.addEventListener("click", (e) => {
+  const editBtn = e.target.closest(".edit-edit");
+  if(editBtn){
+    const item = editBtn.closest(".editable-item");
+    if(item) openEditModal(item);
+    return;
+  }
+  const rm = e.target.closest(".edit-remove");
+  if(rm){
+    const item = rm.closest(".editable-item");
+    if(item) item.remove();
+    return;
+  }
+  const dupBtn = e.target.closest(".media-dup-btn");
+  if(dupBtn){
+    const item = dupBtn.closest(".editable-item");
+    if(item) openModal("media", extractMediaFields(item));
+    return;
+  }
+  const weeklyBtn = e.target.closest(".media-weekly-btn");
+  if(weeklyBtn){
+    const item = weeklyBtn.closest(".editable-item");
+    if(item){
+      const fields = extractMediaFields(item);
+      if(fields.date){
+        const d = new Date(fields.date + "T00:00:00");
+        d.setDate(d.getDate() + 7);
+        fields.date = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+      }
+      fields.addedAt = new Date().toISOString().slice(0, 10);
+      addAndRefresh("media-list", mediaItemHTML(fields));
+      sortRecordListByDateDesc("media-list");
+    }
+    return;
+  }
+  const upBtn = e.target.closest(".move-up");
+  const downBtn = e.target.closest(".move-down");
+  if(upBtn || downBtn){
+    const item = e.target.closest(".editable-item");
+    if(!item || !item.parentElement) return;
+    const swapOrder = (a, b) => { const t = a.dataset.order; a.dataset.order = b.dataset.order; b.dataset.order = t; };
+    if(upBtn && item.previousElementSibling){ swapOrder(item, item.previousElementSibling); item.parentElement.insertBefore(item, item.previousElementSibling); }
+    if(downBtn && item.nextElementSibling){ swapOrder(item, item.nextElementSibling); item.parentElement.insertBefore(item.nextElementSibling, item); }
+  }
+});
+/* @EDIT_ONLY_END */
 
 /* 編集モード中は、記録内のリンクをタップしても遷移させない */
 document.addEventListener("click", (e) => {
@@ -1450,7 +2192,55 @@ document.addEventListener("click", (e) => {
 });
 
 /* ---------- データのエクスポート・インポート(JSON) ---------- */
-
+/* @EDIT_ONLY_START */
+function extractRecordData(type){
+  return Array.from(document.querySelectorAll(`#${type}-list .record-item`)).map(el => {
+    const base = {
+      title: el.querySelector(".record-title")?.textContent.trim() || "",
+      date: el.dataset.date || "",
+      desc: el.querySelector(".record-desc")?.textContent.trim() || "",
+      url: el.dataset.url || "",
+      addedAt: el.dataset.added || "",
+      order: el.dataset.order || "",
+    };
+    if(type === "song" || type === "media") base.category = el.dataset.category || "";
+    if(type === "song"){
+      base.linkLabel = el.dataset.linkLabel || "";
+      base.album = el.dataset.album || "";
+    }
+    if(type === "performance"){
+      base.count = el.dataset.count || "";
+      base.countPublic = el.dataset.countPublic !== "0";
+      base.firstAppearance = el.dataset.firstAppearance || "";
+      base.history = el.dataset.history || "";
+    }
+    return base;
+  });
+}
+function extractPageData(){
+  const sectionKeys = ["songs","performances","media","criteria"];
+  return {
+    relatedPages: extractRelatedPages(),
+    relatedPagesHeading: document.getElementById("related-pages-heading").textContent,
+    navBrand: document.getElementById("nav-brand").textContent,
+    eyebrow: document.getElementById("p-eyebrow").textContent,
+    title: document.getElementById("p-title").textContent,
+    desc: document.getElementById("p-desc").textContent,
+    quickJumpLabels: Object.fromEntries(sectionKeys.map(key => [key, document.getElementById("qj-" + key)?.textContent || ""])),
+    sections: Object.fromEntries(sectionKeys.map(key => {
+      const h = document.getElementById(key + "-heading");
+      const d = document.getElementById(key + "-desc");
+      return [key, { heading: h ? h.textContent.trim() : "", desc: d ? d.textContent.trim() : "" }];
+    })),
+    songs: extractRecordData("song"),
+    performances: extractRecordData("performance"),
+    performanceCountPublic: document.getElementById("performance-stat-callout")?.dataset.public !== "0",
+    media: extractRecordData("media"),
+    criteria: Array.from(document.querySelectorAll("#criteria-list .criteria-item p")).map(p => p.textContent.trim()),
+    backLinkUrl: document.querySelector(".back-link")?.getAttribute("href") || "",
+  };
+}
+/* @EDIT_ONLY_END */
 function rebuildFromData(data){
   if(data.relatedPages) renderRelatedPages(data.relatedPages);
   if(data.relatedPagesHeading !== undefined) document.getElementById("related-pages-heading").textContent = data.relatedPagesHeading;
@@ -1459,6 +2249,12 @@ function rebuildFromData(data){
   if(data.eyebrow !== undefined) document.getElementById("p-eyebrow").textContent = data.eyebrow;
   if(data.title !== undefined) document.getElementById("p-title").textContent = data.title;
   if(data.desc !== undefined) document.getElementById("p-desc").textContent = data.desc;
+  if(data.quickJumpLabels){
+    Object.entries(data.quickJumpLabels).forEach(([key, label]) => {
+      const el = document.getElementById("qj-" + key);
+      if(el && label) el.textContent = label;
+    });
+  }
   if(data.backLinkUrl){
     const link = document.querySelector(".back-link");
     if(link){ link.setAttribute("href", data.backLinkUrl); link.dataset.url = data.backLinkUrl; }
@@ -1489,7 +2285,38 @@ function rebuildFromData(data){
   applyRecordFilter("performance");
   hasUnsavedChanges = true;
 }
-
+/* @EDIT_ONLY_START */
+document.getElementById("export-data").addEventListener("click", () => {
+  const json = JSON.stringify(extractPageData(), null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "achievements-data.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  hasUnsavedChanges = false;
+});
+document.getElementById("import-data").addEventListener("click", () => {
+  document.getElementById("import-file-input").click();
+});
+document.getElementById("import-file-input").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if(!file) return;
+  if(!confirm("現在の内容を、選んだファイルの内容で上書きします。よろしいですか?")) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try{
+      const data = JSON.parse(ev.target.result);
+      rebuildFromData(data);
+      alert("データを読み込みました。内容を確認して「🌐 公開用HTMLを書き出す」または「📤 データを書き出し」をご利用ください。");
+    }catch(err){
+      alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
+    }
+  };
+  reader.readAsText(file);
+});
+/* @EDIT_ONLY_END */
 
 /* タップ数の計測(GA4イベント) */
 document.addEventListener("click", (e) => {
@@ -1502,7 +2329,43 @@ document.addEventListener("click", (e) => {
 });
 
 /* 公開用HTML(編集機能を削除した閲覧専用版)を書き出す */
-
+/* @EDIT_ONLY_START */
+function generatePublicHtml(){
+  const clone = document.documentElement.cloneNode(true);
+  clone.querySelectorAll(".edit-toolbar, #modal-backdrop, .edit-edit, .edit-remove, .add-row, .reorder-row, .back-link-edit, .media-action-row").forEach(el => el.remove());
+  const cloneBody = clone.querySelector("body");
+  if(cloneBody){
+    cloneBody.classList.remove("editing");
+    let overlayClone = clone.querySelector("#initial-load-overlay");
+    if(!overlayClone){
+      overlayClone = document.createElement("div");
+      overlayClone.id = "initial-load-overlay";
+      overlayClone.className = "initial-load-overlay";
+      overlayClone.innerHTML = '<div class="initial-load-spinner"></div>';
+      cloneBody.insertBefore(overlayClone, cloneBody.firstChild);
+    } else {
+      overlayClone.classList.remove("hide");
+      overlayClone.removeAttribute("data-hidden");
+    }
+  }
+  const scripts = clone.querySelectorAll("script");
+  const mainScript = scripts[scripts.length - 1];
+  if(mainScript){
+    mainScript.textContent = mainScript.textContent.replace(/\/\* @EDIT_ONLY_START \*\/[\s\S]*?\/\* @EDIT_ONLY_END \*\//g, "");
+  }
+  const htmlOut = "<!DOCTYPE html>\n" + clone.outerHTML;
+  const blob = new Blob([htmlOut], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "achievements-public.html";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+publicHtmlBtn.addEventListener("click", generatePublicHtml);
+/* @EDIT_ONLY_END */
 
 /* ---------- 同じ場所にある achievements-data.json があれば自動で読み込む ----------
    ・https(またはローカルサーバー)環境でのみ動作します(file:// では読み込めません)
@@ -1640,6 +2503,5 @@ function updateRelatedPagesHeadingVisibility(){
 })();
 </script>
 
-
-
-</body></html>
+</body>
+</html>
