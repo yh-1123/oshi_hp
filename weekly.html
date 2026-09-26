@@ -16,18 +16,18 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 
-<title>お気に入り | 原優寧 布教サイト</title>
-<meta name="description" content="各ページでチェックしたお気に入りを、まとめて見られるページです。">
+<title>今週の推し活まとめ | 原優寧 布教サイト</title>
+<meta name="description" content="直近1週間の配信ログ・更新情報・新着グッズなどをまとめてチェックできます。">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="原優寧 布教サイト">
-<meta property="og:title" content="お気に入り">
-<meta property="og:description" content="各ページでチェックしたお気に入りを、まとめて見られるページです。">
+<meta property="og:title" content="今週の推し活まとめ">
+<meta property="og:description" content="直近1週間の配信ログ・更新情報・新着グッズなどをまとめてチェックできます。">
 <meta property="og:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 <meta property="og:url" content="">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="お気に入り">
-<meta name="twitter:description" content="各ページでチェックしたお気に入りを、まとめて見られるページです。">
+<meta name="twitter:title" content="今週の推し活まとめ">
+<meta name="twitter:description" content="直近1週間の配信ログ・更新情報・新着グッズなどをまとめてチェックできます。">
 <meta name="twitter:image" content="https://yh-1123.github.io/oshi_hp/ogp.jpg">
 
 <!-- Google tag (gtag.js) -->
@@ -111,6 +111,21 @@ a{ color:inherit; text-decoration:none; }
 .brand{ margin-left:auto; font-size:12px; color:var(--sub-ink); }
 
 .s-hero{ position:relative; padding:26px 0 18px; text-align:center; overflow:hidden; }
+.search-input{
+  width:100%; border:1px solid var(--line); border-radius:999px; padding:12px 18px; font-size:16px;
+  font-family:inherit; background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm); margin-top:16px;
+}
+.search-input:focus{ outline:2px solid var(--oshi-color); outline-offset:1px; }
+.search-status{ text-align:center; font-size:12.5px; color:var(--sub-ink); margin-bottom:14px; }
+.search-result-list{ display:flex; flex-direction:column; gap:10px; }
+.search-result-card{
+  display:block; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px;
+  box-shadow:var(--shadow-sm); text-decoration:none; color:var(--ink);
+}
+.search-result-card:hover, .search-result-card:active{ border-color:var(--oshi-color); }
+.search-result-source{ display:inline-block; font-size:10.5px; font-weight:800; color:var(--oshi-color-deep, var(--oshi-color)); background:var(--oshi-color-soft); border-radius:999px; padding:2px 10px; margin-bottom:6px; }
+.search-result-title{ display:block; font-size:14px; font-weight:900; margin-bottom:3px; }
+.search-result-snippet{ display:block; font-size:12px; color:var(--sub-ink); }
 .s-hero::before{
   content:""; position:absolute; top:4px; left:50%; width:170px; height:120px; transform:translateX(-50%);
   background:radial-gradient(circle, var(--oshi-color-soft) 0%, transparent 68%);
@@ -125,18 +140,17 @@ section{ padding:22px 0; }
 .sec-head h2{ font-size:15px; font-weight:900; display:flex; align-items:center; gap:6px; }
 .sec-head .mark{ color:var(--oshi-color); }
 
-.page-list{ display:flex; flex-direction:column; gap:10px; }
+.page-list{ display:flex; flex-direction:column; gap:0; position:relative; padding-left:22px; }
+.page-list::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line); }
 .page-card{
-  position:relative; display:flex; gap:12px; align-items:flex-start;
-  background:var(--card); border:1px solid var(--line); border-radius:14px;
-  padding:14px 84px 14px 16px; box-shadow:var(--shadow-sm);
+  position:relative; margin-bottom:18px; padding:2px 74px 2px 22px;
 }
-.page-icon{ flex:none; font-size:24px; line-height:1.2; }
-.page-body{ flex:1; min-width:0; }
-.page-title{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
-.page-desc{ font-size:11.5px; color:var(--sub-ink); }
-.page-arrow{ flex:none; align-self:center; color:var(--oshi-color); font-weight:700; }
-.page-arrow-link{ flex:none; align-self:center; color:var(--oshi-color); font-weight:900; font-size:20px; text-decoration:none; padding:6px; }
+.page-card::before{ content:""; position:absolute; left:-22px; top:4px; width:11px; height:11px; border-radius:50%; background:var(--oshi-color); border:2px solid var(--card); box-shadow:0 0 0 2px var(--oshi-color); }
+.page-icon{ display:inline-block; font-size:11px; font-weight:700; color:var(--oshi-color); background:var(--oshi-color-soft); border-radius:999px; padding:2px 10px; margin-bottom:5px; }
+.page-body{ display:block; }
+.page-title{ display:block; font-size:14px; font-weight:700; margin-bottom:3px; }
+.page-desc{ display:block; font-size:12.5px; color:var(--sub-ink); white-space:pre-line; }
+.page-arrow{ display:none; }
 
 footer{ text-align:center; padding:30px 20px 10px; font-size:11.5px; color:var(--sub-ink); }
 
@@ -210,22 +224,21 @@ body.editing .add-row{ display:block; }
 <nav class="topnav">
   <div class="wrap">
     <a class="back-link" href="index.html">← トップに戻る</a>
-    <div class="brand">お気に入り</div></div>
+    <div class="brand">今週の推し活まとめ</div></div>
 </nav>
 
 <header class="s-hero">
   <div class="wrap">
-    <span class="eyebrow">MY FAVORITES</span>
-    <h1 id="s-title">お気に入り</h1>
-    <p id="s-desc">各ページでチェックした☆お気に入りを、まとめて見られるページです。この端末・このブラウザでの記録が表示されます。</p>
+    <span class="eyebrow">WEEKLY DIGEST</span>
+    <h1>今週の推し活まとめ</h1>
+    <p>直近1週間に追加・更新された配信ログ・お知らせ・新着グッズなどをまとめて表示しています。</p>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <div class="sec-head"><h2><span class="mark">◆</span>チェックした項目</h2></div>
-    <div class="page-list" id="favorites-list"></div>
-    <p class="no-results" id="favorites-empty" style="display:none; text-align:center; color:var(--sub-ink); font-size:12.5px; padding:20px 0;">まだお気に入りがありません。各ページの☆ボタンでチェックすると、ここに表示されます。</p>
+    <p class="search-status" id="search-status">読み込み中です…</p>
+    <div class="search-result-list" id="search-result-list"></div>
   </div>
 </section>
 
@@ -234,6 +247,36 @@ body.editing .add-row{ display:block; }
 </footer>
 
 <script>
+/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
+function renderSiteBanner(data){
+  const banner = document.getElementById("site-banner");
+  if(!banner) return;
+  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
+  let dismissed = "";
+  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner-text").textContent = data.text;
+  document.getElementById("site-banner-link").href = data.url || "#";
+  banner.style.display = (dismissed === data.text) ? "none" : "block";
+}
+document.getElementById("site-banner-close")?.addEventListener("click", () => {
+  const text = document.getElementById("site-banner-text").textContent.trim();
+  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
+  document.getElementById("site-banner").style.display = "none";
+});
+(async function loadBannerIfAvailable(){
+  try{
+    if(location.href.indexOf("file://") === 0) return;
+    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSiteBanner(data);
+  }catch(e){ /* ファイルが無い場合は何もしない */ }
+})();
+
+function escapeHtml(str){
+  return String(str || "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
 /* ---------- サイトカラー(index.htmlで設定した色をこのページにも反映) ---------- */
 const THEME_COLOR_KEY = "oshi-theme-color";
 function hexToHsl(hex){
@@ -308,97 +351,87 @@ function loadThemeColor(){
   }catch(e){ /* ストレージ利用不可の場合は無視 */ }
 }
 loadThemeColor();
-
-/* ---------- サイト全体のお知らせバナー(index.htmlで編集・書き出し) ---------- */
-function renderSiteBanner(data){
-  const banner = document.getElementById("site-banner");
-  if(!banner) return;
-  if(!data || !data.active || !data.text){ banner.style.display = "none"; return; }
-  let dismissed = "";
-  try{ dismissed = localStorage.getItem("oshi_banner_dismissed") || ""; }catch(e){ /* localStorage不可の環境 */ }
-  document.getElementById("site-banner-text").textContent = data.text;
-  document.getElementById("site-banner-link").href = data.url || "#";
-  banner.style.display = (dismissed === data.text) ? "none" : "block";
-}
-document.getElementById("site-banner-close")?.addEventListener("click", () => {
-  const text = document.getElementById("site-banner-text").textContent.trim();
-  try{ localStorage.setItem("oshi_banner_dismissed", text); }catch(e){ /* localStorage不可の環境 */ }
-  document.getElementById("site-banner").style.display = "none";
-});
-(async function loadBannerIfAvailable(){
-  try{
-    if(location.href.indexOf("file://") === 0) return;
-    const res = await fetch("announcement-data.json?_=" + Date.now(), { cache: "no-store" });
-    if(!res.ok) return;
-    const data = await res.json();
-    renderSiteBanner(data);
-  }catch(e){ /* ファイルが無い場合は何もしない */ }
-})();
-
-/* ---------- お気に入り統合表示 ---------- */
-function escapeHtml(str){
-  return String(str || "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
-}
-const FAVORITE_SOURCES = [
-  { key:"wiki", label:"豆知識・エピソード集", icon:"📚", pageUrl:"wiki.html", jsonFile:"wiki-data.json", storageKey:"oshi-favorites-wiki", titleField:"title", descField:"body" },
-  { key:"places", label:"ゆかりの場所まとめ", icon:"📍", pageUrl:"places.html", jsonFile:"places-data.json", storageKey:"oshi-favorites-places", titleField:"name", descField:"body" },
-  { key:"videos", label:"動画まとめ", icon:"🎬", pageUrl:"videos.html", jsonFile:"videos-data.json", storageKey:"oshi-favorites-videos", titleField:"title", descField:"desc" },
-  { key:"goods", label:"グッズまとめ", icon:"🛍️", pageUrl:"goods.html", jsonFile:"goods-data.json", storageKey:"oshi-favorites-goods", titleField:"title", descField:"desc" },
-  { key:"tools", label:"便利なツール", icon:"🔧", pageUrl:"tools.html", jsonFile:"tools-data.json", storageKey:"oshi-favorites-tools", titleField:"title", descField:"desc" },
+/* ---------- 今週の推し活まとめ:各ページの新着・最近の日付のものを集める ---------- */
+const DIGEST_SOURCES = [
+  { file: "log-data.json", label: "配信ログ", url: "log.html", dateField: "date" },
+  { file: "setlist-data.json", label: "セトリまとめ", url: "setlist.html", dateField: "date" },
+  { file: "updates-data.json", label: "更新履歴", url: "updates.html", dateField: "date" },
+  { file: "goods-data.json", label: "グッズ", url: "goods.html", dateField: "addedAt", listKey: "items" },
+  { file: "achievements-data.json", label: "活動実績", url: "achievements.html", dateField: "addedAt", listKey: ["songs","performances","media"] },
+  { file: "videos-data.json", label: "動画まとめ", url: "videos.html", dateField: "addedAt", listKey: "videos" },
 ];
-function getFavTitles(storageKey){
-  try{
-    const raw = localStorage.getItem(storageKey);
-    return raw ? JSON.parse(raw) : [];
-  }catch(e){ return []; }
+const DIGEST_DAYS = 7;
+function parseAnyDate(str){
+  const s = String(str || "");
+  let m = s.match(/^(\d{4})[年.\-\/](\d{1,2})[月.\-\/](\d{1,2})/);
+  if(m) return new Date(parseInt(m[1],10), parseInt(m[2],10) - 1, parseInt(m[3],10));
+  return null;
 }
-function favoriteCardHTML(source, item){
-  const title = item[source.titleField] || "";
-  const desc = (item[source.descField] || "").slice(0, 80);
-  return `<div class="page-card">
-    <span class="page-icon">${source.icon}</span>
-    <span class="page-body">
-      <span class="page-title">${escapeHtml(title)}</span><br>
-      <span class="page-desc">${escapeHtml(desc)}${desc.length >= 80 ? "…" : ""}</span>
-    </span>
-    <a class="page-arrow-link" href="${source.pageUrl}" aria-label="${escapeHtml(source.label)}を見る">›</a>
-  </div>`;
+function withinDigestWindow(date){
+  if(!date || isNaN(date.getTime())) return false;
+  const now = new Date();
+  const diffDays = (now - date) / (1000 * 60 * 60 * 24);
+  return diffDays >= -1 && diffDays <= DIGEST_DAYS;
 }
-async function loadFavoritesFromSource(source){
-  const titles = getFavTitles(source.storageKey);
-  if(!titles.length) return [];
-  try{
-    if(location.href.indexOf("file://") === 0) return [];
-    const res = await fetch(source.jsonFile + "?_=" + Date.now(), { cache: "no-store" });
-    if(!res.ok) return [];
-    const data = await res.json();
-    const items = Array.isArray(data.items) ? data.items : [];
-    return items
-      .filter(item => titles.includes((item[source.titleField] || "").trim()))
-      .map(item => ({ source, item }));
-  }catch(e){ return []; }
+function collectDigestItems(data, source){
+  const results = [];
+  const lists = Array.isArray(source.listKey) ? source.listKey : (source.listKey ? [source.listKey] : ["pages"]);
+  lists.forEach(listKey => {
+    const arr = data[listKey];
+    if(!Array.isArray(arr)) return;
+    arr.forEach(item => {
+      const dateVal = item[source.dateField];
+      const parsed = parseAnyDate(dateVal);
+      if(!withinDigestWindow(parsed)) return;
+      const title = item.title || item.name || "";
+      if(!title) return;
+      const snippetParts = [];
+      ["desc","body"].forEach(k => { if(typeof item[k] === "string" && item[k].trim()) snippetParts.push(item[k].trim()); });
+      results.push({
+        title, dateVal, parsedDate: parsed,
+        snippet: snippetParts.join(" ").slice(0, 80),
+        sourceLabel: source.label, sourceUrl: source.url,
+      });
+    });
+  });
+  return results;
 }
-async function renderFavorites(){
-  const results = await Promise.all(FAVORITE_SOURCES.map(loadFavoritesFromSource));
-  const all = results.flat();
-  const listEl = document.getElementById("favorites-list");
-  const emptyEl = document.getElementById("favorites-empty");
-  if(!all.length){
-    listEl.innerHTML = "";
-    emptyEl.style.display = "block";
+async function loadDigest(){
+  const statusEl = document.getElementById("search-status");
+  const listEl = document.getElementById("search-result-list");
+  if(location.href.indexOf("file://") === 0){
+    statusEl.textContent = "このページはサイト公開後(https環境)でご利用いただけます。";
     return;
   }
-  emptyEl.style.display = "none";
-  listEl.innerHTML = all.map(({source, item}) => favoriteCardHTML(source, item)).join("");
+  let results = [];
+  await Promise.all(DIGEST_SOURCES.map(async (source) => {
+    try{
+      const res = await fetch(source.file + "?_=" + Date.now(), { cache: "no-store" });
+      if(!res.ok) return;
+      const data = await res.json();
+      results = results.concat(collectDigestItems(data, source));
+    }catch(e){ /* データがまだ無い場合はスキップ */ }
+  }));
+  results.sort((a, b) => (b.parsedDate || 0) - (a.parsedDate || 0));
+  if(!results.length){
+    statusEl.textContent = "直近1週間の新着はまだありません。";
+    listEl.innerHTML = "";
+    return;
+  }
+  statusEl.textContent = `直近${DIGEST_DAYS}日間で${results.length}件の新着・更新がありました。`;
+  listEl.innerHTML = results.map(item => `
+    <a class="search-result-card" href="${escapeHtml(item.sourceUrl)}">
+      <span class="search-result-source">${escapeHtml(item.sourceLabel)}・${escapeHtml(item.dateVal)}</span>
+      <span class="search-result-title">${escapeHtml(item.title)}</span>
+      ${item.snippet ? `<span class="search-result-snippet">${escapeHtml(item.snippet)}</span>` : ""}
+    </a>`).join("");
 }
-renderFavorites();
-
+loadDigest();
 
 document.getElementById("dark-mode-toggle")?.addEventListener("click", () => {
   const isDark = document.documentElement.classList.toggle("dark-mode");
   try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
 });
 </script>
-
 </body>
 </html>
