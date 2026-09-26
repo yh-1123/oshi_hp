@@ -261,6 +261,24 @@
   "performanceCountPublic": false,
   "media": [
     {
+      "title": "SHOWROOM『恋シュンの旬』",
+      "date": "2026-10-09",
+      "desc": "19:00",
+      "url": "",
+      "addedAt": "2026-09-26",
+      "order": "1",
+      "category": "SHOWROOM"
+    },
+    {
+      "title": "TOKAI RADIO「SKE48♡1+1は2じゃないよ!」",
+      "date": "2026-10-06",
+      "desc": "21:40～21:50",
+      "url": "",
+      "addedAt": "2026-09-26",
+      "order": "0",
+      "category": "ラジオ"
+    },
+    {
       "title": "CBCラジオ「ウインクス presents SKE48原優寧の建築ラジオ」",
       "date": "2026-09-27",
       "desc": "22:30～22:45",
