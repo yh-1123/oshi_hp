@@ -3,7 +3,7 @@
     "active": false,
     "text": "📢 お知らせテキストをここに入力",
     "url": "",
-    "updatedAt": 1790399379334
+    "updatedAt": 1790406268954
   },
   "nameMain": "原",
   "nameAccent": "優寧",
@@ -710,6 +710,13 @@
       "title": "サイトマップ",
       "desc": "このサイトの全ページ一覧",
       "url": "sitemap.html",
+      "visible": true
+    },
+    {
+      "icon": "💿",
+      "title": "セトリまとめ",
+      "desc": "イベントやフェスのセトリをまとめています。",
+      "url": "setlist.html",
       "visible": true
     }
   ],
