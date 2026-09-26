@@ -1,0 +1,83 @@
+{
+  "title": "セトリまとめ",
+  "desc": "フェスやライブイベントでのセットリストをまとめています。",
+  "pages": [
+    {
+      "date": "2026.09.22",
+      "title": "愛知・名古屋2026応援サポーター「アジア競技大会『空手』会場ライブ」",
+      "venue": "豊橋市総合体育館",
+      "photo": "",
+      "songs": [
+        {
+          "name": "パレオはエメラルド",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "ごめんね、summer",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "ため息未来",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "オキドキ",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "アイシテラブル！",
+          "note": "",
+          "isMc": false
+        }
+      ],
+      "snsLinks": [],
+      "tags": [],
+      "url": ""
+    },
+    {
+      "date": "20260924",
+      "title": "愛知・名古屋2026応援サポーター「アジア競技大会『フェンシング』会場ライブ」",
+      "venue": "Aichi Sky Expo",
+      "photo": "",
+      "songs": [
+        {
+          "name": "パレオはエメラルド",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "ごめんね、SUMMER",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "サンダルだぜ",
+          "note": "ゆうねちゃんセンター",
+          "isMc": false
+        },
+        {
+          "name": "ため息未来",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "オキドキ",
+          "note": "",
+          "isMc": false
+        },
+        {
+          "name": "バンザイVenus",
+          "note": "",
+          "isMc": false
+        }
+      ],
+      "snsLinks": [],
+      "tags": [],
+      "url": ""
+    }
+  ]
+}
