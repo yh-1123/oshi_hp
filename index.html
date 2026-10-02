@@ -129,6 +129,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   outline:2px solid var(--oshi-color); outline-offset:2px; border-radius:4px;
 }
 html{ scroll-behavior:smooth; }
+section[id]{ scroll-margin-top:56px; }
+.toc-row{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:16px; }
+.toc-link{
+  display:inline-flex; align-items:center; gap:5px; background:var(--card); border:1px solid var(--line);
+  color:var(--ink); font-size:12px; font-weight:700; padding:7px 12px; border-radius:999px; text-decoration:none;
+  box-shadow:var(--shadow-sm);
+}
+.toc-link:hover, .toc-link:active{ border-color:var(--oshi-color); color:var(--oshi-color-deep, var(--oshi-color)); }
 body{
   font-family:'Noto Sans JP', sans-serif;
   background:var(--paper);
@@ -179,6 +187,56 @@ body.editing .nav-link-controls{ display:inline-flex; }
 }
 body.editing .nav-link-add-btn{ display:inline-flex; align-items:center; }
 .nav-search-btn{ flex:none; border:none; background:transparent; font-size:15px; cursor:pointer; padding:4px 2px; color:var(--sub-ink); line-height:1; }
+.page-menu-backdrop{ display:none; position:fixed; inset:0; background:rgba(43,35,49,0.45); z-index:210; }
+.page-menu-backdrop.open{ display:block; }
+.page-menu-panel{
+  position:absolute; top:0; right:0; bottom:0; width:min(78vw, 300px); background:var(--paper);
+  box-shadow:-6px 0 20px rgba(0,0,0,0.15); padding:16px; overflow-y:auto;
+  display:flex; flex-direction:column; gap:4px;
+  animation:pageMenuSlideIn 0.2s ease;
+}
+@keyframes pageMenuSlideIn{ from{ transform:translateX(100%); } to{ transform:translateX(0); } }
+.page-menu-panel-head{ display:flex; align-items:center; justify-content:space-between; font-size:13px; font-weight:800; color:var(--sub-ink); margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+.page-menu-panel-head button{ border:none; background:none; font-size:20px; color:var(--sub-ink); cursor:pointer; line-height:1; padding:2px 6px; }
+.page-menu-tabs{ display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+.page-menu-tab-item{ display:flex; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+.page-menu-tab-item.active{ background:var(--oshi-color); border-color:var(--oshi-color); }
+.page-menu-tab-select{
+  border:none; background:none; color:var(--sub-ink); font-family:inherit;
+  font-size:12px; font-weight:700; padding:8px 10px; cursor:pointer;
+}
+.page-menu-tab-item.active .page-menu-tab-select{ color:#fff; }
+.page-menu-tab-item .page-menu-tab-edit, .page-menu-tab-item .page-menu-tab-remove{
+  display:none; border:none; background:none; font-size:11px; cursor:pointer; padding:6px 6px 6px 0; color:var(--sub-ink);
+}
+.page-menu-tab-item.active .page-menu-tab-edit, .page-menu-tab-item.active .page-menu-tab-remove{ color:#fff; }
+body.editing .page-menu-tab-item .page-menu-tab-edit, body.editing .page-menu-tab-item .page-menu-tab-remove{ display:inline-block; }
+.page-menu-tab-add{
+  display:none; border:1px dashed var(--line); background:none; color:var(--sub-ink); font-family:inherit;
+  font-size:14px; font-weight:700; width:32px; height:32px; border-radius:50%; cursor:pointer;
+}
+body.editing .page-menu-tab-add{ display:inline-flex; align-items:center; justify-content:center; }
+.page-menu-link{
+  display:flex; align-items:center; gap:6px; padding:12px 10px; border-radius:10px; color:var(--ink); text-decoration:none;
+  font-size:14px; font-weight:700; position:relative;
+}
+.page-menu-link:hover, .page-menu-link:active{ background:var(--accent2); color:var(--oshi-color-deep, var(--oshi-color)); }
+.page-menu-link .page-menu-link-label{ flex:1; }
+.page-menu-link .edit-edit, .page-menu-link .edit-remove{
+  position:static; display:none; flex:none; width:26px; height:26px; border-radius:50%; border:1px solid var(--line);
+  background:var(--card); color:var(--sub-ink); font-size:12px; align-items:center; justify-content:center; cursor:pointer;
+}
+.page-menu-divider{
+  display:flex; align-items:center; gap:6px; padding:10px 10px 4px; margin-top:6px; border-top:1px solid var(--line);
+}
+.page-menu-divider:first-child{ margin-top:0; border-top:none; padding-top:0; }
+.page-menu-divider-label{ flex:1; font-size:11px; font-weight:800; color:var(--sub-ink); letter-spacing:0.02em; }
+.page-menu-divider .edit-edit, .page-menu-divider .edit-remove{
+  position:static; display:none; flex:none; width:22px; height:22px; border-radius:50%; border:1px solid var(--line);
+  background:var(--card); color:var(--sub-ink); font-size:10px; align-items:center; justify-content:center; cursor:pointer;
+}
+body.editing .page-menu-divider .edit-edit, body.editing .page-menu-divider .edit-remove{ display:flex; }
+body.editing .page-menu-link .edit-edit, body.editing .page-menu-link .edit-remove{ display:flex; }
 .nav-search-btn:hover{ color:var(--oshi-color); }
 .nav-search-row{ display:none; border-top:1px solid var(--line); background:rgba(255,250,249,0.98); padding:10px 0; }
 .nav-search-row.open{ display:block; }
@@ -505,6 +563,17 @@ footer .heart{ color:var(--oshi-color); }
 }
 .back-to-top.show{ display:flex; opacity:1; }
 .back-to-top:hover{ background:var(--oshi-color-soft); }
+.page-menu-fab{
+  position:fixed; right:16px; bottom:16px; z-index:101; width:48px; height:48px; border-radius:50%;
+  background:var(--oshi-color); border:none; color:#fff; font-size:20px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,35,49,0.25); display:flex; align-items:center; justify-content:center;
+}
+.page-menu-fab:hover{ background:var(--oshi-color-deep, var(--oshi-color)); }
+.section-menu-fab{
+  bottom:74px; width:42px; height:42px; font-size:17px;
+  background:#fff; color:var(--oshi-color); border:1px solid var(--line);
+}
+.section-menu-fab:hover{ background:var(--oshi-color-soft); }
 
 /* ---------- 初回訪問ハイライト ---------- */
 @keyframes firstVisitPulse{
@@ -692,6 +761,7 @@ body.editing .reorder-row{ display:flex; }
 }
 @keyframes initial-load-spin{ to{ transform:rotate(360deg); } }
 </style>
+<script type="application/ld+json" id="schedule-jsonld">[{"@type":"Event","name":"ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」","startDate":"2026-10-02","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","description":"26:00～26:30","url":"https://ske48.co.jp/schedule/detail/60271","location":{"@type":"VirtualLocation","url":"https://ske48.co.jp/schedule/detail/60271"}},{"@type":"Event","name":"18周年特別公演","startDate":"2026-10-05","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","description":"17:30","url":"https://ske48.co.jp/schedule/detail/60059","location":{"@type":"VirtualLocation","url":"https://ske48.co.jp/schedule/detail/60059"}},{"@type":"Event","name":"TOKAI RADIO「SKE48♡1+1は2じゃないよ!」","startDate":"2026-10-06","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","description":"21:40～21:50","url":"https://ske48.co.jp/schedule/detail/60183","location":{"@type":"VirtualLocation","url":"https://ske48.co.jp/schedule/detail/60183"}},{"@type":"Event","name":"SHOWROOM『恋シュンの旬』","startDate":"2026-10-09","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","description":"19:00","location":{"@type":"VirtualLocation","url":""}},{"@type":"Event","name":"SKE48 初恋の瞬間 1st FAN MEETING","startDate":"2026-10-10","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","description":"17:00","url":"https://ske48.co.jp/schedule/detail/60278","location":{"@type":"VirtualLocation","url":"https://ske48.co.jp/schedule/detail/60278"}},{"@type":"Event","name":"「SKE48 初恋の瞬間 1st FAN MEETING」","startDate":"2026-10-10","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","url":"https://ske48.co.jp/schedule/detail/60227","location":{"@type":"Place","name":"劇場"}},{"@type":"Event","name":"「SKE48 プレミアム・ファンサインイベント 〜撮って!勝って!サインリレー〜」","startDate":"2026-10-12","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","url":"https://ske48.co.jp/schedule/detail/59390","location":{"@type":"VirtualLocation","url":"https://ske48.co.jp/schedule/detail/59390"}},{"@type":"Event","name":"チームS「ずっと君を探している」公演 石黒友月生誕祭","startDate":"2026-10-14","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","description":"18:30","url":"https://ske48.co.jp/schedule/detail/60280","location":{"@type":"VirtualLocation","url":"https://ske48.co.jp/schedule/detail/60280"}},{"@type":"Event","name":"SKE48 37thシングル「ため息未来」(劇場盤)現地で2ショット撮影会 ※着席形式 @幕張メッセ","startDate":"2026-10-24","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","url":"https://ske48.co.jp/schedule/detail/59380","location":{"@type":"Place","name":"幕張メッセ"}},{"@type":"Event","name":"SKE48 37thシングル「ため息未来」(劇場盤)現地で2ショット撮影会 ※スタンディング形式 @幕張メッセ","startDate":"2026-10-25","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","url":"https://ske48.co.jp/schedule/detail/59381","location":{"@type":"Place","name":"幕張メッセ"}}]</script>
 <script type="application/ld+json" id="structured-data">{
   "@context": "https://schema.org",
   "@graph": [
@@ -708,6 +778,38 @@ body.editing .reorder-row{ display:flex; }
   ]
 }</script></head>
 <body data-rendered="true" class=""><div id="initial-load-overlay" class="initial-load-overlay"><div class="initial-load-spinner"></div></div>
+<noscript id="aio-noscript-content">
+      <h1>原 優寧</h1>
+      <p>笑うたび、星がきらめく。その笑顔を見れば、きっとこの子を好きになる。</p>
+      <h2>出演予定</h2><ul><li>10/02(金) ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」</li><li>10/05(月) 18周年特別公演</li><li>10/06(火) TOKAI RADIO「SKE48♡1+1は2じゃないよ!」</li><li>10/09(金) SHOWROOM『恋シュンの旬』</li><li>10/10(土) SKE48 初恋の瞬間 1st FAN MEETING</li><li>10/10(土) 「SKE48 初恋の瞬間 1st FAN MEETING」(劇場)</li></ul>
+      <h2>コンテンツ</h2><ul><li>「君だけがターゲット」MV:SHOWROOM選抜でセンターを務める。曲中のウィンクが反則級！</li><li>マンションを丸ごとリノベーション！？企画:中古マンションのリノベーションに挑戦する新プロジェクトが始動！</li><li>アイドルのリアル休日密着:同期の杉本りいなちゃんとの仲良しリアル休日密着動画</li><li>「New Ager」MV:記念すべき「初カップリングセンター」となる楽曲</li><li>カップリングセンターへの軌跡:初カップリングセンターを記念したテレビ愛知「未完全TV」未公開映像を含む軌跡動画</li></ul>
+      <h2>関連ページ</h2><ul><li>メンバープロフィール</li><li>豆知識・エピソード集</li><li>動画まとめ</li><li>建築との関わり</li><li>活動実績</li><li>グッズまとめ</li><li>ゆかりの場所まとめ</li><li>推し活はじめての方へ</li><li>ツールまとめ</li><li>サイトマップ</li><li>セトリまとめ</li></ul>
+      <h2>公式リンク</h2><ul><li><a href="https://ske48.co.jp/">✎
+    ×
+    🔗
+    グループ公式サイト
+    ⠿↑ 上へ↓ 下へ</a></li><li><a href="https://youtube.com/@ske48?si=FPNoHFytGfJ8ZrXE">✎
+    ×
+    ▶️
+    グループ公式YouTube
+    ⠿↑ 上へ↓ 下へ</a></li><li><a href="https://x.com/ske48official">✎
+    ×
+    🐦
+    グループ公式X
+    ⠿↑ 上へ↓ 下へ</a></li><li><a href="https://www.tiktok.com/@ske48official?_r=1&amp;_t=ZS-99RvSShsCr1">✎
+    ×
+    🎵
+    グループ公式Tiktok
+    ⠿↑ 上へ↓ 下へ</a></li><li><a href="https://www.instagram.com/official_ske48?igsi=MTk1b2p2ZndvbXRheA==">✎
+    ×
+    📷
+    グループ公式Instagram
+    ⠿↑ 上へ↓ 下へ</a></li><li><a href="https://ske48family.com/">✎
+    ×
+    🔗
+    グループ公式ファンクラブ
+    ⠿↑ 上へ↓ 下へ</a></li></ul>
+    </noscript>
 <button type="button" class="dark-mode-toggle-btn" id="dark-mode-toggle" aria-label="ダークモード切り替え" title="ダークモード切り替え">
   <span class="dark-toggle-icon-moon">🌙</span><span class="dark-toggle-icon-sun">☀️</span>
 </button>
@@ -749,6 +851,56 @@ body.editing .reorder-row{ display:flex; }
     </div>
   </div>
 </nav>
+
+<div class="page-menu-backdrop" id="page-menu-backdrop">
+  <div class="page-menu-panel">
+    <div class="page-menu-panel-head">
+      <span>メニュー</span>
+      <button type="button" id="page-menu-close" aria-label="閉じる">×</button>
+    </div>
+    <div class="page-menu-tabs" id="page-menu-tabs-row">
+    <div class="page-menu-tab-item active" data-tab-id="tab-section">
+      <button type="button" class="page-menu-tab-select" data-tab-id="tab-section">このページ内</button>
+      <button type="button" class="page-menu-tab-edit" data-tab-id="tab-section" aria-label="タブ名を編集">✎</button>
+      <button type="button" class="page-menu-tab-remove" data-tab-id="tab-section" aria-label="タブを削除">×</button>
+    </div>
+    <div class="page-menu-tab-item" data-tab-id="tab-other">
+      <button type="button" class="page-menu-tab-select" data-tab-id="tab-other">他のページへ</button>
+      <button type="button" class="page-menu-tab-edit" data-tab-id="tab-other" aria-label="タブ名を編集">✎</button>
+      <button type="button" class="page-menu-tab-remove" data-tab-id="tab-other" aria-label="タブを削除">×</button>
+    </div><button type="button" class="page-menu-tab-add" id="add-menu-tab" aria-label="タブを追加">＋</button></div>
+    <div id="page-menu-list"><a class="page-menu-link" href="#recommend" data-idx="0" data-toc-target="recommend">
+    <span class="page-menu-link-label">◆ コンテンツ</span>
+    
+    
+  </a><a class="page-menu-link" href="#gallery" data-idx="1" data-toc-target="gallery" style="">
+    <span class="page-menu-link-label">◆ フォトギャラリー</span>
+    
+    
+  </a><a class="page-menu-link" href="#schedule" data-idx="2" data-toc-target="schedule">
+    <span class="page-menu-link-label">◆ 出演情報</span>
+    
+    
+  </a><a class="page-menu-link" href="#applications" data-idx="3" data-toc-target="applications">
+    <span class="page-menu-link-label">◆ 申込受付中</span>
+    
+    
+  </a><a class="page-menu-link" href="#sns" data-idx="4" data-toc-target="sns">
+    <span class="page-menu-link-label">◆ SNSタイムライン</span>
+    
+    
+  </a><a class="page-menu-link" href="#more-pages" data-idx="5" data-toc-target="more-pages">
+    <span class="page-menu-link-label">◆ もっと知る</span>
+    
+    
+  </a><a class="page-menu-link" href="#official-links" data-idx="6" data-toc-target="official-links">
+    <span class="page-menu-link-label">◆ 公式リンク</span>
+    
+    
+  </a></div>
+    <button type="button" class="add-btn" id="add-menu-item" style="display: flex; margin-top: 10px;">＋ 項目を追加</button>
+  </div>
+</div>
 
 <header class="hero">
   <div class="wrap">
@@ -809,7 +961,7 @@ body.editing .reorder-row{ display:flex; }
       <div class="rec-scroll" data-role="track"><div class="rec-card" data-url="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" data-thumb="">
     
     
-    <a class="rec-card-link" href="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/yaDeh_HwZgY/hqdefault.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
+    <a class="rec-card-link" href="https://www.youtube.com/watch?v=yaDeh_HwZgY&amp;list=RDyaDeh_HwZgY&amp;start_radio=1&amp;pp=ygUJ5Y6f5YSq5a-noAcB" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/yaDeh_HwZgY/hqdefault.jpg" alt="「君だけがターゲット」MV" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
     <div class="rec-body">
       <span class="rec-tag editable" contenteditable="true">まず1曲</span>
       <h3 class="editable" contenteditable="true">「君だけがターゲット」MV</h3>
@@ -819,7 +971,7 @@ body.editing .reorder-row{ display:flex; }
   </div><div class="rec-card" data-url="https://www.youtube.com/watch?v=Cu36djopxws" data-thumb="">
     
     
-    <a class="rec-card-link" href="https://www.youtube.com/watch?v=Cu36djopxws" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/Cu36djopxws/hqdefault.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
+    <a class="rec-card-link" href="https://www.youtube.com/watch?v=Cu36djopxws" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/Cu36djopxws/hqdefault.jpg" alt="マンションを丸ごとリノベーション！？企画" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
     <div class="rec-body">
       <span class="rec-tag editable" contenteditable="true">建築ガール本領発揮</span>
       <h3 class="editable" contenteditable="true">マンションを丸ごとリノベーション！？企画</h3>
@@ -829,7 +981,7 @@ body.editing .reorder-row{ display:flex; }
   </div><div class="rec-card" data-url="https://youtu.be/FH7RuqpPgJY?si=ed6EIdFohWl40qck" data-thumb="">
     
     
-    <a class="rec-card-link" href="https://youtu.be/FH7RuqpPgJY?si=ed6EIdFohWl40qck" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/FH7RuqpPgJY/hqdefault.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
+    <a class="rec-card-link" href="https://youtu.be/FH7RuqpPgJY?si=ed6EIdFohWl40qck" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/FH7RuqpPgJY/hqdefault.jpg" alt="アイドルのリアル休日密着" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
     <div class="rec-body">
       <span class="rec-tag editable" contenteditable="true">仲良し動画</span>
       <h3 class="editable" contenteditable="true">アイドルのリアル休日密着</h3>
@@ -839,7 +991,7 @@ body.editing .reorder-row{ display:flex; }
   </div><div class="rec-card" data-url="https://youtu.be/A4Ugkvba22s?si=mhiB-ECeruc69WP2" data-thumb="">
     
     
-    <a class="rec-card-link" href="https://youtu.be/A4Ugkvba22s?si=mhiB-ECeruc69WP2" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/A4Ugkvba22s/hqdefault.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
+    <a class="rec-card-link" href="https://youtu.be/A4Ugkvba22s?si=mhiB-ECeruc69WP2" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/A4Ugkvba22s/hqdefault.jpg" alt="「New Ager」MV" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
     <div class="rec-body">
       <span class="rec-tag editable" contenteditable="true">カップリングセンター</span>
       <h3 class="editable" contenteditable="true">「New Ager」MV</h3>
@@ -849,7 +1001,7 @@ body.editing .reorder-row{ display:flex; }
   </div><div class="rec-card" data-url="https://www.youtube.com/watch?v=K38DgFzWDPY&amp;list=RDK38DgFzWDPY&amp;start_radio=1&amp;pp=ygUS5Y6f5YSq5a-n44CA6LuM6LehoAcB0gcJCRsMAYcqIYzv" data-thumb="">
     
     
-    <a class="rec-card-link" href="https://www.youtube.com/watch?v=K38DgFzWDPY&amp;list=RDK38DgFzWDPY&amp;start_radio=1&amp;pp=ygUS5Y6f5YSq5a-n44CA6LuM6LehoAcB0gcJCRsMAYcqIYzv" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/K38DgFzWDPY/hqdefault.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
+    <a class="rec-card-link" href="https://www.youtube.com/watch?v=K38DgFzWDPY&amp;list=RDK38DgFzWDPY&amp;start_radio=1&amp;pp=ygUS5Y6f5YSq5a-n44CA6LuM6LehoAcB0gcJCRsMAYcqIYzv" target="_blank" rel="noopener"><div class="rec-thumb"><img src="https://img.youtube.com/vi/K38DgFzWDPY/hqdefault.jpg" alt="カップリングセンターへの軌跡" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;"><span class="play-badge"><span>▶</span></span></div>
     <div class="rec-body">
       <span class="rec-tag editable" contenteditable="true">初期の軌跡</span>
       <h3 class="editable" contenteditable="true">カップリングセンターへの軌跡</h3>
@@ -885,14 +1037,14 @@ body.editing .reorder-row{ display:flex; }
         <h2><span class="mark">◆</span><span class="editable" id="schedule-heading" contenteditable="true">出演情報</span></h2>
         <p class="editable" id="schedule-desc" contenteditable="true">配信・イベントなどの出演予定をまとめています</p>
       </div>
-      <button class="view-toggle-btn" id="schedule-view-toggle" data-mode="upcoming" type="button">📅 近日の予定に戻す</button>
+      <button class="view-toggle-btn active" id="schedule-view-toggle" data-mode="upcoming" type="button">📅 過去の記録を見る</button>
     </div>
-    <div id="tl-groups"><div class="tl-group collapsed" data-month="2026-08" style="">
+    <div id="tl-groups"><div class="tl-group collapsed" data-month="2026-08" style="display: none;">
     <div class="tl-month-head">
       <h3 class="tl-month-label editable" contenteditable="true">2026年8月</h3>
       <button type="button" class="tl-month-arrow" aria-label="開閉する" aria-expanded="false">▾</button>
     </div>
-    <div class="timeline"><div class="tl-item" data-date="2026-08-02" data-url="" data-location="" style="">
+    <div class="timeline"><div class="tl-item" data-date="2026-08-02" data-url="" data-location="" style="display: none;">
     
     
     
@@ -906,7 +1058,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-03" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-03" data-url="" data-location="" style="display: none;">
     
     
     
@@ -920,7 +1072,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-09" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-09" data-url="" data-location="" style="display: none;">
     
     
     
@@ -934,7 +1086,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-12" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-12" data-url="" data-location="" style="display: none;">
     
     
     
@@ -948,7 +1100,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-16" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-16" data-url="" data-location="" style="display: none;">
     
     
     
@@ -962,7 +1114,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-19" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-19" data-url="" data-location="" style="display: none;">
     
     
     
@@ -976,7 +1128,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-23" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-23" data-url="" data-location="" style="display: none;">
     
     
     
@@ -990,7 +1142,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-24" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-24" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1004,7 +1156,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-27" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-27" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1018,7 +1170,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-27" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-27" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1032,7 +1184,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-29" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-29" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1046,7 +1198,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-30" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-30" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1060,7 +1212,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-30" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-30" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1074,7 +1226,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-08-31" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-08-31" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1089,12 +1241,12 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
   </div></div>
-  </div><div class="tl-group" data-month="2026-09" style="">
+  </div><div class="tl-group collapsed" data-month="2026-09" style="display: none;">
     <div class="tl-month-head">
       <h3 class="tl-month-label editable" contenteditable="true">2026年9月</h3>
-      <button type="button" class="tl-month-arrow" aria-label="開閉する" aria-expanded="true">▾</button>
+      <button type="button" class="tl-month-arrow" aria-label="開閉する" aria-expanded="false">▾</button>
     </div>
-    <div class="timeline"><div class="tl-item" data-date="2026-09-03" data-url="" data-location="" style="">
+    <div class="timeline"><div class="tl-item" data-date="2026-09-03" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1108,7 +1260,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-06" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-06" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1122,7 +1274,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-10" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-10" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1136,7 +1288,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-11" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-11" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1150,7 +1302,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-12" data-url="https://ske48.co.jp/news/detail/59960" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-12" data-url="https://ske48.co.jp/news/detail/59960" data-location="" style="display: none;">
     
     
     
@@ -1164,7 +1316,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-13" data-url="https://ske48.co.jp/news/detail/59960" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-13" data-url="https://ske48.co.jp/news/detail/59960" data-location="" style="display: none;">
     
     
     
@@ -1178,7 +1330,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-13" data-url="" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-13" data-url="" data-location="" style="display: none;">
     
     
     
@@ -1192,7 +1344,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-15" data-url="https://ske48.co.jp/schedule/detail/59595" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-15" data-url="https://ske48.co.jp/schedule/detail/59595" data-location="" style="display: none;">
     
     
     
@@ -1206,7 +1358,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-17" data-url="https://ske48.co.jp/schedule/detail/59905" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-17" data-url="https://ske48.co.jp/schedule/detail/59905" data-location="" style="display: none;">
     
     
     
@@ -1220,7 +1372,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-18" data-url="https://ske48.co.jp/schedule/detail/59839" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-18" data-url="https://ske48.co.jp/schedule/detail/59839" data-location="" style="display: none;">
     
     
     
@@ -1234,7 +1386,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-20" data-url="https://ske48.co.jp/schedule/detail/59828" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-20" data-url="https://ske48.co.jp/schedule/detail/59828" data-location="" style="display: none;">
     
     
     
@@ -1248,7 +1400,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-22" data-url="https://ske48.co.jp/schedule/detail/60096" data-location="豊橋市総合体育館" style="">
+  </div><div class="tl-item" data-date="2026-09-22" data-url="https://ske48.co.jp/schedule/detail/60096" data-location="豊橋市総合体育館" style="display: none;">
     
     
     
@@ -1262,7 +1414,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-23" data-url="https://ske48.co.jp/schedule/detail/60001" data-location="久屋大通公園 エンゼル広場(愛知県名古屋市中区栄 3 丁目 15 )" style="">
+  </div><div class="tl-item" data-date="2026-09-23" data-url="https://ske48.co.jp/schedule/detail/60001" data-location="久屋大通公園 エンゼル広場(愛知県名古屋市中区栄 3 丁目 15 )" style="display: none;">
     
     
     
@@ -1276,7 +1428,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-24" data-url="https://ske48.co.jp/schedule/detail/60097" data-location="Aichi Sky Expo" style="">
+  </div><div class="tl-item" data-date="2026-09-24" data-url="https://ske48.co.jp/schedule/detail/60097" data-location="Aichi Sky Expo" style="display: none;">
     
     
     
@@ -1290,7 +1442,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-25" data-url="https://ske48.co.jp/schedule/detail/60167" data-location="Aichi-Nagoya 2026 Ticket Center(名古屋市中区栄3丁目5-10)" style="">
+  </div><div class="tl-item" data-date="2026-09-25" data-url="https://ske48.co.jp/schedule/detail/60167" data-location="Aichi-Nagoya 2026 Ticket Center(名古屋市中区栄3丁目5-10)" style="display: none;">
     
     
     
@@ -1304,7 +1456,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-25" data-url="https://ske48.co.jp/schedule/detail/60215" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-25" data-url="https://ske48.co.jp/schedule/detail/60215" data-location="" style="display: none;">
     
     
     
@@ -1318,7 +1470,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-09-25" data-url="https://ske48.co.jp/schedule/detail/60207" data-location="" style="">
+  </div><div class="tl-item" data-date="2026-09-25" data-url="https://ske48.co.jp/schedule/detail/60207" data-location="" style="display: none;">
     
     
     
@@ -1332,10 +1484,10 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item is-today" data-date="2026-09-26" data-url="https://ske48.co.jp/schedule/detail/59987" data-location="" style="display: none;">
+  </div><div class="tl-item" data-date="2026-09-26" data-url="https://ske48.co.jp/schedule/detail/59987" data-location="" style="display: none;">
     
     
-    <span class="tl-today-badge">本日</span>
+    
     <div class="tl-date editable" contenteditable="true">09/26(土)</div>
     <h3 class="editable" contenteditable="true">「制服の芽」公演</h3>
     <p class="editable" contenteditable="true">17:00</p>
@@ -1389,12 +1541,26 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
   </div></div>
-  </div><div class="tl-group" data-month="2026-10" style="display: none;">
+  </div><div class="tl-group" data-month="2026-10">
     <div class="tl-month-head">
       <h3 class="tl-month-label editable" contenteditable="true">2026年10月</h3>
       <button type="button" class="tl-month-arrow" aria-label="開閉する" aria-expanded="true">▾</button>
     </div>
-    <div class="timeline"><div class="tl-item" data-date="2026-10-05" data-url="https://ske48.co.jp/schedule/detail/60059" data-location="" style="display: none;">
+    <div class="timeline"><div class="tl-item is-today" data-date="2026-10-02" data-url="https://ske48.co.jp/schedule/detail/60271" data-location="" style="">
+    
+    
+    <span class="tl-today-badge">本日</span>
+    <div class="tl-date editable" contenteditable="true">10/02(金)</div>
+    <h3 class="editable" contenteditable="true">ZIP-FM「FAIR NEXT INNOVATION ICONIC MOMENTS」</h3>
+    <p class="editable" contenteditable="true">26:00～26:30</p>
+    
+    <div class="tl-actions">
+      <a class="tl-action-btn tl-open-btn" href="https://ske48.co.jp/schedule/detail/60271" target="_blank" rel="noopener">🔗 リンクを開く</a>
+      
+      <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
+      <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
+    </div>
+  </div><div class="tl-item" data-date="2026-10-05" data-url="https://ske48.co.jp/schedule/detail/60059" data-location="" style="">
     
     
     
@@ -1408,7 +1574,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-10-06" data-url="https://ske48.co.jp/schedule/detail/60183" data-location="" style="display: none;">
+  </div><div class="tl-item" data-date="2026-10-06" data-url="https://ske48.co.jp/schedule/detail/60183" data-location="" style="">
     
     
     
@@ -1422,7 +1588,7 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
-  </div><div class="tl-item" data-date="2026-10-09" data-url="" data-location="" style="display: none;">
+  </div><div class="tl-item" data-date="2026-10-09" data-url="" data-location="" style="">
     
     
     
@@ -1436,6 +1602,34 @@ body.editing .reorder-row{ display:flex; }
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
     </div>
+  </div><div class="tl-item" data-date="2026-10-10" data-url="https://ske48.co.jp/schedule/detail/60278" data-location="" style="">
+    
+    
+    
+    <div class="tl-date editable" contenteditable="true">10/10(土)</div>
+    <h3 class="editable" contenteditable="true">SKE48 初恋の瞬間 1st FAN MEETING</h3>
+    <p class="editable" contenteditable="true">17:00</p>
+    
+    <div class="tl-actions">
+      <a class="tl-action-btn tl-open-btn" href="https://ske48.co.jp/schedule/detail/60278" target="_blank" rel="noopener">🔗 リンクを開く</a>
+      
+      <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
+      <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
+    </div>
+  </div><div class="tl-item" data-date="2026-10-10" data-url="https://ske48.co.jp/schedule/detail/60227" data-location="劇場" style="">
+    
+    
+    
+    <div class="tl-date editable" contenteditable="true">10/10(土)</div>
+    <h3 class="editable" contenteditable="true">「SKE48 初恋の瞬間 1st FAN MEETING」</h3>
+    <p class="editable" contenteditable="true"></p>
+    <div class="tl-location editable" contenteditable="true">📍 劇場</div>
+    <div class="tl-actions">
+      <a class="tl-action-btn tl-open-btn" href="https://ske48.co.jp/schedule/detail/60227" target="_blank" rel="noopener">🔗 リンクを開く</a>
+      <a class="tl-action-btn tl-map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8A%87%E5%A0%B4" target="_blank" rel="noopener">📍 地図で見る</a>
+      <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
+      <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
+    </div>
   </div><div class="tl-item" data-date="2026-10-12" data-url="https://ske48.co.jp/schedule/detail/59390" data-location="" style="display: none;">
     
     
@@ -1446,6 +1640,20 @@ body.editing .reorder-row{ display:flex; }
     
     <div class="tl-actions">
       <a class="tl-action-btn tl-open-btn" href="https://ske48.co.jp/schedule/detail/59390" target="_blank" rel="noopener">🔗 リンクを開く</a>
+      
+      <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
+      <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
+    </div>
+  </div><div class="tl-item" data-date="2026-10-14" data-url="https://ske48.co.jp/schedule/detail/60280" data-location="" style="display: none;">
+    
+    
+    
+    <div class="tl-date editable" contenteditable="true">10/14(水)</div>
+    <h3 class="editable" contenteditable="true">チームS「ずっと君を探している」公演 石黒友月生誕祭</h3>
+    <p class="editable" contenteditable="true">18:30</p>
+    
+    <div class="tl-actions">
+      <a class="tl-action-btn tl-open-btn" href="https://ske48.co.jp/schedule/detail/60280" target="_blank" rel="noopener">🔗 リンクを開く</a>
       
       <button class="tl-action-btn cal-btn" type="button">📅 カレンダーに追加</button>
       <button class="tl-action-btn dup-btn" type="button">⧉ この内容で複製</button>
@@ -1481,7 +1689,7 @@ body.editing .reorder-row{ display:flex; }
   </div></div>
   </div></div>
     <p class="no-results" id="schedule-no-results">該当する予定が見つかりませんでした。</p>
-    <button class="load-more-btn" id="load-more-schedule" type="button" style="display: none;">＋ もっと見る(残り25件)</button>
+    <button class="load-more-btn" id="load-more-schedule" type="button" style="display: flex;">＋ もっと見る(残り4件)</button>
     
   </div>
 </section>
@@ -2012,6 +2220,17 @@ body.editing .reorder-row{ display:flex; }
     </div>
     
     
+  </div><div class="more-page-card" data-url="setlist.html" data-visible="1">
+    
+    
+    <span class="more-page-icon editable" contenteditable="true">💿</span>
+    <div class="more-page-body">
+      <h3 class="more-page-title editable" contenteditable="true">セトリまとめ</h3>
+      <p class="more-page-desc editable" contenteditable="true">イベントやフェスのセトリをまとめています。</p>
+      <a class="more-page-link" href="setlist.html">見る ›</a>
+    </div>
+    
+    
   </div></div>
     
   </div>
@@ -2070,6 +2289,7 @@ body.editing .reorder-row{ display:flex; }
 </footer>
 
 <button class="back-to-top show" id="back-to-top" type="button" aria-label="トップに戻る">↑</button>
+<button class="page-menu-fab" id="page-menu-toggle" type="button" aria-label="メニュー" title="メニュー">☰</button>
 
 
 
@@ -2094,6 +2314,11 @@ body.editing .reorder-row{ display:flex; }
 <script type="application/json" id="templates-data-application">[]</script>
 
 <script>
+/* ---------- 編集モード共通(訪問者にも必要なため編集専用マーカーの外に配置) ---------- */
+let editMode = false;
+function setEditable(on){
+  document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; });
+}
 
 
 /* ==========================================================
@@ -2264,7 +2489,7 @@ function officialLinkHTML(l){
   const detected = detectSnsPlatform(l.url);
   const label = l.label || (detected ? detected.label : "公式サイト");
   const platformKey = detected ? detected.key : "default";
-  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="" loading="lazy">` : (detected ? detected.icon : "🔗");
+  const iconContent = l.icon ? `<img class="official-link-icon-img" src="${l.icon}" alt="${escAttr(label)}" loading="lazy">` : (detected ? detected.icon : "🔗");
   return `<a class="official-link-item plat-${platformKey}" href="${l.url || '#'}" target="_blank" rel="noopener" data-url="${escAttr(l.url)}" data-icon="${escAttr(l.icon)}" data-label="${escAttr(l.label)}">
     <button class="edit-edit" aria-label="編集">✎</button>
     <button class="edit-remove" aria-label="削除">×</button>
@@ -2327,7 +2552,7 @@ function recCardHTML(r){
   const bg = r.thumb || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "");
   const playIcon = r.url ? '<span class="play-badge"><span>▶</span></span>' : "";
   const thumbHtml = bg
-    ? `<div class="rec-thumb"><img src="${bg}" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;">${playIcon}</div>`
+    ? `<div class="rec-thumb"><img src="${bg}" alt="${escAttr(r.title || "")}" loading="lazy" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;">${playIcon}</div>`
     : `<div class="rec-thumb">サムネイル画像${playIcon}</div>`;
   const body = `${thumbHtml}
     <div class="rec-body">
@@ -2476,6 +2701,53 @@ function downloadIcs(title, desc, dateISO, linkUrl){
   a.remove();
   URL.revokeObjectURL(url);
 }
+/* ---------- 出演予定をまとめて1つのファイルに書き出す(カレンダーアプリで「URLを購読」すれば、このファイルをサイトに置いておくだけで最新の予定を自動的に反映できます) ---------- */
+function downloadAllScheduleIcs(){
+  const items = Array.from(document.querySelectorAll("#tl-groups .tl-item"));
+  const stamp = new Date().toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+  const events = items.map(el => {
+    const title = el.querySelector("h3")?.textContent.trim() || "";
+    const desc = el.querySelector("p")?.textContent.trim() || "";
+    const dateISO = el.dataset.date || "";
+    if(!title || !dateISO) return null;
+    const linkUrl = el.dataset.url || "";
+    const location = el.dataset.location || "";
+    const dStart = dateISO.replace(/-/g, "");
+    const nextDay = new Date(dateISO + "T00:00:00");
+    nextDay.setDate(nextDay.getDate() + 1);
+    const dEnd = `${nextDay.getFullYear()}${String(nextDay.getMonth()+1).padStart(2,"0")}${String(nextDay.getDate()).padStart(2,"0")}`;
+    const fullDesc = linkUrl ? [desc, linkUrl].filter(Boolean).join("\n\n") : desc;
+    return [
+      "BEGIN:VEVENT",
+      `UID:evt-${dateISO}-${title.replace(/[^a-zA-Z0-9]/g,"").slice(0,40)}@oshi-tool`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${dStart}`,
+      `DTEND;VALUE=DATE:${dEnd}`,
+      `SUMMARY:${icsEscape(title)}`,
+      `DESCRIPTION:${icsEscape(fullDesc)}`,
+      ...(linkUrl ? [`URL:${icsEscape(linkUrl)}`] : []),
+      ...(location ? [`LOCATION:${icsEscape(location)}`] : []),
+      "END:VEVENT",
+    ].join("\r\n");
+  }).filter(Boolean);
+  if(!events.length){ alert("書き出せる出演予定がありません。先に予定を登録してください。"); return; }
+  const ics = [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//oshi-tool//JP","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+    `X-WR-CALNAME:${icsEscape(document.getElementById("hero-name-main")?.textContent.trim() || "推し")} 出演予定`,
+    ...events,
+    "END:VCALENDAR",
+  ].join("\r\n");
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "schedule.ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  alert("schedule.ics を書き出しました。\n\nこのファイルを他のデータファイルと同じ場所にアップロードしておくと、カレンダーアプリの「URLで購読(サブスクライブ)」機能から\n" + location.href.replace(/index\\.html.*$/, "") + "schedule.ics\nを登録することで、今後の予定が自動的にカレンダーに反映されるようになります。\n\n※ 予定を追加・変更したときは、その都度この書き出しをやり直して、ファイルを上書きアップロードしてください(自動更新ではありません)。");
+}
 function tlItemHTML(t){
   const linkBtn = t.url ? `<a class="tl-action-btn tl-open-btn" href="${t.url}" target="_blank" rel="noopener">🔗 リンクを開く</a>` : "";
   const isToday = t.date === new Date().toISOString().slice(0, 10);
@@ -2548,6 +2820,11 @@ function sortItemsInGroup(track){
   items.sort((a,b) => a.dataset.date.localeCompare(b.dataset.date));
   items.forEach(it => track.appendChild(it));
 }
+function isExcludedScheduleTitle(title){
+  const t = String(title || "");
+  /* トレード(出品待ち等)の投稿や、開催中止・延期になった予定は登録対象外にする */
+  return /トレード/.test(t) || /中止|休演|見送り|延期/.test(t);
+}
 function parseScheduleBulkText(text){
   const normalized = String(text || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   let lines = normalized.split("\n");
@@ -2598,7 +2875,7 @@ function parseScheduleBulkText(text){
         i++;
       }
       while(i < lines.length && TRAILERS.has(lines[i].trim())) i++;
-      if(title && !FOOTER_RE.test(title) && title.length < 150){
+      if(title && !FOOTER_RE.test(title) && title.length < 150 && !isExcludedScheduleTitle(title)){
         const mm = String(month).padStart(2, "0");
         const dd = String(day).padStart(2, "0");
         const date = `${baseYear}-${mm}-${dd}`;
@@ -2646,7 +2923,7 @@ function parseScheduleFromHtmlSource(html, memberName){
       const titleEl = card.querySelector(".event-title-link") || card.querySelector(".event-title");
       const title = (titleEl?.textContent || "").trim();
       if(!hasMember && title.indexOf(name) > -1) hasMember = true;
-      if(!hasMember || !title) return;
+      if(!hasMember || !title || isExcludedScheduleTitle(title)) return;
       const timeEl = card.querySelector(".event-time");
       const time = (timeEl?.textContent || "").trim();
       const placeEl = card.querySelector(".event-detail-place");
@@ -2693,6 +2970,38 @@ function insertScheduleItem(item){
   track.insertAdjacentHTML("beforeend", tlItemHTML(item));
   sortItemsInGroup(track);
 }
+/* ---------- 出演予定の構造化データ(JSON-LD)。検索結果やAIが今後の予定を認識しやすくするための機械可読データ ---------- */
+function updateScheduleJsonLd(){
+  const scriptEl = document.getElementById("schedule-jsonld");
+  if(!scriptEl) return;
+  const today = new Date().toISOString().slice(0, 10);
+  const items = Array.from(document.querySelectorAll("#tl-groups .tl-item"))
+    .filter(el => (el.dataset.date || "") >= today)
+    .map(el => {
+      const title = el.querySelector("h3")?.textContent.trim() || "";
+      const desc = el.querySelector("p")?.textContent.trim() || "";
+      const date = el.dataset.date || "";
+      const location = el.dataset.location || "";
+      const url = el.dataset.url || "";
+      if(!title || !date) return null;
+      const ev = {
+        "@type": "Event",
+        "name": title,
+        "startDate": date,
+        "eventAttendanceMode": location ? "https://schema.org/OfflineEventAttendanceMode" : "https://schema.org/OnlineEventAttendanceMode",
+      };
+      if(desc) ev.description = desc;
+      if(url) ev.url = url;
+      ev.location = location
+        ? { "@type": "Place", "name": location }
+        : { "@type": "VirtualLocation", "url": url || location };
+      return ev;
+    })
+    .filter(Boolean);
+  scriptEl.textContent = items.length ? JSON.stringify(items) : "";
+}
+updateScheduleJsonLd();
+new MutationObserver(updateScheduleJsonLd).observe(document.getElementById("tl-groups"), { childList: true, subtree: true, characterData: true });
 document.getElementById("tl-groups").addEventListener("click", (e) => {
   const head = e.target.closest(".tl-month-head");
   if(!head) return;
@@ -2860,6 +3169,11 @@ function refreshEmptyStates(){
     { el: document.getElementById("official-links"), empty: document.querySelectorAll("#official-links-row .official-link-item").length === 0 },
   ];
   rules.forEach(r => { r.el.style.display = (r.empty && !isEditing) ? "none" : ""; });
+  rules.forEach(r => {
+    document.querySelectorAll(`#page-menu-list .page-menu-link[data-toc-target="${r.el.id}"]`).forEach(link => {
+      link.style.display = (r.empty && !isEditing) ? "none" : "";
+    });
+  });
 }
 refreshEmptyStates();
 
@@ -2992,18 +3306,172 @@ document.getElementById("nav-search-toggle").addEventListener("click", () => {
   row.classList.toggle("open", opening);
   if(opening){ document.getElementById("site-search").focus(); }
 });
+document.getElementById("page-menu-close").addEventListener("click", () => {
+  document.getElementById("page-menu-backdrop").classList.remove("open");
+});
+document.getElementById("page-menu-backdrop").addEventListener("click", (e) => {
+  if(e.target.id === "page-menu-backdrop") document.getElementById("page-menu-backdrop").classList.remove("open");
+});
 document.getElementById("dark-mode-toggle").addEventListener("click", () => {
   const isDark = document.documentElement.classList.toggle("dark-mode");
   try{ localStorage.setItem("oshi_dark_mode", isDark ? "1" : "0"); }catch(e){ /* localStorage不可の環境 */ }
 });
 
-
-/* ---------- 編集モード(パスワードで保護) ---------- */
-let editMode = false;
-function setEditable(on){
-  document.querySelectorAll(".editable").forEach(el => { el.contentEditable = on; });
+/* ---------- フローティングメニュー(タブ自体・中身とも編集モードでカスタマイズ可能) ---------- */
+const DEFAULT_MENU_TABS = [
+  { id: "tab-section", label: "このページ内", items: [
+    { label: "◆ ピックアップ", href: "#pickup" },
+    { label: "◆ コンテンツ", href: "#recommend" },
+    { label: "◆ フォトギャラリー", href: "#gallery" },
+    { label: "◆ 出演情報", href: "#schedule" },
+    { label: "◆ 申込受付中", href: "#applications" },
+    { label: "◆ SNSタイムライン", href: "#sns" },
+    { label: "◆ もっと知る", href: "#more-pages" },
+    { label: "◆ 公式リンク", href: "#official-links" },
+  ]},
+  { id: "tab-other", label: "他のページへ", items: [
+    { label: "📻 配信ログ", href: "log.html" },
+    { label: "🛍️ グッズまとめ", href: "goods.html" },
+    { label: "🗺️ サイトマップを見る", href: "sitemap.html" },
+  ]},
+];
+let MENU_TABS = DEFAULT_MENU_TABS.map(t => ({ id: t.id, label: t.label, items: t.items.slice() }));
+let activeMenuTabId = MENU_TABS[0].id;
+let menuTabIdCounter = 0;
+function newMenuTabId(){ menuTabIdCounter++; return "tab-custom-" + Date.now() + "-" + menuTabIdCounter; }
+function menuItemHTML(item, idx){
+  if(item.isDivider){
+    return `<div class="page-menu-divider" data-idx="${idx}">
+      <span class="page-menu-divider-label">${item.label}</span>
+      <button type="button" class="edit-edit" aria-label="編集">✎</button>
+      <button type="button" class="edit-remove" aria-label="削除">×</button>
+    </div>`;
+  }
+  const targetId = (item.href || "").startsWith("#") ? item.href.slice(1) : "";
+  return `<a class="page-menu-link" href="${escAttr(item.href)}" data-idx="${idx}"${targetId ? ` data-toc-target="${escAttr(targetId)}"` : ""}>
+    <span class="page-menu-link-label">${item.label}</span>
+    <button type="button" class="edit-edit" aria-label="編集">✎</button>
+    <button type="button" class="edit-remove" aria-label="削除">×</button>
+  </a>`;
 }
-/* ---------- ヘッダーのナビリンク(表示用テンプレートは常時必要なため編集専用マーカーの外に配置) ---------- */
+function getActiveTab(){
+  return MENU_TABS.find(t => t.id === activeMenuTabId) || MENU_TABS[0];
+}
+function renderMenuTabsBar(){
+  const wrap = document.getElementById("page-menu-tabs-row");
+  wrap.innerHTML = MENU_TABS.map(tab => `
+    <div class="page-menu-tab-item${tab.id === activeMenuTabId ? " active" : ""}" data-tab-id="${escAttr(tab.id)}">
+      <button type="button" class="page-menu-tab-select" data-tab-id="${escAttr(tab.id)}">${tab.label}</button>
+      <button type="button" class="page-menu-tab-edit" data-tab-id="${escAttr(tab.id)}" aria-label="タブ名を編集">✎</button>
+      <button type="button" class="page-menu-tab-remove" data-tab-id="${escAttr(tab.id)}" aria-label="タブを削除">×</button>
+    </div>`).join("") + `<button type="button" class="page-menu-tab-add" id="add-menu-tab" aria-label="タブを追加">＋</button>`;
+}
+function syncMenuLinkVisibility(){
+  const editing = document.body.classList.contains("editing");
+  document.querySelectorAll("#page-menu-list .page-menu-link").forEach(link => {
+    const href = link.getAttribute("href") || "";
+    if(!href.startsWith("#")){ link.style.display = ""; return; }
+    const target = document.getElementById(href.slice(1));
+    const hidden = !target || getComputedStyle(target).display === "none";
+    link.style.display = (hidden && !editing) ? "none" : "";
+  });
+}
+function renderActiveTabContent(){
+  const tab = getActiveTab();
+  const editing = document.body.classList.contains("editing");
+  document.getElementById("page-menu-list").innerHTML = (tab ? tab.items : []).map(menuItemHTML).join("");
+  document.getElementById("add-menu-item").style.display = editing ? "flex" : "none";
+  syncMenuLinkVisibility();
+}
+function getActiveTabItemsFromDOM(){
+  return Array.from(document.querySelectorAll("#page-menu-list .page-menu-link, #page-menu-list .page-menu-divider")).map(el => {
+    if(el.classList.contains("page-menu-divider")){
+      return { label: el.querySelector(".page-menu-divider-label")?.textContent || "", isDivider: true };
+    }
+    return { label: el.querySelector(".page-menu-link-label")?.textContent || "", href: el.getAttribute("href") || "" };
+  });
+}
+function commitActiveTabItems(){
+  const tab = getActiveTab();
+  if(tab) tab.items = getActiveTabItemsFromDOM();
+}
+renderMenuTabsBar();
+renderActiveTabContent();
+document.getElementById("page-menu-toggle").addEventListener("click", () => {
+  syncMenuLinkVisibility();
+  document.getElementById("page-menu-backdrop").classList.add("open");
+});
+document.getElementById("page-menu-tabs-row").addEventListener("click", (e) => {
+  const selectBtn = e.target.closest(".page-menu-tab-select");
+  if(selectBtn){
+    commitActiveTabItems();
+    activeMenuTabId = selectBtn.dataset.tabId;
+    renderMenuTabsBar();
+    renderActiveTabContent();
+    return;
+  }
+  if(e.target.id === "add-menu-tab"){
+    commitActiveTabItems();
+    pendingMenuTabId = null;
+    document.getElementById("page-menu-backdrop").classList.remove("open");
+    openModal("menuTabRename", null, {});
+    return;
+  }
+  if(!document.body.classList.contains("editing")) return;
+  const editBtn = e.target.closest(".page-menu-tab-edit");
+  if(editBtn){
+    const tab = MENU_TABS.find(t => t.id === editBtn.dataset.tabId);
+    if(!tab) return;
+    pendingMenuTabId = tab.id;
+    document.getElementById("page-menu-backdrop").classList.remove("open");
+    openModal("menuTabRename", null, { mtLabel: tab.label });
+    return;
+  }
+  const removeBtn = e.target.closest(".page-menu-tab-remove");
+  if(removeBtn){
+    if(MENU_TABS.length <= 1){ alert("最後の1つのタブは削除できません。"); return; }
+    if(!confirm("このタブを削除しますか?(中の項目もすべて削除されます)")) return;
+    const idx = MENU_TABS.findIndex(t => t.id === removeBtn.dataset.tabId);
+    if(idx === -1) return;
+    MENU_TABS.splice(idx, 1);
+    if(activeMenuTabId === removeBtn.dataset.tabId) activeMenuTabId = MENU_TABS[0].id;
+    renderMenuTabsBar();
+    renderActiveTabContent();
+    hasUnsavedChanges = true;
+  }
+});
+let pendingMenuTabId = null;
+let pendingMenuItemIdx = null;
+document.getElementById("page-menu-list").addEventListener("click", (e) => {
+  const item = e.target.closest(".page-menu-link, .page-menu-divider");
+  if(!item) return;
+  if(!document.body.classList.contains("editing")){
+    if(e.target.closest(".page-menu-link")) document.getElementById("page-menu-backdrop").classList.remove("open");
+    return;
+  }
+  e.preventDefault();
+  const idx = parseInt(item.dataset.idx, 10);
+  commitActiveTabItems();
+  const items = getActiveTab().items;
+  if(e.target.closest(".edit-edit")){
+    pendingMenuItemIdx = idx;
+    document.getElementById("page-menu-backdrop").classList.remove("open");
+    openModal("pageMenuItem", null, { pmLabel: items[idx].label, pmHref: items[idx].href || "", pmIsDivider: items[idx].isDivider });
+    return;
+  }
+  if(e.target.closest(".edit-remove")){
+    items.splice(idx, 1);
+    renderActiveTabContent();
+    hasUnsavedChanges = true;
+    return;
+  }
+});
+document.getElementById("add-menu-item").addEventListener("click", () => {
+  commitActiveTabItems();
+  pendingMenuItemIdx = null;
+  document.getElementById("page-menu-backdrop").classList.remove("open");
+  openModal("pageMenuItem", null, {});
+});
 function navLinkItemHTML(link, idx){
   return `<span class="nav-link-item" data-idx="${idx}" data-url="${escAttr(link.url)}">
     <a href="${escAttr(link.url)}" class="profile-nav-link">${link.label}</a>
@@ -3265,6 +3733,12 @@ function rebuildFromData(data){
   if(data.birthday !== undefined){ OSHI.birthday = data.birthday; applyBirthdayMode(); }
   if(data.navBrand !== undefined) document.getElementById("nav-brand").textContent = data.navBrand;
   if(data.navLinks) renderNavLinksList(data.navLinks);
+  if(Array.isArray(data.menuTabs) && data.menuTabs.length){
+    MENU_TABS = data.menuTabs.map(t => ({ id: t.id || newMenuTabId(), label: t.label || "メニュー", items: Array.isArray(t.items) ? t.items : [] }));
+    activeMenuTabId = MENU_TABS[0].id;
+    renderMenuTabsBar();
+    renderActiveTabContent();
+  }
   if(data.heroPhoto){
     const photoEl = document.getElementById("hero-photo");
     photoEl.style.backgroundImage = `url('${data.heroPhoto}')`;
