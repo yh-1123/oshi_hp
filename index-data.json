@@ -3,7 +3,7 @@
     "active": false,
     "text": "📢 お知らせテキストをここに入力",
     "url": "",
-    "updatedAt": 1791003869502
+    "updatedAt": 1791004239150
   },
   "nameMain": "原",
   "nameAccent": "優寧",
@@ -71,11 +71,29 @@
       "items": [
         {
           "label": "◆動画まとめ",
-          "href": "video.html"
+          "href": "videos.html"
         },
         {
           "label": "◆豆知識",
           "href": "wiki.html"
+        }
+      ]
+    },
+    {
+      "id": "tab-custom-1791003948903-1",
+      "label": "外部サイト",
+      "items": [
+        {
+          "label": "公演応募（チケプラ）",
+          "href": "https://tixplus.jp/feature/ske48_theater_ticket/"
+        },
+        {
+          "label": "劇場版販売サイト（mumo）",
+          "href": "https://shop.mu-mo.net/st/special/ske48_37thsg/"
+        },
+        {
+          "label": "劇場公演（DMM）",
+          "href": "https://www.dmm.com/lod/ske48/?msockid=348694a8900a6f7e0ac6815591d86e9f"
         }
       ]
     }
