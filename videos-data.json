@@ -1,4 +1,24 @@
 {
+  "menuTabs": [
+    {
+      "id": "tab-other",
+      "label": "他のページへ",
+      "items": [
+        {
+          "label": "📻 配信ログ",
+          "href": "log.html"
+        },
+        {
+          "label": "🛍️ グッズまとめ",
+          "href": "goods.html"
+        },
+        {
+          "label": "🗺️ サイトマップを見る",
+          "href": "sitemap.html"
+        }
+      ]
+    }
+  ],
   "relatedPages": [
     {
       "icon": "🏆",
@@ -13,6 +33,21 @@
   "title": "動画まとめ",
   "desc": "公式チャンネルなどに投稿されている動画をまとめています。見逃した回もここでチェックできます。",
   "items": [
+    {
+      "title": "【SKE48】マンションリノベーションが本格始動！SKE48×HAYASE「リノベっちゃおう！」#2",
+      "url": "https://www.youtube.com/watch?v=7VXS6qp_BUw",
+      "category": "その他",
+      "date": "2026-09-26",
+      "desc": "",
+      "recommend": "",
+      "pickupComment": "",
+      "chapters": "",
+      "seriesOrder": "020",
+      "related": "【SKE48】マンションを丸ごとリノベーション！？SKE48×HAYASE 新プロジェクト始動！",
+      "tags": "建築ガール",
+      "addedAt": "2026-10-07",
+      "order": "118"
+    },
     {
       "title": "２０２６年９月１９日（土）３じゃないよ！原優寧vs篠原京香vs青木莉樺",
       "url": "https://www.youtube.com/watch?v=3pbD9A-CkTE",
@@ -52,8 +87,8 @@
       "recommend": "",
       "pickupComment": "",
       "chapters": "",
-      "seriesOrder": "",
-      "related": "",
+      "seriesOrder": "010",
+      "related": "【SKE48】マンションリノベーションが本格始動！SKE48×HAYASE「リノベっちゃおう！」#2",
       "tags": "",
       "addedAt": "2026-09-06",
       "order": "3"
